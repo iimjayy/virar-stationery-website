@@ -10,7 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260410-8">
+  <link rel="stylesheet" href="style.css?v=20260410-9">
 </head>
 <body>
   <!-- Sticky header and navigation -->
@@ -90,39 +90,66 @@
     <section id="home" class="hero-section section-pad">
       <div class="container-fluid px-3 px-xl-4">
         <div class="hero-shell">
-          <div class="row align-items-center g-4 g-xl-5">
+          <div class="row align-items-center g-4 g-xl-5 hero-grid">
             <div class="col-12 col-lg-6 reveal">
-              <span class="eyebrow">Premium stationery and printing in Virar</span>
-              <h1 class="display-5 fw-bold hero-title">Fast Printing, Xerox & Stationery Services in Virar</h1>
-              <p class="hero-subtitle">From project printing to stationery supplies, everything under one roof.</p>
-              <div class="d-flex flex-column flex-sm-row gap-3 mt-4">
-                <a class="btn btn-primary btn-lg cta-btn" href="#contact">Contact Us</a>
-                  <a class="btn btn-outline-primary btn-lg cta-btn secondary" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">Send WhatsApp Inquiry</a>
-              </div>
-              <div class="hero-highlights mt-4">
-                <div class="highlight-pill"><i class="fa-solid fa-clock"></i> Same-day service</div>
-                <div class="highlight-pill"><i class="fa-solid fa-star"></i> Quality finish</div>
-                <div class="highlight-pill"><i class="fa-solid fa-location-dot"></i> Virar local business</div>
-                <div class="highlight-pill"><i class="fa-solid fa-school"></i> Near Viva College</div>
+              <div class="hero-content">
+                <div class="hero-search-wrap">
+                  <form class="search-box hero-search-box" role="search" aria-label="Search services in hero section">
+                    <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                    <input type="search" class="form-control search-input" placeholder="What are you looking for?" aria-label="Search services and products from hero">
+                    <button class="btn search-button" type="submit">Search</button>
+                  </form>
+                  <p class="hero-search-hint">Try: Xerox, Color Printout, Passport Photo, Lamination, Spiral Binding, School Project Printing.</p>
+                </div>
+
+                <span class="eyebrow hero-label">PREMIUM STATIONERY, PRINTING & XEROX SERVICES IN VIRAR</span>
+                <h1 class="display-5 fw-bold hero-title">Your One-Stop Shop for <span class="hero-accent">Printing</span>, <span class="hero-accent">Xerox</span> & <span class="hero-accent">Stationery</span> in Virar</h1>
+                <p class="hero-subtitle">Serving students, offices and local businesses with fast Xerox, colour printing, lamination, binding, passport photos and stationery essentials.</p>
+
+                <div class="d-flex flex-column flex-sm-row gap-3 mt-4 hero-cta-group">
+                  <a class="btn btn-primary btn-lg cta-btn hero-call-btn" href="tel:+917021072757"><i class="fa-solid fa-phone-volume me-2"></i>Call Now</a>
+                  <a class="btn btn-outline-primary btn-lg cta-btn hero-wa-btn" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp me-2"></i>Order on WhatsApp</a>
+                </div>
+
+                <div class="hero-highlights mt-4 hero-trust-grid" role="list" aria-label="Trust badges">
+                  <div class="highlight-pill" role="listitem"><i class="fa-solid fa-award"></i><span>10+ Years Serving Virar</span></div>
+                  <div class="highlight-pill" role="listitem"><i class="fa-solid fa-users"></i><span>200000+ Happy Customers</span></div>
+                  <div class="highlight-pill" role="listitem"><i class="fa-solid fa-bolt"></i><span>Same-Day Delivery Available</span></div>
+                  <div class="highlight-pill" role="listitem"><i class="fa-solid fa-location-dot"></i><span>Near Viva College</span></div>
+                  <div class="highlight-pill" role="listitem"><i class="fa-solid fa-calendar-days"></i><span>Open 7 Days a Week</span></div>
+                </div>
+
+                <p class="hero-trust-line mt-3">Trusted by Students, Offices & Families Across Virar</p>
               </div>
             </div>
             <div class="col-12 col-lg-6 reveal">
-              <div class="hero-image-wrap">
-                <img
-                  src="images/main%20image.jpg"
-                  alt="Stationery, notebooks, office supplies and printing equipment"
-                  class="img-fluid hero-image"
-                >
-                <div class="hero-floating-card card shadow-sm">
-                  <div class="card-body">
-                    <div class="d-flex align-items-center gap-3">
-                      <div class="floating-icon"><i class="fa-solid fa-print"></i></div>
-                      <div>
-                        <h2 class="h6 mb-1">Printing, xerox & stationery</h2>
-                        <p class="mb-0 text-muted">Reliable support for students, offices, and local customers.</p>
-                      </div>
-                    </div>
-                  </div>
+              <div class="hero-visual-shell">
+                <div class="hero-visual-glow" aria-hidden="true"></div>
+
+                <div class="hero-image-card">
+                  <img
+                    src="images/main%20image.jpg"
+                    alt="Virar Stationery and Jumbo Xerox shop interior"
+                    class="img-fluid hero-image"
+                  >
+                </div>
+
+                <div class="hero-float-card hero-float-orders"><i class="fa-solid fa-boxes-stacked"></i><span>Bulk Orders Accepted</span></div>
+                <div class="hero-float-card hero-float-student"><i class="fa-solid fa-user-graduate"></i><span>Student Discount Available</span></div>
+                <div class="hero-float-card hero-float-passport"><i class="fa-solid fa-camera"></i><span>Passport Photos in 10 Minutes</span></div>
+                <div class="hero-float-card hero-float-services"><i class="fa-solid fa-print"></i><span>Printing, Xerox & Stationery</span></div>
+
+                <div class="hero-thumb-card hero-thumb-xerox">
+                  <img src="images/unnamed-2.jpg" alt="Xerox machine preview">
+                  <span>Xerox Setup</span>
+                </div>
+                <div class="hero-thumb-card hero-thumb-stationery">
+                  <img src="images/unnamed-3.jpg" alt="Stationery shelves preview">
+                  <span>Stationery Shelves</span>
+                </div>
+                <div class="hero-thumb-card hero-thumb-passport">
+                  <img src="images/unnamed-4.jpg" alt="Passport photo setup preview">
+                  <span>Photo Setup</span>
                 </div>
               </div>
             </div>
@@ -686,6 +713,6 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js?v=20260410-8"></script>
+  <script src="script.js?v=20260410-9"></script>
 </body>
 </html>

@@ -29,7 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
   window.addEventListener('scroll', updateHeaderShadow, { passive: true });
 
   const contactForm = document.getElementById('contactForm');
-  const searchForm = document.querySelector('.search-box');
+  const searchForms = document.querySelectorAll('.search-box');
 
   if (contactForm) {
     contactForm.addEventListener('submit', (event) => {
@@ -257,6 +257,18 @@ document.addEventListener('DOMContentLoaded', () => {
           icon: 'fa-solid fa-heading',
           keywords: ['letterhead', 'business stationery print'],
           target: { type: 'service', text: 'Letterhead Print', fallbackSelector: '#services' }
+        },
+        {
+          label: 'Aadhar Card Print',
+          icon: 'fa-solid fa-id-card',
+          keywords: ['aadhaar print', 'identity print', 'id proof print'],
+          target: { type: 'service', text: 'Black & White Printing', fallbackSelector: '#services' }
+        },
+        {
+          label: 'Resume Print',
+          icon: 'fa-solid fa-file-lines',
+          keywords: ['cv print', 'resume color print', 'job resume print'],
+          target: { type: 'service', text: 'Black & White Printing', fallbackSelector: '#services' }
         }
       ],
       Products: [
@@ -398,6 +410,12 @@ document.addEventListener('DOMContentLoaded', () => {
           label: 'Xerox shop near Viva College',
           icon: 'fa-solid fa-magnifying-glass',
           keywords: ['viva college xerox', 'near viva college'],
+          target: { type: 'section', selector: '#contact' }
+        },
+        {
+          label: 'Xerox Near Viva College',
+          icon: 'fa-solid fa-magnifying-glass',
+          keywords: ['xerox near viva', 'viva college xerox shop'],
           target: { type: 'section', selector: '#contact' }
         },
         {
@@ -1156,7 +1174,9 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
-  setupSmartSearch(searchForm);
+  searchForms.forEach((form) => {
+    setupSmartSearch(form);
+  });
 
   const setupServiceInteractions = () => {
     const servicesRow = document.querySelector('#services .service-grid') || document.querySelector('#services .row.g-4');
