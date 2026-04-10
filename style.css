@@ -595,27 +595,141 @@ img {
   }
 }
 
-@media (max-width: 991.98px) {
-  .top-header .row {
-    row-gap: 14px;
+@media (max-width: 991px) {
+  html,
+  body {
+    overflow-x: hidden;
   }
 
-  .header-actions {
-    justify-content: flex-start;
+  .top-header .container-fluid {
+    padding-top: 0.08rem;
+    padding-bottom: 0.08rem;
+  }
+
+  .top-header .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    row-gap: 2px;
+  }
+
+  .top-header .row > .col-lg-3:first-child {
+    order: 1;
+    flex: 0 0 auto;
+    width: auto;
+  }
+
+  .top-header .row > .col-lg-3:last-child {
+    order: 2;
+    flex: 0 0 auto;
+    width: auto;
+    margin-left: auto;
+  }
+
+  .top-header .row > .col-lg-6 {
+    order: 3;
+    flex: 1 0 100%;
+    width: 100%;
+  }
+
+  .brand-mark {
+    gap: 5px;
   }
 
   .brand-logo-wrap {
-    width: 50px;
-    height: 50px;
-    flex-basis: 50px;
+    width: 34px;
+    height: 34px;
+    flex-basis: 34px;
+  }
+
+  .brand-name {
+    font-size: 0.8rem;
+  }
+
+  .brand-tagline {
+    display: none;
+  }
+
+  .search-box {
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 4px;
+    padding: 3px 5px 3px 8px;
+    border-radius: 12px;
+    min-height: 44px;
+    height: 44px;
+  }
+
+  .search-input {
+    min-width: 0;
+    flex: 1 1 auto;
+    font-size: 0.86rem;
+    padding-top: 0;
+    padding-bottom: 0;
+  }
+
+  .search-button {
+    width: auto;
+    min-width: 72px;
+    padding-inline: 8px;
+    font-size: 0.8rem;
+    height: 34px;
+  }
+
+  .header-actions {
+    justify-content: flex-end;
+    flex-wrap: nowrap;
+    gap: 4px;
+  }
+
+  .action-btn {
+    width: 30px;
+    height: 30px;
+    font-size: 0.8rem;
+  }
+
+  .nav-strip .container-fluid {
+    padding-top: 0.1rem;
+    padding-bottom: 0.1rem;
+  }
+
+  .nav-strip .navbar-toggler {
+    margin-left: auto;
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+
+  .nav-strip .navbar-collapse {
+    margin-top: 8px;
+    padding: 8px 0 4px;
+  }
+
+  .nav-strip .navbar-nav {
+    width: 100%;
+    align-items: stretch;
+    gap: 6px;
+  }
+
+  .nav-strip .nav-item {
+    width: 100%;
+  }
+
+  .nav-strip .nav-link {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.72rem 1rem;
+  }
+
+  .hero-section {
+    padding-top: 12px;
   }
 
   .hero-shell {
-    padding: 28px;
+    padding: 18px;
   }
 
   .hero-image {
-    height: 380px;
+    height: 310px;
   }
 
   .hero-floating-card {
@@ -623,42 +737,62 @@ img {
     right: 16px;
     bottom: 16px;
   }
+
+  .cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
 }
 
-@media (max-width: 767.98px) {
-  .brand-mark {
-    align-items: flex-start;
-  }
-
-  .brand-name {
-    font-size: 0.95rem;
-  }
-
-  .search-box {
-    flex-wrap: wrap;
-    border-radius: 22px;
-  }
-
-  .search-button {
-    width: 100%;
+@media (max-width: 768px) {
+  .section-pad {
+    padding: 50px 0;
   }
 
   .hero-shell {
     border-radius: 28px;
-    padding: 22px;
+    padding: 16px;
   }
 
   .hero-title {
-    font-size: 2rem;
+    font-size: 1.75rem;
+  }
+
+  .hero-subtitle {
+    font-size: 0.92rem;
+    max-width: none;
   }
 
   .hero-image {
-    height: 300px;
+    height: 255px;
   }
 
   .hero-floating-card {
     position: static;
     margin-top: 16px;
+  }
+
+  .hero-highlights {
+    gap: 10px;
+  }
+
+  .highlight-pill {
+    width: 100%;
+    justify-content: center;
+    padding: 0.6rem 0.8rem;
+    font-size: 0.88rem;
+  }
+
+  .section-heading {
+    margin-bottom: 22px;
+  }
+
+  .section-heading h2 {
+    font-size: 1.4rem;
+  }
+
+  .section-heading p {
+    font-size: 0.94rem;
   }
 
   .service-card,
@@ -670,21 +804,152 @@ img {
 
   .gallery-item img,
   .product-card img {
-    height: 200px;
+    height: 170px;
+  }
+
+  .map-wrap,
+  .map-wrap iframe {
+    min-height: 220px;
+  }
+
+  .footer-socials {
+    justify-content: center;
+  }
+
+  #stationery .col-6 {
+    flex: 0 0 100%;
+    max-width: 100%;
+  }
+
+  .contact-card .row {
+    row-gap: 12px;
   }
 }
 
-@media (max-width: 575.98px) {
+@media (max-width: 576px) {
   .section-pad {
-    padding: 56px 0;
+    padding: 44px 0;
+  }
+
+  .top-header .container-fluid {
+    padding-top: 0.05rem;
+    padding-bottom: 0.05rem;
+  }
+
+  .brand-logo-wrap {
+    width: 32px;
+    height: 32px;
+    flex-basis: 32px;
+  }
+
+  .brand-name {
+    font-size: 0.76rem;
+  }
+
+  .search-box {
+    padding: 3px 5px 3px 7px;
+    border-radius: 10px;
+    gap: 3px;
+    min-height: 40px;
+    height: 40px;
+  }
+
+  .search-input {
+    font-size: 0.82rem;
+  }
+
+  .search-button {
+    width: auto;
+    min-width: 66px;
+    padding-inline: 6px;
+    font-size: 0.76rem;
+    height: 30px;
+  }
+
+  .header-actions {
+    gap: 3px;
+  }
+
+  .action-btn {
+    width: 28px;
+    height: 28px;
+    font-size: 0.74rem;
+  }
+
+  .nav-strip .nav-link {
+    padding: 0.58rem 0.9rem;
   }
 
   .hero-title {
-    font-size: 1.8rem;
+    font-size: 1.45rem;
   }
 
-  .highlight-pill {
-    width: 100%;
-    justify-content: center;
+  .hero-subtitle {
+    font-size: 0.86rem;
+  }
+
+  .hero-shell {
+    padding: 12px;
+  }
+
+  .hero-image {
+    height: 210px;
+    border-radius: 22px;
+  }
+
+  .hero-floating-card .card-body {
+    padding: 1rem;
+  }
+
+  .hero-floating-card h2 {
+    font-size: 1rem;
+  }
+
+  .hero-floating-card p {
+    font-size: 0.92rem;
+  }
+
+  .section-heading h2 {
+    font-size: 1.22rem;
+  }
+
+  .service-card,
+  .feature-card,
+  .testimonial-card,
+  .contact-card {
+    padding: 18px;
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    font-size: 1.25rem;
+  }
+
+  .card-icon.small {
+    width: 44px;
+    height: 44px;
+    margin-bottom: 14px;
+  }
+
+  .gallery-item img,
+  .product-card img {
+    height: 150px;
+  }
+
+  .map-wrap,
+  .map-wrap iframe {
+    min-height: 210px;
+  }
+
+  .form-control,
+  .form-select,
+  .form-control-lg,
+  .form-select-lg {
+    font-size: 0.95rem;
+  }
+
+  .footer-bottom {
+    text-align: center;
   }
 }
