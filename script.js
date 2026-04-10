@@ -223,18 +223,14 @@ document.addEventListener('DOMContentLoaded', () => {
           <ul>${renderList(details.addOns)}</ul>
           <div class="service-expand-actions">
             <a class="service-cta-btn" href="${ctaHref}" target="_blank" rel="noopener">${escapeHtml(details.ctaLabel)}</a>
-            <button class="service-close-btn" type="button">Close Details</button>
           </div>
         </div>
       `;
     };
 
-    let openCard = null;
-
     const setCardClosed = (card) => {
       const panel = card.querySelector('.service-expand-panel');
       const label = card.querySelector('.service-link-label');
-      const hint = card.querySelector('.service-link-hint');
       const cardLink = card.querySelector('.card-link');
 
       if (!panel) {
@@ -246,30 +242,18 @@ document.addEventListener('DOMContentLoaded', () => {
       if (label) {
         label.textContent = 'View Details';
       }
-      if (hint) {
-        hint.textContent = 'Tap to expand';
-      }
       if (cardLink) {
         cardLink.setAttribute('aria-expanded', 'false');
-      }
-
-      if (openCard === card) {
-        openCard = null;
       }
     };
 
     const setCardOpen = (card) => {
       const panel = card.querySelector('.service-expand-panel');
       const label = card.querySelector('.service-link-label');
-      const hint = card.querySelector('.service-link-hint');
       const cardLink = card.querySelector('.card-link');
 
       if (!panel) {
         return;
-      }
-
-      if (openCard && openCard !== card) {
-        setCardClosed(openCard);
       }
 
       card.classList.add('is-open');
@@ -277,14 +261,9 @@ document.addEventListener('DOMContentLoaded', () => {
       if (label) {
         label.textContent = 'Close Details';
       }
-      if (hint) {
-        hint.textContent = 'Tap to collapse';
-      }
       if (cardLink) {
         cardLink.setAttribute('aria-expanded', 'true');
       }
-
-      openCard = card;
     };
 
     serviceCards.forEach((card) => {
@@ -301,7 +280,6 @@ document.addEventListener('DOMContentLoaded', () => {
       const details = detailedServices[title] || defaultDetails(title, summary);
 
       card.classList.add('accordion-enabled');
-      card.setAttribute('tabindex', '0');
 
       const badgeWrap = document.createElement('div');
       badgeWrap.className = 'service-top-badges';
@@ -317,7 +295,6 @@ document.addEventListener('DOMContentLoaded', () => {
       cardLink.innerHTML = `
         <span class="service-link-label">View Details</span>
         <span class="service-link-meta">
-          <span class="service-link-hint">Tap to expand</span>
           <i class="fa-solid fa-chevron-down service-chevron" aria-hidden="true"></i>
         </span>
       `;
@@ -327,31 +304,7 @@ document.addEventListener('DOMContentLoaded', () => {
       detailPanel.innerHTML = createPanelMarkup(title, details);
       card.appendChild(detailPanel);
 
-      card.addEventListener('click', (event) => {
-        const closeButton = event.target.closest('.service-close-btn');
-        if (closeButton) {
-          event.preventDefault();
-          setCardClosed(card);
-          return;
-        }
-
-        if (event.target.closest('.service-expand-panel')) {
-          return;
-        }
-
-        event.preventDefault();
-        if (card.classList.contains('is-open')) {
-          setCardClosed(card);
-        } else {
-          setCardOpen(card);
-        }
-      });
-
-      card.addEventListener('keydown', (event) => {
-        if (event.key !== 'Enter' && event.key !== ' ') {
-          return;
-        }
-
+      cardLink.addEventListener('click', (event) => {
         event.preventDefault();
         if (card.classList.contains('is-open')) {
           setCardClosed(card);
@@ -362,14 +315,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     window.addEventListener('resize', () => {
-      if (!openCard) {
-        return;
-      }
+      serviceCards.forEach((card) => {
+        if (!card.classList.contains('is-open')) {
+          return;
+        }
 
-      const openPanel = openCard.querySelector('.service-expand-panel');
-      if (openPanel) {
-        openPanel.style.maxHeight = `${openPanel.scrollHeight}px`;
-      }
+        const openPanel = card.querySelector('.service-expand-panel');
+        if (openPanel) {
+          openPanel.style.maxHeight = `${openPanel.scrollHeight}px`;
+        }
+      });
     });
   };
 
