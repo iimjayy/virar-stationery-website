@@ -719,6 +719,11 @@ img {
   padding: 64px 0 24px;
 }
 
+.footer-description {
+  color: rgba(255, 255, 255, 0.74);
+  margin-bottom: 0;
+}
+
 .footer-brand,
 .site-footer h4 {
   color: #fff;
@@ -733,6 +738,15 @@ img {
 
 .footer-links li {
   margin-bottom: 10px;
+}
+
+.footer-address {
+  align-items: flex-start;
+}
+
+.footer-address span {
+  display: inline-block;
+  line-height: 1.5;
 }
 
 .footer-links a {
@@ -975,6 +989,89 @@ img {
     background: linear-gradient(180deg, rgba(244, 210, 31, 0.4), rgba(11, 42, 91, 0.5));
   }
 
+  /* Footer mobile/tablet improvements (<=991px) */
+  .site-footer {
+    padding-top: 54px;
+    padding-bottom: 18px;
+  }
+
+  .site-footer .row {
+    --bs-gutter-y: 1.25rem;
+    --bs-gutter-x: 1.25rem;
+  }
+
+  .footer-brand {
+    font-size: 1.35rem;
+    margin-bottom: 8px;
+  }
+
+  .site-footer h4 {
+    font-size: 1rem;
+    margin-bottom: 10px;
+  }
+
+  .footer-description {
+    font-size: 0.92rem;
+    line-height: 1.45;
+    max-width: 38ch;
+  }
+
+  .footer-links li {
+    margin-bottom: 7px;
+  }
+
+  .footer-links a {
+    font-size: 0.93rem;
+  }
+
+  .contact-mini li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 8px;
+  }
+
+  .contact-mini i {
+    font-size: 0.92rem;
+    margin-top: 0;
+    flex: 0 0 14px;
+  }
+
+  .contact-mini .footer-address {
+    align-items: flex-start;
+  }
+
+  .contact-mini .footer-address i {
+    margin-top: 3px;
+  }
+
+  .contact-mini .footer-address span {
+    font-size: 0.88rem;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.76);
+  }
+
+  .contact-mini li a {
+    font-size: 0.9rem;
+    white-space: nowrap;
+  }
+
+  .footer-socials {
+    margin-top: 12px;
+    gap: 10px;
+  }
+
+  .footer-socials a {
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+  }
+
+  .footer-bottom {
+    margin-top: 26px;
+    padding-top: 12px;
+  }
+
   .cta-btn {
     width: 100%;
     justify-content: center;
@@ -1104,7 +1201,7 @@ img {
   }
 
   body {
-    padding-bottom: calc(76px + env(safe-area-inset-bottom));
+    padding-bottom: calc(68px + env(safe-area-inset-bottom));
   }
 
   .footer-socials {
@@ -1118,6 +1215,60 @@ img {
 
   .contact-card .row {
     row-gap: 12px;
+  }
+
+  /* Footer compact polish for mobile/tablet (<=768px) */
+  .site-footer {
+    padding-top: 48px;
+    padding-bottom: 14px;
+  }
+
+  .site-footer .row {
+    --bs-gutter-y: 1rem;
+    --bs-gutter-x: 1rem;
+  }
+
+  .footer-brand {
+    font-size: 1.22rem;
+  }
+
+  .site-footer h4 {
+    font-size: 0.95rem;
+    margin-bottom: 9px;
+  }
+
+  .footer-description {
+    font-size: 0.88rem;
+    line-height: 1.4;
+  }
+
+  .footer-links li {
+    margin-bottom: 6px;
+  }
+
+  .contact-mini li {
+    margin-bottom: 7px;
+    gap: 9px;
+  }
+
+  .contact-mini .footer-address span {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .footer-socials {
+    margin-top: 10px;
+    gap: 8px;
+  }
+
+  .footer-socials a {
+    width: 36px;
+    height: 36px;
+  }
+
+  .footer-bottom {
+    margin-top: 20px;
+    padding-top: 10px;
   }
 }
 
@@ -1288,7 +1439,77 @@ img {
   }
 
   body {
-    padding-bottom: calc(72px + env(safe-area-inset-bottom));
+    padding-bottom: calc(64px + env(safe-area-inset-bottom));
+  }
+
+  /* Footer compact polish for small phones (<=576px) */
+  .site-footer {
+    padding-top: 42px;
+    padding-bottom: 12px;
+  }
+
+  .site-footer .row {
+    --bs-gutter-y: 0.9rem;
+    --bs-gutter-x: 0.9rem;
+  }
+
+  .footer-brand {
+    font-size: 1.12rem;
+    margin-bottom: 6px;
+  }
+
+  .site-footer h4 {
+    font-size: 0.9rem;
+    margin-bottom: 8px;
+  }
+
+  .footer-description {
+    font-size: 0.84rem;
+    line-height: 1.38;
+    max-width: none;
+  }
+
+  .footer-links li {
+    margin-bottom: 6px;
+  }
+
+  .footer-links a {
+    font-size: 0.86rem;
+  }
+
+  .contact-mini li {
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+
+  .contact-mini i {
+    font-size: 0.84rem;
+    flex-basis: 12px;
+  }
+
+  .contact-mini .footer-address span {
+    font-size: 0.8rem;
+    line-height: 1.42;
+  }
+
+  .contact-mini li a {
+    font-size: 0.84rem;
+  }
+
+  .footer-socials {
+    margin-top: 8px;
+    gap: 7px;
+  }
+
+  .footer-socials a {
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
+  }
+
+  .footer-bottom {
+    margin-top: 16px;
+    padding-top: 9px;
   }
 
   .form-control,
