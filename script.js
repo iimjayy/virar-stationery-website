@@ -1621,14 +1621,116 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupServiceInteractions();
 
-  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
-  navLinks.forEach((link) => {
-    link.addEventListener('click', () => {
-      const navbarCollapse = document.querySelector('.navbar-collapse.show');
-      if (navbarCollapse && window.bootstrap) {
-        const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
-        collapseInstance.hide();
+  const setupNavbarInteractions = () => {
+    const navLinks = Array.from(document.querySelectorAll('.nav-strip .nav-link[href^="#"]'));
+    const navList = document.querySelector('.nav-strip .navbar-nav');
+
+    if (!navLinks.length || !navList) {
+      return;
+    }
+
+    const indicator = document.createElement('span');
+    indicator.className = 'nav-active-indicator';
+    navList.appendChild(indicator);
+    navList.classList.add('has-active-indicator');
+
+    let activeLink = navLinks.find((link) => link.classList.contains('active')) || navLinks[0];
+
+    const getHeaderOffset = () => {
+      const siteHeader = document.querySelector('.site-header');
+      return (siteHeader ? siteHeader.offsetHeight : 0) + 24;
+    };
+
+    const isMobileNav = () => window.matchMedia('(max-width: 991.98px)').matches;
+
+    const updateIndicator = () => {
+      if (!activeLink || isMobileNav()) {
+        indicator.style.opacity = '0';
+        return;
+      }
+
+      const navRect = navList.getBoundingClientRect();
+      const linkRect = activeLink.getBoundingClientRect();
+      const indicatorWidth = Math.max(28, Math.round(linkRect.width - 24));
+      const x = linkRect.left - navRect.left + (linkRect.width - indicatorWidth) / 2;
+
+      indicator.style.width = `${indicatorWidth}px`;
+      indicator.style.transform = `translateX(${Math.max(0, x)}px)`;
+      indicator.style.opacity = '1';
+    };
+
+    const setActiveLink = (link, options = {}) => {
+      if (!link) {
+        return;
+      }
+
+      if (activeLink === link && !options.force) {
+        updateIndicator();
+        return;
+      }
+
+      navLinks.forEach((navLink) => navLink.classList.toggle('active', navLink === link));
+      activeLink = link;
+      updateIndicator();
+    };
+
+    const sections = [];
+    navLinks.forEach((link) => {
+      const href = link.getAttribute('href');
+      const section = href ? document.querySelector(href) : null;
+      if (section && !sections.includes(section)) {
+        sections.push(section);
       }
     });
-  });
+
+    const setActiveByScroll = () => {
+      if (!sections.length) {
+        return;
+      }
+
+      const anchorLine = window.scrollY + getHeaderOffset();
+      let currentSection = sections[0];
+
+      sections.forEach((section) => {
+        if (section.offsetTop <= anchorLine) {
+          currentSection = section;
+        }
+      });
+
+      const targetHref = currentSection.id ? `#${currentSection.id}` : null;
+      if (!targetHref) {
+        return;
+      }
+
+      if (activeLink && activeLink.getAttribute('href') === targetHref) {
+        updateIndicator();
+        return;
+      }
+
+      const matchingLink = navLinks.find((link) => link.getAttribute('href') === targetHref);
+      if (matchingLink) {
+        setActiveLink(matchingLink);
+      }
+    };
+
+    navLinks.forEach((link) => {
+      link.addEventListener('click', () => {
+        setActiveLink(link);
+
+        const navbarCollapse = document.querySelector('.navbar-collapse.show');
+        if (navbarCollapse && window.bootstrap) {
+          const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
+          collapseInstance.hide();
+        }
+      });
+    });
+
+    setActiveLink(activeLink, { force: true });
+    setActiveByScroll();
+
+    window.addEventListener('scroll', setActiveByScroll, { passive: true });
+    window.addEventListener('resize', updateIndicator);
+  };
+
+  setupNavbarInteractions();
 });
