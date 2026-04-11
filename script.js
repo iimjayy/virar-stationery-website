@@ -214,13 +214,13 @@ document.addEventListener('DOMContentLoaded', () => {
           label: 'ID Card Printing',
           icon: 'fa-solid fa-id-card',
           keywords: ['id card', 'smart card', 'card print'],
-          target: { type: 'service', text: 'Smart Card', fallbackSelector: '#services' }
+          target: { type: 'service', text: 'Smartcard', fallbackSelector: '#services' }
         },
         {
-          label: 'Smart Card Printing',
+          label: 'PVC Card Printing',
           icon: 'fa-solid fa-address-card',
-          keywords: ['smart card', 'id card print'],
-          target: { type: 'price', text: 'Smart Card', fallbackSelector: '#popular-prices' }
+          keywords: ['pvc card', 'id card print'],
+          target: { type: 'price', text: 'PVC Card Print', fallbackSelector: '#popular-prices' }
         },
         {
           label: 'Visiting Card Printing',
@@ -437,10 +437,10 @@ document.addEventListener('DOMContentLoaded', () => {
           target: { type: 'price', text: 'Spiral Binding', fallbackSelector: '#popular-prices' }
         },
         {
-          label: 'Smart Card Printing',
+          label: 'PVC card printing',
           icon: 'fa-solid fa-magnifying-glass',
-          keywords: ['smart card print'],
-          target: { type: 'price', text: 'Smart Card', fallbackSelector: '#popular-prices' }
+          keywords: ['pvc card print'],
+          target: { type: 'price', text: 'PVC Card Print', fallbackSelector: '#popular-prices' }
         },
         {
           label: 'Same day printing',
@@ -1279,7 +1279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Project Printing': {
         explanation: 'Complete project printing support with neat finishing for school and college work.',
         commonUses: ['Seminar reports', 'Assignment submissions', 'Practical files'],
-        startingPrice: ['Typical projects start from ₹50 onwards', 'Final pricing depends on pages, Color printing, and binding'],
+        startingPrice: ['Typical projects start from ₹50 onwards', 'Final pricing depends on pages, color printing, and binding'],
         deliveryTime: ['Same day delivery for regular quantity'],
         addOns: ['Spiral bind', 'Color cover pages', 'Lamination'],
         badge: 'Student Favorite',
@@ -1288,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Stationery Products': {
         explanation: 'Everyday stationery stock for students, offices, and routine shop needs.',
         commonUses: ['Notebooks and pens', 'Files and folders', 'Craft and chart materials'],
-        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'Smart Card from ₹80'],
+        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'Smartcard from ₹80'],
         deliveryTime: ['Instant in-store pickup'],
         addOns: ['Combo packs', 'Bulk school sets', 'Institution pricing'],
         badge: 'Bulk Discount Available',
@@ -1297,20 +1297,20 @@ document.addEventListener('DOMContentLoaded', () => {
       'Blackbook Printing': {
         explanation: 'Durable blackbook print with consistent quality for project submissions.',
         commonUses: ['Engineering records', 'College submissions', 'Archival copies'],
-        startingPrice: ['Pricing on request (depends on size and quantity)'],
+        startingPrice: ['Quote based on size and quantity'],
         deliveryTime: ['Same day for standard jobs'],
         addOns: ['Spiral binding', 'Cover lamination', 'Additional copies'],
         badge: 'Student Favorite',
-        priceTag: 'Price on request'
+        priceTag: 'Custom quote'
       },
       'Letterhead Print': {
         explanation: 'Branded letterhead printing for businesses and professional communication.',
         commonUses: ['Company letters', 'Invoices and proposals', 'Office documentation'],
-        startingPrice: ['Starts from ₹2 per sheet (bulk)'],
+        startingPrice: ['Starts from ₹2 per sheet in bulk'],
         deliveryTime: ['1 to 2 days depending on quantity'],
         addOns: ['Logo alignment support', 'Paper upgrades', 'Bulk packing'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Starting from ₹2'
+        priceTag: 'Bulk pricing'
       },
       'Visiting Card': {
         explanation: 'Clean and professional visiting card prints with premium finish options.',
@@ -1319,43 +1319,43 @@ document.addEventListener('DOMContentLoaded', () => {
         deliveryTime: ['Same day or next day'],
         addOns: ['Matte/gloss finish', 'Rounded corners', 'Lamination'],
         badge: 'Most Popular',
-        priceTag: 'Starting from ₹150'
+        priceTag: 'From ₹150'
       },
       'Billbook Print': {
         explanation: 'Custom billbook and invoice booklet printing for daily business operations.',
         commonUses: ['Retail billing', 'Service invoicing', 'Manual receipts'],
-        startingPrice: ['Pricing on request (depends on pages, copies, and size)'],
+        startingPrice: ['Pricing depends on pages, copies, and size'],
         deliveryTime: ['1 to 2 days'],
         addOns: ['Numbering', 'Duplicate/triplicate sets', 'Custom branding'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Price on request'
+        priceTag: 'Custom quote'
       },
-      'Smart Card': {
-        explanation: 'Smart Card printing support for identity, membership, and institutional use.',
+      Smartcard: {
+        explanation: 'Smartcard printing support for identity, membership, and institutional use.',
         commonUses: ['ID cards', 'Membership cards', 'Access cards'],
-        startingPrice: ['Smart Card from ₹80'],
+        startingPrice: ['Rates vary by card quality and quantity'],
         deliveryTime: ['Same day for small batches'],
         addOns: ['Lanyard slot', 'Barcode printing', 'Name personalization'],
         badge: 'Fast Service',
-        priceTag: 'Starting from ₹80'
+        priceTag: 'Custom quote'
       },
       'Jumbo Xerox': {
         explanation: 'Large-format xerox and copy services for plans, drawings, and posters.',
         commonUses: ['Architecture plans', 'Engineering drawings', 'Large charts and posters'],
-        startingPrice: ['Pricing on request for A3/A2/A1/A0 sizes'],
+        startingPrice: ['A3/A2/A1/A0 rates available on request'],
         deliveryTime: ['10 to 30 minutes based on size'],
         addOns: ['Roll to sheet trim', 'Set sorting', 'Tube packing'],
         badge: 'Fast Service',
-        priceTag: 'Price on request'
+        priceTag: 'All sizes available'
       },
       'Cartridge Refelling': {
         explanation: 'Reliable ink and toner refilling to keep your printer running affordably.',
         commonUses: ['Home printer refill', 'Office laser printer maintenance', 'Emergency refill support'],
-        startingPrice: ['Pricing on request (based on cartridge model)'],
+        startingPrice: ['Pricing based on cartridge model'],
         deliveryTime: ['Usually 20 to 40 minutes'],
         addOns: ['Basic nozzle cleaning', 'Print quality check', 'Cartridge handling tips'],
         badge: 'Fast Service',
-        priceTag: 'Price on request'
+        priceTag: 'Model-based price'
       },
       'All Size Scanning': {
         explanation: 'Document scanning in multiple sizes for digital record-keeping and online submissions.',
@@ -1364,16 +1364,16 @@ document.addEventListener('DOMContentLoaded', () => {
         deliveryTime: ['2 to 10 minutes'],
         addOns: ['PDF merge', 'Image enhancement', 'Cloud/email send'],
         badge: 'Fast Service',
-        priceTag: 'Starting from ₹20'
+        priceTag: 'Starts at ₹20'
       },
       'Computer Accessories': {
         explanation: 'Essential accessories for day-to-day computer and printer usage.',
         commonUses: ['USB cables and adapters', 'Keyboard/mouse needs', 'Printer consumables'],
-        startingPrice: ['Pricing on request (based on product type and brand)'],
+        startingPrice: ['Multiple budget and premium options available'],
         deliveryTime: ['Instant pickup for in-stock products'],
         addOns: ['Bulk office supply support', 'Product guidance', 'Quick replacement options'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Price on request'
+        priceTag: 'Value pricing'
       }
     };
 
@@ -1621,116 +1621,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupServiceInteractions();
 
-  const setupNavbarInteractions = () => {
-    const navLinks = Array.from(document.querySelectorAll('.nav-strip .nav-link[href^="#"]'));
-    const navList = document.querySelector('.nav-strip .navbar-nav');
-
-    if (!navLinks.length || !navList) {
-      return;
-    }
-
-    const indicator = document.createElement('span');
-    indicator.className = 'nav-active-indicator';
-    navList.appendChild(indicator);
-    navList.classList.add('has-active-indicator');
-
-    let activeLink = navLinks.find((link) => link.classList.contains('active')) || navLinks[0];
-
-    const getHeaderOffset = () => {
-      const siteHeader = document.querySelector('.site-header');
-      return (siteHeader ? siteHeader.offsetHeight : 0) + 24;
-    };
-
-    const isMobileNav = () => window.matchMedia('(max-width: 991.98px)').matches;
-
-    const updateIndicator = () => {
-      if (!activeLink || isMobileNav()) {
-        indicator.style.opacity = '0';
-        return;
-      }
-
-      const navRect = navList.getBoundingClientRect();
-      const linkRect = activeLink.getBoundingClientRect();
-      const indicatorWidth = Math.max(28, Math.round(linkRect.width - 24));
-      const x = linkRect.left - navRect.left + (linkRect.width - indicatorWidth) / 2;
-
-      indicator.style.width = `${indicatorWidth}px`;
-      indicator.style.transform = `translateX(${Math.max(0, x)}px)`;
-      indicator.style.opacity = '1';
-    };
-
-    const setActiveLink = (link, options = {}) => {
-      if (!link) {
-        return;
-      }
-
-      if (activeLink === link && !options.force) {
-        updateIndicator();
-        return;
-      }
-
-      navLinks.forEach((navLink) => navLink.classList.toggle('active', navLink === link));
-      activeLink = link;
-      updateIndicator();
-    };
-
-    const sections = [];
-    navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      const section = href ? document.querySelector(href) : null;
-      if (section && !sections.includes(section)) {
-        sections.push(section);
+  const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+  navLinks.forEach((link) => {
+    link.addEventListener('click', () => {
+      const navbarCollapse = document.querySelector('.navbar-collapse.show');
+      if (navbarCollapse && window.bootstrap) {
+        const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
+        collapseInstance.hide();
       }
     });
-
-    const setActiveByScroll = () => {
-      if (!sections.length) {
-        return;
-      }
-
-      const anchorLine = window.scrollY + getHeaderOffset();
-      let currentSection = sections[0];
-
-      sections.forEach((section) => {
-        if (section.offsetTop <= anchorLine) {
-          currentSection = section;
-        }
-      });
-
-      const targetHref = currentSection.id ? `#${currentSection.id}` : null;
-      if (!targetHref) {
-        return;
-      }
-
-      if (activeLink && activeLink.getAttribute('href') === targetHref) {
-        updateIndicator();
-        return;
-      }
-
-      const matchingLink = navLinks.find((link) => link.getAttribute('href') === targetHref);
-      if (matchingLink) {
-        setActiveLink(matchingLink);
-      }
-    };
-
-    navLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        setActiveLink(link);
-
-        const navbarCollapse = document.querySelector('.navbar-collapse.show');
-        if (navbarCollapse && window.bootstrap) {
-          const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
-          collapseInstance.hide();
-        }
-      });
-    });
-
-    setActiveLink(activeLink, { force: true });
-    setActiveByScroll();
-
-    window.addEventListener('scroll', setActiveByScroll, { passive: true });
-    window.addEventListener('resize', updateIndicator);
-  };
-
-  setupNavbarInteractions();
+  });
 });
