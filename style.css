@@ -966,7 +966,7 @@ img {
 
 .hero-visual-shell {
   position: relative;
-  min-height: 560px;
+  min-height: 580px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1045,8 +1045,9 @@ img {
 .hero-image {
   display: block;
   width: 100%;
-  height: 500px;
+  height: 540px;
   object-fit: cover;
+  object-position: center 14%;
   border-radius: calc(var(--radius) - 2px);
   filter: brightness(1.04) saturate(1.07);
   transform: scale(1.01);
@@ -1062,7 +1063,7 @@ img {
 }
 
 .hero-visual-shell:hover .hero-image {
-  transform: scale(1.055);
+  transform: scale(1.03);
   filter: brightness(1.06) saturate(1.1);
 }
 
@@ -1140,13 +1141,13 @@ img {
 }
 
 .hero-float-orders {
-  top: 22px;
+  top: 236px;
   left: -16px;
   animation: heroCardDriftUp 6.1s ease-in-out infinite;
 }
 
 .hero-float-student {
-  top: 28px;
+  top: 242px;
   right: -22px;
   animation: heroCardDriftDown 5.6s ease-in-out infinite 0.35s;
 }
@@ -2164,7 +2165,7 @@ img {
   }
 
   .hero-visual-shell {
-    min-height: 500px;
+    min-height: 520px;
     margin-top: 8px;
   }
 
@@ -2174,7 +2175,8 @@ img {
   }
 
   .hero-image {
-    height: 420px;
+    height: 450px;
+    object-position: center 12%;
   }
 
   .hero-visual-dots {
@@ -2213,17 +2215,17 @@ img {
   }
 
   .hero-float-orders {
-    top: 14px;
+    top: 170px;
     left: 2px;
   }
 
   .hero-float-student {
-    top: 18px;
+    top: 176px;
     right: 0;
   }
 
   .hero-float-passport {
-    bottom: 86px;
+    bottom: 60px;
     left: 8px;
   }
 
@@ -2428,7 +2430,7 @@ img {
   }
 
   .hero-visual-shell {
-    min-height: 390px;
+    min-height: 420px;
   }
 
   .hero-visual-dots {
@@ -2441,7 +2443,8 @@ img {
   }
 
   .hero-image {
-    height: 330px;
+    height: 370px;
+    object-position: center 10%;
   }
 
   .hero-float-card {
@@ -2472,17 +2475,17 @@ img {
   }
 
   .hero-float-orders {
-    top: 8px;
+    top: 132px;
     left: 0;
   }
 
   .hero-float-student {
-    top: 56px;
+    top: 140px;
     right: 0;
   }
 
   .hero-float-passport {
-    bottom: 62px;
+    bottom: 40px;
     left: 4px;
   }
 
@@ -2827,7 +2830,7 @@ img {
   }
 
   .hero-visual-shell {
-    min-height: 312px;
+    min-height: 332px;
   }
 
   .hero-image-tilt {
@@ -2840,7 +2843,8 @@ img {
   }
 
   .hero-image {
-    height: 254px;
+    height: 300px;
+    object-position: center 8%;
     border-radius: 18px;
   }
 
@@ -2877,12 +2881,12 @@ img {
   }
 
   .hero-float-orders {
-    top: 8px;
+    top: 104px;
     left: 2px;
   }
 
   .hero-float-student {
-    top: 44px;
+    top: 112px;
     right: 2px;
   }
 
