@@ -1225,74 +1225,74 @@ document.addEventListener('DOMContentLoaded', () => {
       'Black & White Printing': {
         explanation: 'Crisp monochrome prints for forms, notes, assignments, and office files.',
         commonUses: ['Assignments and exam notes', 'Office forms and records', 'Bulk handouts'],
-        startingPrice: ['2+ copies from ₹3 per side', 'Single copy from ₹5 per side'],
+        startingPrice: ['₹3 per side'],
         deliveryTime: ['2 to 5 minutes for regular work'],
         addOns: ['Stapling', 'Spiral binding', 'Lamination'],
         badge: 'Fast Service',
-        priceTag: 'Starts at ₹3'
+        priceTag: 'Starting from ₹3'
       },
       'Color Printing': {
         explanation: 'Vibrant color printing with accurate tones for presentations and project sheets.',
         commonUses: ['Project covers and charts', 'Flyers and notices', 'Brochures and invitations'],
-        startingPrice: ['A4 color print starts from ₹20 per page'],
+        startingPrice: ['A4 Colour Print: ₹10 per side'],
         deliveryTime: ['5 to 10 minutes'],
         addOns: ['Glossy paper', 'Premium matte paper', 'Lamination'],
         badge: 'Most Popular',
-        priceTag: 'Starts at ₹20'
+        priceTag: 'Starting from ₹10'
       },
       'Xerox / Photocopy': {
         explanation: 'Fast photocopy service for everyday document duplication and bulk jobs.',
         commonUses: ['Government forms', 'Legal documents', 'Student notes and records'],
-        startingPrice: ['Bulk Xerox from ₹3 per page'],
+        startingPrice: ['Single copy: ₹1.5 per side', 'Bulk copies: Discount available'],
         deliveryTime: ['Instant for small sets', '15 to 30 min for bulk'],
         addOns: ['Sorting', 'Stapling', 'File set arrangement'],
         badge: 'Most Popular',
-        priceTag: 'From ₹3 per page'
+        priceTag: 'Starting from ₹1.5'
       },
       Lamination: {
         explanation: 'Neat edge-sealed lamination that protects documents from wear and moisture.',
         commonUses: ['Certificates', 'ID cards', 'Office notices and menus'],
-        startingPrice: ['Small card lamination from ₹30', 'A4 lamination from ₹50'],
+        startingPrice: ['Small lamination: ₹10 onwards', 'A4 lamination: ₹20 onwards'],
         deliveryTime: ['About 5 minutes per sheet'],
         addOns: ['Glossy finish', 'Matte finish', 'Corner trim'],
         badge: 'Fast Service',
-        priceTag: 'Starts at ₹30'
+        priceTag: 'Starting from ₹10'
       },
       'Spiral Binding': {
         explanation: 'Professional spiral binding for reports, projects, and presentation copies.',
         commonUses: ['Project files', 'Office reports', 'Training booklets'],
-        startingPrice: ['Binding starts from ₹40 depending on pages'],
+        startingPrice: ['Small file: ₹30 onwards', 'Thick file: ₹50 onwards'],
         deliveryTime: ['10 to 20 minutes'],
         addOns: ['Transparent covers', 'Cardboard back sheet', 'Name label'],
         badge: 'Student Favorite',
-        priceTag: 'Starts at ₹40'
+        priceTag: 'Starting from ₹30'
       },
       'Passport Photos': {
         explanation: 'Quick passport photo prints with clean framing for official and personal use.',
         commonUses: ['Passport and visa forms', 'Admissions and job forms', 'Government IDs'],
-        startingPrice: ['Passport photo sheet from ₹50'],
+        startingPrice: ['20 passport-size photos: ₹30 onwards'],
         deliveryTime: ['10 to 15 minutes'],
         addOns: ['Soft copy sharing', 'Basic face adjustment', 'Extra print sets'],
         badge: 'Fast Service',
-        priceTag: 'Starts at ₹50'
+        priceTag: 'Starting from ₹30'
       },
       'Project Printing': {
         explanation: 'Complete project printing support with neat finishing for school and college work.',
         commonUses: ['Seminar reports', 'Assignment submissions', 'Practical files'],
-        startingPrice: ['Basic project sets from ₹50'],
+        startingPrice: ['Typical projects start from ₹50 onwards', 'Final pricing depends on pages, color printing, and binding'],
         deliveryTime: ['Same day delivery for regular quantity'],
         addOns: ['Spiral bind', 'Color cover pages', 'Lamination'],
         badge: 'Student Favorite',
-        priceTag: 'From ₹50'
+        priceTag: 'Starting from ₹50'
       },
       'Stationery Products': {
         explanation: 'Everyday stationery stock for students, offices, and routine shop needs.',
         commonUses: ['Notebooks and pens', 'Files and folders', 'Craft and chart materials'],
-        startingPrice: ['Budget items from ₹10 onward'],
+        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'smartcard 80 rupee'],
         deliveryTime: ['Instant in-store pickup'],
         addOns: ['Combo packs', 'Bulk school sets', 'Institution pricing'],
         badge: 'Bulk Discount Available',
-        priceTag: 'From ₹10'
+        priceTag: 'Starting from ₹10'
       },
       'Blackbook Printing': {
         explanation: 'Durable blackbook print with consistent quality for project submissions.',
