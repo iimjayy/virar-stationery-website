@@ -1279,7 +1279,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Project Printing': {
         explanation: 'Complete project printing support with neat finishing for school and college work.',
         commonUses: ['Seminar reports', 'Assignment submissions', 'Practical files'],
-        startingPrice: ['Typical projects start from ₹50 onwards', 'Final pricing depends on pages, color printing, and binding'],
+        startingPrice: ['Typical projects start from ₹50 onwards', 'Final pricing depends on pages, Color printing, and binding'],
         deliveryTime: ['Same day delivery for regular quantity'],
         addOns: ['Spiral bind', 'Color cover pages', 'Lamination'],
         badge: 'Student Favorite',
@@ -1288,7 +1288,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Stationery Products': {
         explanation: 'Everyday stationery stock for students, offices, and routine shop needs.',
         commonUses: ['Notebooks and pens', 'Files and folders', 'Craft and chart materials'],
-        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'smartcard 80 rupee'],
+        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'Smart Card from ₹80'],
         deliveryTime: ['Instant in-store pickup'],
         addOns: ['Combo packs', 'Bulk school sets', 'Institution pricing'],
         badge: 'Bulk Discount Available',
@@ -1297,20 +1297,20 @@ document.addEventListener('DOMContentLoaded', () => {
       'Blackbook Printing': {
         explanation: 'Durable blackbook print with consistent quality for project submissions.',
         commonUses: ['Engineering records', 'College submissions', 'Archival copies'],
-        startingPrice: ['Quote based on size and quantity'],
+        startingPrice: ['Pricing on request (depends on size and quantity)'],
         deliveryTime: ['Same day for standard jobs'],
         addOns: ['Spiral binding', 'Cover lamination', 'Additional copies'],
         badge: 'Student Favorite',
-        priceTag: 'Custom quote'
+        priceTag: 'Price on request'
       },
       'Letterhead Print': {
         explanation: 'Branded letterhead printing for businesses and professional communication.',
         commonUses: ['Company letters', 'Invoices and proposals', 'Office documentation'],
-        startingPrice: ['Starts from ₹2 per sheet in bulk'],
+        startingPrice: ['Starts from ₹2 per sheet (bulk)'],
         deliveryTime: ['1 to 2 days depending on quantity'],
         addOns: ['Logo alignment support', 'Paper upgrades', 'Bulk packing'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Bulk pricing'
+        priceTag: 'Starting from ₹2'
       },
       'Visiting Card': {
         explanation: 'Clean and professional visiting card prints with premium finish options.',
@@ -1319,16 +1319,16 @@ document.addEventListener('DOMContentLoaded', () => {
         deliveryTime: ['Same day or next day'],
         addOns: ['Matte/gloss finish', 'Rounded corners', 'Lamination'],
         badge: 'Most Popular',
-        priceTag: 'From ₹150'
+        priceTag: 'Starting from ₹150'
       },
       'Billbook Print': {
         explanation: 'Custom billbook and invoice booklet printing for daily business operations.',
         commonUses: ['Retail billing', 'Service invoicing', 'Manual receipts'],
-        startingPrice: ['Pricing depends on pages, copies, and size'],
+        startingPrice: ['Pricing on request (depends on pages, copies, and size)'],
         deliveryTime: ['1 to 2 days'],
         addOns: ['Numbering', 'Duplicate/triplicate sets', 'Custom branding'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Custom quote'
+        priceTag: 'Price on request'
       },
       'Smart Card': {
         explanation: 'Smart Card printing support for identity, membership, and institutional use.',
@@ -1342,20 +1342,20 @@ document.addEventListener('DOMContentLoaded', () => {
       'Jumbo Xerox': {
         explanation: 'Large-format xerox and copy services for plans, drawings, and posters.',
         commonUses: ['Architecture plans', 'Engineering drawings', 'Large charts and posters'],
-        startingPrice: ['A3/A2/A1/A0 rates available on request'],
+        startingPrice: ['Pricing on request for A3/A2/A1/A0 sizes'],
         deliveryTime: ['10 to 30 minutes based on size'],
         addOns: ['Roll to sheet trim', 'Set sorting', 'Tube packing'],
         badge: 'Fast Service',
-        priceTag: 'All sizes available'
+        priceTag: 'Price on request'
       },
       'Cartridge Refelling': {
         explanation: 'Reliable ink and toner refilling to keep your printer running affordably.',
         commonUses: ['Home printer refill', 'Office laser printer maintenance', 'Emergency refill support'],
-        startingPrice: ['Pricing based on cartridge model'],
+        startingPrice: ['Pricing on request (based on cartridge model)'],
         deliveryTime: ['Usually 20 to 40 minutes'],
         addOns: ['Basic nozzle cleaning', 'Print quality check', 'Cartridge handling tips'],
         badge: 'Fast Service',
-        priceTag: 'Model-based price'
+        priceTag: 'Price on request'
       },
       'All Size Scanning': {
         explanation: 'Document scanning in multiple sizes for digital record-keeping and online submissions.',
@@ -1364,16 +1364,16 @@ document.addEventListener('DOMContentLoaded', () => {
         deliveryTime: ['2 to 10 minutes'],
         addOns: ['PDF merge', 'Image enhancement', 'Cloud/email send'],
         badge: 'Fast Service',
-        priceTag: 'Starts at ₹20'
+        priceTag: 'Starting from ₹20'
       },
       'Computer Accessories': {
         explanation: 'Essential accessories for day-to-day computer and printer usage.',
         commonUses: ['USB cables and adapters', 'Keyboard/mouse needs', 'Printer consumables'],
-        startingPrice: ['Multiple budget and premium options available'],
+        startingPrice: ['Pricing on request (based on product type and brand)'],
         deliveryTime: ['Instant pickup for in-stock products'],
         addOns: ['Bulk office supply support', 'Product guidance', 'Quick replacement options'],
         badge: 'Bulk Discount Available',
-        priceTag: 'Value pricing'
+        priceTag: 'Price on request'
       }
     };
 
