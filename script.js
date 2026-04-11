@@ -28,6 +28,62 @@ document.addEventListener('DOMContentLoaded', () => {
   updateHeaderShadow();
   window.addEventListener('scroll', updateHeaderShadow, { passive: true });
 
+  const setupHeroOpenStatus = () => {
+    const statusPill = document.getElementById('heroOpenStatus');
+    if (!statusPill) {
+      return;
+    }
+
+    const statusText = statusPill.querySelector('.hero-open-text');
+    if (!statusText) {
+      return;
+    }
+
+    const openHour = 8;
+    const closeHour = 21;
+
+    const formatHour = (hour24) => {
+      const suffix = hour24 >= 12 ? 'pm' : 'am';
+      const normalizedHour = ((hour24 + 11) % 12) + 1;
+      return `${normalizedHour}${suffix}`;
+    };
+
+    const updateOpenStatus = () => {
+      const now = new Date();
+      const currentMinutes = now.getHours() * 60 + now.getMinutes();
+      const openMinutes = openHour * 60;
+      const closeMinutes = closeHour * 60;
+      const isOpenNow = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+
+      statusPill.classList.remove('is-loading', 'is-open', 'is-closed');
+
+      if (isOpenNow) {
+        statusPill.classList.add('is-open');
+        statusText.textContent = `Open Now · Closes at ${formatHour(closeHour)}`;
+      } else {
+        statusPill.classList.add('is-closed');
+        const isAfterClosing = currentMinutes >= closeMinutes;
+        statusText.textContent = isAfterClosing
+          ? `Closed Now · Opens tomorrow ${formatHour(openHour)}`
+          : `Closed Now · Opens ${formatHour(openHour)}`;
+      }
+
+      statusPill.setAttribute('aria-label', statusText.textContent);
+    };
+
+    updateOpenStatus();
+
+    const now = new Date();
+    const delayToNextMinute = ((60 - now.getSeconds()) * 1000) - now.getMilliseconds();
+
+    window.setTimeout(() => {
+      updateOpenStatus();
+      window.setInterval(updateOpenStatus, 60000);
+    }, Math.max(400, delayToNextMinute));
+  };
+
+  setupHeroOpenStatus();
+
   const contactForm = document.getElementById('contactForm');
   const searchForms = document.querySelectorAll('.search-box');
 

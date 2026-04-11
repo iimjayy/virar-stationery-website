@@ -727,45 +727,101 @@ img {
 .hero-open-status {
   display: inline-flex;
   align-items: center;
-  gap: 9px;
+  gap: 8px;
   margin-top: 14px;
-  padding: 0.42rem 0.82rem;
+  min-height: 42px;
+  padding: 0.5rem 0.95rem;
   border-radius: 999px;
-  border: 1px solid rgba(244, 210, 31, 0.65);
-  background: rgba(11, 42, 91, 0.8);
+  border: 1px solid rgba(244, 210, 31, 0.58);
+  background: linear-gradient(145deg, rgba(9, 33, 73, 0.9), rgba(9, 30, 66, 0.84));
   color: #fffdf1;
-  font-size: 0.82rem;
+  font-size: 0.81rem;
   font-weight: 600;
   letter-spacing: 0.01em;
-  line-height: 1.2;
+  line-height: 1;
   width: fit-content;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 8px 16px rgba(11, 42, 91, 0.24), 0 0 14px rgba(244, 210, 31, 0.12);
-  animation: heroFadeUp 0.72s ease 0.56s both;
+  max-width: 100%;
+  backdrop-filter: blur(8px) saturate(115%);
+  box-shadow: 0 10px 22px rgba(11, 42, 91, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 0 18px rgba(244, 210, 31, 0.11);
+  transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease, background 0.28s ease;
+  animation: heroFadeUp 0.72s ease 0.56s both, heroStatusFloat 5.8s ease-in-out 0.9s infinite;
+}
+
+.hero-open-status:hover {
+  transform: translateY(-1px);
+  border-color: rgba(244, 210, 31, 0.76);
+  box-shadow: 0 14px 24px rgba(11, 42, 91, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.11) inset, 0 0 20px rgba(244, 210, 31, 0.16);
+}
+
+.hero-open-icon {
+  color: rgba(255, 248, 207, 0.9);
+  font-size: 0.78rem;
+}
+
+.hero-open-text {
+  white-space: nowrap;
+}
+
+.hero-open-status.is-open {
+  border-color: rgba(110, 231, 183, 0.5);
+  box-shadow: 0 10px 22px rgba(11, 42, 91, 0.24), 0 0 0 1px rgba(255, 255, 255, 0.08) inset, 0 0 18px rgba(52, 211, 153, 0.15);
+}
+
+.hero-open-status.is-closed {
+  border-color: rgba(248, 113, 113, 0.42);
+  background: linear-gradient(145deg, rgba(14, 24, 44, 0.92), rgba(12, 21, 39, 0.86));
+  box-shadow: 0 10px 20px rgba(7, 14, 31, 0.28), 0 0 0 1px rgba(255, 255, 255, 0.06) inset;
 }
 
 .hero-open-dot {
-  width: 8px;
-  height: 8px;
+  --hero-open-dot-glow: rgba(52, 211, 153, 0.5);
+  width: 9px;
+  height: 9px;
   border-radius: 50%;
+  background: #34d399;
+  flex: 0 0 9px;
+  box-shadow: 0 0 0 0 var(--hero-open-dot-glow);
+  animation: heroOpenDotPulse 2.1s ease-in-out infinite;
+}
+
+.hero-open-status.is-open .hero-open-dot {
+  --hero-open-dot-glow: rgba(52, 211, 153, 0.5);
+}
+
+.hero-open-status.is-loading .hero-open-dot {
   background: var(--yellow);
-  flex: 0 0 8px;
-  box-shadow: 0 0 0 0 rgba(244, 210, 31, 0.55);
-  animation: heroOpenDotPulse 2.2s ease-in-out infinite;
+  --hero-open-dot-glow: rgba(244, 210, 31, 0.5);
+}
+
+.hero-open-status.is-closed .hero-open-dot {
+  background: #f87171;
+  --hero-open-dot-glow: rgba(248, 113, 113, 0.45);
+  box-shadow: 0 0 0 0 var(--hero-open-dot-glow);
+  animation-duration: 2.8s;
 }
 
 @keyframes heroOpenDotPulse {
   0% {
-    box-shadow: 0 0 0 0 rgba(244, 210, 31, 0.5);
+    box-shadow: 0 0 0 0 var(--hero-open-dot-glow);
     opacity: 0.92;
   }
   70% {
-    box-shadow: 0 0 0 7px rgba(244, 210, 31, 0);
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
     opacity: 1;
   }
   100% {
-    box-shadow: 0 0 0 0 rgba(244, 210, 31, 0);
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
     opacity: 0.92;
+  }
+}
+
+@keyframes heroStatusFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
   }
 }
 
