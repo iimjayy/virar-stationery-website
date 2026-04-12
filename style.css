@@ -5399,6 +5399,33 @@ body.lightbox-open {
 }
 
 @media (max-width: 991px) {
+  html,
+  body {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    overflow-x: clip;
+    overscroll-behavior-x: none;
+  }
+
+  .site-header,
+  .quick-convert-bar,
+  main,
+  .site-footer,
+  .section-pad {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  .hero-visual-shell {
+    overflow-x: hidden;
+    overflow-x: clip;
+  }
+
+  .hero-image-tilt {
+    max-width: 100%;
+  }
+
   .quick-convert-inner {
     min-height: 0;
     padding: 10px 0;
