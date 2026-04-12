@@ -4,15 +4,17 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Virar Stationery & Jumbo Xerox - printing, xerox, stationery, lamination, binding, and passport photo services in Virar.">
+  <meta name="theme-color" content="#0b2a5b">
   <title>Virar Stationery & Jumbo Xerox</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260412-03">
+  <link rel="stylesheet" href="style.css?v=20260412-04">
 </head>
 <body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
   <!-- Sticky header and navigation -->
   <header class="site-header sticky-top">
     <div class="top-header border-bottom">
@@ -85,7 +87,19 @@
     </div>
   </header>
 
-  <main>
+  <div class="quick-convert-bar">
+    <div class="container-fluid px-3 px-xl-4">
+      <div class="quick-convert-inner">
+        <p><i class="fa-solid fa-bolt" aria-hidden="true"></i>Need urgent prints today? Share files on WhatsApp and get a quick quote in minutes.</p>
+        <div class="quick-convert-actions" aria-label="Quick conversion actions">
+          <a href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i>WhatsApp Quote</a>
+          <a href="tel:+917021072757"><i class="fa-solid fa-phone" aria-hidden="true"></i>Call Shop</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main id="main-content">
     <!-- Hero section -->
     <section id="home" class="hero-section section-pad">
       <div class="container-fluid px-3 px-xl-4">
@@ -129,6 +143,9 @@
                     <img
                       src="images/main%20image.jpg"
                       alt="Virar Stationery and Jumbo Xerox shop interior"
+                      loading="eager"
+                      fetchpriority="high"
+                      decoding="async"
                       class="img-fluid hero-image"
                     >
                   </div>
@@ -518,14 +535,14 @@
           <p>Replace these placeholder product cards with real stock highlights or seasonal offers as needed.</p>
         </div>
         <div class="row g-4">
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/e48ba5387ba4b9296e052eb5c3696127.jpg" alt="Pens" class="img-fluid"><div class="product-body"><h3>Pens</h3><p>Reliable writing tools for everyday use.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/9cde74bde0d13309a1d4af56d7155bd5.jpg" alt="Notebooks" class="img-fluid"><div class="product-body"><h3>Notebooks</h3><p>Durable notebooks for study and office notes.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/8f12aae6d65f67a515e37e793ad13311.jpg" alt="Files" class="img-fluid"><div class="product-body"><h3>Files</h3><p>Keep documents sorted and ready to present.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/7b21e1ce1777af382257217bf1a6b817.jpg" alt="Art supplies" class="img-fluid"><div class="product-body"><h3>Art Supplies</h3><p>Materials for creative school and hobby work.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/8428bb4618a39c55ae3f91b6d7666826.jpg" alt="Calculators" class="img-fluid"><div class="product-body"><h3>Calculators</h3><p>Useful calculators for class and work tasks.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/e5a8f1a5dd572a974ca635430ae789ff.jpg" alt="Charts" class="img-fluid"><div class="product-body"><h3>Charts</h3><p>Classroom and project charts that stand out.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/833f84ad78b93c28c88b79fc84df5bcc.jpg" alt="Project materials" class="img-fluid"><div class="product-body"><h3>Project Materials</h3><p>All the pieces needed for neat project work.</p></div></div></div>
-          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/6cfaed1a9ddadd3dcd56ed08ed3cf675.jpg" alt="Sticky notes" class="img-fluid"><div class="product-body"><h3>Sticky Notes</h3><p>Handy notes for reminders and planning.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/e48ba5387ba4b9296e052eb5c3696127.jpg" alt="Pens" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Pens</h3><p>Reliable writing tools for everyday use.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/9cde74bde0d13309a1d4af56d7155bd5.jpg" alt="Notebooks" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Notebooks</h3><p>Durable notebooks for study and office notes.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/8f12aae6d65f67a515e37e793ad13311.jpg" alt="Files" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Files</h3><p>Keep documents sorted and ready to present.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/7b21e1ce1777af382257217bf1a6b817.jpg" alt="Art supplies" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Art Supplies</h3><p>Materials for creative school and hobby work.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/8428bb4618a39c55ae3f91b6d7666826.jpg" alt="Calculators" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Calculators</h3><p>Useful calculators for class and work tasks.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/e5a8f1a5dd572a974ca635430ae789ff.jpg" alt="Charts" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Charts</h3><p>Classroom and project charts that stand out.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/833f84ad78b93c28c88b79fc84df5bcc.jpg" alt="Project materials" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Project Materials</h3><p>All the pieces needed for neat project work.</p></div></div></div>
+          <div class="col-6 col-lg-3 reveal"><div class="product-card"><img src="images/6cfaed1a9ddadd3dcd56ed08ed3cf675.jpg" alt="Sticky notes" class="img-fluid" loading="lazy" decoding="async"><div class="product-body"><h3>Sticky Notes</h3><p>Handy notes for reminders and planning.</p></div></div></div>
         </div>
       </div>
     </section>
@@ -748,8 +765,8 @@
                   <textarea class="form-control form-control-lg" id="message" rows="4" required></textarea>
                 </div>
                 <div class="col-12 d-flex flex-wrap align-items-center contact-form-actions">
-                  <button type="submit" class="btn btn-primary btn-lg cta-btn"><i class="fa-solid fa-paper-plane"></i>Submit</button>
-                  <a class="btn btn-outline-primary btn-lg cta-btn secondary" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i>WhatsApp Now</a>
+                  <button type="submit" class="btn btn-primary btn-lg cta-btn"><i class="fa-solid fa-paper-plane"></i>Get Free Quote</button>
+                  <a class="btn btn-outline-primary btn-lg cta-btn secondary" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i>WhatsApp Quote</a>
                 </div>
               </form>
             </div>
@@ -846,7 +863,42 @@
     </div>
   </footer>
 
+  <aside class="desktop-cta-rail d-none d-md-flex" aria-label="Desktop quick actions">
+    <a class="desktop-cta-chip is-wa" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer" aria-label="Quick WhatsApp quote">
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      <span>WhatsApp</span>
+    </a>
+    <a class="desktop-cta-chip is-call" href="tel:+917021072757" aria-label="Quick call">
+      <i class="fa-solid fa-phone" aria-hidden="true"></i>
+      <span>Call</span>
+    </a>
+    <a class="desktop-cta-chip is-map" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer" aria-label="Quick directions">
+      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+      <span>Directions</span>
+    </a>
+  </aside>
+
+  <button id="backToTopBtn" class="back-to-top-btn" type="button" aria-label="Back to top">
+    <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>
+  </button>
+
+  <div id="galleryLightbox" class="gallery-lightbox" role="dialog" aria-modal="true" aria-label="Gallery image preview" aria-hidden="true">
+    <button type="button" class="gallery-lightbox-close" aria-label="Close image preview">
+      <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+    </button>
+    <button type="button" class="gallery-lightbox-nav is-prev" aria-label="Previous image">
+      <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+    </button>
+    <figure class="gallery-lightbox-figure">
+      <img class="gallery-lightbox-image" src="" alt="">
+      <figcaption class="gallery-lightbox-caption"></figcaption>
+    </figure>
+    <button type="button" class="gallery-lightbox-nav is-next" aria-label="Next image">
+      <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+    </button>
+  </div>
+
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js?v=20260412-01"></script>
+  <script src="script.js?v=20260412-02"></script>
 </body>
 </html>
