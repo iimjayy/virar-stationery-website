@@ -87,20 +87,242 @@ document.addEventListener('DOMContentLoaded', () => {
   const contactForm = document.getElementById('contactForm');
   const searchForms = document.querySelectorAll('.search-box');
 
+  const normalizePhoneNumber = (value) => String(value ?? '').replace(/\D+/g, '');
+
+  const resolveBusinessWhatsAppNumber = () => {
+    const defaultNumber = '917021072757';
+    const whatsappLink = document.querySelector('a[href*="wa.me/"], a[href*="api.whatsapp.com/send"]');
+    const href = whatsappLink?.getAttribute('href') || '';
+
+    const waMatch = href.match(/wa\.me\/(\d+)/i);
+    if (waMatch?.[1]) {
+      return normalizePhoneNumber(waMatch[1]) || defaultNumber;
+    }
+
+    try {
+      const parsedUrl = new URL(href, window.location.origin);
+      const phoneParam = parsedUrl.searchParams.get('phone');
+      if (phoneParam) {
+        return normalizePhoneNumber(phoneParam) || defaultNumber;
+      }
+    } catch {
+      return defaultNumber;
+    }
+
+    return defaultNumber;
+  };
+
+  const resolveBusinessEmail = () => {
+    const defaultEmail = 'virarcopy123@gmail.com';
+    const emailLink = document.querySelector('a[href^="mailto:"]');
+    const href = emailLink?.getAttribute('href') || '';
+
+    if (!href) {
+      return defaultEmail;
+    }
+
+    const emailAddress = href.replace(/^mailto:/i, '').split('?')[0].trim();
+    return emailAddress || defaultEmail;
+  };
+
+  const ensureEnquiryToast = () => {
+    let toast = document.getElementById('enquiryToast');
+    if (toast) {
+      return toast;
+    }
+
+    toast = document.createElement('div');
+    toast.id = 'enquiryToast';
+    toast.className = 'enquiry-toast';
+    toast.setAttribute('role', 'status');
+    toast.setAttribute('aria-live', 'polite');
+    toast.setAttribute('aria-atomic', 'true');
+    document.body.appendChild(toast);
+    return toast;
+  };
+
+  const enquiryToast = ensureEnquiryToast();
+  let enquiryToastTimeoutId = null;
+
+  const showEnquiryToast = (message, options = {}) => {
+    const {
+      isError = false,
+      duration = 1900
+    } = options;
+
+    enquiryToast.textContent = message;
+    enquiryToast.classList.toggle('is-error', isError);
+    enquiryToast.classList.add('is-visible');
+
+    if (enquiryToastTimeoutId) {
+      window.clearTimeout(enquiryToastTimeoutId);
+    }
+
+    enquiryToastTimeoutId = window.setTimeout(() => {
+      enquiryToast.classList.remove('is-visible');
+    }, duration);
+  };
+
   if (contactForm) {
+    const submitButton = contactForm.querySelector('button[type="submit"]');
+    const requiredFields = [
+      contactForm.querySelector('#name'),
+      contactForm.querySelector('#service'),
+      contactForm.querySelector('#message')
+    ].filter(Boolean);
+
+    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    const businessEmail = resolveBusinessEmail();
+    const enquirySubject = 'New Website Enquiry - Virar Stationery & Jumbo Xerox';
+    const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
+
+    const setSubmitLoading = (isLoading) => {
+      if (!submitButton) {
+        return;
+      }
+
+      if (!submitButton.dataset.originalHtml) {
+        submitButton.dataset.originalHtml = submitButton.innerHTML;
+      }
+
+      submitButton.disabled = isLoading;
+      submitButton.classList.toggle('is-loading', isLoading);
+      submitButton.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+
+      if (isLoading) {
+        submitButton.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span><span>Opening WhatsApp...</span>';
+      } else {
+        submitButton.innerHTML = submitButton.dataset.originalHtml;
+      }
+    };
+
+    const validateRequiredFields = () => {
+      let firstInvalidField = null;
+
+      requiredFields.forEach((field) => {
+        const rawValue = String(field.value ?? '');
+        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        field.classList.toggle('is-invalid', !hasValue);
+        field.setAttribute('aria-invalid', hasValue ? 'false' : 'true');
+
+        if (!hasValue && !firstInvalidField) {
+          firstInvalidField = field;
+        }
+      });
+
+      if (firstInvalidField) {
+        firstInvalidField.focus();
+        showEnquiryToast('Please complete all required fields.', { isError: true, duration: 2300 });
+        return false;
+      }
+
+      return true;
+    };
+
+    requiredFields.forEach((field) => {
+      const clearErrorState = () => {
+        const rawValue = String(field.value ?? '');
+        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (hasValue) {
+          field.classList.remove('is-invalid');
+          field.setAttribute('aria-invalid', 'false');
+        }
+      };
+
+      field.addEventListener('input', clearErrorState);
+      field.addEventListener('change', clearErrorState);
+    });
+
+    const buildEnquiryMessage = () => {
+      const customerName = String(contactForm.querySelector('#name')?.value ?? '').trim();
+      const selectedService = String(contactForm.querySelector('#service')?.value ?? '').trim();
+      const customerMessage = String(contactForm.querySelector('#message')?.value ?? '').trim();
+
+      return [
+        'New Website Enquiry',
+        '',
+        `Name: ${customerName}`,
+        `Service Needed: ${selectedService}`,
+        `Message: ${customerMessage}`
+      ].join('\n');
+    };
+
+    const buildWhatsAppUrl = (enquiryMessage) => {
+      const encodedMessage = encodeURIComponent(enquiryMessage);
+
+      if (isMobileDevice) {
+        return `https://wa.me/${businessWhatsAppNumber}?text=${encodedMessage}`;
+      }
+
+      return `https://api.whatsapp.com/send?phone=${businessWhatsAppNumber}&text=${encodedMessage}`;
+    };
+
+    const buildMailtoUrl = (enquiryMessage) => {
+      const encodedSubject = encodeURIComponent(enquirySubject);
+      const encodedBody = encodeURIComponent(enquiryMessage);
+      return `mailto:${businessEmail}?subject=${encodedSubject}&body=${encodedBody}`;
+    };
+
+    const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
+      if (isMobileDevice) {
+        const currentLocation = window.location.href;
+        window.location.assign(whatsAppUrl);
+
+        window.setTimeout(() => {
+          if (window.location.href === currentLocation) {
+            window.location.assign(mailtoUrl);
+          }
+        }, 1400);
+
+        return true;
+      }
+
+      try {
+        const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
+        if (popup) {
+          popup.opener = null;
+          return true;
+        }
+      } catch {
+        // Ignore and continue to fallback.
+      }
+
+      window.location.assign(mailtoUrl);
+      return false;
+    };
+
     contactForm.addEventListener('submit', (event) => {
       event.preventDefault();
-      const submitButton = contactForm.querySelector('button[type="submit"]');
-      const originalText = submitButton.textContent;
-      submitButton.disabled = true;
-      submitButton.textContent = 'Sending...';
+
+      if (!validateRequiredFields()) {
+        return;
+      }
+
+      setSubmitLoading(true);
+      showEnquiryToast('Opening WhatsApp...', { duration: 1800 });
+
+      const enquiryMessage = buildEnquiryMessage();
+      const whatsAppUrl = buildWhatsAppUrl(enquiryMessage);
+      const mailtoUrl = buildMailtoUrl(enquiryMessage);
 
       window.setTimeout(() => {
-        submitButton.disabled = false;
-        submitButton.textContent = originalText;
-        contactForm.reset();
-        window.alert('Thank you. Your inquiry has been prepared. Replace this demo action with your real form handler before going live.');
-      }, 700);
+        const openedWhatsApp = openEnquiryChannel(whatsAppUrl, mailtoUrl);
+
+        setSubmitLoading(false);
+
+        if (openedWhatsApp) {
+          contactForm.reset();
+          requiredFields.forEach((field) => {
+            field.classList.remove('is-invalid');
+            field.setAttribute('aria-invalid', 'false');
+          });
+          showEnquiryToast('WhatsApp opened. Please send your enquiry.', { duration: 2200 });
+        } else {
+          showEnquiryToast('WhatsApp unavailable. Opening email fallback...', { isError: true, duration: 2800 });
+        }
+      }, 500);
     });
   }
 
