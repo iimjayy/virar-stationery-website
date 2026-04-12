@@ -5232,65 +5232,114 @@ textarea:focus-visible {
 
 .desktop-cta-rail {
   position: fixed;
-  right: 14px;
+  right: clamp(12px, 1.5vw, 20px);
   top: 52%;
-  transform: translateY(calc(-50% + 12px));
+  transform: translate3d(0, calc(-50% + 16px), 0);
   z-index: 1030;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
   opacity: 0;
-  visibility: hidden;
   pointer-events: none;
-  transition: opacity 0.32s ease, transform 0.4s cubic-bezier(0.22, 1, 0.36, 1), visibility 0.32s ease;
+  transition: opacity 0.42s cubic-bezier(0.22, 1, 0.36, 1), transform 0.52s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
 .desktop-cta-rail.is-visible {
   opacity: 1;
-  visibility: visible;
   pointer-events: auto;
-  transform: translateY(-50%);
+  transform: translate3d(0, -50%, 0);
 }
 
 .desktop-cta-chip {
-  min-height: 42px;
-  min-width: 122px;
+  min-height: 44px;
+  min-width: 128px;
   border-radius: 999px;
-  padding: 0.48rem 0.76rem;
+  padding: 0.5rem 0.82rem;
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  border: 1px solid rgba(11, 42, 91, 0.2);
-  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid rgba(11, 42, 91, 0.17);
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.97), rgba(247, 251, 255, 0.92));
   backdrop-filter: blur(10px) saturate(120%);
   color: var(--navy-2);
-  box-shadow: 0 12px 24px rgba(11, 42, 91, 0.16);
+  box-shadow: 0 10px 22px rgba(11, 42, 91, 0.15);
   font-size: 0.78rem;
   font-weight: 700;
-  transition: transform 0.24s ease, box-shadow 0.24s ease, border-color 0.24s ease;
+  letter-spacing: 0.01em;
+  opacity: 0;
+  transform: translate3d(12px, 0, 0) scale(0.98);
+  transition: opacity 0.32s ease, transform 0.48s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease, border-color 0.3s ease, background-color 0.3s ease;
 }
 
 .desktop-cta-chip i {
-  font-size: 0.92rem;
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.78rem;
+  background: rgba(11, 42, 91, 0.08);
+  box-shadow: inset 0 0 0 1px rgba(11, 42, 91, 0.08);
 }
 
-.desktop-cta-chip:hover {
-  transform: translateX(-2px);
-  box-shadow: 0 16px 26px rgba(11, 42, 91, 0.2);
+.desktop-cta-rail.is-visible .desktop-cta-chip {
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
+}
+
+.desktop-cta-rail.is-visible .desktop-cta-chip:nth-child(1) {
+  transition-delay: 0.02s;
+}
+
+.desktop-cta-rail.is-visible .desktop-cta-chip:nth-child(2) {
+  transition-delay: 0.08s;
+}
+
+.desktop-cta-rail.is-visible .desktop-cta-chip:nth-child(3) {
+  transition-delay: 0.14s;
+}
+
+.desktop-cta-rail.is-visible .desktop-cta-chip:hover {
+  transform: translate3d(-3px, 0, 0) scale(1.01);
+  box-shadow: 0 16px 28px rgba(11, 42, 91, 0.2);
   border-color: rgba(244, 210, 31, 0.7);
+  background: linear-gradient(180deg, #ffffff, #fffdf2);
+}
+
+.desktop-cta-rail.is-visible .desktop-cta-chip:active {
+  transform: translate3d(-1px, 0, 0) scale(0.995);
 }
 
 .desktop-cta-chip.is-wa i {
   color: #16a34a;
+  background: rgba(22, 163, 74, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(22, 163, 74, 0.2);
 }
 
 .desktop-cta-chip.is-call i {
   color: #0b2a5b;
+  background: rgba(11, 42, 91, 0.11);
+  box-shadow: inset 0 0 0 1px rgba(11, 42, 91, 0.15);
 }
 
 .desktop-cta-chip.is-map i {
   color: #d97706;
+  background: rgba(217, 119, 6, 0.14);
+  box-shadow: inset 0 0 0 1px rgba(217, 119, 6, 0.2);
+}
+
+@media (min-width: 992px) and (max-height: 760px) {
+  .desktop-cta-rail {
+    top: auto;
+    bottom: 94px;
+    transform: translate3d(0, 12px, 0);
+  }
+
+  .desktop-cta-rail.is-visible {
+    transform: translate3d(0, 0, 0);
+  }
 }
 
 .back-to-top-btn {

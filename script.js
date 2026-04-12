@@ -2286,42 +2286,60 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
 
-    const isHeroInViewport = () => {
-      const heroBounds = heroSection.getBoundingClientRect();
-      return heroBounds.bottom > 0 && heroBounds.top < window.innerHeight;
-    };
+    const revealOffsetPx = 110;
+    let railVisible = false;
+    let visibilityTicking = false;
 
-    const updateRailVisibility = (isHeroVisible) => {
-      const shouldShowRail = desktopBreakpoint.matches && !isHeroVisible;
-      desktopCtaRail.classList.toggle('is-visible', shouldShowRail);
+    const applyRailVisibility = (shouldShowRail) => {
       desktopCtaRail.setAttribute('aria-hidden', shouldShowRail ? 'false' : 'true');
+
+      if (shouldShowRail === railVisible) {
+        return;
+      }
+
+      railVisible = shouldShowRail;
+      desktopCtaRail.classList.toggle('is-visible', shouldShowRail);
     };
 
-    updateRailVisibility(isHeroInViewport());
+    const syncRailVisibility = () => {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      const shouldShowRail = desktopBreakpoint.matches && heroBottom <= revealOffsetPx;
+      applyRailVisibility(shouldShowRail);
+    };
+
+    const queueVisibilitySync = () => {
+      if (visibilityTicking) {
+        return;
+      }
+
+      visibilityTicking = true;
+      window.requestAnimationFrame(() => {
+        visibilityTicking = false;
+        syncRailVisibility();
+      });
+    };
+
+    syncRailVisibility();
 
     if ('IntersectionObserver' in window) {
       const heroObserver = new IntersectionObserver(
-        (entries) => {
-          const heroEntry = entries[0];
-          updateRailVisibility(Boolean(heroEntry?.isIntersecting));
+        () => {
+          queueVisibilitySync();
         },
         {
-          threshold: 0.01
+          threshold: [0, 0.12, 0.25, 0.5, 0.75, 1],
+          rootMargin: '-88px 0px 0px 0px'
         }
       );
 
       heroObserver.observe(heroSection);
-    } else {
-      const syncRailVisibility = () => {
-        updateRailVisibility(isHeroInViewport());
-      };
-
-      window.addEventListener('scroll', syncRailVisibility, { passive: true });
-      window.addEventListener('resize', syncRailVisibility);
     }
 
+    window.addEventListener('scroll', queueVisibilitySync, { passive: true });
+    window.addEventListener('resize', queueVisibilitySync);
+
     const handleBreakpointChange = () => {
-      updateRailVisibility(isHeroInViewport());
+      queueVisibilitySync();
     };
 
     if (typeof desktopBreakpoint.addEventListener === 'function') {
