@@ -2276,6 +2276,61 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const setupDesktopCtaRailVisibility = () => {
+    const desktopCtaRail = document.querySelector('.desktop-cta-rail');
+    const heroSection = document.getElementById('home') || document.querySelector('.hero-section');
+
+    if (!desktopCtaRail || !heroSection) {
+      return;
+    }
+
+    const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
+
+    const isHeroInViewport = () => {
+      const heroBounds = heroSection.getBoundingClientRect();
+      return heroBounds.bottom > 0 && heroBounds.top < window.innerHeight;
+    };
+
+    const updateRailVisibility = (isHeroVisible) => {
+      const shouldShowRail = desktopBreakpoint.matches && !isHeroVisible;
+      desktopCtaRail.classList.toggle('is-visible', shouldShowRail);
+      desktopCtaRail.setAttribute('aria-hidden', shouldShowRail ? 'false' : 'true');
+    };
+
+    updateRailVisibility(isHeroInViewport());
+
+    if ('IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver(
+        (entries) => {
+          const heroEntry = entries[0];
+          updateRailVisibility(Boolean(heroEntry?.isIntersecting));
+        },
+        {
+          threshold: 0.01
+        }
+      );
+
+      heroObserver.observe(heroSection);
+    } else {
+      const syncRailVisibility = () => {
+        updateRailVisibility(isHeroInViewport());
+      };
+
+      window.addEventListener('scroll', syncRailVisibility, { passive: true });
+      window.addEventListener('resize', syncRailVisibility);
+    }
+
+    const handleBreakpointChange = () => {
+      updateRailVisibility(isHeroInViewport());
+    };
+
+    if (typeof desktopBreakpoint.addEventListener === 'function') {
+      desktopBreakpoint.addEventListener('change', handleBreakpointChange);
+    } else if (typeof desktopBreakpoint.addListener === 'function') {
+      desktopBreakpoint.addListener(handleBreakpointChange);
+    }
+  };
+
   const setupBackToTop = () => {
     const backToTopButton = document.getElementById('backToTopBtn');
     if (!backToTopButton) {
@@ -2416,6 +2471,7 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   setupNavigationExperience();
+  setupDesktopCtaRailVisibility();
   setupBackToTop();
   setupGalleryLightbox();
 });
