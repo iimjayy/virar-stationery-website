@@ -270,13 +270,13 @@ document.addEventListener('DOMContentLoaded', () => {
           label: 'ID Card Printing',
           icon: 'fa-solid fa-id-card',
           keywords: ['id card', 'smart card', 'card print'],
-          target: { type: 'service', text: 'Smartcard', fallbackSelector: '#services' }
+          target: { type: 'service', text: 'Smart Card', fallbackSelector: '#services' }
         },
         {
-          label: 'PVC Card Printing',
+          label: 'Smart Card Printing',
           icon: 'fa-solid fa-address-card',
-          keywords: ['pvc card', 'id card print'],
-          target: { type: 'price', text: 'PVC Card Print', fallbackSelector: '#popular-prices' }
+          keywords: ['smart card', 'id card print'],
+          target: { type: 'price', text: 'Smart Card', fallbackSelector: '#popular-prices' }
         },
         {
           label: 'Visiting Card Printing',
@@ -493,10 +493,10 @@ document.addEventListener('DOMContentLoaded', () => {
           target: { type: 'price', text: 'Spiral Binding', fallbackSelector: '#popular-prices' }
         },
         {
-          label: 'PVC card printing',
+          label: 'Smart card printing',
           icon: 'fa-solid fa-magnifying-glass',
-          keywords: ['pvc card print'],
-          target: { type: 'price', text: 'PVC Card Print', fallbackSelector: '#popular-prices' }
+          keywords: ['smart card print'],
+          target: { type: 'price', text: 'Smart Card', fallbackSelector: '#popular-prices' }
         },
         {
           label: 'Same day printing',
@@ -1344,7 +1344,7 @@ document.addEventListener('DOMContentLoaded', () => {
       'Stationery Products': {
         explanation: 'Everyday stationery stock for students, offices, and routine shop needs.',
         commonUses: ['Notebooks and pens', 'Files and folders', 'Craft and chart materials'],
-        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'Smartcard from ₹80'],
+        startingPrice: ['Pens from ₹10', 'Notebooks from ₹30', 'Files from ₹20', 'Calculators from ₹150', 'Cartridges from ₹250', 'Smart Card from ₹80'],
         deliveryTime: ['Instant in-store pickup'],
         addOns: ['Combo packs', 'Bulk school sets', 'Institution pricing'],
         badge: 'Bulk Discount Available',
@@ -1386,14 +1386,14 @@ document.addEventListener('DOMContentLoaded', () => {
         badge: 'Bulk Discount Available',
         priceTag: 'Custom quote'
       },
-      Smartcard: {
-        explanation: 'Smartcard printing support for identity, membership, and institutional use.',
+      'Smart Card': {
+        explanation: 'Smart card printing for ID cards, membership cards, office cards and custom cards.',
         commonUses: ['ID cards', 'Membership cards', 'Access cards'],
-        startingPrice: ['Rates vary by card quality and quantity'],
+        startingPrice: ['Starting from ₹80'],
         deliveryTime: ['Same day for small batches'],
         addOns: ['Lanyard slot', 'Barcode printing', 'Name personalization'],
         badge: 'Fast Service',
-        priceTag: 'Custom quote'
+        priceTag: 'Starting from ₹80'
       },
       'Jumbo Xerox': {
         explanation: 'Large-format xerox and copy services for plans, drawings, and posters.',
