@@ -2904,7 +2904,7 @@ img {
   align-items: flex-start;
 }
 
-.footer-address span {
+.footer-address > span:not(.footer-mini-icon) {
   display: inline-block;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.78);
@@ -3613,7 +3613,7 @@ img {
     font-size: 0.78rem;
   }
 
-  .contact-mini .footer-address span {
+  .contact-mini .footer-address > span:not(.footer-mini-icon) {
     font-size: 0.88rem;
     line-height: 1.5;
     color: rgba(255, 255, 255, 0.76);
@@ -4139,7 +4139,7 @@ img {
     font-size: 0.76rem;
   }
 
-  .contact-mini .footer-address span {
+  .contact-mini .footer-address > span:not(.footer-mini-icon) {
     font-size: 0.83rem;
     line-height: 1.45;
   }
@@ -4599,7 +4599,7 @@ img {
     font-size: 0.72rem;
   }
 
-  .contact-mini .footer-address span {
+  .contact-mini .footer-address > span:not(.footer-mini-icon) {
     font-size: 0.8rem;
     line-height: 1.42;
   }
