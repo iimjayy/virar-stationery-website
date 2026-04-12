@@ -1532,7 +1532,7 @@ document.addEventListener('DOMContentLoaded', () => {
     detailColumn.innerHTML = '<div class="service-row-detail-panel" aria-hidden="true"></div>';
     const detailPanel = detailColumn.querySelector('.service-row-detail-panel');
     let activeCard = null;
-    const sliderBreakpoint = window.matchMedia('(max-width: 991px)');
+    const sliderBreakpoint = window.matchMedia('(max-width: 1199.98px)');
     let sliderUi = null;
     let sliderDotsTrack = null;
     let sliderDotButtons = [];

@@ -1789,7 +1789,7 @@ img {
   }
 }
 
-@media (max-width: 991px) {
+@media (max-width: 1199.98px) {
   .service-grid {
     --bs-gutter-x: 1.15rem;
     --bs-gutter-y: 1.2rem;
@@ -1895,7 +1895,7 @@ img {
   }
 }
 
-@media (min-width: 640px) and (max-width: 991px) {
+@media (min-width: 640px) and (max-width: 1199.98px) {
   .service-slider-nav {
     display: inline-flex;
   }
