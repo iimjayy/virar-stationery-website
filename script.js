@@ -1532,6 +1532,18 @@ document.addEventListener('DOMContentLoaded', () => {
     detailColumn.innerHTML = '<div class="service-row-detail-panel" aria-hidden="true"></div>';
     const detailPanel = detailColumn.querySelector('.service-row-detail-panel');
     let activeCard = null;
+    const sliderBreakpoint = window.matchMedia('(max-width: 991px)');
+    let sliderUi = null;
+    let sliderDotsTrack = null;
+    let sliderDotButtons = [];
+    let sliderPrevButton = null;
+    let sliderNextButton = null;
+    let sliderFocusCard = null;
+    let sliderPointerStartX = null;
+    let sliderWasDragged = false;
+    let sliderScrollTicking = false;
+
+    const isSliderLayout = () => servicesRow.classList.contains('service-grid--slider');
 
     const getServiceColumns = () =>
       Array.from(servicesRow.children).filter((column) => column.classList.contains('service-grid-col') || column.querySelector('.service-card'));
@@ -1544,6 +1556,14 @@ document.addEventListener('DOMContentLoaded', () => {
     };
 
     const placeDetailPanelAfterRow = (card) => {
+      if (isSliderLayout()) {
+        detailColumn.classList.add('is-slider-detail');
+        const insertionAnchor = sliderUi && sliderUi.parentElement ? sliderUi : servicesRow;
+        insertionAnchor.insertAdjacentElement('afterend', detailColumn);
+        return;
+      }
+
+      detailColumn.classList.remove('is-slider-detail');
       const cardColumn = card.closest('.service-grid-col') || card.closest('[class*="col-"]');
       if (!cardColumn) {
         return;
@@ -1596,6 +1616,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       activeCard = card;
       setCardState(card, true);
+
+      if (isSliderLayout()) {
+        setSliderFocusCard(card, { syncDetails: false });
+      }
+
       detailPanel.innerHTML = buildDetailPanelMarkup(details);
       placeDetailPanelAfterRow(card);
       detailPanel.setAttribute('aria-hidden', 'false');
@@ -1603,6 +1628,10 @@ document.addEventListener('DOMContentLoaded', () => {
       window.requestAnimationFrame(() => {
         detailPanel.classList.add('is-open');
       });
+
+      if (isSliderLayout()) {
+        centerCardInSlider(card, 'smooth');
+      }
     };
 
     const toggleCardDetails = (card) => {
@@ -1612,6 +1641,176 @@ document.addEventListener('DOMContentLoaded', () => {
       }
 
       openPanelForCard(card);
+    };
+
+    const updateSliderControlsState = () => {
+      if (!sliderDotButtons.length) {
+        return;
+      }
+
+      sliderDotButtons.forEach((dotButton, index) => {
+        const isCurrent = serviceCards[index] === sliderFocusCard;
+        dotButton.classList.toggle('is-active', isCurrent);
+        dotButton.setAttribute('aria-current', isCurrent ? 'true' : 'false');
+      });
+
+      const currentIndex = Math.max(0, serviceCards.indexOf(sliderFocusCard));
+
+      if (sliderPrevButton) {
+        sliderPrevButton.disabled = currentIndex <= 0;
+      }
+
+      if (sliderNextButton) {
+        sliderNextButton.disabled = currentIndex >= serviceCards.length - 1;
+      }
+    };
+
+    const setSliderFocusCard = (card, options = {}) => {
+      if (!card || !serviceCards.includes(card)) {
+        return;
+      }
+
+      const shouldSyncDetails = options.syncDetails !== false;
+      sliderFocusCard = card;
+
+      cardColumns.forEach((column, index) => {
+        column.classList.toggle('is-slider-focus', serviceCards[index] === card);
+      });
+
+      updateSliderControlsState();
+
+      if (shouldSyncDetails && detailPanel.classList.contains('is-open') && activeCard && activeCard !== card) {
+        openPanelForCard(card);
+      }
+    };
+
+    const getNearestCardToCenter = () => {
+      const sliderCenter = servicesRow.scrollLeft + (servicesRow.clientWidth / 2);
+      let nearestCard = null;
+      let shortestDistance = Number.POSITIVE_INFINITY;
+
+      cardColumns.forEach((column, index) => {
+        const card = serviceCards[index];
+        if (!column || !card) {
+          return;
+        }
+
+        const columnCenter = column.offsetLeft + (column.offsetWidth / 2);
+        const distance = Math.abs(columnCenter - sliderCenter);
+
+        if (distance < shortestDistance) {
+          shortestDistance = distance;
+          nearestCard = card;
+        }
+      });
+
+      return nearestCard;
+    };
+
+    const centerCardInSlider = (card, behavior = 'smooth') => {
+      const cardIndex = serviceCards.indexOf(card);
+      const column = cardColumns[cardIndex];
+
+      if (cardIndex === -1 || !column) {
+        return;
+      }
+
+      const targetLeft = column.offsetLeft - ((servicesRow.clientWidth - column.offsetWidth) / 2);
+      servicesRow.scrollTo({
+        left: Math.max(0, targetLeft),
+        behavior
+      });
+    };
+
+    const shiftSliderFocus = (direction) => {
+      const currentIndex = Math.max(0, serviceCards.indexOf(sliderFocusCard));
+      const targetIndex = Math.min(serviceCards.length - 1, Math.max(0, currentIndex + direction));
+      const targetCard = serviceCards[targetIndex];
+
+      if (!targetCard) {
+        return;
+      }
+
+      setSliderFocusCard(targetCard);
+      centerCardInSlider(targetCard, 'smooth');
+    };
+
+    const buildSliderUi = () => {
+      if (sliderUi) {
+        return;
+      }
+
+      sliderUi = document.createElement('div');
+      sliderUi.className = 'service-slider-ui';
+      sliderUi.innerHTML = `
+        <button type="button" class="service-slider-nav service-slider-prev" aria-label="Previous service">
+          <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+        </button>
+        <div class="service-slider-dots" aria-label="Service slider pagination"></div>
+        <button type="button" class="service-slider-nav service-slider-next" aria-label="Next service">
+          <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+        </button>
+      `;
+
+      sliderPrevButton = sliderUi.querySelector('.service-slider-prev');
+      sliderNextButton = sliderUi.querySelector('.service-slider-next');
+      sliderDotsTrack = sliderUi.querySelector('.service-slider-dots');
+
+      sliderDotButtons = serviceCards.map((card, index) => {
+        const dotButton = document.createElement('button');
+        dotButton.type = 'button';
+        dotButton.className = 'service-slider-dot';
+
+        const title = card.querySelector('h3')?.textContent?.trim() || `Service ${index + 1}`;
+        dotButton.setAttribute('aria-label', `Go to ${title}`);
+
+        dotButton.addEventListener('click', () => {
+          setSliderFocusCard(card);
+          centerCardInSlider(card, 'smooth');
+        });
+
+        sliderDotsTrack.appendChild(dotButton);
+        return dotButton;
+      });
+
+      sliderPrevButton?.addEventListener('click', () => {
+        shiftSliderFocus(-1);
+      });
+
+      sliderNextButton?.addEventListener('click', () => {
+        shiftSliderFocus(1);
+      });
+
+      servicesRow.insertAdjacentElement('afterend', sliderUi);
+    };
+
+    const applySliderMode = () => {
+      const sliderEnabled = sliderBreakpoint.matches;
+      servicesRow.classList.toggle('service-grid--slider', sliderEnabled);
+
+      buildSliderUi();
+
+      if (sliderUi) {
+        sliderUi.classList.toggle('is-visible', sliderEnabled);
+      }
+
+      if (sliderEnabled) {
+        const focusTarget = activeCard || sliderFocusCard || serviceCards[0];
+        if (focusTarget) {
+          setSliderFocusCard(focusTarget, { syncDetails: false });
+          centerCardInSlider(focusTarget, 'auto');
+        }
+      } else {
+        sliderFocusCard = null;
+        cardColumns.forEach((column) => {
+          column.classList.remove('is-slider-focus');
+        });
+        updateSliderControlsState();
+      }
+
+      if (activeCard && detailPanel.classList.contains('is-open')) {
+        placeDetailPanelAfterRow(activeCard);
+      }
     };
 
     detailColumn.addEventListener('click', (event) => {
@@ -1649,6 +1848,11 @@ document.addEventListener('DOMContentLoaded', () => {
           event.preventDefault();
         }
 
+        if (sliderWasDragged) {
+          sliderWasDragged = false;
+          return;
+        }
+
         if (event.target.closest('a') && !event.target.closest('.card-link')) {
           return;
         }
@@ -1666,7 +1870,75 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     });
 
+    servicesRow.addEventListener(
+      'scroll',
+      () => {
+        if (!isSliderLayout()) {
+          return;
+        }
+
+        if (sliderScrollTicking) {
+          return;
+        }
+
+        sliderScrollTicking = true;
+        window.requestAnimationFrame(() => {
+          sliderScrollTicking = false;
+          const nearestCard = getNearestCardToCenter();
+          if (nearestCard) {
+            setSliderFocusCard(nearestCard);
+          }
+        });
+      },
+      { passive: true }
+    );
+
+    const resetSliderPointerTracking = () => {
+      sliderPointerStartX = null;
+      window.setTimeout(() => {
+        sliderWasDragged = false;
+      }, 0);
+    };
+
+    servicesRow.addEventListener('pointerdown', (event) => {
+      if (!isSliderLayout()) {
+        return;
+      }
+
+      sliderPointerStartX = event.clientX;
+      sliderWasDragged = false;
+    });
+
+    servicesRow.addEventListener('pointermove', (event) => {
+      if (!isSliderLayout() || sliderPointerStartX === null) {
+        return;
+      }
+
+      if (Math.abs(event.clientX - sliderPointerStartX) > 10) {
+        sliderWasDragged = true;
+      }
+    });
+
+    servicesRow.addEventListener('pointerup', resetSliderPointerTracking);
+    servicesRow.addEventListener('pointercancel', resetSliderPointerTracking);
+
+    if (typeof sliderBreakpoint.addEventListener === 'function') {
+      sliderBreakpoint.addEventListener('change', applySliderMode);
+    } else if (typeof sliderBreakpoint.addListener === 'function') {
+      sliderBreakpoint.addListener(applySliderMode);
+    }
+
+    applySliderMode();
+
     window.addEventListener('resize', () => {
+      if (isSliderLayout()) {
+        const focusTarget = activeCard || sliderFocusCard || serviceCards[0];
+        if (focusTarget) {
+          setSliderFocusCard(focusTarget, { syncDetails: false });
+          centerCardInSlider(focusTarget, 'auto');
+        }
+      }
+
       if (!activeCard || !detailPanel.classList.contains('is-open')) {
         return;
       }
