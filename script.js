@@ -23,6 +23,12 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
       header.classList.remove('is-scrolled');
     }
+
+    if (window.scrollY > 84) {
+      header.classList.add('is-compact');
+    } else {
+      header.classList.remove('is-compact');
+    }
   };
 
   updateHeaderShadow();
@@ -1491,6 +1497,28 @@ document.addEventListener('DOMContentLoaded', () => {
         .replaceAll("'", '&#39;');
     };
 
+    const getBadgeVariantClass = (badgeValue) => {
+      const normalizedValue = String(badgeValue ?? '').toLowerCase();
+
+      if (normalizedValue.includes('popular') || normalizedValue.includes('chosen')) {
+        return 'badge-popular';
+      }
+
+      if (normalizedValue.includes('student')) {
+        return 'badge-student';
+      }
+
+      if (normalizedValue.includes('bulk') || normalizedValue.includes('discount')) {
+        return 'badge-bulk';
+      }
+
+      if (normalizedValue.includes('fast')) {
+        return 'badge-fast';
+      }
+
+      return 'badge-default';
+    };
+
     const renderList = (items) => {
       if (!Array.isArray(items) || !items.length) {
         return '<li>Details available on request.</li>';
@@ -1705,6 +1733,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const buildDetailPanelMarkup = (details) => {
       const whatsappHref = buildWhatsAppLink(details.title);
+      const badgeVariantClass = getBadgeVariantClass(details.badge);
       return `
         <div class="service-row-detail-shell">
           <button type="button" class="service-row-close" aria-label="Close service details">
@@ -1718,7 +1747,7 @@ document.addEventListener('DOMContentLoaded', () => {
               <h3>${escapeHtml(details.title)}</h3>
               <p class="service-detail-summary">${escapeHtml(details.explanation)}</p>
               <div class="service-detail-badges">
-                <span class="service-detail-badge tag">${escapeHtml(details.badge)}</span>
+                <span class="service-detail-badge tag ${badgeVariantClass}">${escapeHtml(details.badge)}</span>
                 <span class="service-detail-badge price">${escapeHtml(details.priceTag)}</span>
               </div>
               <h4>Common Uses</h4>
