@@ -2331,10 +2331,10 @@ document.addEventListener('DOMContentLoaded', () => {
   };
 
   const setupImageLoadingSkeletons = () => {
-    const images = document.querySelectorAll('.gallery-item img, .product-card img, .comparison-media img, .hero-image');
+    const images = document.querySelectorAll('.gallery-item img, .product-card img, .hero-image');
 
     images.forEach((image) => {
-      const wrapper = image.closest('.gallery-item, .product-card, .comparison-media, .hero-image-card');
+      const wrapper = image.closest('.gallery-item, .product-card, .hero-image-card');
       if (!wrapper) {
         return;
       }
@@ -2351,33 +2351,6 @@ document.addEventListener('DOMContentLoaded', () => {
         image.addEventListener('load', markLoaded, { once: true });
         image.addEventListener('error', markLoaded, { once: true });
       }
-    });
-  };
-
-  const setupComparisonSliders = () => {
-    const comparisonRoots = Array.from(document.querySelectorAll('[data-comparison-root]'));
-    if (!comparisonRoots.length) {
-      return;
-    }
-
-    comparisonRoots.forEach((comparisonRoot) => {
-      const slider = comparisonRoot.querySelector('.comparison-slider');
-      const beforeWrap = comparisonRoot.querySelector('.comparison-before-wrap');
-      const handle = comparisonRoot.querySelector('.comparison-handle');
-
-      if (!slider || !beforeWrap || !handle) {
-        return;
-      }
-
-      const updateComparison = () => {
-        const sliderValue = Math.min(100, Math.max(0, Number(slider.value) || 50));
-        beforeWrap.style.width = `${sliderValue}%`;
-        handle.style.left = `${sliderValue}%`;
-      };
-
-      updateComparison();
-      slider.addEventListener('input', updateComparison);
-      slider.addEventListener('change', updateComparison);
     });
   };
 
@@ -3005,7 +2978,6 @@ document.addEventListener('DOMContentLoaded', () => {
   setupScrollProgressIndicator();
   setupHeroTypingLine();
   setupImageLoadingSkeletons();
-  setupComparisonSliders();
   setupCounterAnimations();
   setupFaqAccordion();
   setupRippleEffects();
