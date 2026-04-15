@@ -11,7 +11,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=20260415-10">
+  <link rel="stylesheet" href="style.css?v=20260415-11">
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VNFP63J2R"></script>
   <script>
@@ -22,6 +22,7 @@
   </script>
 </head>
 <body>
+  <div class="scroll-progress" id="scrollProgress" aria-hidden="true"></div>
   <a class="skip-link" href="#main-content">Skip to content</a>
   <!-- Sticky header and navigation -->
   <header class="site-header sticky-top">
@@ -118,6 +119,7 @@
                 <span class="eyebrow hero-label">VIRAR’S TRUSTED STATIONERY, PRINTING & XEROX DESTINATION</span>
                 <h1 class="display-5 fw-bold hero-title">Your One-Stop Shop for <span class="hero-accent">Printing</span>, <span class="hero-accent">Xerox</span> & <span class="hero-accent">Stationery</span> in Virar</h1>
                 <p class="hero-subtitle">Serving students, offices and local businesses with fast Xerox, colour printing, lamination, binding, passport photos and stationery essentials.</p>
+                <p class="hero-typing-line" aria-live="polite"><span id="heroTypingText">Fast prints. Reliable service.</span><span class="typing-caret" aria-hidden="true"></span></p>
 
                 <div class="d-flex flex-column flex-sm-row gap-3 mt-4 hero-cta-group">
                   <a class="btn btn-primary btn-lg cta-btn hero-call-btn" href="tel:+917021072757"><i class="fa-solid fa-phone-volume me-2"></i>Call Now</a>
@@ -613,16 +615,61 @@
       </div>
     </section>
 
+    <!-- Print quality comparison section -->
+    <section id="print-comparison" class="section-pad section-alt comparison-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Print Quality Preview</span>
+          <h2>See the finishing difference before you order</h2>
+          <p>Drag the slider to compare a basic output look with our final print quality and finishing standards.</p>
+        </div>
+        <div class="row g-4">
+          <div class="col-12 col-lg-6 reveal">
+            <article class="comparison-card tilt-target">
+              <div class="comparison-media" data-comparison-root>
+                <img class="comparison-after" src="images/Gallery image 4.jpeg" alt="Improved print output preview" loading="lazy" decoding="async">
+                <div class="comparison-before-wrap">
+                  <img class="comparison-before" src="images/Gallery image 4.jpeg" alt="Basic print output preview" loading="lazy" decoding="async">
+                </div>
+                <input class="comparison-slider" type="range" min="0" max="100" value="52" aria-label="Compare before and after print quality">
+                <span class="comparison-handle" aria-hidden="true"></span>
+                <span class="comparison-label is-before">Before</span>
+                <span class="comparison-label is-after">After</span>
+              </div>
+              <h3>Project Print Finishing</h3>
+              <p>Sharper text, cleaner contrast, and better readability for records, submissions, and office paperwork.</p>
+            </article>
+          </div>
+          <div class="col-12 col-lg-6 reveal">
+            <article class="comparison-card tilt-target">
+              <div class="comparison-media" data-comparison-root>
+                <img class="comparison-after" src="images/Gallery image 7.jpeg" alt="High-quality final print sample" loading="lazy" decoding="async">
+                <div class="comparison-before-wrap">
+                  <img class="comparison-before" src="images/Gallery image 7.jpeg" alt="Low-quality print sample" loading="lazy" decoding="async">
+                </div>
+                <input class="comparison-slider" type="range" min="0" max="100" value="46" aria-label="Compare before and after print sample">
+                <span class="comparison-handle" aria-hidden="true"></span>
+                <span class="comparison-label is-before">Before</span>
+                <span class="comparison-label is-after">After</span>
+              </div>
+              <h3>Color Print Accuracy</h3>
+              <p>Balanced tones, better edge clarity, and stronger color output for posters, charts, and presentation prints.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Testimonials section -->
-    <section class="section-pad section-alt">
+    <section id="testimonials" class="section-pad section-alt testimonials-section">
       <div class="container-fluid px-3 px-xl-4">
         <div class="section-heading reveal">
           <span class="section-kicker">Testimonials</span>
           <h2>What customers say</h2>
           <p>These are sample testimonials. Replace them with real customer feedback when you have it.</p>
         </div>
-        <div class="row g-4">
-          <div class="col-12 col-lg-4 reveal">
+        <div class="row g-4 testimonials-track" id="testimonialsTrack">
+          <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
               <div class="stars">★★★★★</div>
               <p>Very quick service and the print quality is excellent. I get my project work done here every time.</p>
@@ -630,7 +677,7 @@
               <span>Student</span>
             </div>
           </div>
-          <div class="col-12 col-lg-4 reveal">
+          <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
               <div class="stars">★★★★★</div>
               <p>Best place for stationery and xerox in the area. Friendly staff and fair pricing.</p>
@@ -638,7 +685,7 @@
               <span>Local Customer</span>
             </div>
           </div>
-          <div class="col-12 col-lg-4 reveal">
+          <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
               <div class="stars">★★★★★</div>
               <p>They handled our office printing and binding efficiently. Smooth experience from start to finish.</p>
@@ -646,6 +693,110 @@
               <span>Office Executive</span>
             </div>
           </div>
+        </div>
+        <div class="testimonial-slider-controls" aria-label="Testimonial navigation">
+          <button type="button" class="testimonial-nav-btn" id="testimonialsPrevBtn" aria-label="Previous testimonial">
+            <i class="fa-solid fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <div class="testimonial-slider-dots" id="testimonialsDots" aria-hidden="true"></div>
+          <button type="button" class="testimonial-nav-btn" id="testimonialsNextBtn" aria-label="Next testimonial">
+            <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- Trust counters section -->
+    <section class="section-pad trust-counter-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Local Trust</span>
+          <h2>Virar’s trusted print partner in numbers</h2>
+          <p>Real local volume, consistent support, and dependable turnaround for students, offices, and families.</p>
+        </div>
+        <div class="row g-3 g-lg-4 trust-counter-grid">
+          <div class="col-6 col-lg-3 reveal">
+            <article class="trust-counter-card tilt-target">
+              <h3><span class="counter-value" data-counter-target="10" data-counter-suffix="+">0</span></h3>
+              <p>Years Serving Virar</p>
+            </article>
+          </div>
+          <div class="col-6 col-lg-3 reveal">
+            <article class="trust-counter-card tilt-target">
+              <h3><span class="counter-value" data-counter-target="200000" data-counter-suffix="+">0</span></h3>
+              <p>Customer Visits</p>
+            </article>
+          </div>
+          <div class="col-6 col-lg-3 reveal">
+            <article class="trust-counter-card tilt-target">
+              <h3><span class="counter-value" data-counter-target="7">0</span></h3>
+              <p>Days Open Every Week</p>
+            </article>
+          </div>
+          <div class="col-6 col-lg-3 reveal">
+            <article class="trust-counter-card tilt-target">
+              <h3><span class="counter-value" data-counter-target="30" data-counter-suffix=" min">0</span></h3>
+              <p>Typical Fast Order Time</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ section -->
+    <section id="faqs" class="section-pad section-alt faq-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">FAQs</span>
+          <h2>Answers to common customer questions</h2>
+          <p>Quick guidance before you visit or place your print order on WhatsApp.</p>
+        </div>
+        <div class="faq-list" id="faqList">
+          <article class="faq-item reveal">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Do you accept urgent same-day print orders?</span>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Yes. Most urgent print and xerox jobs are completed the same day depending on queue and file size.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Can I send files on WhatsApp before coming to the shop?</span>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Absolutely. Share your file and required quantity on WhatsApp, and we will confirm timing and price quickly.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Do you provide student discounts for project prints?</span>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Yes, student-friendly pricing is available for selected services and bulk project printing requests.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Which payment options are available at the shop?</span>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+            <div class="faq-answer">
+              <p>You can pay via UPI, cash, and common digital methods available at local retail counters.</p>
+            </div>
+          </article>
+          <article class="faq-item reveal">
+            <button type="button" class="faq-question" aria-expanded="false">
+              <span>Can offices place recurring monthly print orders?</span>
+              <i class="fa-solid fa-plus" aria-hidden="true"></i>
+            </button>
+            <div class="faq-answer">
+              <p>Yes. Regular office requirements can be planned with priority turnaround and quantity-based rates.</p>
+            </div>
+          </article>
         </div>
       </div>
     </section>
@@ -907,6 +1058,6 @@
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-  <script src="script.js?v=20260415-06"></script>
+  <script src="script.js?v=20260415-07"></script>
 </body>
 </html>

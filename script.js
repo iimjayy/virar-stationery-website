@@ -2171,6 +2171,445 @@ document.addEventListener('DOMContentLoaded', () => {
 
   setupServiceInteractions();
 
+  const setupScrollProgressIndicator = () => {
+    const progressBar = document.getElementById('scrollProgress');
+    if (!progressBar) {
+      return;
+    }
+
+    const updateProgress = () => {
+      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = documentHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / documentHeight)) : 0;
+      progressBar.style.transform = `scaleX(${progress})`;
+    };
+
+    updateProgress();
+    window.addEventListener('scroll', updateProgress, { passive: true });
+    window.addEventListener('resize', updateProgress);
+  };
+
+  const setupHeroTypingLine = () => {
+    const typingTarget = document.getElementById('heroTypingText');
+    if (!typingTarget) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    const phrases = [
+      'Fast prints. Reliable service.',
+      'WhatsApp orders in minutes.',
+      'Trusted by students and offices.'
+    ];
+
+    if (prefersReducedMotion) {
+      typingTarget.textContent = phrases[0];
+      return;
+    }
+
+    let phraseIndex = 0;
+    let characterIndex = 0;
+    let isDeleting = false;
+
+    const tick = () => {
+      const currentPhrase = phrases[phraseIndex];
+
+      if (isDeleting) {
+        characterIndex = Math.max(0, characterIndex - 1);
+      } else {
+        characterIndex = Math.min(currentPhrase.length, characterIndex + 1);
+      }
+
+      typingTarget.textContent = currentPhrase.slice(0, characterIndex);
+
+      let delay = isDeleting ? 34 : 58;
+
+      if (!isDeleting && characterIndex === currentPhrase.length) {
+        delay = 1450;
+        isDeleting = true;
+      } else if (isDeleting && characterIndex === 0) {
+        isDeleting = false;
+        phraseIndex = (phraseIndex + 1) % phrases.length;
+        delay = 360;
+      }
+
+      window.setTimeout(tick, delay);
+    };
+
+    tick();
+  };
+
+  const setupCounterAnimations = () => {
+    const counters = Array.from(document.querySelectorAll('.counter-value[data-counter-target]'));
+    if (!counters.length) {
+      return;
+    }
+
+    const animateCounter = (counterElement) => {
+      if (counterElement.dataset.counterAnimated === 'true') {
+        return;
+      }
+
+      counterElement.dataset.counterAnimated = 'true';
+
+      const targetValue = Number(counterElement.dataset.counterTarget || 0);
+      const suffix = counterElement.dataset.counterSuffix || '';
+      const duration = 1500;
+      const startTime = performance.now();
+
+      const easeOutCubic = (value) => 1 - ((1 - value) ** 3);
+      const formatter = (value) => {
+        if (targetValue >= 1000) {
+          return Math.round(value).toLocaleString('en-IN');
+        }
+        return String(Math.round(value));
+      };
+
+      const step = (now) => {
+        const elapsed = Math.min(1, (now - startTime) / duration);
+        const eased = easeOutCubic(elapsed);
+        const currentValue = targetValue * eased;
+
+        counterElement.textContent = `${formatter(currentValue)}${suffix}`;
+
+        if (elapsed < 1) {
+          window.requestAnimationFrame(step);
+        } else {
+          counterElement.textContent = `${formatter(targetValue)}${suffix}`;
+        }
+      };
+
+      window.requestAnimationFrame(step);
+    };
+
+    if ('IntersectionObserver' in window) {
+      const counterObserver = new IntersectionObserver(
+        (entries) => {
+          entries.forEach((entry) => {
+            if (!entry.isIntersecting) {
+              return;
+            }
+
+            animateCounter(entry.target);
+            counterObserver.unobserve(entry.target);
+          });
+        },
+        {
+          threshold: 0.35,
+          rootMargin: '0px 0px -8% 0px'
+        }
+      );
+
+      counters.forEach((counter) => counterObserver.observe(counter));
+      return;
+    }
+
+    counters.forEach(animateCounter);
+  };
+
+  const setupRippleEffects = () => {
+    const rippleTargets = document.querySelectorAll(
+      '.cta-btn, .service-cta-btn, .map-directions-btn, .action-btn, .mobile-bottom-bar a, .testimonial-nav-btn, .faq-question, .quick-convert-actions a'
+    );
+
+    rippleTargets.forEach((target) => {
+      target.classList.add('ripple-surface');
+
+      target.addEventListener('pointerdown', (event) => {
+        const targetBounds = target.getBoundingClientRect();
+        const ripple = document.createElement('span');
+        ripple.className = 'ripple-dot';
+        ripple.style.left = `${event.clientX - targetBounds.left}px`;
+        ripple.style.top = `${event.clientY - targetBounds.top}px`;
+
+        target.appendChild(ripple);
+
+        ripple.addEventListener('animationend', () => {
+          ripple.remove();
+        });
+      });
+    });
+  };
+
+  const setupImageLoadingSkeletons = () => {
+    const images = document.querySelectorAll('.gallery-item img, .product-card img, .comparison-media img, .hero-image');
+
+    images.forEach((image) => {
+      const wrapper = image.closest('.gallery-item, .product-card, .comparison-media, .hero-image-card');
+      if (!wrapper) {
+        return;
+      }
+
+      wrapper.classList.add('image-skeleton');
+
+      const markLoaded = () => {
+        wrapper.classList.add('is-loaded');
+      };
+
+      if (image.complete && image.naturalWidth > 0) {
+        markLoaded();
+      } else {
+        image.addEventListener('load', markLoaded, { once: true });
+        image.addEventListener('error', markLoaded, { once: true });
+      }
+    });
+  };
+
+  const setupComparisonSliders = () => {
+    const comparisonRoots = Array.from(document.querySelectorAll('[data-comparison-root]'));
+    if (!comparisonRoots.length) {
+      return;
+    }
+
+    comparisonRoots.forEach((comparisonRoot) => {
+      const slider = comparisonRoot.querySelector('.comparison-slider');
+      const beforeWrap = comparisonRoot.querySelector('.comparison-before-wrap');
+      const handle = comparisonRoot.querySelector('.comparison-handle');
+
+      if (!slider || !beforeWrap || !handle) {
+        return;
+      }
+
+      const updateComparison = () => {
+        const sliderValue = Math.min(100, Math.max(0, Number(slider.value) || 50));
+        beforeWrap.style.width = `${sliderValue}%`;
+        handle.style.left = `${sliderValue}%`;
+      };
+
+      updateComparison();
+      slider.addEventListener('input', updateComparison);
+      slider.addEventListener('change', updateComparison);
+    });
+  };
+
+  const setupTestimonialSlider = () => {
+    const track = document.getElementById('testimonialsTrack');
+    const previousButton = document.getElementById('testimonialsPrevBtn');
+    const nextButton = document.getElementById('testimonialsNextBtn');
+    const dotsContainer = document.getElementById('testimonialsDots');
+
+    if (!track || !previousButton || !nextButton || !dotsContainer) {
+      return;
+    }
+
+    const slides = Array.from(track.querySelectorAll('.testimonial-slide'));
+    if (!slides.length) {
+      return;
+    }
+
+    const mobileBreakpoint = window.matchMedia('(max-width: 991px)');
+    let activeIndex = 0;
+    let scrollTicking = false;
+
+    dotsContainer.innerHTML = '';
+    const dotButtons = slides.map((_, index) => {
+      const dotButton = document.createElement('button');
+      dotButton.type = 'button';
+      dotButton.className = 'testimonial-slider-dot';
+      dotButton.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
+
+      dotButton.addEventListener('click', () => {
+        centerSlide(index, 'smooth');
+      });
+
+      dotsContainer.appendChild(dotButton);
+      return dotButton;
+    });
+
+    const setActiveIndex = (index) => {
+      activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+
+      dotButtons.forEach((dotButton, dotIndex) => {
+        dotButton.classList.toggle('is-active', dotIndex === activeIndex);
+      });
+
+      previousButton.disabled = activeIndex === 0;
+      nextButton.disabled = activeIndex === slides.length - 1;
+    };
+
+    const getNearestSlideIndex = () => {
+      const viewportCenter = track.scrollLeft + (track.clientWidth / 2);
+
+      let nearestIndex = 0;
+      let nearestDistance = Number.POSITIVE_INFINITY;
+
+      slides.forEach((slide, index) => {
+        const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
+        const distance = Math.abs(slideCenter - viewportCenter);
+
+        if (distance < nearestDistance) {
+          nearestDistance = distance;
+          nearestIndex = index;
+        }
+      });
+
+      return nearestIndex;
+    };
+
+    const centerSlide = (index, behavior = 'smooth') => {
+      const slide = slides[index];
+      if (!slide) {
+        return;
+      }
+
+      const targetLeft = slide.offsetLeft - ((track.clientWidth - slide.offsetWidth) / 2);
+      track.scrollTo({ left: Math.max(0, targetLeft), behavior });
+      setActiveIndex(index);
+    };
+
+    track.addEventListener(
+      'scroll',
+      () => {
+        if (!mobileBreakpoint.matches || scrollTicking) {
+          return;
+        }
+
+        scrollTicking = true;
+        window.requestAnimationFrame(() => {
+          scrollTicking = false;
+          setActiveIndex(getNearestSlideIndex());
+        });
+      },
+      { passive: true }
+    );
+
+    previousButton.addEventListener('click', () => {
+      centerSlide(activeIndex - 1, 'smooth');
+    });
+
+    nextButton.addEventListener('click', () => {
+      centerSlide(activeIndex + 1, 'smooth');
+    });
+
+    const syncSliderState = () => {
+      if (!mobileBreakpoint.matches) {
+        setActiveIndex(0);
+        return;
+      }
+
+      window.requestAnimationFrame(() => {
+        setActiveIndex(getNearestSlideIndex());
+      });
+    };
+
+    if (typeof mobileBreakpoint.addEventListener === 'function') {
+      mobileBreakpoint.addEventListener('change', syncSliderState);
+    } else if (typeof mobileBreakpoint.addListener === 'function') {
+      mobileBreakpoint.addListener(syncSliderState);
+    }
+
+    syncSliderState();
+  };
+
+  const setupFaqAccordion = () => {
+    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
+    if (!faqItems.length) {
+      return;
+    }
+
+    const setItemState = (item, isOpen) => {
+      const question = item.querySelector('.faq-question');
+      const answer = item.querySelector('.faq-answer');
+
+      if (!question || !answer) {
+        return;
+      }
+
+      item.classList.toggle('is-open', isOpen);
+      question.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+      answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
+    };
+
+    faqItems.forEach((item) => {
+      const question = item.querySelector('.faq-question');
+      if (!question) {
+        return;
+      }
+
+      setItemState(item, false);
+
+      question.addEventListener('click', () => {
+        const shouldOpen = !item.classList.contains('is-open');
+
+        faqItems.forEach((faqItem) => {
+          setItemState(faqItem, faqItem === item ? shouldOpen : false);
+        });
+      });
+    });
+
+    window.addEventListener('resize', () => {
+      faqItems.forEach((item) => {
+        if (!item.classList.contains('is-open')) {
+          return;
+        }
+
+        const answer = item.querySelector('.faq-answer');
+        if (answer) {
+          answer.style.maxHeight = `${answer.scrollHeight}px`;
+        }
+      });
+    });
+  };
+
+  const setupTiltEffects = () => {
+    if (window.matchMedia('(pointer: coarse)').matches) {
+      return;
+    }
+
+    const tiltTargets = document.querySelectorAll('.tilt-target');
+    tiltTargets.forEach((target) => {
+      const resetTilt = () => {
+        target.style.setProperty('--tilt-rotate-x', '0deg');
+        target.style.setProperty('--tilt-rotate-y', '0deg');
+      };
+
+      target.addEventListener('pointermove', (event) => {
+        const bounds = target.getBoundingClientRect();
+        if (!bounds.width || !bounds.height) {
+          return;
+        }
+
+        const relativeX = (event.clientX - bounds.left) / bounds.width;
+        const relativeY = (event.clientY - bounds.top) / bounds.height;
+
+        const rotateY = (relativeX - 0.5) * 8;
+        const rotateX = (0.5 - relativeY) * 7;
+
+        target.style.setProperty('--tilt-rotate-x', `${rotateX.toFixed(2)}deg`);
+        target.style.setProperty('--tilt-rotate-y', `${rotateY.toFixed(2)}deg`);
+      });
+
+      target.addEventListener('pointerleave', resetTilt);
+      target.addEventListener('pointercancel', resetTilt);
+      target.addEventListener('blur', resetTilt);
+    });
+  };
+
+  const setupHeroParallax = () => {
+    const heroSection = document.querySelector('.hero-section');
+    const heroImageTilt = document.querySelector('.hero-image-tilt');
+    if (!heroSection || !heroImageTilt) {
+      return;
+    }
+
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+      heroImageTilt.style.setProperty('--hero-parallax-y', '0px');
+      return;
+    }
+
+    const updateParallax = () => {
+      const heroBounds = heroSection.getBoundingClientRect();
+      const viewportHeight = Math.max(window.innerHeight, 1);
+      const heroCenterOffset = (heroBounds.top + (heroBounds.height / 2)) - (viewportHeight / 2);
+      const normalizedOffset = Math.max(-1, Math.min(1, heroCenterOffset / viewportHeight));
+      const yOffset = normalizedOffset * -10;
+      heroImageTilt.style.setProperty('--hero-parallax-y', `${yOffset.toFixed(2)}px`);
+    };
+
+    updateParallax();
+    window.addEventListener('scroll', updateParallax, { passive: true });
+    window.addEventListener('resize', updateParallax);
+  };
+
   const setupNavigationExperience = () => {
     const navLinks = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
     if (!navLinks.length) {
@@ -2563,6 +3002,16 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  setupScrollProgressIndicator();
+  setupHeroTypingLine();
+  setupImageLoadingSkeletons();
+  setupComparisonSliders();
+  setupCounterAnimations();
+  setupFaqAccordion();
+  setupRippleEffects();
+  setupTestimonialSlider();
+  setupTiltEffects();
+  setupHeroParallax();
   setupNavigationExperience();
   setupMobileNavigationExperience();
   setupDesktopCtaRailVisibility();
