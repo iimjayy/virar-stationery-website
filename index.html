@@ -306,6 +306,164 @@
       </div>
     </section>
 
+    <!-- Instant quote calculator section -->
+    <section id="instant-quote" class="section-pad quote-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Instant Quote</span>
+          <h2>Calculate your print estimate in seconds</h2>
+          <p>Get a quick price estimate before you WhatsApp your files. Final pricing is confirmed at the shop.</p>
+        </div>
+        <div class="row g-4 align-items-stretch">
+          <div class="col-12 col-lg-7 reveal">
+            <form id="quoteCalculator" class="quote-card" autocomplete="off">
+              <div class="quote-step">
+                <div class="quote-step-head">
+                  <span class="quote-step-index">1</span>
+                  <div>
+                    <h3>Select a service</h3>
+                    <p>Pick the service you want to estimate.</p>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12">
+                    <label for="quoteService" class="form-label">Service Type</label>
+                    <select id="quoteService" class="form-select form-select-lg" required>
+                      <option value="" selected>Select service</option>
+                      <option value="bw-print">Black &amp; White Printing</option>
+                      <option value="color-print">Color Printing</option>
+                      <option value="xerox">Xerox / Photocopy</option>
+                      <option value="lamination">Lamination</option>
+                      <option value="binding">Spiral Binding</option>
+                      <option value="passport">Passport Photos</option>
+                      <option value="smart-card">Smart Card</option>
+                      <option value="jumbo-xerox">Jumbo Xerox</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+
+              <div class="quote-step">
+                <div class="quote-step-head">
+                  <span class="quote-step-index">2</span>
+                  <div>
+                    <h3>Choose options</h3>
+                    <p>Size, color, and quantity help us estimate accurately.</p>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-4">
+                    <label for="quoteSize" class="form-label">Paper Size</label>
+                    <select id="quoteSize" class="form-select form-select-lg">
+                      <option value="Standard">Standard</option>
+                      <option value="A4" selected>A4</option>
+                      <option value="A3">A3</option>
+                      <option value="A2">A2</option>
+                      <option value="A1">A1</option>
+                      <option value="A0">A0</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label for="quoteColor" class="form-label">Print Type</label>
+                    <select id="quoteColor" class="form-select form-select-lg">
+                      <option value="bw">Black &amp; White</option>
+                      <option value="color">Color</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-4">
+                    <label for="quoteQty" class="form-label">Quantity</label>
+                    <input id="quoteQty" type="number" min="1" max="5000" value="1" class="form-control form-control-lg">
+                  </div>
+                </div>
+              </div>
+
+              <div class="quote-step">
+                <div class="quote-step-head">
+                  <span class="quote-step-index">3</span>
+                  <div>
+                    <h3>Add finishing services</h3>
+                    <p>Optional add-ons that improve presentation and durability.</p>
+                  </div>
+                </div>
+                <div class="quote-addons">
+                  <label class="quote-addon">
+                    <input type="checkbox" id="quoteAddonLamination">
+                    <span>Lamination</span>
+                  </label>
+                  <label class="quote-addon">
+                    <input type="checkbox" id="quoteAddonBinding">
+                    <span>Spiral Binding</span>
+                  </label>
+                </div>
+                <p class="quote-note">Estimates update instantly. Final pricing depends on paper choice and file details.</p>
+              </div>
+            </form>
+          </div>
+          <div class="col-12 col-lg-5 reveal">
+            <div class="quote-summary-card h-100">
+              <div class="quote-summary-header">
+                <h3>Your Estimate</h3>
+                <span class="quote-summary-badge">Live pricing</span>
+              </div>
+              <div class="quote-summary-grid">
+                <div>
+                  <p class="quote-summary-label">Per Unit</p>
+                  <p class="quote-summary-value" id="quoteUnitCost">Rs 0</p>
+                </div>
+                <div>
+                  <p class="quote-summary-label">Total Cost</p>
+                  <p class="quote-summary-value is-total" id="quoteTotalCost">Rs 0</p>
+                </div>
+              </div>
+              <div class="quote-summary-meta">
+                <span id="quoteSummaryLine">Select a service to calculate pricing.</span>
+              </div>
+              <a href="https://wa.me/917021072757" class="btn btn-primary btn-lg cta-btn quote-cta-btn" id="quoteWhatsAppBtn" target="_blank" rel="noopener noreferrer">
+                <i class="fa-brands fa-whatsapp"></i>
+                Send Quote on WhatsApp
+              </a>
+              <p class="quote-summary-disclaimer">All estimates are indicative and confirmed after file review.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Downloadable guides section -->
+    <section id="downloads" class="section-pad section-alt download-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Downloads</span>
+          <h2>Quick PDF guides for pricing and services</h2>
+          <p>Download the latest price list and service guide to plan your visit or office order.</p>
+        </div>
+        <div class="row g-3 g-lg-4">
+          <div class="col-12 col-md-6 reveal">
+            <div class="download-card h-100">
+              <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+              <h3>Price List PDF</h3>
+              <p>Updated pricing overview for popular printing and xerox services.</p>
+              <button type="button" class="btn btn-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="price-list">
+                <span class="btn-label">Download Price List</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 reveal">
+            <div class="download-card h-100">
+              <div class="download-icon"><i class="fa-solid fa-book-open"></i></div>
+              <h3>Service Guide PDF</h3>
+              <p>Service details, turnaround times, and ordering tips in one file.</p>
+              <button type="button" class="btn btn-outline-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="service-guide">
+                <span class="btn-label">Download Service Guide</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- How it works section -->
     <section class="section-pad how-it-works-section">
       <div class="container-fluid px-3 px-xl-4">
@@ -756,6 +914,141 @@
       </div>
     </section>
 
+    <!-- Bulk / business enquiry section -->
+    <section id="bulk-enquiry" class="section-pad section-alt bulk-enquiry-section">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Bulk / Business Enquiry</span>
+          <h2>Priority support for offices, schools, and large orders</h2>
+          <p>Share your requirements, attach files, and get a fast response with tailored pricing.</p>
+        </div>
+        <div class="row g-4 align-items-stretch">
+          <div class="col-12 col-lg-5 reveal">
+            <div class="bulk-enquiry-card h-100">
+              <h3>Made for high-volume needs</h3>
+              <p>Get priority turnaround and business-friendly pricing for repeat orders.</p>
+              <ul class="bulk-benefits">
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>Dedicated response for bulk printing</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>Custom bundles for schools and offices</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>File review and delivery guidance</li>
+                <li><i class="fa-solid fa-circle-check" aria-hidden="true"></i>Support for recurring monthly orders</li>
+              </ul>
+              <div class="bulk-contact-strip">
+                <span>Need urgent help?</span>
+                <a href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  WhatsApp now
+                </a>
+              </div>
+            </div>
+          </div>
+          <div class="col-12 col-lg-7 reveal">
+            <form id="bulkEnquiryForm" class="bulk-form-card">
+              <div class="bulk-step">
+                <div class="bulk-step-head">
+                  <span class="bulk-step-index">1</span>
+                  <div>
+                    <h3>Business details</h3>
+                    <p>Tell us who is placing the order.</p>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label for="bulkName" class="form-label">Name</label>
+                    <input type="text" id="bulkName" class="form-control form-control-lg" autocomplete="name" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="bulkBusiness" class="form-label">Business / Organization</label>
+                    <input type="text" id="bulkBusiness" class="form-control form-control-lg" autocomplete="organization" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="bulkPhone" class="form-label">Phone</label>
+                    <input type="tel" id="bulkPhone" class="form-control form-control-lg" autocomplete="tel" required>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="bulkEmail" class="form-label">Email (Optional)</label>
+                    <input type="email" id="bulkEmail" class="form-control form-control-lg" autocomplete="email">
+                  </div>
+                </div>
+              </div>
+
+              <div class="bulk-step">
+                <div class="bulk-step-head">
+                  <span class="bulk-step-index">2</span>
+                  <div>
+                    <h3>Order requirements</h3>
+                    <p>Share service type and quantity details.</p>
+                  </div>
+                </div>
+                <div class="row g-3">
+                  <div class="col-12 col-md-6">
+                    <label for="bulkService" class="form-label">Service Required</label>
+                    <select id="bulkService" class="form-select form-select-lg" required>
+                      <option value="" selected>Select a service</option>
+                      <option>Black & White Printing</option>
+                      <option>Color Printing</option>
+                      <option>Xerox / Photocopy</option>
+                      <option>Lamination</option>
+                      <option>Spiral Binding</option>
+                      <option>Passport Photos</option>
+                      <option>Project Printing</option>
+                      <option>Stationery Products</option>
+                      <option>Letterhead / Visiting Card</option>
+                      <option>Billbook Print</option>
+                      <option>Smart Card</option>
+                      <option>Jumbo Xerox</option>
+                    </select>
+                  </div>
+                  <div class="col-12 col-md-6">
+                    <label for="bulkQuantity" class="form-label">Quantity</label>
+                    <input type="number" id="bulkQuantity" class="form-control form-control-lg" min="1" max="10000" placeholder="e.g. 250" required>
+                  </div>
+                  <div class="col-12">
+                    <label for="bulkDescription" class="form-label">Description</label>
+                    <textarea id="bulkDescription" class="form-control form-control-lg" rows="4" placeholder="Paper size, color, deadline, delivery notes" required></textarea>
+                  </div>
+                </div>
+              </div>
+
+              <div class="bulk-step">
+                <div class="bulk-step-head">
+                  <span class="bulk-step-index">3</span>
+                  <div>
+                    <h3>Upload files (optional)</h3>
+                    <p>Drag & drop files to speed up the quote.</p>
+                  </div>
+                </div>
+                <div class="bulk-upload" id="bulkUpload">
+                  <input type="file" id="bulkFile" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png" aria-label="Upload files for bulk enquiry">
+                  <div class="bulk-upload-content">
+                    <i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i>
+                    <div>
+                      <strong>Drag &amp; drop your file here</strong>
+                      <span>PDF, DOC, JPG up to 10MB</span>
+                    </div>
+                    <button type="button" class="btn btn-outline-primary btn-sm">Browse file</button>
+                  </div>
+                  <div class="bulk-file-preview" id="bulkFilePreview" aria-live="polite"></div>
+                </div>
+              </div>
+
+              <div class="bulk-form-actions">
+                <button type="submit" class="btn btn-primary btn-lg cta-btn bulk-submit-btn">
+                  <i class="fa-solid fa-paper-plane"></i>
+                  Submit Business Enquiry
+                </button>
+                <a class="btn btn-outline-primary btn-lg cta-btn secondary" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
+                  <i class="fa-brands fa-whatsapp"></i>
+                  WhatsApp Direct
+                </a>
+              </div>
+              <div class="bulk-form-status" id="bulkFormStatus" role="status" aria-live="polite"></div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
     <!-- Contact section -->
     <section id="contact" class="section-pad contact-section">
       <div class="container-fluid px-3 px-xl-4">
@@ -771,10 +1064,20 @@
               <ul class="contact-list">
                 <li class="contact-row contact-address-row">
                   <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                  <span class="contact-text-group">
-                    <span class="contact-label">Address</span>
-                    <span class="contact-detail">Shop No. 11, Takshashila Apartment<br>Near Old Viva College<br>Virar West, Mumbai &ndash; 401303</span>
-                  </span>
+                  <button
+                    type="button"
+                    class="contact-copy-card"
+                    data-copy-address
+                    data-copy-text="Shop No. 11, Takshashila Apartment, Near Old Viva College, Virar West, Mumbai - 401303"
+                    aria-label="Copy shop address">
+                    <span class="contact-text-group">
+                      <span class="contact-label">Address</span>
+                      <span class="contact-detail">Shop No. 11, Takshashila Apartment<br>Near Old Viva College<br>Virar West, Mumbai &ndash; 401303</span>
+                    </span>
+                    <span class="contact-copy-icon" aria-hidden="true">
+                      <i class="fa-regular fa-copy"></i>
+                    </span>
+                  </button>
                 </li>
                 <li class="contact-row contact-clickable-row">
                   <i class="fa-solid fa-phone" aria-hidden="true"></i>
@@ -1010,6 +1313,58 @@
     <button type="button" class="gallery-lightbox-nav is-next" aria-label="Next image">
       <i class="fa-solid fa-chevron-right" aria-hidden="true"></i>
     </button>
+  </div>
+
+  <a
+    id="stickyWhatsAppBtn"
+    class="sticky-whatsapp-btn"
+    href="https://wa.me/917021072757"
+    data-whatsapp-message="Hi! I want to place a print order. Please share details."
+    aria-label="Chat with us on WhatsApp"
+    target="_blank"
+    rel="noopener noreferrer">
+    <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    <span class="sticky-whatsapp-tooltip">Chat with us</span>
+  </a>
+
+  <div class="chat-widget" id="chatWidget" aria-live="polite">
+    <button
+      type="button"
+      class="chat-fab"
+      id="chatFab"
+      aria-controls="chatPanel"
+      aria-expanded="false"
+      aria-label="Open live chat">
+      <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+    </button>
+    <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Quick chat" aria-hidden="true" tabindex="-1">
+      <div class="chat-panel-header">
+        <div>
+          <h4>Virar Stationery</h4>
+          <p>Quick help in seconds</p>
+        </div>
+        <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">
+          <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+      </div>
+      <div class="chat-panel-body" id="chatMessages" aria-live="polite">
+        <div class="chat-message is-agent">
+          <p>Hi! How can we help you today?</p>
+          <span>Try a quick option below.</span>
+        </div>
+      </div>
+      <div class="chat-panel-footer">
+        <div class="chat-quick-replies">
+          <button type="button" class="chat-quick-btn" data-quick-reply="Send files">Send files</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="Check price">Check price</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="Location">Location</button>
+        </div>
+        <a class="chat-whatsapp-btn" data-chat-whatsapp href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp"></i>
+          Continue on WhatsApp
+        </a>
+      </div>
+    </div>
   </div>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>

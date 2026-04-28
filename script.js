@@ -128,6 +128,53 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     const emailAddress = href.replace(/^mailto:/i, '').split('?')[0].trim();
+
+      const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
+
+      const buildWhatsAppUrl = (phoneNumber, enquiryMessage) => {
+        const safePhone = normalizePhoneNumber(phoneNumber);
+        const encodedMessage = encodeURIComponent(enquiryMessage || '');
+
+        if (isMobileDevice) {
+          return `https://wa.me/${safePhone}?text=${encodedMessage}`;
+        }
+
+        return `https://api.whatsapp.com/send?phone=${safePhone}&text=${encodedMessage}`;
+      };
+
+      const buildMailtoUrl = (emailAddress, subject, body) => {
+        const encodedSubject = encodeURIComponent(subject || '');
+        const encodedBody = encodeURIComponent(body || '');
+        return `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
+      };
+
+      const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
+        if (isMobileDevice) {
+          const currentLocation = window.location.href;
+          window.location.assign(whatsAppUrl);
+
+          window.setTimeout(() => {
+            if (window.location.href === currentLocation) {
+              window.location.assign(mailtoUrl);
+            }
+          }, 1400);
+
+          return true;
+        }
+
+        try {
+          const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
+          if (popup) {
+            popup.opener = null;
+            return true;
+          }
+        } catch {
+          // Ignore and continue to fallback.
+        }
+
+        window.location.assign(mailtoUrl);
+        return false;
+      };
     return emailAddress || defaultEmail;
   };
 
@@ -180,7 +227,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
     const businessEmail = resolveBusinessEmail();
     const enquirySubject = 'New Website Enquiry - Virar Stationery & Jumbo Xerox';
-    const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
 
     const setSubmitLoading = (isLoading) => {
       if (!submitButton) {
@@ -207,7 +253,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       requiredFields.forEach((field) => {
         const rawValue = String(field.value ?? '');
-        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+        let hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (field.type === 'number') {
+          const numericValue = Number(rawValue);
+          hasValue = Number.isFinite(numericValue) && numericValue > 0;
+        }
 
         field.classList.toggle('is-invalid', !hasValue);
         field.setAttribute('aria-invalid', hasValue ? 'false' : 'true');
@@ -229,7 +280,12 @@ document.addEventListener('DOMContentLoaded', () => {
     requiredFields.forEach((field) => {
       const clearErrorState = () => {
         const rawValue = String(field.value ?? '');
-        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+        let hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (field.type === 'number') {
+          const numericValue = Number(rawValue);
+          hasValue = Number.isFinite(numericValue) && numericValue > 0;
+        }
 
         if (hasValue) {
           field.classList.remove('is-invalid');
@@ -255,49 +311,6 @@ document.addEventListener('DOMContentLoaded', () => {
       ].join('\n');
     };
 
-    const buildWhatsAppUrl = (enquiryMessage) => {
-      const encodedMessage = encodeURIComponent(enquiryMessage);
-
-      if (isMobileDevice) {
-        return `https://wa.me/${businessWhatsAppNumber}?text=${encodedMessage}`;
-      }
-
-      return `https://api.whatsapp.com/send?phone=${businessWhatsAppNumber}&text=${encodedMessage}`;
-    };
-
-    const buildMailtoUrl = (enquiryMessage) => {
-      const encodedSubject = encodeURIComponent(enquirySubject);
-      const encodedBody = encodeURIComponent(enquiryMessage);
-      return `mailto:${businessEmail}?subject=${encodedSubject}&body=${encodedBody}`;
-    };
-
-    const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
-      if (isMobileDevice) {
-        const currentLocation = window.location.href;
-        window.location.assign(whatsAppUrl);
-
-        window.setTimeout(() => {
-          if (window.location.href === currentLocation) {
-            window.location.assign(mailtoUrl);
-          }
-        }, 1400);
-
-        return true;
-      }
-
-      try {
-        const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
-        if (popup) {
-          popup.opener = null;
-          return true;
-        }
-      } catch {
-        // Ignore and continue to fallback.
-      }
-
-      window.location.assign(mailtoUrl);
-      return false;
-    };
 
     contactForm.addEventListener('submit', (event) => {
       event.preventDefault();
@@ -310,8 +323,8 @@ document.addEventListener('DOMContentLoaded', () => {
       showEnquiryToast('Opening WhatsApp...', { duration: 1800 });
 
       const enquiryMessage = buildEnquiryMessage();
-      const whatsAppUrl = buildWhatsAppUrl(enquiryMessage);
-      const mailtoUrl = buildMailtoUrl(enquiryMessage);
+      const whatsAppUrl = buildWhatsAppUrl(businessWhatsAppNumber, enquiryMessage);
+      const mailtoUrl = buildMailtoUrl(businessEmail, enquirySubject, enquiryMessage);
 
       window.setTimeout(() => {
         const openedWhatsApp = openEnquiryChannel(whatsAppUrl, mailtoUrl);
@@ -2337,7 +2350,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   const setupRippleEffects = () => {
     const rippleTargets = document.querySelectorAll(
-      '.cta-btn, .service-cta-btn, .map-directions-btn, .action-btn, .mobile-bottom-bar a, .testimonial-nav-btn, .faq-question, .quick-convert-actions a'
+      '.cta-btn, .service-cta-btn, .map-directions-btn, .action-btn, .mobile-bottom-bar a, .testimonial-nav-btn, .faq-question, .quick-convert-actions a, .pdf-download-btn, .bulk-submit-btn, .chat-fab, .chat-quick-btn, .quote-cta-btn'
     );
 
     rippleTargets.forEach((target) => {
@@ -3004,6 +3017,917 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   };
 
+  const setupAddressCopy = () => {
+    const copyTarget = document.querySelector('[data-copy-address]');
+    if (!copyTarget) {
+      return;
+    }
+
+    const rawText = copyTarget.dataset.copyText || copyTarget.textContent || '';
+    const copyText = rawText.replace(/\s+/g, ' ').trim();
+
+    const fallbackCopy = (value) => {
+      const textarea = document.createElement('textarea');
+      textarea.value = value;
+      textarea.setAttribute('readonly', '');
+      textarea.style.position = 'absolute';
+      textarea.style.left = '-9999px';
+      document.body.appendChild(textarea);
+      textarea.select();
+
+      let copied = false;
+      try {
+        copied = document.execCommand('copy');
+      } catch {
+        copied = false;
+      }
+
+      document.body.removeChild(textarea);
+      return copied;
+    };
+
+    const runCopyAnimation = () => {
+      copyTarget.classList.add('is-copied');
+      window.setTimeout(() => {
+        copyTarget.classList.remove('is-copied');
+      }, 700);
+    };
+
+    const handleCopy = async () => {
+      if (!copyText) {
+        showEnquiryToast('Address unavailable. Please copy manually.', { isError: true, duration: 2400 });
+        return;
+      }
+
+      let copied = false;
+
+      if (navigator.clipboard && window.isSecureContext) {
+        try {
+          await navigator.clipboard.writeText(copyText);
+          copied = true;
+        } catch {
+          copied = false;
+        }
+      }
+
+      if (!copied) {
+        copied = fallbackCopy(copyText);
+      }
+
+      runCopyAnimation();
+      showEnquiryToast(copied ? 'Address copied' : 'Unable to copy. Please copy manually.', {
+        isError: !copied,
+        duration: copied ? 1800 : 2400
+      });
+    };
+
+    copyTarget.addEventListener('click', (event) => {
+      event.preventDefault();
+      handleCopy();
+    });
+  };
+
+  const setupStickyWhatsAppButton = () => {
+    const stickyButton = document.getElementById('stickyWhatsAppBtn');
+    const heroSection = document.getElementById('home') || document.querySelector('.hero-section');
+
+    if (!stickyButton || !heroSection) {
+      return;
+    }
+
+    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    const message = stickyButton.dataset.whatsappMessage || 'Hi! I want to place a print order.';
+
+    const updateLink = () => {
+      stickyButton.href = buildWhatsAppUrl(businessWhatsAppNumber, message);
+    };
+
+    updateLink();
+
+    const revealOffset = 80;
+    let isVisible = false;
+    let visibilityTicking = false;
+
+    const applyVisibility = (shouldShow) => {
+      if (shouldShow === isVisible) {
+        return;
+      }
+
+      isVisible = shouldShow;
+      stickyButton.classList.toggle('is-visible', shouldShow);
+      stickyButton.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
+    };
+
+    const updateVisibility = () => {
+      const heroBottom = heroSection.getBoundingClientRect().bottom;
+      applyVisibility(heroBottom <= revealOffset);
+    };
+
+    const queueVisibilityUpdate = () => {
+      if (visibilityTicking) {
+        return;
+      }
+
+      visibilityTicking = true;
+      window.requestAnimationFrame(() => {
+        visibilityTicking = false;
+        updateVisibility();
+      });
+    };
+
+    updateVisibility();
+
+    if ('IntersectionObserver' in window) {
+      const heroObserver = new IntersectionObserver(
+        () => {
+          queueVisibilityUpdate();
+        },
+        { threshold: [0, 0.2, 0.5, 1], rootMargin: '-60px 0px 0px 0px' }
+      );
+      heroObserver.observe(heroSection);
+    }
+
+    window.addEventListener('scroll', queueVisibilityUpdate, { passive: true });
+    window.addEventListener('resize', queueVisibilityUpdate);
+  };
+
+  const setupBulkEnquiryForm = () => {
+    const bulkForm = document.getElementById('bulkEnquiryForm');
+    if (!bulkForm) {
+      return;
+    }
+
+    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    const businessEmail = resolveBusinessEmail();
+    const bulkSubject = 'Bulk / Business Enquiry - Virar Stationery & Jumbo Xerox';
+
+    const submitButton = bulkForm.querySelector('.bulk-submit-btn');
+    const statusLabel = bulkForm.querySelector('#bulkFormStatus');
+    const uploadZone = bulkForm.querySelector('#bulkUpload');
+    const fileInput = bulkForm.querySelector('#bulkFile');
+    const filePreview = bulkForm.querySelector('#bulkFilePreview');
+
+    const requiredFields = [
+      bulkForm.querySelector('#bulkName'),
+      bulkForm.querySelector('#bulkBusiness'),
+      bulkForm.querySelector('#bulkPhone'),
+      bulkForm.querySelector('#bulkService'),
+      bulkForm.querySelector('#bulkQuantity'),
+      bulkForm.querySelector('#bulkDescription')
+    ].filter(Boolean);
+
+    let selectedFile = null;
+    let previewUrl = null;
+
+    const setStatus = (message, options = {}) => {
+      if (!statusLabel) {
+        return;
+      }
+
+      statusLabel.textContent = message;
+      statusLabel.classList.toggle('is-error', options.isError === true);
+    };
+
+    const setSubmitLoading = (isLoading) => {
+      if (!submitButton) {
+        return;
+      }
+
+      if (!submitButton.dataset.originalHtml) {
+        submitButton.dataset.originalHtml = submitButton.innerHTML;
+      }
+
+      submitButton.disabled = isLoading;
+      submitButton.classList.toggle('is-loading', isLoading);
+      submitButton.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+
+      if (isLoading) {
+        submitButton.innerHTML = '<span class="btn-spinner" aria-hidden="true"></span><span>Sending...</span>';
+      } else {
+        submitButton.innerHTML = submitButton.dataset.originalHtml;
+      }
+    };
+
+    const formatFileSize = (size) => {
+      if (!size || Number.isNaN(size)) {
+        return '';
+      }
+
+      if (size < 1024) {
+        return `${size} B`;
+      }
+
+      if (size < 1024 * 1024) {
+        return `${(size / 1024).toFixed(1)} KB`;
+      }
+
+      return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+    };
+
+    const renderFilePreview = () => {
+      if (!filePreview) {
+        return;
+      }
+
+      filePreview.innerHTML = '';
+
+      if (!selectedFile) {
+        return;
+      }
+
+      const isImage = selectedFile.type.startsWith('image/');
+      const fileCard = document.createElement('div');
+      fileCard.className = 'bulk-file-card';
+
+      const thumb = document.createElement('div');
+      thumb.className = 'bulk-file-thumb';
+
+      if (isImage) {
+        previewUrl = URL.createObjectURL(selectedFile);
+        const img = document.createElement('img');
+        img.src = previewUrl;
+        img.alt = 'Uploaded preview';
+        thumb.appendChild(img);
+      } else {
+        thumb.innerHTML = '<i class="fa-solid fa-file-lines" aria-hidden="true"></i>';
+      }
+
+      const info = document.createElement('div');
+      info.className = 'bulk-file-info';
+      info.innerHTML = `
+        <h4>${selectedFile.name}</h4>
+        <p>${formatFileSize(selectedFile.size)} file ready for review</p>
+      `;
+
+      fileCard.appendChild(thumb);
+      fileCard.appendChild(info);
+      filePreview.appendChild(fileCard);
+    };
+
+    const clearFilePreview = () => {
+      if (previewUrl) {
+        URL.revokeObjectURL(previewUrl);
+        previewUrl = null;
+      }
+
+      selectedFile = null;
+
+      if (fileInput) {
+        fileInput.value = '';
+      }
+
+      if (filePreview) {
+        filePreview.innerHTML = '';
+      }
+    };
+
+    const validateFile = (file) => {
+      if (!file) {
+        return true;
+      }
+
+      const allowedTypes = [
+        'application/pdf',
+        'application/msword',
+        'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        'image/jpeg',
+        'image/png'
+      ];
+
+      const maxSize = 10 * 1024 * 1024;
+
+      if (file.size > maxSize) {
+        setStatus('File too large. Please upload files under 10MB.', { isError: true });
+        return false;
+      }
+
+      if (file.type && !allowedTypes.includes(file.type)) {
+        setStatus('Unsupported file type. Upload PDF, DOC, or JPG files.', { isError: true });
+        return false;
+      }
+
+      return true;
+    };
+
+    const handleFileSelection = (file) => {
+      clearFilePreview();
+
+      if (!file) {
+        return;
+      }
+
+      if (!validateFile(file)) {
+        return;
+      }
+
+      selectedFile = file;
+      renderFilePreview();
+      setStatus('File attached. We will review it shortly.', { isError: false });
+    };
+
+    if (uploadZone && fileInput) {
+      uploadZone.addEventListener('click', () => {
+        fileInput.click();
+      });
+
+      fileInput.addEventListener('change', (event) => {
+        const file = event.target.files?.[0];
+        handleFileSelection(file);
+      });
+
+      uploadZone.addEventListener('dragover', (event) => {
+        event.preventDefault();
+        uploadZone.classList.add('is-dragover');
+      });
+
+      uploadZone.addEventListener('dragleave', () => {
+        uploadZone.classList.remove('is-dragover');
+      });
+
+      uploadZone.addEventListener('drop', (event) => {
+        event.preventDefault();
+        uploadZone.classList.remove('is-dragover');
+
+        const file = event.dataTransfer?.files?.[0];
+        if (!file) {
+          return;
+        }
+
+        if (fileInput) {
+          const dataTransfer = new DataTransfer();
+          dataTransfer.items.add(file);
+          fileInput.files = dataTransfer.files;
+        }
+
+        handleFileSelection(file);
+      });
+    }
+
+    const validateRequiredFields = () => {
+      let firstInvalidField = null;
+
+      requiredFields.forEach((field) => {
+        const rawValue = String(field.value ?? '');
+        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        field.classList.toggle('is-invalid', !hasValue);
+        field.setAttribute('aria-invalid', hasValue ? 'false' : 'true');
+
+        if (!hasValue && !firstInvalidField) {
+          firstInvalidField = field;
+        }
+      });
+
+      if (firstInvalidField) {
+        firstInvalidField.focus();
+        setStatus('Please complete all required fields.', { isError: true });
+        showEnquiryToast('Please complete all required fields.', { isError: true, duration: 2300 });
+        return false;
+      }
+
+      return true;
+    };
+
+    requiredFields.forEach((field) => {
+      const clearErrorState = () => {
+        const rawValue = String(field.value ?? '');
+        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (hasValue) {
+          field.classList.remove('is-invalid');
+          field.setAttribute('aria-invalid', 'false');
+        }
+      };
+
+      field.addEventListener('input', clearErrorState);
+      field.addEventListener('change', clearErrorState);
+    });
+
+    const buildBulkMessage = () => {
+      const name = String(bulkForm.querySelector('#bulkName')?.value ?? '').trim();
+      const business = String(bulkForm.querySelector('#bulkBusiness')?.value ?? '').trim();
+      const phone = String(bulkForm.querySelector('#bulkPhone')?.value ?? '').trim();
+      const email = String(bulkForm.querySelector('#bulkEmail')?.value ?? '').trim();
+      const service = String(bulkForm.querySelector('#bulkService')?.value ?? '').trim();
+      const quantity = String(bulkForm.querySelector('#bulkQuantity')?.value ?? '').trim();
+      const description = String(bulkForm.querySelector('#bulkDescription')?.value ?? '').trim();
+
+      const fileLine = selectedFile
+        ? `File: ${selectedFile.name} (${formatFileSize(selectedFile.size)}) - please confirm best way to share.`
+        : 'File: Not attached';
+
+      return [
+        'Bulk / Business Enquiry',
+        '',
+        `Name: ${name}`,
+        `Business: ${business}`,
+        `Phone: ${phone}`,
+        `Email: ${email || 'N/A'}`,
+        `Service: ${service}`,
+        `Quantity: ${quantity}`,
+        `Notes: ${description}`,
+        fileLine
+      ].join('\n');
+    };
+
+    bulkForm.addEventListener('submit', (event) => {
+      event.preventDefault();
+
+      if (!validateRequiredFields()) {
+        return;
+      }
+
+      setSubmitLoading(true);
+      setStatus('Opening WhatsApp for your business enquiry...', { isError: false });
+
+      const enquiryMessage = buildBulkMessage();
+      const whatsAppUrl = buildWhatsAppUrl(businessWhatsAppNumber, enquiryMessage);
+      const mailtoUrl = buildMailtoUrl(businessEmail, bulkSubject, enquiryMessage);
+
+      window.setTimeout(() => {
+        const opened = openEnquiryChannel(whatsAppUrl, mailtoUrl);
+        setSubmitLoading(false);
+
+        if (opened) {
+          bulkForm.reset();
+          clearFilePreview();
+          requiredFields.forEach((field) => {
+            field.classList.remove('is-invalid');
+            field.setAttribute('aria-invalid', 'false');
+          });
+          setStatus('WhatsApp opened. Please send your enquiry.', { isError: false });
+          showEnquiryToast('WhatsApp opened for your bulk enquiry.', { duration: 2200 });
+        } else {
+          setStatus('WhatsApp unavailable. Opening email fallback...', { isError: true });
+          showEnquiryToast('WhatsApp unavailable. Opening email fallback...', { isError: true, duration: 2800 });
+        }
+      }, 450);
+    });
+  };
+
+  const setupPdfDownloads = () => {
+    const downloadButtons = Array.from(document.querySelectorAll('.pdf-download-btn'));
+    if (!downloadButtons.length) {
+      return;
+    }
+
+    const pdfTemplates = {
+      'price-list': {
+        filename: 'virar-price-list.pdf',
+        title: 'Virar Stationery & Jumbo Xerox',
+        subtitle: 'Price List (Indicative)',
+        lines: [
+          'Xerox / Photocopy: Rs 1.5 per side',
+          'Color Printout: Rs 10 per side',
+          'Lamination: Rs 10 per sheet',
+          'Spiral Binding: Rs 30 per set',
+          'Passport Photos: Rs 30 per set',
+          'Smart Card: Rs 80 per card'
+        ]
+      },
+      'service-guide': {
+        filename: 'virar-service-guide.pdf',
+        title: 'Virar Stationery & Jumbo Xerox',
+        subtitle: 'Service Guide',
+        lines: [
+          'Services: Printing, Xerox, Lamination, Binding, Passport Photos',
+          'Turnaround: Same-day for most orders',
+          'WhatsApp orders: Send files and quantity for quick quotes',
+          'Location: Near Old Viva College, Virar West',
+          'Hours: 8:00 AM - 9:00 PM (7 days)'
+        ]
+      }
+    };
+
+    let jsPdfPromise = null;
+
+    const loadJsPdf = () => {
+      if (window.jspdf?.jsPDF) {
+        return Promise.resolve(window.jspdf);
+      }
+
+      if (jsPdfPromise) {
+        return jsPdfPromise;
+      }
+
+      jsPdfPromise = new Promise((resolve, reject) => {
+        const script = document.createElement('script');
+        script.src = 'https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js';
+        script.async = true;
+        script.onload = () => resolve(window.jspdf);
+        script.onerror = () => reject(new Error('jsPDF failed to load'));
+        document.head.appendChild(script);
+      });
+
+      return jsPdfPromise;
+    };
+
+    const setButtonLoading = (button, isLoading) => {
+      button.classList.toggle('is-loading', isLoading);
+      button.disabled = isLoading;
+    };
+
+    const buildPdf = (template) => {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+      const marginX = 48;
+      let cursorY = 64;
+
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(18);
+      doc.text(template.title, marginX, cursorY);
+
+      cursorY += 24;
+      doc.setFont('helvetica', 'normal');
+      doc.setFontSize(12);
+      doc.text(template.subtitle, marginX, cursorY);
+
+      cursorY += 24;
+      doc.setFontSize(11);
+      template.lines.forEach((line) => {
+        doc.text(line, marginX, cursorY);
+        cursorY += 18;
+      });
+
+      cursorY += 10;
+      doc.setFontSize(9);
+      doc.setTextColor(90);
+      doc.text('Note: Prices are indicative. Final quote is confirmed on WhatsApp.', marginX, cursorY);
+
+      doc.save(template.filename);
+    };
+
+    downloadButtons.forEach((button) => {
+      button.addEventListener('click', async (event) => {
+        event.preventDefault();
+
+        const template = pdfTemplates[button.dataset.pdfType];
+        if (!template) {
+          return;
+        }
+
+        setButtonLoading(button, true);
+        showEnquiryToast('Preparing your PDF download...', { duration: 1600 });
+
+        try {
+          await loadJsPdf();
+          buildPdf(template);
+          showEnquiryToast('Download started.', { duration: 1800 });
+        } catch {
+          showEnquiryToast('Unable to download now. Please try again.', { isError: true, duration: 2400 });
+        } finally {
+          window.setTimeout(() => {
+            setButtonLoading(button, false);
+          }, 300);
+        }
+      });
+    });
+  };
+
+  const setupChatWidget = () => {
+    const chatWidget = document.getElementById('chatWidget');
+    const chatFab = document.getElementById('chatFab');
+    const chatPanel = document.getElementById('chatPanel');
+    const chatClose = document.getElementById('chatClose');
+    const chatMessages = document.getElementById('chatMessages');
+    const quickButtons = Array.from(chatPanel?.querySelectorAll('[data-quick-reply]') || []);
+    const whatsappLink = chatPanel?.querySelector('[data-chat-whatsapp]');
+
+    if (!chatWidget || !chatFab || !chatPanel || !chatClose || !chatMessages) {
+      return;
+    }
+
+    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    const defaultMessage = 'Hi! I need help with printing.';
+
+    const syncWhatsAppLink = (message) => {
+      if (!whatsappLink) {
+        return;
+      }
+
+      whatsappLink.href = buildWhatsAppUrl(businessWhatsAppNumber, message || defaultMessage);
+    };
+
+    const toggleChat = (shouldOpen) => {
+      chatWidget.classList.toggle('is-open', shouldOpen);
+      chatPanel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+      chatFab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+
+      if (shouldOpen) {
+        syncWhatsAppLink(defaultMessage);
+        window.setTimeout(() => {
+          chatPanel.focus();
+        }, 0);
+      }
+    };
+
+    const appendMessage = (text, type = 'user') => {
+      const message = document.createElement('div');
+      message.className = `chat-message is-${type}`;
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      message.appendChild(paragraph);
+      chatMessages.appendChild(message);
+      chatMessages.scrollTop = chatMessages.scrollHeight;
+    };
+
+    const quickReplies = {
+      'Send files': 'Great! Please send your files on WhatsApp so we can confirm details quickly.',
+      'Check price': 'Share quantity, size, and color preferences for a fast price estimate.',
+      Location: 'We are near Old Viva College, Virar West. Tap WhatsApp for directions.'
+    };
+
+    chatFab.addEventListener('click', () => {
+      toggleChat(!chatWidget.classList.contains('is-open'));
+    });
+
+    chatClose.addEventListener('click', () => {
+      toggleChat(false);
+    });
+
+    quickButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const reply = button.dataset.quickReply || '';
+        appendMessage(reply, 'user');
+
+        const response = quickReplies[reply] || 'We are here to help. Share your request on WhatsApp.';
+        window.setTimeout(() => {
+          appendMessage(response, 'agent');
+        }, 260);
+
+        syncWhatsAppLink(`Chat request: ${reply}. Please assist.`);
+      });
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && chatWidget.classList.contains('is-open')) {
+        toggleChat(false);
+      }
+    });
+  };
+
+  const setupQuoteCalculator = () => {
+    const quoteForm = document.getElementById('quoteCalculator');
+    if (!quoteForm) {
+      return;
+    }
+
+    const serviceSelect = quoteForm.querySelector('#quoteService');
+    const sizeSelect = quoteForm.querySelector('#quoteSize');
+    const colorSelect = quoteForm.querySelector('#quoteColor');
+    const quantityInput = quoteForm.querySelector('#quoteQty');
+    const laminationAddon = quoteForm.querySelector('#quoteAddonLamination');
+    const bindingAddon = quoteForm.querySelector('#quoteAddonBinding');
+    const unitCostEl = document.getElementById('quoteUnitCost');
+    const totalCostEl = document.getElementById('quoteTotalCost');
+    const summaryLine = document.getElementById('quoteSummaryLine');
+    const whatsappBtn = document.getElementById('quoteWhatsAppBtn');
+
+    if (!serviceSelect || !sizeSelect || !colorSelect || !quantityInput || !unitCostEl || !totalCostEl || !summaryLine || !whatsappBtn) {
+      return;
+    }
+
+    const pricingConfig = {
+      'bw-print': {
+        label: 'Black & White Printing',
+        sizes: ['A4', 'A3'],
+        colors: ['bw'],
+        rates: { A4: { bw: 3 }, A3: { bw: 6 } },
+        unit: 'page',
+        addons: ['lamination', 'binding']
+      },
+      'color-print': {
+        label: 'Color Printing',
+        sizes: ['A4', 'A3'],
+        colors: ['color'],
+        rates: { A4: { color: 10 }, A3: { color: 20 } },
+        unit: 'page',
+        addons: ['lamination', 'binding']
+      },
+      xerox: {
+        label: 'Xerox / Photocopy',
+        sizes: ['A4', 'A3'],
+        colors: ['bw', 'color'],
+        rates: { A4: { bw: 1.5, color: 9 }, A3: { bw: 3, color: 18 } },
+        unit: 'page',
+        addons: ['binding']
+      },
+      lamination: {
+        label: 'Lamination',
+        sizes: ['A4', 'A3', 'A2'],
+        colors: ['bw'],
+        rates: { A4: { bw: 10 }, A3: { bw: 20 }, A2: { bw: 35 } },
+        unit: 'sheet',
+        addons: []
+      },
+      binding: {
+        label: 'Spiral Binding',
+        sizes: ['Standard'],
+        colors: ['bw'],
+        rates: { Standard: { bw: 30 } },
+        unit: 'set',
+        addons: []
+      },
+      passport: {
+        label: 'Passport Photos',
+        sizes: ['Standard'],
+        colors: ['color'],
+        rates: { Standard: { color: 30 } },
+        unit: 'set',
+        addons: []
+      },
+      'smart-card': {
+        label: 'Smart Card',
+        sizes: ['Standard'],
+        colors: ['color'],
+        rates: { Standard: { color: 80 } },
+        unit: 'card',
+        addons: []
+      },
+      'jumbo-xerox': {
+        label: 'Jumbo Xerox',
+        sizes: ['A2', 'A1', 'A0'],
+        colors: ['bw'],
+        rates: { A2: { bw: 30 }, A1: { bw: 55 }, A0: { bw: 80 } },
+        unit: 'sheet',
+        addons: []
+      }
+    };
+
+    const addonRates = {
+      lamination: { A4: 10, A3: 20, A2: 35, A1: 55, A0: 80 },
+      binding: 30
+    };
+
+    const formatCurrency = (value) => {
+      if (!Number.isFinite(value)) {
+        return 'Rs 0';
+      }
+
+      const formatted = Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1);
+      return `Rs ${formatted}`;
+    };
+
+    const syncOptions = (service) => {
+      const sizes = service.sizes || [];
+      const colors = service.colors || [];
+
+      Array.from(sizeSelect.options).forEach((option) => {
+        const isAllowed = sizes.includes(option.value) || (option.value === 'A4' && sizes.length === 0);
+        option.disabled = !isAllowed;
+        option.hidden = !isAllowed;
+      });
+
+      if (!sizes.includes(sizeSelect.value)) {
+        sizeSelect.value = sizes[0] || 'A4';
+      }
+
+      Array.from(colorSelect.options).forEach((option) => {
+        const isAllowed = colors.includes(option.value);
+        option.disabled = !isAllowed;
+        option.hidden = !isAllowed;
+      });
+
+      if (!colors.includes(colorSelect.value)) {
+        colorSelect.value = colors[0] || 'bw';
+      }
+
+      sizeSelect.disabled = sizes.length <= 1;
+      colorSelect.disabled = colors.length <= 1;
+
+      const allowLamination = service.addons.includes('lamination');
+      const allowBinding = service.addons.includes('binding');
+
+      laminationAddon.disabled = !allowLamination;
+      bindingAddon.disabled = !allowBinding;
+
+      if (!allowLamination) {
+        laminationAddon.checked = false;
+      }
+
+      if (!allowBinding) {
+        bindingAddon.checked = false;
+      }
+    };
+
+    const calculateQuote = () => {
+      const serviceKey = serviceSelect.value;
+      const service = pricingConfig[serviceKey];
+
+      if (!service) {
+        unitCostEl.textContent = 'Rs 0';
+        totalCostEl.textContent = 'Rs 0';
+        summaryLine.textContent = 'Select a service to calculate pricing.';
+        whatsappBtn.href = buildWhatsAppUrl(resolveBusinessWhatsAppNumber(), 'Hi! I need a print quote.');
+        return;
+      }
+
+      syncOptions(service);
+
+      const size = sizeSelect.value;
+      const color = colorSelect.value;
+      const quantity = Math.max(1, Number(quantityInput.value || 1));
+      if (quantityInput.value !== String(quantity)) {
+        quantityInput.value = quantity;
+      }
+      const baseRate = service.rates?.[size]?.[color] ?? service.rates?.[size]?.bw ?? 0;
+
+      const laminationRate = laminationAddon.checked
+        ? (addonRates.lamination[size] || addonRates.lamination.A4)
+        : 0;
+      const bindingRate = bindingAddon.checked ? addonRates.binding : 0;
+
+      const perUnit = baseRate + laminationRate + bindingRate;
+      const total = perUnit * quantity;
+
+      unitCostEl.textContent = formatCurrency(perUnit);
+      totalCostEl.textContent = formatCurrency(total);
+
+      const detailLine = `${service.label} | ${size} | ${color === 'bw' ? 'B&W' : 'Color'} | Qty ${quantity}`;
+      summaryLine.textContent = detailLine;
+
+      const message = [
+        'Instant Quote Request',
+        `Service: ${service.label}`,
+        `Size: ${size}`,
+        `Type: ${color === 'bw' ? 'Black & White' : 'Color'}`,
+        `Quantity: ${quantity}`,
+        laminationAddon.checked ? 'Add-on: Lamination' : null,
+        bindingAddon.checked ? 'Add-on: Spiral Binding' : null,
+        `Estimated Total: ${formatCurrency(total)}`
+      ].filter(Boolean).join('\n');
+
+      whatsappBtn.href = buildWhatsAppUrl(resolveBusinessWhatsAppNumber(), message);
+    };
+
+    serviceSelect.addEventListener('change', calculateQuote);
+    sizeSelect.addEventListener('change', calculateQuote);
+    colorSelect.addEventListener('change', calculateQuote);
+    quantityInput.addEventListener('input', calculateQuote);
+    laminationAddon.addEventListener('change', calculateQuote);
+    bindingAddon.addEventListener('change', calculateQuote);
+
+    calculateQuote();
+  };
+
+  const setupServiceAvailability = () => {
+    const serviceCards = Array.from(document.querySelectorAll('.service-card'));
+    if (!serviceCards.length) {
+      return;
+    }
+
+    const statusMap = {
+      available: { label: 'Available Now', className: 'is-available' },
+      busy: { label: 'Busy - Slight Delay', className: 'is-busy' },
+      limited: { label: 'High Demand', className: 'is-limited' }
+    };
+
+    const getTimeStatus = () => {
+      const now = new Date();
+      const minutes = now.getHours() * 60 + now.getMinutes();
+      const openMinutes = 8 * 60;
+      const closeMinutes = 21 * 60;
+
+      if (minutes < openMinutes || minutes >= closeMinutes) {
+        return 'limited';
+      }
+
+      if ((minutes >= 11 * 60 && minutes <= 14 * 60) || (minutes >= 18 * 60 && minutes <= 20 * 60)) {
+        return 'busy';
+      }
+
+      return 'available';
+    };
+
+    const applyStatus = () => {
+      const baseStatus = getTimeStatus();
+
+      serviceCards.forEach((card) => {
+        const statusKey = card.dataset.availability || 'auto';
+        const resolvedStatus = statusKey === 'auto' ? baseStatus : statusKey;
+        const statusInfo = statusMap[resolvedStatus] || statusMap.available;
+
+        let badge = card.querySelector('.service-status-badge');
+        if (!badge) {
+          badge = document.createElement('span');
+          badge.className = 'service-status-badge';
+          badge.innerHTML = '<span class="service-status-dot" aria-hidden="true"></span><span class="service-status-text"></span>';
+          card.insertAdjacentElement('afterbegin', badge);
+        }
+
+        badge.classList.remove('is-available', 'is-busy', 'is-limited');
+        badge.classList.add(statusInfo.className);
+        const textEl = badge.querySelector('.service-status-text');
+        if (textEl) {
+          textEl.textContent = statusInfo.label;
+        }
+      });
+    };
+
+    applyStatus();
+    window.setInterval(applyStatus, 20 * 60 * 1000);
+  };
+
   setupScrollProgressIndicator();
   setupHeroTypingLine();
   setupImageLoadingSkeletons();
@@ -3018,4 +3942,11 @@ document.addEventListener('DOMContentLoaded', () => {
   setupDesktopCtaRailVisibility();
   setupBackToTop();
   setupGalleryLightbox();
+  setupAddressCopy();
+  setupStickyWhatsAppButton();
+  setupBulkEnquiryForm();
+  setupPdfDownloads();
+  setupChatWidget();
+  setupQuoteCalculator();
+  setupServiceAvailability();
 });
