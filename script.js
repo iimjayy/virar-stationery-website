@@ -3368,7 +3368,12 @@ document.addEventListener('DOMContentLoaded', () => {
 
       requiredFields.forEach((field) => {
         const rawValue = String(field.value ?? '');
-        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+        let hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (field.type === 'number') {
+          const numericValue = Number(rawValue);
+          hasValue = Number.isFinite(numericValue) && numericValue > 0;
+        }
 
         field.classList.toggle('is-invalid', !hasValue);
         field.setAttribute('aria-invalid', hasValue ? 'false' : 'true');
@@ -3391,7 +3396,12 @@ document.addEventListener('DOMContentLoaded', () => {
     requiredFields.forEach((field) => {
       const clearErrorState = () => {
         const rawValue = String(field.value ?? '');
-        const hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+        let hasValue = field.tagName === 'SELECT' ? rawValue !== '' : rawValue.trim() !== '';
+
+        if (field.type === 'number') {
+          const numericValue = Number(rawValue);
+          hasValue = Number.isFinite(numericValue) && numericValue > 0;
+        }
 
         if (hasValue) {
           field.classList.remove('is-invalid');
