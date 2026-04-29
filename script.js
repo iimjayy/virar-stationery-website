@@ -4091,6 +4091,19 @@ runAfterReady(() => {
       limited: { label: 'High Demand', className: 'is-limited' }
     };
 
+    const limitedServices = new Set([
+      'Jumbo Xerox',
+      'Smart Card',
+      'Visiting Card',
+      'Project Printing'
+    ]);
+
+    const busyServices = new Set([
+      'Color Printing',
+      'Xerox / Photocopy',
+      'Spiral Binding'
+    ]);
+
     const getTimeStatus = () => {
       const now = new Date();
       const minutes = now.getHours() * 60 + now.getMinutes();
@@ -4112,8 +4125,19 @@ runAfterReady(() => {
       const baseStatus = getTimeStatus();
 
       serviceCards.forEach((card) => {
-        const statusKey = card.dataset.availability || 'auto';
-        const resolvedStatus = statusKey === 'auto' ? baseStatus : statusKey;
+        const title = card.querySelector('h3')?.textContent?.trim() || '';
+        let resolvedStatus = card.dataset.availability || 'auto';
+
+        if (resolvedStatus === 'auto') {
+          if (limitedServices.has(title)) {
+            resolvedStatus = 'limited';
+          } else if (busyServices.has(title)) {
+            resolvedStatus = 'busy';
+          } else {
+            resolvedStatus = baseStatus;
+          }
+        }
+
         const statusInfo = statusMap[resolvedStatus] || statusMap.available;
 
         let badge = card.querySelector('.service-status-badge');
