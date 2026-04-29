@@ -1,6 +1,14 @@
 // Replace placeholder phone numbers, WhatsApp links, addresses, and images with real business details before deployment.
 
-document.addEventListener('DOMContentLoaded', () => {
+const runAfterReady = (callback) => {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', callback);
+  } else {
+    callback();
+  }
+};
+
+runAfterReady(() => {
   const revealElements = document.querySelectorAll('.reveal');
   const observer = new IntersectionObserver(
     (entries) => {
@@ -215,6 +223,42 @@ document.addEventListener('DOMContentLoaded', () => {
       enquiryToast.classList.remove('is-visible');
     }, duration);
   };
+
+  const initDiagnostics = { hasError: false };
+
+  const reportInitError = (error) => {
+    if (initDiagnostics.hasError) {
+      return;
+    }
+
+    initDiagnostics.hasError = true;
+    console.error('Interactive features failed to load:', error);
+    showEnquiryToast('Some interactive features failed. Refresh the page.', {
+      isError: true,
+      duration: 2800
+    });
+  };
+
+  const safeRun = (label, callback) => {
+    try {
+      callback();
+    } catch (error) {
+      reportInitError(error);
+      console.error(`Init step failed: ${label}`, error);
+    }
+  };
+
+  window.addEventListener('error', (event) => {
+    if (event?.error) {
+      reportInitError(event.error);
+    }
+  });
+
+  window.addEventListener('unhandledrejection', (event) => {
+    if (event?.reason) {
+      reportInitError(event.reason);
+    }
+  });
 
   if (contactForm) {
     const submitButton = contactForm.querySelector('button[type="submit"]');
@@ -3938,25 +3982,25 @@ document.addEventListener('DOMContentLoaded', () => {
     window.setInterval(applyStatus, 20 * 60 * 1000);
   };
 
-  setupScrollProgressIndicator();
-  setupHeroTypingLine();
-  setupImageLoadingSkeletons();
-  setupCounterAnimations();
-  setupFaqAccordion();
-  setupRippleEffects();
-  setupTestimonialSlider();
-  setupTiltEffects();
-  setupHeroParallax();
-  setupNavigationExperience();
-  setupMobileNavigationExperience();
-  setupDesktopCtaRailVisibility();
-  setupBackToTop();
-  setupGalleryLightbox();
-  setupAddressCopy();
-  setupStickyWhatsAppButton();
-  setupBulkEnquiryForm();
-  setupPdfDownloads();
-  setupChatWidget();
-  setupQuoteCalculator();
-  setupServiceAvailability();
+  safeRun('scroll-progress', setupScrollProgressIndicator);
+  safeRun('hero-typing', setupHeroTypingLine);
+  safeRun('image-skeletons', setupImageLoadingSkeletons);
+  safeRun('counters', setupCounterAnimations);
+  safeRun('faq', setupFaqAccordion);
+  safeRun('ripples', setupRippleEffects);
+  safeRun('testimonial-slider', setupTestimonialSlider);
+  safeRun('tilt-effects', setupTiltEffects);
+  safeRun('hero-parallax', setupHeroParallax);
+  safeRun('navigation', setupNavigationExperience);
+  safeRun('mobile-navigation', setupMobileNavigationExperience);
+  safeRun('desktop-cta-rail', setupDesktopCtaRailVisibility);
+  safeRun('back-to-top', setupBackToTop);
+  safeRun('gallery-lightbox', setupGalleryLightbox);
+  safeRun('address-copy', setupAddressCopy);
+  safeRun('sticky-whatsapp', setupStickyWhatsAppButton);
+  safeRun('bulk-enquiry', setupBulkEnquiryForm);
+  safeRun('pdf-downloads', setupPdfDownloads);
+  safeRun('chat-widget', setupChatWidget);
+  safeRun('quote-calculator', setupQuoteCalculator);
+  safeRun('service-availability', setupServiceAvailability);
 });
