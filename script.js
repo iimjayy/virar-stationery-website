@@ -136,54 +136,54 @@ runAfterReady(() => {
     }
 
     const emailAddress = href.replace(/^mailto:/i, '').split('?')[0].trim();
-
-      const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
-
-      const buildWhatsAppUrl = (phoneNumber, enquiryMessage) => {
-        const safePhone = normalizePhoneNumber(phoneNumber);
-        const encodedMessage = encodeURIComponent(enquiryMessage || '');
-
-        if (isMobileDevice) {
-          return `https://wa.me/${safePhone}?text=${encodedMessage}`;
-        }
-
-        return `https://api.whatsapp.com/send?phone=${safePhone}&text=${encodedMessage}`;
-      };
-
-      const buildMailtoUrl = (emailAddress, subject, body) => {
-        const encodedSubject = encodeURIComponent(subject || '');
-        const encodedBody = encodeURIComponent(body || '');
-        return `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
-      };
-
-      const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
-        if (isMobileDevice) {
-          const currentLocation = window.location.href;
-          window.location.assign(whatsAppUrl);
-
-          window.setTimeout(() => {
-            if (window.location.href === currentLocation) {
-              window.location.assign(mailtoUrl);
-            }
-          }, 1400);
-
-          return true;
-        }
-
-        try {
-          const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
-          if (popup) {
-            popup.opener = null;
-            return true;
-          }
-        } catch {
-          // Ignore and continue to fallback.
-        }
-
-        window.location.assign(mailtoUrl);
-        return false;
-      };
     return emailAddress || defaultEmail;
+  };
+
+  const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
+
+  const buildWhatsAppUrl = (phoneNumber, enquiryMessage) => {
+    const safePhone = normalizePhoneNumber(phoneNumber);
+    const encodedMessage = encodeURIComponent(enquiryMessage || '');
+
+    if (isMobileDevice) {
+      return `https://wa.me/${safePhone}?text=${encodedMessage}`;
+    }
+
+    return `https://api.whatsapp.com/send?phone=${safePhone}&text=${encodedMessage}`;
+  };
+
+  const buildMailtoUrl = (emailAddress, subject, body) => {
+    const encodedSubject = encodeURIComponent(subject || '');
+    const encodedBody = encodeURIComponent(body || '');
+    return `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
+  };
+
+  const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
+    if (isMobileDevice) {
+      const currentLocation = window.location.href;
+      window.location.assign(whatsAppUrl);
+
+      window.setTimeout(() => {
+        if (window.location.href === currentLocation) {
+          window.location.assign(mailtoUrl);
+        }
+      }, 1400);
+
+      return true;
+    }
+
+    try {
+      const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
+      if (popup) {
+        popup.opener = null;
+        return true;
+      }
+    } catch {
+      // Ignore and continue to fallback.
+    }
+
+    window.location.assign(mailtoUrl);
+    return false;
   };
 
   const ensureEnquiryToast = () => {
@@ -3210,6 +3210,8 @@ runAfterReady(() => {
     const uploadZone = bulkForm.querySelector('#bulkUpload');
     const fileInput = bulkForm.querySelector('#bulkFile');
     const filePreview = bulkForm.querySelector('#bulkFilePreview');
+    const shareButton = bulkForm.querySelector('#bulkShareBtn');
+    const browseButton = uploadZone?.querySelector('button');
 
     const requiredFields = [
       bulkForm.querySelector('#bulkName'),
@@ -3306,6 +3308,10 @@ runAfterReady(() => {
       fileCard.appendChild(thumb);
       fileCard.appendChild(info);
       filePreview.appendChild(fileCard);
+
+      if (shareButton) {
+        shareButton.disabled = false;
+      }
     };
 
     const clearFilePreview = () => {
@@ -3322,6 +3328,10 @@ runAfterReady(() => {
 
       if (filePreview) {
         filePreview.innerHTML = '';
+      }
+
+      if (shareButton) {
+        shareButton.disabled = true;
       }
     };
 
@@ -3374,6 +3384,14 @@ runAfterReady(() => {
         fileInput.click();
       });
 
+      if (browseButton) {
+        browseButton.addEventListener('click', (event) => {
+          event.preventDefault();
+          event.stopPropagation();
+          fileInput.click();
+        });
+      }
+
       fileInput.addEventListener('change', (event) => {
         const file = event.target.files?.[0];
         handleFileSelection(file);
@@ -3397,13 +3415,43 @@ runAfterReady(() => {
           return;
         }
 
-        if (fileInput) {
+        if (fileInput && typeof DataTransfer !== 'undefined') {
           const dataTransfer = new DataTransfer();
           dataTransfer.items.add(file);
           fileInput.files = dataTransfer.files;
         }
 
         handleFileSelection(file);
+      });
+    }
+
+    if (shareButton) {
+      shareButton.addEventListener('click', async () => {
+        if (!selectedFile) {
+          setStatus('Please select a file to share first.', { isError: true });
+          return;
+        }
+
+        const shareMessage = `Bulk enquiry file: ${selectedFile.name}`;
+
+        if (navigator.share && navigator.canShare?.({ files: [selectedFile] })) {
+          try {
+            await navigator.share({
+              files: [selectedFile],
+              title: 'Virar Stationery Bulk Enquiry',
+              text: shareMessage
+            });
+            setStatus('Share sheet opened. Please choose WhatsApp.', { isError: false });
+            return;
+          } catch {
+            // Continue to WhatsApp fallback.
+          }
+        }
+
+        const fallbackMessage = `${shareMessage}. Please confirm the best way to send this file.`;
+        const whatsAppUrl = buildWhatsAppUrl(businessWhatsAppNumber, fallbackMessage);
+        window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
+        setStatus('WhatsApp opened. Attach the file manually if needed.', { isError: false });
       });
     }
 
@@ -3530,25 +3578,92 @@ runAfterReady(() => {
         filename: 'virar-price-list.pdf',
         title: 'Virar Stationery & Jumbo Xerox',
         subtitle: 'Price List (Indicative)',
-        lines: [
-          'Xerox / Photocopy: Rs 1.5 per side',
-          'Color Printout: Rs 10 per side',
-          'Lamination: Rs 10 per sheet',
-          'Spiral Binding: Rs 30 per set',
-          'Passport Photos: Rs 30 per set',
-          'Smart Card: Rs 80 per card'
+        meta: [
+          'Updated: April 2026',
+          'Location: Near Old Viva College, Virar West',
+          'WhatsApp: +91 70210 72757'
+        ],
+        sections: [
+          {
+            title: 'Printing & Xerox',
+            items: [
+              'Xerox / Photocopy (A4): Rs 1.5 per side',
+              'Black & White Print (A4): Rs 3 per side',
+              'Color Print (A4): Rs 10 per side',
+              'Color Print (A3): Rs 20 per side'
+            ]
+          },
+          {
+            title: 'Finishing & Binding',
+            items: [
+              'Lamination (A4): Rs 10 per sheet',
+              'Lamination (A3): Rs 20 per sheet',
+              'Spiral Binding: Rs 30 per set',
+              'Project Binding (bulk): Price on request'
+            ]
+          },
+          {
+            title: 'Photo & Cards',
+            items: [
+              'Passport Photos: Rs 30 per set',
+              'Smart Card: Rs 80 per card',
+              'Visiting Card (100 pcs): From Rs 150'
+            ]
+          },
+          {
+            title: 'Large Format',
+            items: [
+              'Jumbo Xerox (A2/A1/A0): Price on request',
+              'Plotting and drawings: Price on request'
+            ]
+          }
+        ],
+        footerLines: [
+          'Bulk orders and student discounts available on selected services.',
+          'Final pricing depends on paper type, file quality, and finishing options.'
         ]
       },
       'service-guide': {
         filename: 'virar-service-guide.pdf',
         title: 'Virar Stationery & Jumbo Xerox',
         subtitle: 'Service Guide',
-        lines: [
-          'Services: Printing, Xerox, Lamination, Binding, Passport Photos',
-          'Turnaround: Same-day for most orders',
-          'WhatsApp orders: Send files and quantity for quick quotes',
-          'Location: Near Old Viva College, Virar West',
-          'Hours: 8:00 AM - 9:00 PM (7 days)'
+        meta: [
+          'Updated: April 2026',
+          'WhatsApp: +91 70210 72757',
+          'Open: 8:00 AM - 9:00 PM (7 days)'
+        ],
+        sections: [
+          {
+            title: 'Core Services',
+            items: [
+              'Black & White Printing (A4/A3)',
+              'Color Printing (A4/A3)',
+              'Xerox / Photocopy (bulk available)',
+              'Lamination and document protection'
+            ]
+          },
+          {
+            title: 'Project & Office Work',
+            items: [
+              'Spiral Binding and project files',
+              'Letterhead, visiting cards, and billbooks',
+              'Smart cards and ID cards',
+              'Large format printing (A2/A1/A0)'
+            ]
+          },
+          {
+            title: 'How to Order on WhatsApp',
+            items: [
+              'Send your file and quantity',
+              'Mention paper size and color preference',
+              'Share any deadline or pickup time',
+              'We confirm price and readiness time'
+            ]
+          }
+        ],
+        footerLines: [
+          'Bulk orders and student discounts available on selected services.',
+          'Final pricing depends on paper type, quantity, and finishing options.'
         ]
       }
     };
@@ -3586,6 +3701,7 @@ runAfterReady(() => {
       const doc = new jsPDF({ unit: 'pt', format: 'a4' });
       const marginX = 48;
       let cursorY = 64;
+      const maxWidth = 520;
 
       doc.setFont('helvetica', 'bold');
       doc.setFontSize(18);
@@ -3596,17 +3712,56 @@ runAfterReady(() => {
       doc.setFontSize(12);
       doc.text(template.subtitle, marginX, cursorY);
 
-      cursorY += 24;
-      doc.setFontSize(11);
-      template.lines.forEach((line) => {
-        doc.text(line, marginX, cursorY);
+      if (Array.isArray(template.meta)) {
         cursorY += 18;
-      });
+        doc.setFontSize(10);
+        doc.setTextColor(90);
+        template.meta.forEach((line) => {
+          doc.text(line, marginX, cursorY);
+          cursorY += 14;
+        });
+      }
 
-      cursorY += 10;
-      doc.setFontSize(9);
-      doc.setTextColor(90);
-      doc.text('Note: Prices are indicative. Final quote is confirmed on WhatsApp.', marginX, cursorY);
+      cursorY += 12;
+      doc.setDrawColor(230);
+      doc.line(marginX, cursorY, marginX + maxWidth, cursorY);
+      cursorY += 18;
+
+      doc.setTextColor(20);
+      doc.setFontSize(11);
+
+      if (Array.isArray(template.sections)) {
+        template.sections.forEach((section) => {
+          doc.setFont('helvetica', 'bold');
+          doc.text(section.title, marginX, cursorY);
+          cursorY += 16;
+
+          doc.setFont('helvetica', 'normal');
+          (section.items || []).forEach((item) => {
+            const wrapped = doc.splitTextToSize(`- ${item}`, maxWidth);
+            doc.text(wrapped, marginX, cursorY);
+            cursorY += 14 * wrapped.length;
+          });
+
+          cursorY += 8;
+        });
+      } else {
+        template.lines.forEach((line) => {
+          doc.text(line, marginX, cursorY);
+          cursorY += 18;
+        });
+      }
+
+      if (Array.isArray(template.footerLines)) {
+        cursorY += 6;
+        doc.setTextColor(90);
+        doc.setFontSize(9);
+        template.footerLines.forEach((line) => {
+          const wrapped = doc.splitTextToSize(line, maxWidth);
+          doc.text(wrapped, marginX, cursorY);
+          cursorY += 12 * wrapped.length;
+        });
+      }
 
       doc.save(template.filename);
     };

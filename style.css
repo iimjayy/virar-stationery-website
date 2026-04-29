@@ -7803,6 +7803,30 @@ main > section + section::before {
   gap: 10px;
 }
 
+.bulk-upload-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.bulk-share-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.bulk-share-btn:disabled {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
+.bulk-upload-note {
+  font-size: 0.78rem;
+  color: var(--muted);
+}
+
 .bulk-file-card {
   display: flex;
   align-items: center;
