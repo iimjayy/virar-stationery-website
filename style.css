@@ -7923,6 +7923,10 @@ main > section + section::before {
   z-index: 1050;
 }
 
+.sticky-whatsapp-btn {
+  display: none;
+}
+
 .sticky-whatsapp-btn::after {
   content: '';
   position: absolute;
@@ -7984,7 +7988,7 @@ main > section + section::before {
 .chat-widget {
   position: fixed;
   right: 18px;
-  bottom: 86px;
+  bottom: 152px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -8177,7 +8181,7 @@ main > section + section::before {
   }
 
   .chat-widget {
-    bottom: calc(132px + env(safe-area-inset-bottom));
+    bottom: calc(206px + env(safe-area-inset-bottom));
     right: 14px;
   }
 }
