@@ -7992,6 +7992,13 @@ main > section + section::before {
   z-index: 1048;
 }
 
+@media (min-width: 992px) {
+  .chat-widget,
+  .sticky-whatsapp-btn {
+    right: 92px;
+  }
+}
+
 .chat-fab {
   width: 56px;
   height: 56px;
