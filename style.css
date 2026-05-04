@@ -8217,6 +8217,13 @@ main > section + section::before {
   }
 }
 
+@media (max-width: 768px) {
+  .sticky-whatsapp-btn,
+  .chat-widget {
+    display: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .service-status-dot,
   .sticky-whatsapp-btn::after,
