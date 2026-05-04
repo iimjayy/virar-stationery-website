@@ -7996,20 +7996,6 @@ main > section + section::before {
   z-index: 1048;
 }
 
-.chat-fab-label {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  padding: 6px 12px;
-  border-radius: 999px;
-  background: rgba(8, 30, 67, 0.92);
-  color: #ffffff;
-  font-size: 0.74rem;
-  font-weight: 600;
-  letter-spacing: 0.01em;
-  box-shadow: 0 10px 18px rgba(11, 42, 91, 0.22);
-}
-
 @media (min-width: 992px) {
   .chat-widget,
   .sticky-whatsapp-btn {
@@ -8197,10 +8183,6 @@ main > section + section::before {
   .chat-widget {
     bottom: calc(206px + env(safe-area-inset-bottom));
     right: 14px;
-  }
-
-  .chat-fab-label {
-    display: none;
   }
 }
 
