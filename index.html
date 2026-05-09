@@ -1287,20 +1287,74 @@
     </div>
   </footer>
 
-  <aside class="desktop-cta-rail d-none d-md-flex" aria-label="Desktop quick actions">
-    <a class="desktop-cta-chip is-wa" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer" aria-label="Quick WhatsApp quote">
+  <div class="floating-actions" aria-label="Floating action buttons">
+    <aside class="desktop-cta-rail d-none d-md-flex" aria-label="Desktop quick actions">
+      <a class="desktop-cta-chip is-wa" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer" aria-label="Quick WhatsApp quote">
+        <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+        <span>WhatsApp</span>
+      </a>
+      <a class="desktop-cta-chip is-call" href="tel:+917021072757" aria-label="Quick call">
+        <i class="fa-solid fa-phone" aria-hidden="true"></i>
+        <span>Call</span>
+      </a>
+      <a class="desktop-cta-chip is-map" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer" aria-label="Quick directions">
+        <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+        <span>Directions</span>
+      </a>
+    </aside>
+
+    <a
+      id="stickyWhatsAppBtn"
+      class="sticky-whatsapp-btn"
+      href="https://wa.me/917021072757"
+      data-whatsapp-message="Hi! I want to place a print order. Please share details."
+      aria-label="Chat with us on WhatsApp"
+      target="_blank"
+      rel="noopener noreferrer">
       <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-      <span>WhatsApp</span>
+      <span class="sticky-whatsapp-tooltip">Chat with us</span>
     </a>
-    <a class="desktop-cta-chip is-call" href="tel:+917021072757" aria-label="Quick call">
-      <i class="fa-solid fa-phone" aria-hidden="true"></i>
-      <span>Call</span>
-    </a>
-    <a class="desktop-cta-chip is-map" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer" aria-label="Quick directions">
-      <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-      <span>Directions</span>
-    </a>
-  </aside>
+
+    <div class="chat-widget" id="chatWidget" aria-live="polite">
+      <button
+        type="button"
+        class="chat-fab"
+        id="chatFab"
+        aria-controls="chatPanel"
+        aria-expanded="false"
+        aria-label="Open live chat">
+        <i class="fa-solid fa-comment-dots" aria-hidden="true"></i>
+      </button>
+      <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Quick chat" aria-hidden="true" tabindex="-1">
+        <div class="chat-panel-header">
+          <div>
+            <h4>Virar Stationery</h4>
+            <p>Quick help in seconds</p>
+          </div>
+          <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="chat-panel-body" id="chatMessages" aria-live="polite">
+          <div class="chat-message is-agent">
+            <p>Hi! How can we help you today?</p>
+            <span>Try a quick option below.</span>
+          </div>
+        </div>
+        <div class="chat-panel-footer">
+          <div class="chat-quick-replies">
+            <button type="button" class="chat-quick-btn" data-quick-reply="Send files">Send files</button>
+            <button type="button" class="chat-quick-btn" data-quick-reply="Check price">Check price</button>
+            <button type="button" class="chat-quick-btn" data-quick-reply="Location">Location</button>
+          </div>
+          <a class="chat-whatsapp-btn" data-chat-whatsapp href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
+            <i class="fa-brands fa-whatsapp"></i>
+            Continue on WhatsApp
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <button id="backToTopBtn" class="back-to-top-btn" type="button" aria-label="Back to top">
     <i class="fa-solid fa-arrow-up" aria-hidden="true"></i>

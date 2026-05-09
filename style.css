@@ -7973,6 +7973,60 @@ main > section + section::before {
   transform: translateX(0);
 }
 
+/* Floating actions container groups right-side buttons and keeps stacking consistent */
+.floating-actions {
+  position: fixed;
+  right: clamp(12px, 1.5vw, 20px);
+  bottom: calc(18px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-items: flex-end;
+  z-index: 1085;
+  pointer-events: auto;
+}
+
+.floating-actions > * {
+  /* ensure children animate smoothly and keep accessibility */
+  transition: transform 0.18s ease, opacity 0.2s ease;
+}
+
+/* Place desktop chips, sticky whatsapp and chat inside the same stack without overlap */
+.floating-actions .desktop-cta-rail {
+  position: static;
+  right: auto;
+  top: auto;
+  transform: none;
+  opacity: 1;
+  pointer-events: auto;
+  display: flex;
+}
+
+.floating-actions .desktop-cta-chip {
+  min-height: 44px;
+  min-width: 44px;
+  padding-inline: 12px;
+}
+
+.floating-actions .sticky-whatsapp-btn,
+.floating-actions .chat-widget {
+  position: static;
+  right: auto;
+  bottom: auto;
+  transform: none;
+}
+
+.floating-actions .chat-widget {
+  align-items: center;
+}
+
+/* On small screens, rely on existing mobile bar and hide the floating stack */
+@media (max-width: 768px) {
+  .floating-actions {
+    display: none;
+  }
+}
+
 @keyframes waPulse {
   0%,
   100% {
