@@ -3129,6 +3129,7 @@ img {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
+  padding-right: 64px;
 }
 
 .footer-bottom p {
@@ -3717,6 +3718,7 @@ img {
 
   .footer-bottom-inner {
     justify-content: center;
+    padding-right: 0;
   }
 
   .cta-btn {
@@ -4237,6 +4239,7 @@ img {
 
   .footer-bottom-inner {
     justify-content: center;
+    padding-right: 0;
   }
 
   .footer-bottom-links {
@@ -4701,6 +4704,7 @@ img {
 
   .footer-bottom-inner {
     justify-content: center;
+    padding-right: 0;
   }
 
   .footer-bottom-links {
