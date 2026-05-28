@@ -2,635 +2,258 @@
 
 ## Purpose
 
-This document maps:
+This document maps frontend features to their code locations, dependencies, and architectural notes. It exists to improve maintainability, speed up debugging, reduce accidental breakage, and help future contributors.
 
-* frontend features
-* code ownership
-* dependencies
-* DOM relationships
-* related CSS
-* related JavaScript
-* business logic
-* conversion purpose
-* operational importance
-
-This document exists to:
-
-* improve maintainability
-* reduce AI context wastage
-* speed up debugging
-* improve modularization
-* simplify feature extraction
-* reduce accidental breakage
-* help future contributors
-* improve AI-assisted development quality
-
-This file should be updated whenever:
-
-* new features are added
-* features are refactored
-* modules are extracted
-* dependencies change
-* selectors change
-* workflows change
+Update this file whenever features are added, refactored, or modules are extracted.
 
 ---
 
-# Global Architecture Notes
+# Global Architecture
 
-## Current State
+## Current JavaScript Module Structure
 
-* Monolithic HTML structure
-* Large global CSS file
-* Large global JavaScript file
-* Shared DOM/event dependencies
-* Multiple global event listeners
-* Multiple repeated responsive blocks
+```
+js/
+├── main.js              ← orchestrator: imports all modules, initializes all features
+├── config.js            ← CONFIG object: business constants, hours, messages
+├── core/toast.js        ← toast notification system
+├── data/business-data.js ← searchCatalog, detailedServices, pricingConfig, pdfTemplates, addonRates
+└── utils/helpers.js     ← escapeHtml, normalizeText, toLookupKey, normalizePhoneNumber, resolveBusinessWhatsAppNumber, resolveBusinessEmail
+```
 
-## Target State
+## Shared Dependencies (resolved once in main.js)
 
-* Modular JavaScript
-* Modular CSS
-* Isolated feature systems
-* Clear dependency boundaries
-* Reusable utilities
-* Shared state minimization
+* `businessWhatsAppNumber` — resolved at init, used by all WhatsApp-dependent features
+* `businessEmail` — resolved at init, used by contact form and bulk enquiry
+* `isMobileDevice` — resolved at init, used for WhatsApp URL differentiation
+* `buildWhatsAppUrl(phone, message)` — shared URL builder
+* `buildMailtoUrl(email, subject, body)` — shared mailto builder
+* `openEnquiryChannel(whatsappUrl, mailtoUrl)` — shared channel opener with fallback
+
+## Production Safety
+
+* `safeRun(label, callback)` wraps every feature init
+* `runAfterReady(callback)` ensures DOM readiness
+* Global error/rejection listeners trigger toast for user feedback
 
 ---
 
 # FEATURES
 
-# Smart Search
+---
 
-## Business Purpose
+## Smart Search
 
-Helps users quickly discover:
+| Property | Value |
+|---|---|
+| Function | `setupSmartSearch(form)` |
+| Location | `js/main.js` (called per `.search-box` element) |
+| Data | `searchCatalog` from `js/data/business-data.js` |
+| DOM Targets | `.search-box`, `.search-input`, service/product/price cards |
+| Dependencies | `escapeHtml`, `normalizeText`, `toLookupKey` from helpers |
+| State | `activeSuggestionIndex`, `visibleSuggestions`, `previousQuery` (closure-scoped) |
+| Storage | `localStorage` for recent searches |
 
-* services
-* stationery items
-* sections
-* business offerings
+### Risks During Refactor
 
-Reduces navigation friction and improves discoverability.
-
-## UX Purpose
-
-Acts as:
-
-* command palette
-* instant navigation layer
-* service finder
-* conversion accelerator
-
-Important because many users arrive with a specific intent.
+* DOM maps (`serviceCardMap`, `productCardMap`, `priceCardMap`) depend on heading selectors
+* Keyboard navigation state machine is complex
+* Document-level `pointerdown` listener for click-outside
 
 ---
 
-## Current Location
+## Quote Calculator
 
-### JavaScript
+| Property | Value |
+|---|---|
+| Function | `setupQuoteCalculator()` |
+| Location | `js/main.js` |
+| Data | `pricingConfig`, `addonRates` from `js/data/business-data.js` |
+| DOM Targets | `#quoteForm`, `#quoteService`, `#quoteWhatsAppBtn` |
+| Dependencies | `buildWhatsAppUrl`, `businessWhatsAppNumber` |
 
-script.js
-(Search initialization and catalog logic)
+### Risks During Refactor
 
-### HTML
-
-Search bar section in hero/navigation area
-
-### CSS
-
-Search-related styles inside style.css
-
----
-
-## Planned Extraction
-
-/js/features/smart-search.js
+* Pricing logic closely tied to data structure
+* WhatsApp button href updated on every input change
 
 ---
 
-## Dependencies
+## WhatsApp Ordering System
 
-### DOM Dependencies
+| Property | Value |
+|---|---|
+| Functions | `buildWhatsAppUrl()`, `buildMailtoUrl()`, `openEnquiryChannel()` |
+| Location | `js/main.js` (shared references section) |
+| Used By | Contact form, bulk enquiry, sticky button, chat widget, service panels, quote calculator |
 
-* search input
-* suggestion container
-* service cards
-* anchor sections
-* search result renderer
+### Risks During Refactor
 
-### Shared Utilities
-
-* toast system
-* smooth scroll utilities
-* section highlighting
-
-### Event Dependencies
-
-* input listeners
-* focus listeners
-* click-outside listeners
-* keyboard navigation listeners
+* Most critical conversion system — test thoroughly after any change
+* Mobile/desktop URL differentiation logic
+* Popup fallback → email fallback chain
 
 ---
 
-## Risks During Refactor
+## Service Interaction Panels
 
-* breaking navigation behavior
-* duplicate listeners
-* mobile interaction conflicts
-* scroll positioning issues
+| Property | Value |
+|---|---|
+| Function | `setupServiceInteractions()` |
+| Location | `js/main.js` |
+| Data | `detailedServices` from `js/data/business-data.js` |
+| DOM Targets | `#services .service-grid`, `.service-card` |
+| State | `activeCard`, `sliderFocusCard`, slider pointer tracking |
 
----
+### Slider Mode
 
-## Future Improvements
+* Activated at `max-width: 1199.98px`
+* Horizontal scroll snapping with dot pagination
+* Touch/pointer swipe detection to distinguish scroll vs click
 
-* lazy-loaded catalog
-* fuzzy search
-* search analytics
-* recent searches
-* quick actions
-* service shortcuts
+### Risks During Refactor
 
----
-
-# Quote Calculator
-
-## Business Purpose
-
-Allows users to estimate printing/project costs before enquiry.
-
-Reduces pricing uncertainty and increases WhatsApp conversions.
-
-Acts as a trust-building operational tool.
+* Largest and most complex feature (~560 lines)
+* DOM insertion of detail panel depends on grid layout
+* Multiple pointer event listeners for swipe tracking
 
 ---
 
-## UX Purpose
+## Toast Notification System
 
-Makes the business feel:
-
-* transparent
-* modern
-* operationally mature
-
----
-
-## Current Location
-
-### JavaScript
-
-script.js
-
-### HTML
-
-Quote/pricing calculator section
-
-### CSS
-
-Calculator-related styles inside style.css
+| Property | Value |
+|---|---|
+| Functions | `ensureEnquiryToast()`, `showEnquiryToast()` |
+| Location | `js/core/toast.js` |
+| Used By | Contact form, bulk enquiry, smart search, quote calculator, address copy, error handler |
 
 ---
 
-## Planned Extraction
+## Open/Closed Status
 
-/js/features/quote-calculator.js
-
----
-
-## Dependencies
-
-### DOM Dependencies
-
-* quantity inputs
-* pricing selectors
-* result displays
-* CTA buttons
-
-### Shared Dependencies
-
-* WhatsApp message generator
-* toast notifications
+| Property | Value |
+|---|---|
+| Function | `setupHeroOpenStatus()` |
+| Location | `js/main.js` |
+| Config | `CONFIG.hours.openHour`, `CONFIG.hours.closeHour` |
+| DOM Targets | `#heroOpenStatus`, `.hero-open-text` |
+| Timer | `setInterval` every 60 seconds |
 
 ---
 
-## Future Improvements
+## Contact Form
 
-* structured print ordering
-* deadline-based pricing
-* live cost previews
-* saved print preferences
-* quick reorder shortcuts
-
----
-
-# WhatsApp Ordering System
-
-## Business Purpose
-
-Primary conversion channel.
-
-Most important operational workflow.
+| Property | Value |
+|---|---|
+| Location | `js/main.js` (directly in `runAfterReady`, not in `safeRun`) |
+| DOM Targets | `#contactForm`, `#name`, `#service`, `#message` |
+| Dependencies | `businessWhatsAppNumber`, `businessEmail`, `buildWhatsAppUrl`, toast |
 
 ---
 
-## UX Purpose
+## Bulk Enquiry Form
 
-Provides:
+| Property | Value |
+|---|---|
+| Function | `setupBulkEnquiryForm()` |
+| Location | `js/main.js` |
+| DOM Targets | `#bulkEnquiryForm`, `#bulkUpload`, `#bulkFile` |
+| Dependencies | `businessWhatsAppNumber`, `businessEmail`, `buildWhatsAppUrl`, toast |
 
-* low-friction communication
-* fast enquiries
-* familiar workflow for Indian users
+### Note
 
----
-
-## Current Location
-
-### JavaScript
-
-script.js
-
-### HTML
-
-CTA buttons
-forms
-service cards
-bottom action bar
+* Shares identical validation logic with contact form (candidate for shared utility extraction)
 
 ---
 
-## Planned Extraction
+## Gallery & Lightbox
 
-/js/core/whatsapp.js
-
----
-
-## Responsibilities
-
-* generate WhatsApp URLs
-* build enquiry messages
-* structured order formatting
-* phone routing
-* service-specific enquiries
+| Property | Value |
+|---|---|
+| Function | `setupGalleryLightbox()` |
+| Location | `js/main.js` |
+| DOM Targets | `.gallery-grid img`, lightbox overlay |
+| Features | Keyboard navigation, touch swipe, preloading |
 
 ---
 
-## Dependencies
+## Chat Widget
 
-### Shared Across
-
-* quote calculator
-* contact form
-* service cards
-* enquiry CTAs
-* sticky buttons
-
----
-
-## Future Improvements
-
-* structured print requests
-* repeat order templates
-* urgency handling
-* order summaries
-* customer preference integration
+| Property | Value |
+|---|---|
+| Function | `setupChatWidget()` |
+| Location | `js/main.js` |
+| DOM Targets | `#chatWidget`, `#chatFab`, `#chatPanel` |
+| Dependencies | `businessWhatsAppNumber`, `buildWhatsAppUrl` |
 
 ---
 
-# Toast Notification System
+## Navigation & Scroll Effects
 
-## Purpose
-
-Provides interaction feedback across the website.
-
-Used for:
-
-* success messages
-* copy confirmations
-* interaction feedback
-* operational guidance
-
----
-
-## Current Location
-
-### JavaScript
-
-script.js
+| Feature | Function | Location |
+|---|---|---|
+| Header shadow | Inline (rAF-throttled scroll) | `js/main.js` |
+| Scroll reveal | IntersectionObserver | `js/main.js` |
+| Scroll progress | `setupScrollProgressIndicator()` | `js/main.js` |
+| Back to top | `setupBackToTop()` | `js/main.js` |
+| Desktop nav indicator | `setupNavigationExperience()` | `js/main.js` |
+| Mobile nav | `setupMobileNavigationExperience()` | `js/main.js` |
+| Desktop CTA rail | `setupDesktopCtaRailVisibility()` | `js/main.js` |
 
 ---
 
-## Planned Extraction
+## Visual Effects
 
-/js/core/toast.js
-
----
-
-## Dependencies
-
-### Used By
-
-* search
-* forms
-* WhatsApp interactions
-* clipboard actions
-* utility actions
+| Feature | Function |
+|---|---|
+| Counter animations | `setupCounterAnimations()` |
+| Ripple effects | `setupRippleEffects()` |
+| Tilt effects | `setupTiltEffects()` |
+| Hero parallax | `setupHeroParallax()` |
+| Hero typing line | `setupHeroTypingLine()` |
+| Image skeletons | `setupImageLoadingSkeletons()` |
+| Testimonial slider | `setupTestimonialSlider()` |
 
 ---
 
-## Risks
+## Utility Features
 
-Because multiple systems use toast notifications,
-refactoring requires careful dependency tracking.
-
----
-
-# Open/Closed Status System
-
-## Business Purpose
-
-Communicates live operational availability.
-
-Important for:
-
-* walk-in customers
-* urgency-based visits
-* trust
-* operational professionalism
+| Feature | Function |
+|---|---|
+| Address copy | `setupAddressCopy()` |
+| Sticky WhatsApp | `setupStickyWhatsAppButton()` |
+| PDF downloads | `setupPdfDownloads()` |
+| Service availability | `setupServiceAvailability()` |
 
 ---
 
-## Current Location
-
-### JavaScript
-
-script.js
-
-### HTML
-
-Hero status area
-
----
-
-## Planned Extraction
-
-/js/business/hero-status.js
-
----
-
-## Future Improvements
-
-* busy indicators
-* queue visibility
-* best visit timing
-* holiday overrides
-* live announcements
-
----
-
-# Gallery & Lightbox
-
-## Business Purpose
-
-Provides:
-
-* trust
-* proof of work
-* visual quality assurance
-
----
-
-## UX Purpose
-
-Makes business feel:
-
-* active
-* professional
-* premium
-* authentic
-
----
-
-## Current Location
-
-### JavaScript
-
-script.js
-
-### CSS
-
-Gallery/lightbox styles
-
-### HTML
-
-Gallery section
-
----
-
-## Planned Extraction
-
-/js/features/gallery-lightbox.js
-
----
-
-## Dependencies
-
-### DOM Dependencies
-
-* gallery grid
-* image overlays
-* modal/lightbox container
-
----
-
-## Future Improvements
-
-* categorized galleries
-* before/after examples
-* customer project showcases
-* lazy loading
-* optimized image delivery
-
----
-
-# Contact Form
-
-## Business Purpose
-
-Lead generation and enquiry collection.
-
----
-
-## Current Behavior
-
-Generates WhatsApp-based enquiries.
-
----
-
-## Planned Improvements
-
-Transform into:
-step-based conversational workflow.
-
-Example:
-
-1. service selection
-2. quantity
-3. urgency
-4. preferences
-5. WhatsApp order generation
-
----
-
-## Planned Extraction
-
-/js/features/contact-form.js
-
----
-
-# Testimonials
-
-## Business Purpose
-
-Trust amplification.
-
----
-
-## Current Issue
-
-Placeholder/sample testimonials reduce authenticity.
-
----
-
-## Planned Improvements
-
-* real Google reviews
-* review snippets
-* local customer references
-* project examples
-* recent customer feedback
-
----
-
-# Navigation System
-
-## Purpose
-
-Website orientation and service discovery.
-
----
-
-## Current Issues
-
-Some navigation items point to the same section instead of specific service anchors.
-
----
-
-## Planned Improvements
-
-* service-specific anchors
-* smart section scrolling
-* contextual highlighting
-* improved mobile navigation
-
----
-
-## Planned Extraction
-
-/js/navigation/
-
----
-
-# Mobile Bottom Action Bar
-
-## Business Purpose
-
-High-conversion mobile actions.
-
----
-
-## Current Actions
-
-* WhatsApp
-* Call
-* Directions
-
----
-
-## Future Improvements
-
-Possible priority changes:
-
-* WhatsApp
-* Prices
-* Directions
-
-Based on mobile user behavior analysis.
-
----
-
-# Performance Optimization
-
-## Current Issues
-
-* large JS parse cost
-* duplicated responsive CSS
-* image layout shifts
-* synchronous catalog loading
-
----
-
-## Planned Improvements
-
-* lazy-loaded search catalog
-* image dimensions
-* consolidated media queries
-* modular CSS
-* deferred noncritical effects
-
----
-
-# SEO Systems
-
-## Current State
-
-Basic local SEO structure exists.
-
----
-
-## Future Opportunities
-
-* service-specific pages
-* FAQ schema
-* LocalBusiness schema
-* review schema
-* location-specific landing pages
-
----
-
-# Analytics Opportunities
-
-## Important Events To Track
-
-* WhatsApp clicks
-* quote generation
-* search usage
-* popular services
-* form interactions
-* mobile action usage
-
----
-
-# Operational Systems (Future)
-
-Potential future systems:
-
-* Google Sheets order tracking
-* repeat customer memory
-* order status system
-* queue visibility
-* student utility ecosystem
-* print workflow automation
+# Feature Initialization Order
+
+All features are initialized via `safeRun` in this order (from `js/main.js`):
+
+1. `scroll-progress`
+2. `hero-typing`
+3. `image-skeletons`
+4. `counters`
+5. `faq`
+6. `ripples`
+7. `testimonial-slider`
+8. `tilt-effects`
+9. `hero-parallax`
+10. `navigation`
+11. `mobile-navigation`
+12. `desktop-cta-rail`
+13. `back-to-top`
+14. `gallery-lightbox`
+15. `address-copy`
+16. `sticky-whatsapp`
+17. `bulk-enquiry`
+18. `pdf-downloads`
+19. `chat-widget`
+20. `quote-calculator`
+21. `service-availability`
+
+Note: Contact form and Smart Search are initialized before `safeRun` features (directly in the `runAfterReady` callback).
 
 ---
 
@@ -645,7 +268,7 @@ When extracting modules:
 * isolate feature scope
 * migrate incrementally
 * test after each extraction
-* maintain backward compatibility where possible
+* maintain backward compatibility
 
 ## NEVER:
 
@@ -656,15 +279,16 @@ When extracting modules:
 
 ---
 
-# Current Refactoring Priority
+# Next Refactoring Phase
 
-## Phase 1
+## Phase 2 — Feature Extraction
 
-1. whatsapp.js
-2. toast.js
-3. smart-search.js
-4. quote-calculator.js
-5. gallery-lightbox.js
+Priority order:
 
-Goal:
-Improve maintainability without breaking production behavior.
+1. Extract shared form utilities → `js/utils/form-helpers.js`
+2. Extract smart search → `js/features/smart-search.js`
+3. Extract service panels → `js/features/service-panel.js`
+4. Extract quote calculator → `js/features/quote-calculator.js`
+5. Extract gallery/lightbox → `js/features/gallery-lightbox.js`
+
+Goal: Reduce main.js from ~3400 lines to ~200 lines (orchestrator only).

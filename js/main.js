@@ -38,8 +38,9 @@ runAfterReady(() => {
 
   revealElements.forEach((element) => observer.observe(element));
 
-  // --- Header shadow on scroll ---
+  // --- Header shadow on scroll (rAF-throttled) ---
   const header = document.querySelector('.site-header');
+  let headerScrollTicking = false;
   const updateHeaderShadow = () => {
     if (window.scrollY > 12) {
       header.classList.add('is-scrolled');
@@ -55,7 +56,14 @@ runAfterReady(() => {
   };
 
   updateHeaderShadow();
-  window.addEventListener('scroll', updateHeaderShadow, { passive: true });
+  window.addEventListener('scroll', () => {
+    if (headerScrollTicking) { return; }
+    headerScrollTicking = true;
+    window.requestAnimationFrame(() => {
+      headerScrollTicking = false;
+      updateHeaderShadow();
+    });
+  }, { passive: true });
 
   // --- Hero open-status pill ---
   const setupHeroOpenStatus = () => {
@@ -114,9 +122,11 @@ runAfterReady(() => {
 
   setupHeroOpenStatus();
 
-  // --- Shared references ---
+  // --- Shared references (resolved once, used by all features) ---
   const contactForm = document.getElementById('contactForm');
   const searchForms = document.querySelectorAll('.search-box');
+  const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+  const businessEmail = resolveBusinessEmail();
 
   const isMobileDevice = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(navigator.userAgent || '');
 
@@ -213,8 +223,6 @@ runAfterReady(() => {
       contactForm.querySelector('#message')
     ].filter(Boolean);
 
-    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
-    const businessEmail = resolveBusinessEmail();
     const enquirySubject = CONFIG.messages.enquirySubject;
 
     const setSubmitLoading = (isLoading) => {
@@ -2537,7 +2545,7 @@ runAfterReady(() => {
       return;
     }
 
-    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    // businessWhatsAppNumber resolved once in shared references
     const message = stickyButton.dataset.whatsappMessage || CONFIG.messages.stickyWhatsAppDefault;
 
     const updateLink = () => {
@@ -2602,8 +2610,7 @@ runAfterReady(() => {
       return;
     }
 
-    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
-    const businessEmail = resolveBusinessEmail();
+    // businessWhatsAppNumber and businessEmail resolved once in shared references
     const bulkSubject = CONFIG.messages.bulkSubject;
 
     const submitButton = bulkForm.querySelector('.bulk-submit-btn');
@@ -3110,7 +3117,7 @@ runAfterReady(() => {
       return;
     }
 
-    const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
+    // businessWhatsAppNumber resolved once in shared references
     const defaultMessage = CONFIG.messages.chatDefault;
 
     const syncWhatsAppLink = (message) => {
@@ -3203,6 +3210,8 @@ runAfterReady(() => {
       return;
     }
 
+    const quoteWhatsAppNumber = businessWhatsAppNumber;
+
     const formatCurrency = (value) => {
       if (!Number.isFinite(value)) {
         return 'Rs 0';
@@ -3262,7 +3271,7 @@ runAfterReady(() => {
         unitCostEl.textContent = 'Rs 0';
         totalCostEl.textContent = 'Rs 0';
         summaryLine.textContent = 'Select a service to calculate pricing.';
-        whatsappBtn.href = buildWhatsAppUrl(resolveBusinessWhatsAppNumber(), CONFIG.messages.quoteDefault);
+        whatsappBtn.href = buildWhatsAppUrl(quoteWhatsAppNumber, CONFIG.messages.quoteDefault);
         return;
       }
 
@@ -3301,7 +3310,7 @@ runAfterReady(() => {
         `Estimated Total: ${formatCurrency(total)}`
       ].filter(Boolean).join('\n');
 
-      whatsappBtn.href = buildWhatsAppUrl(resolveBusinessWhatsAppNumber(), message);
+      whatsappBtn.href = buildWhatsAppUrl(quoteWhatsAppNumber, message);
     };
 
     serviceSelect.addEventListener('change', calculateQuote);

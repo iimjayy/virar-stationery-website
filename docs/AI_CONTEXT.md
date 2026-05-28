@@ -54,27 +54,42 @@ Frontend:
 
 * HTML5
 * CSS3
-* Vanilla JavaScript
+* Vanilla JavaScript (ES6 Modules)
 * Bootstrap 5
 
 Hosting:
 
-* static hosting
+* GitHub Pages (static, served via CNAME: virarprint.in)
 
-Current Architecture:
+---
 
-* large monolithic HTML
-* large monolithic CSS
-* large monolithic JavaScript
+# Current Architecture
 
-Planned Direction:
+## JavaScript (ES6 Modules)
 
-* modular architecture
-* maintainable frontend system
-* lightweight components
-* scalable structure
-* gradual refactoring
-* performance-focused improvements
+```
+js/
+├── main.js              ← application controller (imports all modules, initializes 21 features via safeRun)
+├── config.js            ← centralized business configuration (CONFIG object)
+├── core/
+│   └── toast.js         ← toast notification system (ensureEnquiryToast, showEnquiryToast)
+├── data/
+│   └── business-data.js ← search catalog, detailed services, pricing config, PDF templates
+└── utils/
+    └── helpers.js       ← pure utilities (escapeHtml, normalizeText, normalizePhoneNumber, etc.)
+```
+
+Entry point: `<script type="module" src="js/main.js">` in index.html.
+
+## CSS
+
+* `style.css` — single global stylesheet (8356 lines)
+* `legal-pages.css` — styles for privacy/terms/sitemap pages
+
+## HTML
+
+* `index.html` — main single-page application
+* `privacy.html`, `terms.html`, `sitemap.html` — legal/info pages
 
 ---
 
@@ -82,79 +97,59 @@ Planned Direction:
 
 ## Smart Search
 
-Interactive search system that helps users find services and sections quickly.
+Interactive search system with fuzzy matching, keyboard navigation, recent searches, and trending suggestions. Uses flattened catalog from business-data.js. Targets service cards, product cards, and price cards via DOM maps.
 
 ## Quote Calculator
 
-Allows pricing estimation for printing-related services.
+Real-time pricing estimation for printing-related services. Uses pricingConfig and addonRates from business-data.js.
 
 ## WhatsApp Ordering
 
-Core conversion workflow using pre-filled WhatsApp messages.
+Core conversion workflow using pre-filled WhatsApp messages. Mobile/desktop URL differentiation. Email fallback chain. Used by: contact form, bulk enquiry, chat widget, service panels, sticky button, quote calculator.
 
 ## Service Interaction Panels
 
-Interactive service cards and detail displays.
+Interactive expandable service cards with detail panels. Responsive slider mode for mobile (<1200px). Touch/pointer tracking for swipe vs click detection.
 
 ## Open/Closed Status System
 
-Displays operational shop timing information dynamically.
+Displays operational shop timing information dynamically. Auto-refreshes every 60 seconds.
 
 ## Toast Notification System
 
-Used for feedback and interactions.
+Encapsulated toast module with timeout management. Used for feedback across all interactive features.
 
 ## Gallery & Lightbox
 
-Displays business visuals and service examples.
+Image gallery with keyboard-navigable lightbox overlay. Touch swipe support.
 
 ## Responsive Mobile Experience
 
-Mobile-first interactions and navigation.
+Mobile-first interactions, hamburger navigation, bottom action bar, sticky WhatsApp button.
 
 ---
 
-# Architecture Goals
+# Architecture Notes
 
-The project should gradually evolve toward:
+## Production Safety
 
-## Modular JavaScript
+* `safeRun(label, callback)` wraps every feature initialization — if one feature crashes, others continue working
+* `runAfterReady(callback)` ensures DOM is loaded before any initialization
+* Global `error` and `unhandledrejection` listeners report failures via toast
 
-Target structure:
+## Shared State
 
-/js
-/core
-/features
-/effects
-/navigation
-/business
+* `businessWhatsAppNumber` and `businessEmail` are resolved once at initialization, shared across all features
+* `isMobileDevice` is resolved once, used for WhatsApp URL differentiation
+* `buildWhatsAppUrl()` and `buildMailtoUrl()` are shared utility functions in main.js
 
-Examples:
+## Module Boundaries
 
-* whatsapp.js
-* toast.js
-* smart-search.js
-* quote-calculator.js
-* gallery-lightbox.js
-* hero-status.js
-
-## Modular CSS
-
-Target structure:
-
-/css
-/base
-/components
-/sections
-/responsive
-
-Examples:
-
-* buttons.css
-* hero.css
-* gallery.css
-* contact.css
-* responsive.css
+* `config.js` — read-only configuration (frozen CONFIG object)
+* `helpers.js` — pure functions with no DOM side effects
+* `toast.js` — encapsulated UI component with module-scoped state
+* `business-data.js` — static data exports only
+* `main.js` — all DOM interaction, event binding, and feature orchestration
 
 ---
 
@@ -239,21 +234,6 @@ Primary goals:
 
 ---
 
-# Operational Opportunities
-
-Potential future systems:
-
-* structured print ordering
-* Google Sheets order tracking
-* customer preference saving
-* repeat order shortcuts
-* queue visibility
-* order status workflows
-* smart pricing estimators
-* student utility ecosystem
-
----
-
 # AI Collaboration Rules
 
 When modifying the codebase:
@@ -281,57 +261,19 @@ When modifying the codebase:
 
 ---
 
-# Preferred AI Workflow
-
-Claude:
-
-* architecture
-* UX systems
-* modularization
-* strategic improvements
-
-ChatGPT:
-
-* debugging
-* implementation help
-* planning
-* structured execution
-
-Gemini:
-
-* large context analysis
-* dependency mapping
-* architecture scanning
-
-AntiGravity:
-
-* visual experimentation
-* UI concepts
-* interaction ideas
-
----
-
 # Current Refactoring Phase
 
 Current focus:
-PHASE 1 — Foundation & Maintainability
+PHASE 2 — Feature Extraction Preparation
 
-Priorities:
+Completed:
+* ✅ PHASE 1a — JavaScript modularization (config, data, utils, toast extracted)
+* ✅ PHASE 1b — Workspace stabilization and cleanup
 
-1. modularize JavaScript
-2. modularize CSS
-3. reduce architectural complexity
-4. improve maintainability
-5. reduce future bug risk
-6. preserve current functionality
-
-Current extraction order:
-
-1. whatsapp.js
-2. toast.js
-3. smart-search.js
-4. quote-calculator.js
-5. gallery-lightbox.js
+Next priorities:
+1. Extract large feature modules from main.js (smart search, service panel, quote calculator, etc.)
+2. CSS modularization
+3. Shared form utility extraction
 
 ---
 
@@ -339,7 +281,7 @@ Current extraction order:
 
 This project should evolve into:
 
-“A premium intelligent digital operating system for a real-world stationery and printing business.”
+"A premium intelligent digital operating system for a real-world stationery and printing business."
 
 Not merely:
-“a visually attractive website.”
+"a visually attractive website."
