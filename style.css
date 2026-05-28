@@ -2995,6 +2995,10 @@ img {
   transition: color 0.24s ease, transform 0.24s ease;
 }
 
+.footer-address .footer-location-link::after {
+  content: none;
+}
+
 .footer-address .footer-location-link:hover {
   color: var(--yellow-light);
   transform: translateX(3px);
@@ -3003,7 +3007,7 @@ img {
 .footer-address .footer-location-text {
   display: inline-block;
   line-height: 1.5;
-  color: rgba(255, 255, 255, 0.78);
+  color: inherit;
 }
 
 .footer-address .footer-location-link:hover .footer-location-text,
@@ -3013,6 +3017,7 @@ img {
   text-underline-offset: 3px;
   text-decoration-color: rgba(255, 235, 97, 0.9);
 }
+
 
 .footer-links-col,
 .footer-services-col,
@@ -3050,6 +3055,12 @@ img {
   transform: scaleX(0);
   transform-origin: left;
   transition: transform 0.24s ease;
+}
+
+.site-footer .footer-links .footer-location-link::after,
+.site-footer .footer-links .footer-location-link:hover::after {
+  content: none;
+  transform: none;
 }
 
 .site-footer .footer-links a:hover {
