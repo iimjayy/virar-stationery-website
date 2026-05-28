@@ -7988,12 +7988,13 @@ main > section + section::before {
   gap: 12px;
   align-items: flex-end;
   z-index: 1085;
-  pointer-events: auto;
+  pointer-events: none;
 }
 
 .floating-actions > * {
-  /* ensure children animate smoothly and keep accessibility */
+  /* ensure children animate smoothly, keep accessibility, and restore clickability */
   transition: transform 0.18s ease, opacity 0.2s ease;
+  pointer-events: auto;
 }
 
 /* Place desktop chips, sticky whatsapp and chat inside the same stack without overlap */
