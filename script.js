@@ -2681,3 +2681,5 @@ runAfterReady(() => {
   safeRun('chat-widget',         setupChatWidget);
   safeRun('quote-calculator',    setupQuoteCalculator);
   safeRun('service-availability',setupServiceAvailability);
+
+});
