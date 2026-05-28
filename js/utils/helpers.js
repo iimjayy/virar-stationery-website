@@ -133,3 +133,45 @@ export const buildMailtoUrl = (emailAddress, subject, body) => {
   const encodedBody = encodeURIComponent(body || '');
   return `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
 };
+
+/**
+ * Open a WhatsApp URL (with a mailto: fallback) as an enquiry channel.
+ * On mobile: navigates directly to WhatsApp, then falls back to email after 1.4 s
+ * if the app did not open. On desktop: opens WhatsApp in a new popup window,
+ * falls back to email navigation if the popup was blocked.
+ * @param {string} whatsAppUrl - Pre-built WhatsApp URL
+ * @param {string} mailtoUrl   - Pre-built mailto URL (fallback)
+ * @returns {boolean} true if WhatsApp was opened, false if only email fallback fired
+ */
+export const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
+  const isMobile = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(
+    navigator.userAgent || ''
+  );
+
+  if (isMobile) {
+    const currentLocation = window.location.href;
+    window.location.assign(whatsAppUrl);
+
+    window.setTimeout(() => {
+      if (window.location.href === currentLocation) {
+        window.location.assign(mailtoUrl);
+      }
+    }, 1400);
+
+    return true;
+  }
+
+  try {
+    const popup = window.open(whatsAppUrl, '_blank', 'noopener,noreferrer');
+    if (popup) {
+      popup.opener = null;
+      return true;
+    }
+  } catch {
+    // Popup blocked — fall through to email.
+  }
+
+  window.location.assign(mailtoUrl);
+  return false;
+};
+
