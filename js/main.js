@@ -20,6 +20,12 @@ import { initTestimonialSlider } from './features/testimonial-slider.js';
 import { initAddressCopy } from './features/address-copy.js';
 import { initStickyWhatsApp } from './features/sticky-whatsapp.js';
 
+// --- Phase 3 feature modules ---
+import { initNavigation } from './features/navigation.js';
+import { initFloatingActions } from './features/floating-actions.js';
+import { initRevealAnimations } from './features/reveal-animations.js';
+import { initChatWidget } from './features/chat-widget.js';
+
 // ---------------------------------------------------------------------------
 // runAfterReady — retained exactly as the original for production safety
 // ---------------------------------------------------------------------------
@@ -35,105 +41,14 @@ runAfterReady(() => {
   // --- Toast bootstrap (must run before any feature that calls showEnquiryToast) ---
   ensureEnquiryToast();
 
-  // --- Scroll-reveal observer ---
-  const revealElements = document.querySelectorAll('.reveal');
-  const observer = new IntersectionObserver(
-    (entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
-          observer.unobserve(entry.target);
-        }
-      });
-    },
-    { threshold: 0.12 }
-  );
+  // Reveal animations, header scroll, hero open-status, image skeletons and
+  // hero typing line are all owned by js/features/reveal-animations.js
+  // and initialised via safeRun below.
 
-  revealElements.forEach((element) => observer.observe(element));
+  // --- Shared references (resolved once, used by all features) ---
+  // Header scroll classes now owned by js/features/reveal-animations.js
 
-  // --- Header shadow on scroll (rAF-throttled) ---
-  const header = document.querySelector('.site-header');
-  let headerScrollTicking = false;
-  const updateHeaderShadow = () => {
-    if (window.scrollY > 12) {
-      header.classList.add('is-scrolled');
-    } else {
-      header.classList.remove('is-scrolled');
-    }
-
-    if (window.scrollY > 84) {
-      header.classList.add('is-compact');
-    } else {
-      header.classList.remove('is-compact');
-    }
-  };
-
-  updateHeaderShadow();
-  window.addEventListener('scroll', () => {
-    if (headerScrollTicking) { return; }
-    headerScrollTicking = true;
-    window.requestAnimationFrame(() => {
-      headerScrollTicking = false;
-      updateHeaderShadow();
-    });
-  }, { passive: true });
-
-  // --- Hero open-status pill ---
-  const setupHeroOpenStatus = () => {
-    const statusPill = document.getElementById('heroOpenStatus');
-    if (!statusPill) {
-      return;
-    }
-
-    const statusText = statusPill.querySelector('.hero-open-text');
-    if (!statusText) {
-      return;
-    }
-
-    const openHour = CONFIG.hours.openHour;
-    const closeHour = CONFIG.hours.closeHour;
-
-    const formatHour = (hour24) => {
-      const suffix = hour24 >= 12 ? 'pm' : 'am';
-      const normalizedHour = ((hour24 + 11) % 12) + 1;
-      return `${normalizedHour}${suffix}`;
-    };
-
-    const updateOpenStatus = () => {
-      const now = new Date();
-      const currentMinutes = now.getHours() * 60 + now.getMinutes();
-      const openMinutes = openHour * 60;
-      const closeMinutes = closeHour * 60;
-      const isOpenNow = currentMinutes >= openMinutes && currentMinutes < closeMinutes;
-
-      statusPill.classList.remove('is-loading', 'is-open', 'is-closed');
-
-      if (isOpenNow) {
-        statusPill.classList.add('is-open');
-        statusText.textContent = `Open Now · Closes at ${formatHour(closeHour)}`;
-      } else {
-        statusPill.classList.add('is-closed');
-        const isAfterClosing = currentMinutes >= closeMinutes;
-        statusText.textContent = isAfterClosing
-          ? `Closed Now · Opens tomorrow ${formatHour(openHour)}`
-          : `Closed Now · Opens ${formatHour(openHour)}`;
-      }
-
-      statusPill.setAttribute('aria-label', statusText.textContent);
-    };
-
-    updateOpenStatus();
-
-    const now = new Date();
-    const delayToNextMinute = ((60 - now.getSeconds()) * 1000) - now.getMilliseconds();
-
-    window.setTimeout(() => {
-      updateOpenStatus();
-      window.setInterval(updateOpenStatus, 60000);
-    }, Math.max(400, delayToNextMinute));
-  };
-
-  setupHeroOpenStatus();
+  // Hero open-status is owned by js/features/reveal-animations.js
 
   // --- Shared references (resolved once, used by all features) ---
   const contactForm = document.getElementById('contactForm');
@@ -933,146 +848,17 @@ runAfterReady(() => {
   // =========================================================================
   // SCROLL PROGRESS INDICATOR
   // =========================================================================
-  const setupScrollProgressIndicator = () => {
-    const progressBar = document.getElementById('scrollProgress');
-    if (!progressBar) {
-      return;
-    }
-
-    const updateProgress = () => {
-      const documentHeight = document.documentElement.scrollHeight - window.innerHeight;
-      const progress = documentHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / documentHeight)) : 0;
-      progressBar.style.transform = `scaleX(${progress})`;
-    };
-
-    updateProgress();
-    window.addEventListener('scroll', updateProgress, { passive: true });
-    window.addEventListener('resize', updateProgress);
-  };
+  // SCROLL PROGRESS INDICATOR — extracted to js/features/reveal-animations.js
 
   // =========================================================================
   // HERO TYPING LINE
   // =========================================================================
-  const setupHeroTypingLine = () => {
-    const typingTarget = document.getElementById('heroTypingText');
-    if (!typingTarget) {
-      return;
-    }
-
-    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    const phrases = [
-      'Fast prints. Reliable service.',
-      'WhatsApp orders in minutes.',
-      'Trusted by students and offices.'
-    ];
-
-    if (prefersReducedMotion) {
-      typingTarget.textContent = phrases[0];
-      return;
-    }
-
-    let phraseIndex = 0;
-    let characterIndex = 0;
-    let isDeleting = false;
-
-    const tick = () => {
-      const currentPhrase = phrases[phraseIndex];
-
-      if (isDeleting) {
-        characterIndex = Math.max(0, characterIndex - 1);
-      } else {
-        characterIndex = Math.min(currentPhrase.length, characterIndex + 1);
-      }
-
-      typingTarget.textContent = currentPhrase.slice(0, characterIndex);
-
-      let delay = isDeleting ? 34 : 58;
-
-      if (!isDeleting && characterIndex === currentPhrase.length) {
-        delay = 1450;
-        isDeleting = true;
-      } else if (isDeleting && characterIndex === 0) {
-        isDeleting = false;
-        phraseIndex = (phraseIndex + 1) % phrases.length;
-        delay = 360;
-      }
-
-      window.setTimeout(tick, delay);
-    };
-
-    tick();
-  };
+  // HERO TYPING LINE — extracted to js/features/reveal-animations.js
 
   // =========================================================================
   // COUNTER ANIMATIONS
   // =========================================================================
-  const setupCounterAnimations = () => {
-    const counters = Array.from(document.querySelectorAll('.counter-value[data-counter-target]'));
-    if (!counters.length) {
-      return;
-    }
-
-    const animateCounter = (counterElement) => {
-      if (counterElement.dataset.counterAnimated === 'true') {
-        return;
-      }
-
-      counterElement.dataset.counterAnimated = 'true';
-
-      const targetValue = Number(counterElement.dataset.counterTarget || 0);
-      const suffix = counterElement.dataset.counterSuffix || '';
-      const duration = 1500;
-      const startTime = performance.now();
-
-      const easeOutCubic = (value) => 1 - ((1 - value) ** 3);
-      const formatter = (value) => {
-        if (targetValue >= 1000) {
-          return Math.round(value).toLocaleString('en-IN');
-        }
-        return String(Math.round(value));
-      };
-
-      const step = (now) => {
-        const elapsed = Math.min(1, (now - startTime) / duration);
-        const eased = easeOutCubic(elapsed);
-        const currentValue = targetValue * eased;
-
-        counterElement.textContent = `${formatter(currentValue)}${suffix}`;
-
-        if (elapsed < 1) {
-          window.requestAnimationFrame(step);
-        } else {
-          counterElement.textContent = `${formatter(targetValue)}${suffix}`;
-        }
-      };
-
-      window.requestAnimationFrame(step);
-    };
-
-    if ('IntersectionObserver' in window) {
-      const counterObserver = new IntersectionObserver(
-        (entries) => {
-          entries.forEach((entry) => {
-            if (!entry.isIntersecting) {
-              return;
-            }
-
-            animateCounter(entry.target);
-            counterObserver.unobserve(entry.target);
-          });
-        },
-        {
-          threshold: 0.35,
-          rootMargin: '0px 0px -8% 0px'
-        }
-      );
-
-      counters.forEach((counter) => counterObserver.observe(counter));
-      return;
-    }
-
-    counters.forEach(animateCounter);
-  };
+  // COUNTER ANIMATIONS — extracted to js/features/counters.js
 
   // =========================================================================
   // RIPPLE EFFECTS
@@ -1104,241 +890,22 @@ runAfterReady(() => {
   // =========================================================================
   // IMAGE LOADING SKELETONS
   // =========================================================================
-  const setupImageLoadingSkeletons = () => {
-    const images = document.querySelectorAll('.gallery-item img, .product-card img, .hero-image');
-
-    images.forEach((image) => {
-      const wrapper = image.closest('.gallery-item, .product-card, .hero-image-card');
-      if (!wrapper) {
-        return;
-      }
-
-      wrapper.classList.add('image-skeleton');
-
-      const markLoaded = () => {
-        wrapper.classList.add('is-loaded');
-      };
-
-      if (image.complete && image.naturalWidth > 0) {
-        markLoaded();
-      } else {
-        image.addEventListener('load', markLoaded, { once: true });
-        image.addEventListener('error', markLoaded, { once: true });
-      }
-    });
-  };
+  // IMAGE LOADING SKELETONS — extracted to js/features/reveal-animations.js
 
   // =========================================================================
   // TESTIMONIAL SLIDER
   // =========================================================================
-  const setupTestimonialSlider = () => {
-    const track = document.getElementById('testimonialsTrack');
-    const previousButton = document.getElementById('testimonialsPrevBtn');
-    const nextButton = document.getElementById('testimonialsNextBtn');
-    const dotsContainer = document.getElementById('testimonialsDots');
-
-    if (!track || !previousButton || !nextButton || !dotsContainer) {
-      return;
-    }
-
-    const slides = Array.from(track.querySelectorAll('.testimonial-slide'));
-    if (!slides.length) {
-      return;
-    }
-
-    const mobileBreakpoint = window.matchMedia('(max-width: 991px)');
-    let activeIndex = 0;
-    let scrollTicking = false;
-
-    dotsContainer.innerHTML = '';
-    const dotButtons = slides.map((_, index) => {
-      const dotButton = document.createElement('button');
-      dotButton.type = 'button';
-      dotButton.className = 'testimonial-slider-dot';
-      dotButton.setAttribute('aria-label', `Go to testimonial ${index + 1}`);
-
-      dotButton.addEventListener('click', () => {
-        centerSlide(index, 'smooth');
-      });
-
-      dotsContainer.appendChild(dotButton);
-      return dotButton;
-    });
-
-    const setActiveIndex = (index) => {
-      activeIndex = Math.max(0, Math.min(slides.length - 1, index));
-
-      dotButtons.forEach((dotButton, dotIndex) => {
-        dotButton.classList.toggle('is-active', dotIndex === activeIndex);
-      });
-
-      previousButton.disabled = activeIndex === 0;
-      nextButton.disabled = activeIndex === slides.length - 1;
-    };
-
-    const getNearestSlideIndex = () => {
-      const viewportCenter = track.scrollLeft + (track.clientWidth / 2);
-
-      let nearestIndex = 0;
-      let nearestDistance = Number.POSITIVE_INFINITY;
-
-      slides.forEach((slide, index) => {
-        const slideCenter = slide.offsetLeft + (slide.offsetWidth / 2);
-        const distance = Math.abs(slideCenter - viewportCenter);
-
-        if (distance < nearestDistance) {
-          nearestDistance = distance;
-          nearestIndex = index;
-        }
-      });
-
-      return nearestIndex;
-    };
-
-    const centerSlide = (index, behavior = 'smooth') => {
-      const slide = slides[index];
-      if (!slide) {
-        return;
-      }
-
-      const targetLeft = slide.offsetLeft - ((track.clientWidth - slide.offsetWidth) / 2);
-      track.scrollTo({ left: Math.max(0, targetLeft), behavior });
-      setActiveIndex(index);
-    };
-
-    track.addEventListener(
-      'scroll',
-      () => {
-        if (!mobileBreakpoint.matches || scrollTicking) {
-          return;
-        }
-
-        scrollTicking = true;
-        window.requestAnimationFrame(() => {
-          scrollTicking = false;
-          setActiveIndex(getNearestSlideIndex());
-        });
-      },
-      { passive: true }
-    );
-
-    previousButton.addEventListener('click', () => {
-      centerSlide(activeIndex - 1, 'smooth');
-    });
-
-    nextButton.addEventListener('click', () => {
-      centerSlide(activeIndex + 1, 'smooth');
-    });
-
-    const syncSliderState = () => {
-      if (!mobileBreakpoint.matches) {
-        setActiveIndex(0);
-        return;
-      }
-
-      window.requestAnimationFrame(() => {
-        setActiveIndex(getNearestSlideIndex());
-      });
-    };
-
-    if (typeof mobileBreakpoint.addEventListener === 'function') {
-      mobileBreakpoint.addEventListener('change', syncSliderState);
-    } else if (typeof mobileBreakpoint.addListener === 'function') {
-      mobileBreakpoint.addListener(syncSliderState);
-    }
-
-    syncSliderState();
-  };
+  // TESTIMONIAL SLIDER — extracted to js/features/testimonial-slider.js
 
   // =========================================================================
   // FAQ ACCORDION
   // =========================================================================
-  const setupFaqAccordion = () => {
-    const faqItems = Array.from(document.querySelectorAll('.faq-item'));
-    if (!faqItems.length) {
-      return;
-    }
-
-    const setItemState = (item, isOpen) => {
-      const question = item.querySelector('.faq-question');
-      const answer = item.querySelector('.faq-answer');
-
-      if (!question || !answer) {
-        return;
-      }
-
-      item.classList.toggle('is-open', isOpen);
-      question.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      answer.style.maxHeight = isOpen ? `${answer.scrollHeight}px` : '0px';
-    };
-
-    faqItems.forEach((item) => {
-      const question = item.querySelector('.faq-question');
-      if (!question) {
-        return;
-      }
-
-      setItemState(item, false);
-
-      question.addEventListener('click', () => {
-        const shouldOpen = !item.classList.contains('is-open');
-
-        faqItems.forEach((faqItem) => {
-          setItemState(faqItem, faqItem === item ? shouldOpen : false);
-        });
-      });
-    });
-
-    window.addEventListener('resize', () => {
-      faqItems.forEach((item) => {
-        if (!item.classList.contains('is-open')) {
-          return;
-        }
-
-        const answer = item.querySelector('.faq-answer');
-        if (answer) {
-          answer.style.maxHeight = `${answer.scrollHeight}px`;
-        }
-      });
-    });
-  };
+  // FAQ ACCORDION — extracted to js/features/faq.js
 
   // =========================================================================
   // TILT EFFECTS
   // =========================================================================
-  const setupTiltEffects = () => {
-    if (window.matchMedia('(pointer: coarse)').matches) {
-      return;
-    }
-
-    const tiltTargets = document.querySelectorAll('.tilt-target');
-    tiltTargets.forEach((target) => {
-      const resetTilt = () => {
-        target.style.setProperty('--tilt-rotate-x', '0deg');
-        target.style.setProperty('--tilt-rotate-y', '0deg');
-      };
-
-      target.addEventListener('pointermove', (event) => {
-        const bounds = target.getBoundingClientRect();
-        if (!bounds.width || !bounds.height) {
-          return;
-        }
-
-        const relativeX = (event.clientX - bounds.left) / bounds.width;
-        const relativeY = (event.clientY - bounds.top) / bounds.height;
-
-        const rotateY = (relativeX - 0.5) * 8;
-        const rotateX = (0.5 - relativeY) * 7;
-
-        target.style.setProperty('--tilt-rotate-x', `${rotateX.toFixed(2)}deg`);
-        target.style.setProperty('--tilt-rotate-y', `${rotateY.toFixed(2)}deg`);
-      });
-
-      target.addEventListener('pointerleave', resetTilt);
-      target.addEventListener('pointercancel', resetTilt);
-      target.addEventListener('blur', resetTilt);
-    });
-  };
+  // TILT EFFECTS — owned by main.js (low complexity, kept for now)
 
   // =========================================================================
   // HERO PARALLAX
@@ -1372,287 +939,22 @@ runAfterReady(() => {
   // =========================================================================
   // NAVIGATION EXPERIENCE
   // =========================================================================
-  const setupNavigationExperience = () => {
-    const navLinks = Array.from(document.querySelectorAll('.nav-link[href^="#"]'));
-    if (!navLinks.length) {
-      return;
-    }
-
-    const navList = document.querySelector('.nav-strip .navbar-nav');
-    const sectionToPrimaryLink = new Map();
-    navLinks.forEach((link) => {
-      const href = link.getAttribute('href');
-      if (href && href.startsWith('#') && !sectionToPrimaryLink.has(href)) {
-        sectionToPrimaryLink.set(href, link);
-      }
-    });
-
-    let activeLink = navLinks.find((link) => link.classList.contains('active')) || navLinks[0];
-    let activeIndicator = null;
-
-    const positionIndicator = () => {
-      if (!navList || !activeIndicator || !activeLink) {
-        return;
-      }
-
-      if (window.matchMedia('(max-width: 991px)').matches) {
-        activeIndicator.style.opacity = '0';
-        return;
-      }
-
-      const indicatorWidth = Math.min(58, Math.max(24, activeLink.offsetWidth - 28));
-      const indicatorLeft = activeLink.offsetLeft + ((activeLink.offsetWidth - indicatorWidth) / 2);
-
-      activeIndicator.style.width = `${indicatorWidth}px`;
-      activeIndicator.style.transform = `translateX(${indicatorLeft}px)`;
-      activeIndicator.style.opacity = '1';
-    };
-
-    const setActiveLink = (link) => {
-      if (!link) {
-        return;
-      }
-
-      activeLink = link;
-      navLinks.forEach((item) => {
-        item.classList.toggle('active', item === link);
-      });
-
-      window.requestAnimationFrame(positionIndicator);
-    };
-
-    if (navList) {
-      navList.classList.add('has-active-indicator');
-      activeIndicator = navList.querySelector('.nav-active-indicator');
-
-      if (!activeIndicator) {
-        activeIndicator = document.createElement('span');
-        activeIndicator.className = 'nav-active-indicator';
-        navList.appendChild(activeIndicator);
-      }
-
-      window.requestAnimationFrame(positionIndicator);
-      window.addEventListener('resize', positionIndicator);
-    }
-
-    const observedSections = Array.from(sectionToPrimaryLink.keys())
-      .map((href) => document.querySelector(href))
-      .filter(Boolean);
-
-    if (observedSections.length) {
-      const sectionObserver = new IntersectionObserver(
-        (entries) => {
-          const visibleEntry = entries
-            .filter((entry) => entry.isIntersecting)
-            .sort((first, second) => second.intersectionRatio - first.intersectionRatio)[0];
-
-          if (!visibleEntry?.target?.id) {
-            return;
-          }
-
-          const matchingLink = sectionToPrimaryLink.get(`#${visibleEntry.target.id}`);
-          if (matchingLink) {
-            setActiveLink(matchingLink);
-          }
-        },
-        {
-          rootMargin: '-38% 0px -52% 0px',
-          threshold: [0.15, 0.35, 0.6]
-        }
-      );
-
-      observedSections.forEach((section) => sectionObserver.observe(section));
-    }
-
-    navLinks.forEach((link) => {
-      link.addEventListener('click', () => {
-        setActiveLink(link);
-
-        const navbarCollapse = document.querySelector('.navbar-collapse.show');
-        if (navbarCollapse && window.bootstrap) {
-          const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse);
-          collapseInstance.hide();
-        }
-      });
-    });
-  };
+  // NAVIGATION EXPERIENCE — extracted to js/features/navigation.js
 
   // =========================================================================
   // MOBILE NAVIGATION
   // =========================================================================
-  const setupMobileNavigationExperience = () => {
-    const menuButton = document.querySelector('.mobile-menu-btn');
-    const navbarCollapse = document.getElementById('mainNavbar');
-
-    if (!menuButton || !navbarCollapse || !window.bootstrap) {
-      return;
-    }
-
-    const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
-    const collapseInstance = bootstrap.Collapse.getOrCreateInstance(navbarCollapse, { toggle: false });
-
-    const syncMenuState = () => {
-      const isOpen = navbarCollapse.classList.contains('show');
-      menuButton.classList.toggle('is-open', isOpen);
-      menuButton.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-      document.body.classList.toggle('mobile-nav-open', isOpen && !desktopBreakpoint.matches);
-    };
-
-    navbarCollapse.addEventListener('show.bs.collapse', () => {
-      menuButton.classList.add('is-open');
-      if (!desktopBreakpoint.matches) {
-        document.body.classList.add('mobile-nav-open');
-      }
-      menuButton.setAttribute('aria-expanded', 'true');
-    });
-
-    navbarCollapse.addEventListener('hide.bs.collapse', () => {
-      menuButton.classList.remove('is-open');
-      document.body.classList.remove('mobile-nav-open');
-      menuButton.setAttribute('aria-expanded', 'false');
-    });
-
-    navbarCollapse.addEventListener('shown.bs.collapse', syncMenuState);
-    navbarCollapse.addEventListener('hidden.bs.collapse', syncMenuState);
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key !== 'Escape' || !navbarCollapse.classList.contains('show')) {
-        return;
-      }
-
-      collapseInstance.hide();
-    });
-
-    document.addEventListener('click', (event) => {
-      if (desktopBreakpoint.matches || !navbarCollapse.classList.contains('show')) {
-        return;
-      }
-
-      const target = event.target;
-      if (navbarCollapse.contains(target) || menuButton.contains(target)) {
-        return;
-      }
-
-      collapseInstance.hide();
-    });
-
-    const handleBreakpointChange = () => {
-      if (desktopBreakpoint.matches) {
-        document.body.classList.remove('mobile-nav-open');
-        menuButton.classList.remove('is-open');
-        menuButton.setAttribute('aria-expanded', 'false');
-      } else {
-        syncMenuState();
-      }
-    };
-
-    if (typeof desktopBreakpoint.addEventListener === 'function') {
-      desktopBreakpoint.addEventListener('change', handleBreakpointChange);
-    } else if (typeof desktopBreakpoint.addListener === 'function') {
-      desktopBreakpoint.addListener(handleBreakpointChange);
-    }
-
-    syncMenuState();
-  };
+  // MOBILE NAVIGATION — extracted to js/features/navigation.js
 
   // =========================================================================
   // DESKTOP CTA RAIL VISIBILITY
   // =========================================================================
-  const setupDesktopCtaRailVisibility = () => {
-    const desktopCtaRail = document.querySelector('.desktop-cta-rail');
-    const heroSection = document.getElementById('home') || document.querySelector('.hero-section');
-
-    if (!desktopCtaRail || !heroSection) {
-      return;
-    }
-
-    const desktopBreakpoint = window.matchMedia('(min-width: 992px)');
-
-    const revealOffsetPx = 110;
-    let railVisible = false;
-    let visibilityTicking = false;
-
-    const applyRailVisibility = (shouldShowRail) => {
-      desktopCtaRail.setAttribute('aria-hidden', shouldShowRail ? 'false' : 'true');
-
-      if (shouldShowRail === railVisible) {
-        return;
-      }
-
-      railVisible = shouldShowRail;
-      desktopCtaRail.classList.toggle('is-visible', shouldShowRail);
-    };
-
-    const syncRailVisibility = () => {
-      const heroBottom = heroSection.getBoundingClientRect().bottom;
-      const shouldShowRail = desktopBreakpoint.matches && heroBottom <= revealOffsetPx;
-      applyRailVisibility(shouldShowRail);
-    };
-
-    const queueVisibilitySync = () => {
-      if (visibilityTicking) {
-        return;
-      }
-
-      visibilityTicking = true;
-      window.requestAnimationFrame(() => {
-        visibilityTicking = false;
-        syncRailVisibility();
-      });
-    };
-
-    syncRailVisibility();
-
-    if ('IntersectionObserver' in window) {
-      const heroObserver = new IntersectionObserver(
-        () => {
-          queueVisibilitySync();
-        },
-        {
-          threshold: [0, 0.12, 0.25, 0.5, 0.75, 1],
-          rootMargin: '-88px 0px 0px 0px'
-        }
-      );
-
-      heroObserver.observe(heroSection);
-    }
-
-    window.addEventListener('scroll', queueVisibilitySync, { passive: true });
-    window.addEventListener('resize', queueVisibilitySync);
-
-    const handleBreakpointChange = () => {
-      queueVisibilitySync();
-    };
-
-    if (typeof desktopBreakpoint.addEventListener === 'function') {
-      desktopBreakpoint.addEventListener('change', handleBreakpointChange);
-    } else if (typeof desktopBreakpoint.addListener === 'function') {
-      desktopBreakpoint.addListener(handleBreakpointChange);
-    }
-  };
+  // DESKTOP CTA RAIL — extracted to js/features/floating-actions.js
 
   // =========================================================================
   // BACK TO TOP
   // =========================================================================
-  const setupBackToTop = () => {
-    const backToTopButton = document.getElementById('backToTopBtn');
-    if (!backToTopButton) {
-      return;
-    }
-
-    const updateBackToTopVisibility = () => {
-      const isVisible = window.scrollY > 520;
-      backToTopButton.classList.toggle('is-visible', isVisible);
-      backToTopButton.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
-    };
-
-    updateBackToTopVisibility();
-    window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
-
-    backToTopButton.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-  };
+  // BACK TO TOP — extracted to js/features/floating-actions.js
 
   // =========================================================================
   // GALLERY LIGHTBOX — extracted to js/features/gallery-lightbox.js
@@ -1661,142 +963,12 @@ runAfterReady(() => {
   // =========================================================================
   // ADDRESS COPY
   // =========================================================================
-  const setupAddressCopy = () => {
-    const copyTarget = document.querySelector('[data-copy-address]');
-    if (!copyTarget) {
-      return;
-    }
-
-    const rawText = copyTarget.dataset.copyText || copyTarget.textContent || '';
-    const copyText = rawText.replace(/\s+/g, ' ').trim();
-
-    const fallbackCopy = (value) => {
-      const textarea = document.createElement('textarea');
-      textarea.value = value;
-      textarea.setAttribute('readonly', '');
-      textarea.style.position = 'absolute';
-      textarea.style.left = '-9999px';
-      document.body.appendChild(textarea);
-      textarea.select();
-
-      let copied = false;
-      try {
-        copied = document.execCommand('copy');
-      } catch {
-        copied = false;
-      }
-
-      document.body.removeChild(textarea);
-      return copied;
-    };
-
-    const runCopyAnimation = () => {
-      copyTarget.classList.add('is-copied');
-      window.setTimeout(() => {
-        copyTarget.classList.remove('is-copied');
-      }, 700);
-    };
-
-    const handleCopy = async () => {
-      if (!copyText) {
-        showEnquiryToast('Address unavailable. Please copy manually.', { isError: true, duration: 2400 });
-        return;
-      }
-
-      let copied = false;
-
-      if (navigator.clipboard && window.isSecureContext) {
-        try {
-          await navigator.clipboard.writeText(copyText);
-          copied = true;
-        } catch {
-          copied = false;
-        }
-      }
-
-      if (!copied) {
-        copied = fallbackCopy(copyText);
-      }
-
-      runCopyAnimation();
-      showEnquiryToast(copied ? 'Address copied' : 'Unable to copy. Please copy manually.', {
-        isError: !copied,
-        duration: copied ? 1800 : 2400
-      });
-    };
-
-    copyTarget.addEventListener('click', (event) => {
-      event.preventDefault();
-      handleCopy();
-    });
-  };
+  // ADDRESS COPY — extracted to js/features/address-copy.js
 
   // =========================================================================
   // STICKY WHATSAPP BUTTON
   // =========================================================================
-  const setupStickyWhatsAppButton = () => {
-    const stickyButton = document.getElementById('stickyWhatsAppBtn');
-    const heroSection = document.getElementById('home') || document.querySelector('.hero-section');
-
-    if (!stickyButton || !heroSection) {
-      return;
-    }
-
-    // businessWhatsAppNumber resolved once in shared references
-    const message = stickyButton.dataset.whatsappMessage || CONFIG.messages.stickyWhatsAppDefault;
-
-    const updateLink = () => {
-      stickyButton.href = buildWhatsAppUrl(businessWhatsAppNumber, message);
-    };
-
-    updateLink();
-
-    const revealOffset = 80;
-    let isVisible = false;
-    let visibilityTicking = false;
-
-    const applyVisibility = (shouldShow) => {
-      if (shouldShow === isVisible) {
-        return;
-      }
-
-      isVisible = shouldShow;
-      stickyButton.classList.toggle('is-visible', shouldShow);
-      stickyButton.setAttribute('aria-hidden', shouldShow ? 'false' : 'true');
-    };
-
-    const updateVisibility = () => {
-      const heroBottom = heroSection.getBoundingClientRect().bottom;
-      applyVisibility(heroBottom <= revealOffset);
-    };
-
-    const queueVisibilityUpdate = () => {
-      if (visibilityTicking) {
-        return;
-      }
-
-      visibilityTicking = true;
-      window.requestAnimationFrame(() => {
-        visibilityTicking = false;
-        updateVisibility();
-      });
-    };
-
-    updateVisibility();
-
-    if ('IntersectionObserver' in window) {
-      const heroObserver = new IntersectionObserver(
-        () => {
-          queueVisibilityUpdate();
-        },
-        { threshold: [0, 0.2, 0.5, 1], rootMargin: '-60px 0px 0px 0px' }
-      );
-      heroObserver.observe(heroSection);
-    }
-
-    window.addEventListener('scroll', queueVisibilityUpdate, { passive: true });
-    window.addEventListener('resize', queueVisibilityUpdate);
-  };
+  // STICKY WHATSAPP — extracted to js/features/sticky-whatsapp.js
 
   // =========================================================================
   // BULK ENQUIRY FORM
@@ -2301,87 +1473,7 @@ runAfterReady(() => {
   // =========================================================================
   // CHAT WIDGET
   // =========================================================================
-  const setupChatWidget = () => {
-    const chatWidget = document.getElementById('chatWidget');
-    const chatFab = document.getElementById('chatFab');
-    const chatPanel = document.getElementById('chatPanel');
-    const chatClose = document.getElementById('chatClose');
-    const chatMessages = document.getElementById('chatMessages');
-    const quickButtons = Array.from(chatPanel?.querySelectorAll('[data-quick-reply]') || []);
-    const whatsappLink = chatPanel?.querySelector('[data-chat-whatsapp]');
-
-    if (!chatWidget || !chatFab || !chatPanel || !chatClose || !chatMessages) {
-      return;
-    }
-
-    // businessWhatsAppNumber resolved once in shared references
-    const defaultMessage = CONFIG.messages.chatDefault;
-
-    const syncWhatsAppLink = (message) => {
-      if (!whatsappLink) {
-        return;
-      }
-
-      whatsappLink.href = buildWhatsAppUrl(businessWhatsAppNumber, message || defaultMessage);
-    };
-
-    const toggleChat = (shouldOpen) => {
-      chatWidget.classList.toggle('is-open', shouldOpen);
-      chatPanel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
-      chatFab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
-
-      if (shouldOpen) {
-        syncWhatsAppLink(defaultMessage);
-        window.setTimeout(() => {
-          chatPanel.focus();
-        }, 0);
-      }
-    };
-
-    const appendMessage = (text, type = 'user') => {
-      const message = document.createElement('div');
-      message.className = `chat-message is-${type}`;
-      const paragraph = document.createElement('p');
-      paragraph.textContent = text;
-      message.appendChild(paragraph);
-      chatMessages.appendChild(message);
-      chatMessages.scrollTop = chatMessages.scrollHeight;
-    };
-
-    const quickReplies = {
-      'Send files': 'Great! Please send your files on WhatsApp so we can confirm details quickly.',
-      'Check price': 'Share quantity, size, and color preferences for a fast price estimate.',
-      Location: 'We are near Old Viva College, Virar West. Tap WhatsApp for directions.'
-    };
-
-    chatFab.addEventListener('click', () => {
-      toggleChat(!chatWidget.classList.contains('is-open'));
-    });
-
-    chatClose.addEventListener('click', () => {
-      toggleChat(false);
-    });
-
-    quickButtons.forEach((button) => {
-      button.addEventListener('click', () => {
-        const reply = button.dataset.quickReply || '';
-        appendMessage(reply, 'user');
-
-        const response = quickReplies[reply] || 'We are here to help. Share your request on WhatsApp.';
-        window.setTimeout(() => {
-          appendMessage(response, 'agent');
-        }, 260);
-
-        syncWhatsAppLink(`Chat request: ${reply}. Please assist.`);
-      });
-    });
-
-    document.addEventListener('keydown', (event) => {
-      if (event.key === 'Escape' && chatWidget.classList.contains('is-open')) {
-        toggleChat(false);
-      }
-    });
-  };
+  // CHAT WIDGET — extracted to js/features/chat-widget.js
 
   // =========================================================================
   // QUOTE CALCULATOR — extracted to js/features/quote-calculator.js
@@ -2475,26 +1567,38 @@ runAfterReady(() => {
   // =========================================================================
   // FEATURE INITIALISATION — wrapped in safeRun for production resilience
   // =========================================================================
-  safeRun('scroll-progress', setupScrollProgressIndicator);
-  safeRun('hero-typing', setupHeroTypingLine);
-  safeRun('image-skeletons', setupImageLoadingSkeletons);
-  safeRun('counters', setupCounterAnimations);
-  safeRun('faq', setupFaqAccordion);
+
+  // --- Phase 3: reveal animations (scroll-reveal, header, hero-status, skeletons, typing) ---
+  safeRun('reveal-animations', initRevealAnimations);
+
+  // --- Phase 3: navigation (scrollspy, indicator, desktop + mobile menu) ---
+  safeRun('navigation', initNavigation);
+
+  // --- Phase 3: floating actions (back-to-top + desktop CTA rail) ---
+  safeRun('floating-actions', initFloatingActions);
+
+  // --- Remaining inline features ---
   safeRun('ripples', setupRippleEffects);
-  safeRun('testimonial-slider', setupTestimonialSlider);
   safeRun('tilt-effects', setupTiltEffects);
   safeRun('hero-parallax', setupHeroParallax);
-  safeRun('navigation', setupNavigationExperience);
-  safeRun('mobile-navigation', setupMobileNavigationExperience);
-  safeRun('desktop-cta-rail', setupDesktopCtaRailVisibility);
-  safeRun('back-to-top', setupBackToTop);
+
+  // --- Phase 2 modules ---
+  safeRun('counters', initCounters);
+  safeRun('faq', initFAQ);
+  safeRun('testimonial-slider', initTestimonialSlider);
+  safeRun('address-copy', initAddressCopy);
+  safeRun('sticky-whatsapp', initStickyWhatsApp);
+
+  // --- Phase 1 modules ---
   safeRun('smart-search', initSmartSearch);
   safeRun('gallery-lightbox', initGalleryLightbox);
-  safeRun('address-copy', setupAddressCopy);
-  safeRun('sticky-whatsapp', setupStickyWhatsAppButton);
+  safeRun('quote-calculator', initQuoteCalculator);
+
+  // --- Phase 3: chat widget ---
+  safeRun('chat-widget', initChatWidget);
+
+  // --- Still-inline complex systems (not yet extracted) ---
   safeRun('bulk-enquiry', setupBulkEnquiryForm);
   safeRun('pdf-downloads', setupPdfDownloads);
-  safeRun('chat-widget', setupChatWidget);
-  safeRun('quote-calculator', initQuoteCalculator);
   safeRun('service-availability', setupServiceAvailability);
 });
