@@ -2849,7 +2849,7 @@ img {
   isolation: isolate;
   background: linear-gradient(168deg, #081e43 0%, #0a2858 48%, #081224 100%);
   color: rgba(255, 255, 255, 0.82);
-  padding: 78px 0 86px;
+  padding: 78px 0 calc(120px + env(safe-area-inset-bottom));
   border-top-left-radius: 34px;
   border-top-right-radius: 34px;
   overflow: hidden;
@@ -3129,7 +3129,7 @@ img {
   justify-content: space-between;
   gap: 12px;
   flex-wrap: wrap;
-  padding-right: 80px;
+  padding-right: 140px;
 }
 
 .footer-bottom p {
@@ -3597,7 +3597,7 @@ img {
   /* Footer mobile/tablet improvements (<=991px) */
   .site-footer {
     padding-top: 60px;
-    padding-bottom: 40px;
+    padding-bottom: calc(110px + env(safe-area-inset-bottom));
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
   }
@@ -4066,7 +4066,7 @@ img {
   /* Footer compact polish for mobile/tablet (<=768px) */
   .site-footer {
     padding-top: 54px;
-    padding-bottom: 36px;
+    padding-bottom: calc(104px + env(safe-area-inset-bottom));
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
   }
@@ -4549,7 +4549,7 @@ img {
   /* Footer compact polish for small phones (<=576px) */
   .site-footer {
     padding-top: 48px;
-    padding-bottom: 30px;
+    padding-bottom: calc(96px + env(safe-area-inset-bottom));
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
   }
@@ -5349,8 +5349,8 @@ textarea:focus-visible {
 
 .back-to-top-btn {
   position: fixed;
-  right: 24px;
-  bottom: 24px;
+  right: clamp(12px, 1.6vw, 20px);
+  bottom: calc(44px + env(safe-area-inset-bottom));
   z-index: 1095;
   width: 44px;
   height: 44px;
@@ -5506,7 +5506,7 @@ body.lightbox-open {
   }
 
   .back-to-top-btn {
-    bottom: 86px;
+    bottom: 110px;
   }
 }
 
@@ -6065,7 +6065,7 @@ body.lightbox-open {
 
   .site-footer {
     padding-top: 38px;
-    padding-bottom: 24px;
+    padding-bottom: calc(92px + env(safe-area-inset-bottom));
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
   }
@@ -7981,8 +7981,8 @@ main > section + section::before {
 /* Floating actions container groups right-side buttons and keeps stacking consistent */
 .floating-actions {
   position: fixed;
-  right: clamp(16px, 2vw, 24px);
-  bottom: calc(24px + env(safe-area-inset-bottom));
+  right: clamp(10px, 1.4vw, 18px);
+  bottom: calc(36px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -7994,6 +7994,13 @@ main > section + section::before {
 .floating-actions > * {
   /* ensure children animate smoothly, keep accessibility, and restore clickability */
   transition: transform 0.18s ease, opacity 0.2s ease;
+  pointer-events: none;
+}
+
+.floating-actions .desktop-cta-chip,
+.floating-actions .sticky-whatsapp-btn,
+.floating-actions .chat-fab,
+.floating-actions .chat-panel {
   pointer-events: auto;
 }
 
@@ -8004,7 +8011,7 @@ main > section + section::before {
   top: auto;
   transform: none;
   opacity: 1;
-  pointer-events: auto;
+  pointer-events: none;
   display: flex;
 }
 

@@ -378,11 +378,12 @@ body.legal-page {
 
 /* Footer */
 .legal-footer {
+  position: relative;
   margin-top: 40px;
   background: var(--navy-2);
   color: #dbe6ff;
   border-top: 4px solid var(--yellow);
-  padding: 30px 0;
+  padding: 30px 0 calc(96px + env(safe-area-inset-bottom));
 }
 
 .legal-footer-inner {
@@ -447,8 +448,8 @@ body.legal-page {
 /* Sticky Back to Top (from main styles, adapted for legal if needed) */
 .legal-back-to-top {
   position: fixed;
-  bottom: 30px;
-  right: 30px;
+  bottom: calc(40px + env(safe-area-inset-bottom));
+  right: 18px;
   width: 48px;
   height: 48px;
   border-radius: 50%;
@@ -533,8 +534,8 @@ body.legal-page {
   }
 
   .legal-back-to-top {
-    bottom: 20px;
-    right: 20px;
+    bottom: calc(44px + env(safe-area-inset-bottom));
+    right: 16px;
     width: 44px;
     height: 44px;
   }
