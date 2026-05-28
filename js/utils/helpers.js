@@ -99,3 +99,37 @@ export const resolveBusinessEmail = () => {
   const emailAddress = href.replace(/^mailto:/i, '').split('?')[0].trim();
   return emailAddress || defaultEmail;
 };
+
+/**
+ * Build a device-aware WhatsApp URL for a given phone number and message.
+ * Uses wa.me on mobile, api.whatsapp.com/send on desktop.
+ * @param {string} phoneNumber - Raw or normalized phone number
+ * @param {string} message - Message to pre-fill
+ * @returns {string}
+ */
+export const buildWhatsAppUrl = (phoneNumber, message) => {
+  const isMobile = /Android|iPhone|iPad|iPod|Windows Phone|webOS|Mobile/i.test(
+    navigator.userAgent || ''
+  );
+  const safePhone = normalizePhoneNumber(phoneNumber);
+  const encodedMessage = encodeURIComponent(message || '');
+
+  if (isMobile) {
+    return `https://wa.me/${safePhone}?text=${encodedMessage}`;
+  }
+
+  return `https://api.whatsapp.com/send?phone=${safePhone}&text=${encodedMessage}`;
+};
+
+/**
+ * Build a mailto: URL with pre-filled subject and body.
+ * @param {string} emailAddress
+ * @param {string} subject
+ * @param {string} body
+ * @returns {string}
+ */
+export const buildMailtoUrl = (emailAddress, subject, body) => {
+  const encodedSubject = encodeURIComponent(subject || '');
+  const encodedBody = encodeURIComponent(body || '');
+  return `mailto:${emailAddress}?subject=${encodedSubject}&body=${encodedBody}`;
+};
