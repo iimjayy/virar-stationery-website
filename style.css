@@ -2849,7 +2849,7 @@ img {
   isolation: isolate;
   background: linear-gradient(168deg, #081e43 0%, #0a2858 48%, #081224 100%);
   color: rgba(255, 255, 255, 0.82);
-  padding: 78px 0 26px;
+  padding: 78px 0 86px;
   border-top-left-radius: 34px;
   border-top-right-radius: 34px;
   overflow: hidden;
@@ -3597,7 +3597,7 @@ img {
   /* Footer mobile/tablet improvements (<=991px) */
   .site-footer {
     padding-top: 60px;
-    padding-bottom: 20px;
+    padding-bottom: 40px;
     border-top-left-radius: 28px;
     border-top-right-radius: 28px;
   }
@@ -4066,7 +4066,7 @@ img {
   /* Footer compact polish for mobile/tablet (<=768px) */
   .site-footer {
     padding-top: 54px;
-    padding-bottom: 16px;
+    padding-bottom: 36px;
     border-top-left-radius: 24px;
     border-top-right-radius: 24px;
   }
@@ -4549,7 +4549,7 @@ img {
   /* Footer compact polish for small phones (<=576px) */
   .site-footer {
     padding-top: 48px;
-    padding-bottom: 13px;
+    padding-bottom: 30px;
     border-top-left-radius: 20px;
     border-top-right-radius: 20px;
   }
@@ -5349,9 +5349,9 @@ textarea:focus-visible {
 
 .back-to-top-btn {
   position: fixed;
-  right: 16px;
-  bottom: 16px;
-  z-index: 1035;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1095;
   width: 44px;
   height: 44px;
   border-radius: 50%;
@@ -5506,7 +5506,7 @@ body.lightbox-open {
   }
 
   .back-to-top-btn {
-    bottom: 78px;
+    bottom: 86px;
   }
 }
 
@@ -6065,7 +6065,7 @@ body.lightbox-open {
 
   .site-footer {
     padding-top: 38px;
-    padding-bottom: 10px;
+    padding-bottom: 24px;
     border-top-left-radius: 18px;
     border-top-right-radius: 18px;
   }
@@ -7981,8 +7981,8 @@ main > section + section::before {
 /* Floating actions container groups right-side buttons and keeps stacking consistent */
 .floating-actions {
   position: fixed;
-  right: clamp(12px, 1.5vw, 20px);
-  bottom: calc(18px + env(safe-area-inset-bottom));
+  right: clamp(16px, 2vw, 24px);
+  bottom: calc(24px + env(safe-area-inset-bottom));
   display: flex;
   flex-direction: column;
   gap: 12px;
