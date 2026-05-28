@@ -14,27 +14,51 @@ Update this file whenever features are added, refactored, or modules are extract
 
 ```
 js/
-├── main.js              ← orchestrator: imports all modules, initializes all features
-├── config.js            ← CONFIG object: business constants, hours, messages
-├── core/toast.js        ← toast notification system
-├── data/business-data.js ← searchCatalog, detailedServices, pricingConfig, pdfTemplates, addonRates
-└── utils/helpers.js     ← escapeHtml, normalizeText, toLookupKey, normalizePhoneNumber, resolveBusinessWhatsAppNumber, resolveBusinessEmail
+├── main.js                ← orchestrator (~480 lines): imports all modules, initializes via safeRun
+├── config.js              ← CONFIG object: business constants, hours, messages
+├── core/
+│   └── toast.js           ← toast notification system (ensureEnquiryToast, showEnquiryToast)
+├── data/
+│   └── business-data.js   ← searchCatalog, detailedServices, pricingConfig, pdfTemplates, addonRates
+├── utils/
+│   └── helpers.js         ← escapeHtml, normalizeText, toLookupKey, normalizePhoneNumber, buildWhatsAppUrl, etc.
+└── features/
+    ├── address-copy.js          ← address copy-to-clipboard
+    ├── bulk-enquiry.js          ← multi-step bulk order form + file upload
+    ├── chat-widget.js           ← floating chat panel with quick replies
+    ├── counters.js              ← animated trust counter badges
+    ├── faq.js                   ← FAQ accordion
+    ├── floating-actions.js      ← desktop CTA rail + back-to-top button
+    ├── gallery-lightbox.js      ← image gallery + keyboard/touch lightbox
+    ├── navigation.js            ← header/mobile nav, scroll spy, active indicator
+    ├── pdf-downloads.js         ← PDF generation + download buttons
+    ├── quote-calculator.js      ← instant price estimator
+    ├── reveal-animations.js     ← scroll-triggered section reveals + scroll progress bar
+    ├── service-availability.js  ← service status badges (available/busy/limited)
+    ├── service-interactions.js  ← dual-mode service panels (desktop grid + mobile slider)
+    ├── smart-search.js          ← fuzzy search with keyboard nav + recent searches
+    ├── sticky-whatsapp.js       ← sticky WhatsApp floating button
+    └── testimonial-slider.js    ← testimonial card slider
 ```
+
+**Total: 16 feature modules + 4 core/utility modules**
+
+Entry point: `<script type="module" src="js/main.js">` in index.html.
 
 ## Shared Dependencies (resolved once in main.js)
 
 * `businessWhatsAppNumber` — resolved at init, used by all WhatsApp-dependent features
 * `businessEmail` — resolved at init, used by contact form and bulk enquiry
 * `isMobileDevice` — resolved at init, used for WhatsApp URL differentiation
-* `buildWhatsAppUrl(phone, message)` — shared URL builder
-* `buildMailtoUrl(email, subject, body)` — shared mailto builder
-* `openEnquiryChannel(whatsappUrl, mailtoUrl)` — shared channel opener with fallback
+* `buildWhatsAppUrl(phone, message)` — shared URL builder (in helpers.js)
+* `buildMailtoUrl(email, subject, body)` — shared mailto builder (in helpers.js)
+* `openEnquiryChannel(whatsappUrl, mailtoUrl)` — shared channel opener with fallback (in helpers.js)
 
 ## Production Safety
 
-* `safeRun(label, callback)` wraps every feature init
-* `runAfterReady(callback)` ensures DOM readiness
-* Global error/rejection listeners trigger toast for user feedback
+* `safeRun(label, callback)` wraps every feature init — if one feature crashes, others still work
+* `runAfterReady(callback)` ensures DOM readiness before any initialization
+* Global `error`/`unhandledrejection` listeners trigger toast for user feedback
 
 ---
 
@@ -46,19 +70,13 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupSmartSearch(form)` |
-| Location | `js/main.js` (called per `.search-box` element) |
+| Module | `js/features/smart-search.js` |
+| Export | `initSmartSearch()` |
 | Data | `searchCatalog` from `js/data/business-data.js` |
-| DOM Targets | `.search-box`, `.search-input`, service/product/price cards |
+| DOM Targets | `#siteSearch`, `#siteSearchInput`, service/product/price cards |
 | Dependencies | `escapeHtml`, `normalizeText`, `toLookupKey` from helpers |
 | State | `activeSuggestionIndex`, `visibleSuggestions`, `previousQuery` (closure-scoped) |
 | Storage | `localStorage` for recent searches |
-
-### Risks During Refactor
-
-* DOM maps (`serviceCardMap`, `productCardMap`, `priceCardMap`) depend on heading selectors
-* Keyboard navigation state machine is complex
-* Document-level `pointerdown` listener for click-outside
 
 ---
 
@@ -66,32 +84,11 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupQuoteCalculator()` |
-| Location | `js/main.js` |
+| Module | `js/features/quote-calculator.js` |
+| Export | `initQuoteCalculator()` |
 | Data | `pricingConfig`, `addonRates` from `js/data/business-data.js` |
-| DOM Targets | `#quoteForm`, `#quoteService`, `#quoteWhatsAppBtn` |
-| Dependencies | `buildWhatsAppUrl`, `businessWhatsAppNumber` |
-
-### Risks During Refactor
-
-* Pricing logic closely tied to data structure
-* WhatsApp button href updated on every input change
-
----
-
-## WhatsApp Ordering System
-
-| Property | Value |
-|---|---|
-| Functions | `buildWhatsAppUrl()`, `buildMailtoUrl()`, `openEnquiryChannel()` |
-| Location | `js/main.js` (shared references section) |
-| Used By | Contact form, bulk enquiry, sticky button, chat widget, service panels, quote calculator |
-
-### Risks During Refactor
-
-* Most critical conversion system — test thoroughly after any change
-* Mobile/desktop URL differentiation logic
-* Popup fallback → email fallback chain
+| DOM Targets | `#quoteCalculator`, `#quoteService`, `#quoteWhatsAppBtn` |
+| Dependencies | `buildWhatsAppUrl`, CONFIG |
 
 ---
 
@@ -99,23 +96,23 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupServiceInteractions()` |
-| Location | `js/main.js` |
+| Module | `js/features/service-interactions.js` |
+| Export | `initServiceInteractions()` |
 | Data | `detailedServices` from `js/data/business-data.js` |
 | DOM Targets | `#services .service-grid`, `.service-card` |
-| State | `activeCard`, `sliderFocusCard`, slider pointer tracking |
+| Dependencies | `CONFIG`, `escapeHtml`, `buildWhatsAppUrl` from helpers |
+| State | `activeCard`, `sliderFocusCard`, slider pointer tracking (closure-scoped) |
 
 ### Slider Mode
 
 * Activated at `max-width: 1199.98px`
 * Horizontal scroll snapping with dot pagination
 * Touch/pointer swipe detection to distinguish scroll vs click
+* Resize handler uses rAF throttling for mobile performance
 
-### Risks During Refactor
+### Architecture Note
 
-* Largest and most complex feature (~560 lines)
-* DOM insertion of detail panel depends on grid layout
-* Multiple pointer event listeners for swipe tracking
+This module is intentionally kept as a **single file** because panel logic and slider logic share 8+ closure-scoped state variables with bidirectional coupling.
 
 ---
 
@@ -123,8 +120,8 @@ js/
 
 | Property | Value |
 |---|---|
-| Functions | `ensureEnquiryToast()`, `showEnquiryToast()` |
-| Location | `js/core/toast.js` |
+| Module | `js/core/toast.js` |
+| Exports | `ensureEnquiryToast()`, `showEnquiryToast()` |
 | Used By | Contact form, bulk enquiry, smart search, quote calculator, address copy, error handler |
 
 ---
@@ -134,7 +131,7 @@ js/
 | Property | Value |
 |---|---|
 | Function | `setupHeroOpenStatus()` |
-| Location | `js/main.js` |
+| Location | `js/main.js` (inline, low complexity) |
 | Config | `CONFIG.hours.openHour`, `CONFIG.hours.closeHour` |
 | DOM Targets | `#heroOpenStatus`, `.hero-open-text` |
 | Timer | `setInterval` every 60 seconds |
@@ -155,14 +152,10 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupBulkEnquiryForm()` |
-| Location | `js/main.js` |
+| Module | `js/features/bulk-enquiry.js` |
+| Export | `initBulkEnquiry()` |
 | DOM Targets | `#bulkEnquiryForm`, `#bulkUpload`, `#bulkFile` |
-| Dependencies | `businessWhatsAppNumber`, `businessEmail`, `buildWhatsAppUrl`, toast |
-
-### Note
-
-* Shares identical validation logic with contact form (candidate for shared utility extraction)
+| Dependencies | `CONFIG`, `buildWhatsAppUrl`, `buildMailtoUrl`, `openEnquiryChannel`, toast |
 
 ---
 
@@ -170,10 +163,10 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupGalleryLightbox()` |
-| Location | `js/main.js` |
-| DOM Targets | `.gallery-grid img`, lightbox overlay |
-| Features | Keyboard navigation, touch swipe, preloading |
+| Module | `js/features/gallery-lightbox.js` |
+| Export | `initGalleryLightbox()` |
+| DOM Targets | `.gallery-grid img`, `#galleryLightbox` |
+| Features | Keyboard navigation (←/→/Esc), touch swipe, preloading |
 
 ---
 
@@ -181,49 +174,46 @@ js/
 
 | Property | Value |
 |---|---|
-| Function | `setupChatWidget()` |
-| Location | `js/main.js` |
+| Module | `js/features/chat-widget.js` |
+| Export | `initChatWidget()` |
 | DOM Targets | `#chatWidget`, `#chatFab`, `#chatPanel` |
-| Dependencies | `businessWhatsAppNumber`, `buildWhatsAppUrl` |
+| Dependencies | `CONFIG`, `buildWhatsAppUrl` |
 
 ---
 
 ## Navigation & Scroll Effects
 
-| Feature | Function | Location |
-|---|---|---|
-| Header shadow | Inline (rAF-throttled scroll) | `js/main.js` |
-| Scroll reveal | IntersectionObserver | `js/main.js` |
-| Scroll progress | `setupScrollProgressIndicator()` | `js/main.js` |
-| Back to top | `setupBackToTop()` | `js/main.js` |
-| Desktop nav indicator | `setupNavigationExperience()` | `js/main.js` |
-| Mobile nav | `setupMobileNavigationExperience()` | `js/main.js` |
-| Desktop CTA rail | `setupDesktopCtaRailVisibility()` | `js/main.js` |
+| Feature | Module/Location |
+|---|---|
+| Navigation (header, mobile, scroll spy) | `js/features/navigation.js` |
+| Floating actions (desktop CTA rail, back-to-top) | `js/features/floating-actions.js` |
+| Reveal animations + scroll progress | `js/features/reveal-animations.js` |
+| Header shadow (rAF-throttled scroll) | `js/main.js` (inline) |
 
 ---
 
 ## Visual Effects
 
-| Feature | Function |
+| Feature | Location |
 |---|---|
-| Counter animations | `setupCounterAnimations()` |
-| Ripple effects | `setupRippleEffects()` |
-| Tilt effects | `setupTiltEffects()` |
-| Hero parallax | `setupHeroParallax()` |
-| Hero typing line | `setupHeroTypingLine()` |
-| Image skeletons | `setupImageLoadingSkeletons()` |
-| Testimonial slider | `setupTestimonialSlider()` |
+| Counter animations | `js/features/counters.js` |
+| Ripple effects | `js/main.js` (inline, `setupRippleEffects()`) |
+| Tilt effects | `js/main.js` (inline, `setupTiltEffects()`) |
+| Hero parallax | `js/main.js` (inline, `setupHeroParallax()` — rAF-throttled) |
+| Hero typing line | `js/main.js` (inline, `setupHeroTypingLine()`) |
+| Image skeletons | `js/main.js` (inline, `setupImageLoadingSkeletons()`) |
+| Testimonial slider | `js/features/testimonial-slider.js` |
 
 ---
 
 ## Utility Features
 
-| Feature | Function |
+| Feature | Module |
 |---|---|
-| Address copy | `setupAddressCopy()` |
-| Sticky WhatsApp | `setupStickyWhatsAppButton()` |
-| PDF downloads | `setupPdfDownloads()` |
-| Service availability | `setupServiceAvailability()` |
+| Address copy | `js/features/address-copy.js` |
+| Sticky WhatsApp | `js/features/sticky-whatsapp.js` |
+| PDF downloads | `js/features/pdf-downloads.js` |
+| Service availability | `js/features/service-availability.js` |
 
 ---
 
@@ -231,7 +221,7 @@ js/
 
 All features are initialized via `safeRun` in this order (from `js/main.js`):
 
-1. `scroll-progress`
+1. `scroll-progress` (reveal-animations)
 2. `hero-typing`
 3. `image-skeletons`
 4. `counters`
@@ -247,13 +237,16 @@ All features are initialized via `safeRun` in this order (from `js/main.js`):
 14. `gallery-lightbox`
 15. `address-copy`
 16. `sticky-whatsapp`
-17. `bulk-enquiry`
-18. `pdf-downloads`
-19. `chat-widget`
-20. `quote-calculator`
-21. `service-availability`
+17. `smart-search`
+18. `quote-calculator`
+19. `floating-actions`
+20. `chat-widget`
+21. `bulk-enquiry`
+22. `pdf-downloads`
+23. `service-availability`
+24. `service-interactions`
 
-Note: Contact form and Smart Search are initialized before `safeRun` features (directly in the `runAfterReady` callback).
+Note: Contact form is initialized before `safeRun` features (directly in the `runAfterReady` callback).
 
 ---
 
@@ -279,16 +272,23 @@ When extracting modules:
 
 ---
 
-# Next Refactoring Phase
+# Refactoring Status
 
-## Phase 2 — Feature Extraction
+## Completed Phases
 
-Priority order:
+* ✅ **Phase 1a** — JavaScript modularization (config, data, utils, toast extracted)
+* ✅ **Phase 1b** — Workspace stabilization and cleanup
+* ✅ **Phase 2** — Feature extraction (all 16 feature modules extracted from main.js)
 
-1. Extract shared form utilities → `js/utils/form-helpers.js`
-2. Extract smart search → `js/features/smart-search.js`
-3. Extract service panels → `js/features/service-panel.js`
-4. Extract quote calculator → `js/features/quote-calculator.js`
-5. Extract gallery/lightbox → `js/features/gallery-lightbox.js`
+## Current State
 
-Goal: Reduce main.js from ~3400 lines to ~200 lines (orchestrator only).
+* main.js reduced from ~3400 lines to ~480 lines (orchestrator only)
+* 16 self-contained feature modules in `js/features/`
+* 4 core/utility modules (`config.js`, `toast.js`, `business-data.js`, `helpers.js`)
+
+## Next Phase
+
+* **Phase 3** — CSS modularization (163KB monolith → component files)
+* **Phase 3** — CSS performance (backdrop-filter reduction, animation audit)
+* **Phase 3** — Image optimization (WebP, srcset/sizes)
+* **Phase 3** — Contact form extraction to `js/features/contact-form.js`

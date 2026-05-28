@@ -172,13 +172,13 @@ export const searchCatalog = {
       label: 'Cartridges',
       icon: 'fa-solid fa-print',
       keywords: ['printer cartridge', 'toner'],
-      target: { type: 'service', text: 'Cartridge Refelling', fallbackSelector: '#services' }
+      target: { type: 'service', text: 'Cartridge Refilling', fallbackSelector: '#services' }
     },
     {
       label: 'Printer Ink',
       icon: 'fa-solid fa-fill-drip',
       keywords: ['ink refill', 'ink bottle'],
-      target: { type: 'service', text: 'Cartridge Refelling', fallbackSelector: '#services' }
+      target: { type: 'service', text: 'Cartridge Refilling', fallbackSelector: '#services' }
     },
     {
       label: 'Calculators',
@@ -539,7 +539,7 @@ export const detailedServices = {
     badge: 'Fast Service',
     priceTag: 'All sizes available'
   },
-  'Cartridge Refelling': {
+  'Cartridge Refilling': {
     explanation: 'Reliable ink and toner refilling to keep your printer running affordably.',
     commonUses: ['Home printer refill', 'Office laser printer maintenance', 'Emergency refill support'],
     startingPrice: ['Pricing based on cartridge model'],

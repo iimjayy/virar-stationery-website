@@ -69,26 +69,43 @@ Hosting:
 
 ```
 js/
-├── main.js              ← application controller (imports all modules, initializes 21 features via safeRun)
-├── config.js            ← centralized business configuration (CONFIG object)
+├── main.js              ← application controller (~480 lines, imports modules, initializes features via safeRun)
+├── config.js            ← CONFIG object: business constants, hours, messages
 ├── core/
 │   └── toast.js         ← toast notification system (ensureEnquiryToast, showEnquiryToast)
 ├── data/
-│   └── business-data.js ← search catalog, detailed services, pricing config, PDF templates
-└── utils/
-    └── helpers.js       ← pure utilities (escapeHtml, normalizeText, normalizePhoneNumber, etc.)
+│   └── business-data.js ← searchCatalog, detailedServices, pricingConfig, pdfTemplates, addonRates
+├── utils/
+│   └── helpers.js       ← escapeHtml, normalizeText, toLookupKey, normalizePhoneNumber, buildWhatsAppUrl, etc.
+└── features/
+    ├── address-copy.js
+    ├── bulk-enquiry.js
+    ├── chat-widget.js
+    ├── counters.js
+    ├── faq.js
+    ├── floating-actions.js
+    ├── gallery-lightbox.js
+    ├── navigation.js
+    ├── pdf-downloads.js
+    ├── quote-calculator.js
+    ├── reveal-animations.js
+    ├── service-availability.js
+    ├── service-interactions.js   ← dual-mode service panel system (expandable grid + mobile slider)
+    ├── smart-search.js
+    ├── sticky-whatsapp.js
+    └── testimonial-slider.js
 ```
 
 Entry point: `<script type="module" src="js/main.js">` in index.html.
 
 ## CSS
 
-* `style.css` — single global stylesheet (8356 lines)
+* `style.css` — single global stylesheet (8414 lines, 163KB)
 * `legal-pages.css` — styles for privacy/terms/sitemap pages
 
 ## HTML
 
-* `index.html` — main single-page application
+* `index.html` — main single-page application (1504 lines)
 * `privacy.html`, `terms.html`, `sitemap.html` — legal/info pages
 
 ---
@@ -105,11 +122,11 @@ Real-time pricing estimation for printing-related services. Uses pricingConfig a
 
 ## WhatsApp Ordering
 
-Core conversion workflow using pre-filled WhatsApp messages. Mobile/desktop URL differentiation. Email fallback chain. Used by: contact form, bulk enquiry, chat widget, service panels, sticky button, quote calculator.
+Core conversion workflow using pre-filled WhatsApp messages. Mobile/desktop URL differentiation via buildWhatsAppUrl(). Email fallback chain. Used by: contact form, bulk enquiry, chat widget, service panels, sticky button, quote calculator.
 
 ## Service Interaction Panels
 
-Interactive expandable service cards with detail panels. Responsive slider mode for mobile (<1200px). Touch/pointer tracking for swipe vs click detection.
+Interactive expandable service cards with detail panels. Responsive slider mode for mobile (<1200px). Touch/pointer swipe detection to distinguish scroll vs click. Uses buildWhatsAppUrl for device-aware WhatsApp links.
 
 ## Open/Closed Status System
 
@@ -139,9 +156,8 @@ Mobile-first interactions, hamburger navigation, bottom action bar, sticky Whats
 
 ## Shared State
 
-* `businessWhatsAppNumber` and `businessEmail` are resolved once at initialization, shared across all features
-* `isMobileDevice` is resolved once, used for WhatsApp URL differentiation
-* `buildWhatsAppUrl()` and `buildMailtoUrl()` are shared utility functions in main.js
+* `businessWhatsAppNumber` and `businessEmail` are resolved once at initialization, shared across features that need them
+* `buildWhatsAppUrl()`, `buildMailtoUrl()`, and `openEnquiryChannel()` are shared utility functions in helpers.js
 
 ## Module Boundaries
 
@@ -149,7 +165,8 @@ Mobile-first interactions, hamburger navigation, bottom action bar, sticky Whats
 * `helpers.js` — pure functions with no DOM side effects
 * `toast.js` — encapsulated UI component with module-scoped state
 * `business-data.js` — static data exports only
-* `main.js` — all DOM interaction, event binding, and feature orchestration
+* `main.js` — orchestrator: imports modules, resolves shared references, initializes all features
+* `features/*.js` — self-contained feature modules with their own imports
 
 ---
 
@@ -197,6 +214,7 @@ Important:
 * optimize images
 * reduce CSS duplication
 * improve responsiveness
+* use rAF throttling for scroll/resize handlers
 
 ---
 
@@ -264,16 +282,18 @@ When modifying the codebase:
 # Current Refactoring Phase
 
 Current focus:
-PHASE 2 — Feature Extraction Preparation
+PHASE 3 — Production Optimization & Hardening
 
 Completed:
 * ✅ PHASE 1a — JavaScript modularization (config, data, utils, toast extracted)
 * ✅ PHASE 1b — Workspace stabilization and cleanup
+* ✅ PHASE 2 — Feature extraction (all 16 feature modules extracted from main.js)
 
 Next priorities:
-1. Extract large feature modules from main.js (smart search, service panel, quote calculator, etc.)
-2. CSS modularization
-3. Shared form utility extraction
+1. CSS modularization (163KB monolith → component files)
+2. CSS performance optimization (backdrop-filter reduction, animation audit)
+3. Image optimization (WebP conversion, srcset/sizes)
+4. Contact form extraction to separate module
 
 ---
 
