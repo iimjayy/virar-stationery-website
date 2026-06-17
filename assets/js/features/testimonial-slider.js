@@ -23,8 +23,10 @@ export const initTestimonialSlider = () => {
   }
 
   const mobileBreakpoint = window.matchMedia('(max-width: 991px)');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let activeIndex = 0;
   let scrollTicking = false;
+  let autoAdvanceTimer = null;
 
   // Build dot navigation — one button per slide.
   dotsContainer.innerHTML = '';
@@ -42,16 +44,24 @@ export const initTestimonialSlider = () => {
     return dotButton;
   });
 
-  // Update dot states, prev/next disabled states.
+  // Update dot states and ARIA for prev/next buttons (wrapping navigation).
   const setActiveIndex = (index) => {
-    activeIndex = Math.max(0, Math.min(slides.length - 1, index));
+    // Wrap around at boundaries.
+    if (index < 0) {
+      activeIndex = slides.length - 1;
+    } else if (index >= slides.length) {
+      activeIndex = 0;
+    } else {
+      activeIndex = index;
+    }
 
     dotButtons.forEach((dotButton, dotIndex) => {
       dotButton.classList.toggle('is-active', dotIndex === activeIndex);
     });
 
-    previousButton.disabled = activeIndex === 0;
-    nextButton.disabled = activeIndex === slides.length - 1;
+    // Buttons always enabled because navigation wraps.
+    previousButton.disabled = false;
+    nextButton.disabled = false;
   };
 
   // Find the slide whose center is closest to the track viewport center.
@@ -104,11 +114,13 @@ export const initTestimonialSlider = () => {
   );
 
   previousButton.addEventListener('click', () => {
-    centerSlide(activeIndex - 1, 'smooth');
+    const prevIndex = activeIndex - 1 < 0 ? slides.length - 1 : activeIndex - 1;
+    centerSlide(prevIndex, 'smooth');
   });
 
   nextButton.addEventListener('click', () => {
-    centerSlide(activeIndex + 1, 'smooth');
+    const nextIndex = activeIndex + 1 >= slides.length ? 0 : activeIndex + 1;
+    centerSlide(nextIndex, 'smooth');
   });
 
   // Sync state when viewport switches between mobile and desktop.
@@ -131,4 +143,50 @@ export const initTestimonialSlider = () => {
   }
 
   syncSliderState();
+
+  // ---------------------------------------------------------------------------
+  // Auto-advance (every 5 s). Paused on hover, pointer/touch, or reduced motion.
+  // ---------------------------------------------------------------------------
+  const AUTO_ADVANCE_MS = 5000;
+
+  const startAutoAdvance = () => {
+    if (prefersReducedMotion.matches) return;
+    stopAutoAdvance();
+    autoAdvanceTimer = setInterval(() => {
+      const nextIndex = (activeIndex + 1) % slides.length;
+      centerSlide(nextIndex, 'smooth');
+    }, AUTO_ADVANCE_MS);
+  };
+
+  const stopAutoAdvance = () => {
+    if (autoAdvanceTimer !== null) {
+      clearInterval(autoAdvanceTimer);
+      autoAdvanceTimer = null;
+    }
+  };
+
+  // Pause on hover.
+  track.addEventListener('mouseenter', stopAutoAdvance);
+  track.addEventListener('mouseleave', startAutoAdvance);
+
+  // Pause during pointer / touch interaction.
+  track.addEventListener('pointerdown', stopAutoAdvance);
+  track.addEventListener('pointerup', startAutoAdvance);
+
+  // Re-evaluate when the reduced-motion preference changes at runtime.
+  const onMotionPrefChange = () => {
+    if (prefersReducedMotion.matches) {
+      stopAutoAdvance();
+    } else {
+      startAutoAdvance();
+    }
+  };
+
+  if (typeof prefersReducedMotion.addEventListener === 'function') {
+    prefersReducedMotion.addEventListener('change', onMotionPrefChange);
+  } else if (typeof prefersReducedMotion.addListener === 'function') {
+    prefersReducedMotion.addListener(onMotionPrefChange);
+  }
+
+  startAutoAdvance();
 };

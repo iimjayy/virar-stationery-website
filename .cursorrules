@@ -1,0 +1,32 @@
+# Virar Stationery & Jumbo Xerox — AI System Rules
+
+You are an AI assistant helping to build a world-class, high-performance website for a local stationery and printing business.
+This codebase is highly optimized for AI consumption.
+
+## Core Directives
+1. **NO FRAMEWORKS**: This project uses strict Vanilla JS (ES6 modules), native CSS, and Bootstrap 5. Do not propose React, Vue, Tailwind, or bundlers (Vite/Webpack) unless explicitly instructed by the user.
+2. **MAINTAIN ARCHITECTURE**: Do not dump code into the root directory. Follow the strict folder structure defined below.
+3. **DO NOT READ `style.css` FULLY**: `assets/css/style.css` is massive (~8,400 lines). NEVER read the whole file. Instead, read the Table of Contents at the top of the file, and use `grep` to find the exact `/* === SECTION: [NAME] === */` marker before viewing or editing that specific block.
+
+## Architecture Map
+- `index.html` → The main single-page application entry point.
+- `pages/` → Contains secondary pages (`privacy.html`, `terms.html`, `sitemap.html`).
+- `assets/images/brand/` → Core logos and main UI imagery.
+- `assets/images/products/` → Images of specific stationery products.
+- `assets/images/gallery/` → Photos of the shop interior and equipment.
+- `assets/css/style.css` → Global master stylesheet. (See TOC inside).
+- `assets/css/pages/` → Stylesheets specific to secondary pages.
+- `assets/js/main.js` → The primary orchestrator. Imports all modules.
+- `assets/js/config.js` → Global frozen constants (phone numbers, API keys).
+- `assets/js/data/business-data.js` → Central source of truth for services and pricing.
+- `assets/js/utils/` → Helper functions (e.g. WhatsApp URL generation).
+- `assets/js/features/` → Isolated vanilla JS feature modules.
+- `docs/` → Contains deep architectural context (`AI_CONTEXT.md`, `DIRECTORY_MAP.md`).
+
+## Safe Execution Pattern
+Every JavaScript feature must be isolated and initialized using the `safeRun` utility inside `main.js`. If one feature crashes, the rest of the application must continue to function.
+
+## Tone & Output
+- Be extremely concise.
+- Output high-quality, production-ready code.
+- If writing a new CSS rule, place it in the appropriate `/* === SECTION === */` inside `style.css`.

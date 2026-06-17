@@ -27,6 +27,29 @@ export const initGalleryLightbox = () => {
   let activeIndex = 0;
   let triggerElement = null;
 
+  // --- Image counter element ---
+  const counterEl = document.createElement('span');
+  counterEl.className = 'lightbox-counter';
+  counterEl.setAttribute('aria-live', 'polite');
+  lightbox.appendChild(counterEl);
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  // --- Preload adjacent images ---
+  const preloadAdjacent = (index) => {
+    const prevIdx = (index - 1 + galleryImages.length) % galleryImages.length;
+    const nextIdx = (index + 1) % galleryImages.length;
+    [prevIdx, nextIdx].forEach((i) => {
+      const img = new Image();
+      img.src = galleryImages[i].currentSrc || galleryImages[i].src;
+    });
+  };
+
+  // --- Update counter text ---
+  const updateCounter = () => {
+    counterEl.textContent = `${activeIndex + 1} of ${galleryImages.length}`;
+  };
+
   const syncLightboxContent = () => {
     const activeImage = galleryImages[activeIndex];
     if (!activeImage) {
@@ -36,6 +59,8 @@ export const initGalleryLightbox = () => {
     lightboxImage.src = activeImage.currentSrc || activeImage.src;
     lightboxImage.alt = activeImage.alt || `Gallery image ${activeIndex + 1}`;
     lightboxCaption.textContent = activeImage.alt || `Gallery image ${activeIndex + 1} of ${galleryImages.length}`;
+    updateCounter();
+    preloadAdjacent(activeIndex);
   };
 
   const openLightbox = (index) => {
@@ -62,14 +87,43 @@ export const initGalleryLightbox = () => {
     }
   };
 
+  // --- Smooth image transition helper ---
+  const transitionAndSync = (newIndex) => {
+    const nextImage = galleryImages[newIndex];
+    if (!nextImage) {
+      return;
+    }
+
+    if (prefersReducedMotion.matches) {
+      activeIndex = newIndex;
+      syncLightboxContent();
+      return;
+    }
+
+    lightboxImage.classList.add('lightbox-transitioning');
+    window.setTimeout(() => {
+      activeIndex = newIndex;
+      syncLightboxContent();
+
+      // Wait for the new image to load before fading back in
+      if (lightboxImage.complete) {
+        lightboxImage.classList.remove('lightbox-transitioning');
+      } else {
+        lightboxImage.addEventListener('load', () => {
+          lightboxImage.classList.remove('lightbox-transitioning');
+        }, { once: true });
+      }
+    }, 150);
+  };
+
   const goToPrevious = () => {
-    activeIndex = (activeIndex - 1 + galleryImages.length) % galleryImages.length;
-    syncLightboxContent();
+    const newIndex = (activeIndex - 1 + galleryImages.length) % galleryImages.length;
+    transitionAndSync(newIndex);
   };
 
   const goToNext = () => {
-    activeIndex = (activeIndex + 1) % galleryImages.length;
-    syncLightboxContent();
+    const newIndex = (activeIndex + 1) % galleryImages.length;
+    transitionAndSync(newIndex);
   };
 
   // Make each gallery image keyboard-accessible and clickable
@@ -102,6 +156,43 @@ export const initGalleryLightbox = () => {
     if (event.target === lightbox) {
       closeLightbox();
     }
+  });
+
+  // --- Touch / pointer swipe navigation ---
+  let pointerStartX = null;
+
+  lightbox.addEventListener('pointerdown', (event) => {
+    if (!lightbox.classList.contains('is-open')) {
+      return;
+    }
+    pointerStartX = event.clientX;
+  });
+
+  lightbox.addEventListener('pointerup', (event) => {
+    if (pointerStartX === null) {
+      return;
+    }
+
+    const distance = event.clientX - pointerStartX;
+    pointerStartX = null;
+
+    // Ignore small movements (< 10px) to avoid interfering with clicks
+    if (Math.abs(distance) < 10) {
+      return;
+    }
+
+    // Require > 50px swipe to trigger navigation
+    if (Math.abs(distance) > 50) {
+      if (distance < 0) {
+        goToNext();
+      } else {
+        goToPrevious();
+      }
+    }
+  });
+
+  lightbox.addEventListener('pointercancel', () => {
+    pointerStartX = null;
   });
 
   // Keyboard navigation while lightbox is open

@@ -65,10 +65,10 @@ Hosting:
 
 # Current Architecture
 
-## JavaScript (ES6 Modules)
+## Main Folders & JavaScript (ES6 Modules)
 
 ```
-js/
+assets/js/
 ├── main.js              ← application controller (~480 lines, imports modules, initializes features via safeRun)
 ├── config.js            ← CONFIG object: business constants, hours, messages
 ├── core/
@@ -96,17 +96,17 @@ js/
     └── testimonial-slider.js
 ```
 
-Entry point: `<script type="module" src="js/main.js">` in index.html.
+Entry point: `<script type="module" src="assets/js/main.js">` in index.html.
 
 ## CSS
 
 * `style.css` — single global stylesheet (8414 lines, 163KB)
-* `legal-pages.css` — styles for privacy/terms/sitemap pages
+* `assets/css/pages/legal-pages.css` — styles for privacy/terms/sitemap pages
 
 ## HTML
 
-* `index.html` — main single-page application (1504 lines)
-* `privacy.html`, `terms.html`, `sitemap.html` — legal/info pages
+* `index.html` — main single-page application
+* `pages/privacy.html`, `pages/terms.html`, `pages/sitemap.html` — legal/info pages moved to subfolder
 
 ---
 

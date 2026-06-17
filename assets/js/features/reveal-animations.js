@@ -22,6 +22,7 @@ export const initRevealAnimations = () => {
 
 // ---------------------------------------------------------------------------
 // initScrollReveal — fade-in .reveal elements as they enter the viewport
+// Supports child stagger (.reveal-child) and per-element data-reveal-delay.
 // ---------------------------------------------------------------------------
 const initScrollReveal = () => {
   const revealElements = document.querySelectorAll('.reveal');
@@ -29,12 +30,47 @@ const initScrollReveal = () => {
     return;
   }
 
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /**
+   * revealWithChildren — marks the element visible and staggers any
+   * direct `.reveal-child` children with a 100ms cascade.
+   * If reduced motion is preferred every class is applied synchronously.
+   */
+  const revealWithChildren = (element) => {
+    element.classList.add('is-visible');
+
+    const children = element.querySelectorAll(':scope > .reveal-child');
+    if (!children.length) {
+      return;
+    }
+
+    if (prefersReducedMotion) {
+      children.forEach((child) => child.classList.add('is-visible'));
+      return;
+    }
+
+    children.forEach((child, index) => {
+      window.setTimeout(() => {
+        child.classList.add('is-visible');
+      }, (index + 1) * 100);
+    });
+  };
+
   const revealObserver = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          entry.target.classList.add('is-visible');
           revealObserver.unobserve(entry.target);
+
+          const delayAttr = entry.target.dataset.revealDelay;
+          const delay = prefersReducedMotion ? 0 : parseInt(delayAttr, 10) || 0;
+
+          if (delay > 0) {
+            window.setTimeout(() => revealWithChildren(entry.target), delay);
+          } else {
+            revealWithChildren(entry.target);
+          }
         }
       });
     },

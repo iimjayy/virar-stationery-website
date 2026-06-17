@@ -14,7 +14,7 @@ export const initFloatingActions = () => {
 };
 
 // ---------------------------------------------------------------------------
-// initBackToTop — back-to-top button visibility + click handler
+// initBackToTop — back-to-top button visibility + scroll progress ring
 // ---------------------------------------------------------------------------
 const initBackToTop = () => {
   const backToTopButton = document.getElementById('backToTopBtn');
@@ -22,14 +22,95 @@ const initBackToTop = () => {
     return;
   }
 
-  const updateBackToTopVisibility = () => {
-    const isVisible = window.scrollY > 520;
-    backToTopButton.classList.toggle('is-visible', isVisible);
-    backToTopButton.setAttribute('aria-hidden', isVisible ? 'false' : 'true');
+  // --- Scroll progress ring ---------------------------------------------------
+  const progressCircle = backToTopButton.querySelector('.progress-ring-circle');
+  // Full circumference = 2 * π * r  (r = 19 → ≈ 119.38)
+  const circumference = progressCircle
+    ? parseFloat(progressCircle.getAttribute('stroke-dasharray')) || 119.38
+    : 0;
+
+  const updateProgressRing = () => {
+    if (!progressCircle) {
+      return;
+    }
+    const docHeight = document.documentElement.scrollHeight;
+    const viewHeight = window.innerHeight;
+    const maxScroll = docHeight - viewHeight;
+    const progress = maxScroll > 0 ? Math.min(window.scrollY / maxScroll, 1) : 0;
+    const offset = circumference * (1 - progress);
+    progressCircle.style.strokeDashoffset = offset;
   };
 
-  updateBackToTopVisibility();
-  window.addEventListener('scroll', updateBackToTopVisibility, { passive: true });
+  // --- Smooth entrance / exit -------------------------------------------------
+  let isCurrentlyVisible = false;
+  let leaveTimer = null;
+
+  const showButton = () => {
+    if (isCurrentlyVisible) {
+      return;
+    }
+    isCurrentlyVisible = true;
+
+    // Cancel any pending leave animation
+    if (leaveTimer !== null) {
+      clearTimeout(leaveTimer);
+      leaveTimer = null;
+    }
+
+    backToTopButton.classList.remove('is-leaving');
+    backToTopButton.classList.add('is-entering');
+    backToTopButton.setAttribute('aria-hidden', 'false');
+
+    // Next frame: swap entering → visible so CSS transition kicks in
+    requestAnimationFrame(() => {
+      requestAnimationFrame(() => {
+        backToTopButton.classList.remove('is-entering');
+        backToTopButton.classList.add('is-visible');
+      });
+    });
+  };
+
+  const hideButton = () => {
+    if (!isCurrentlyVisible) {
+      return;
+    }
+    isCurrentlyVisible = false;
+
+    backToTopButton.classList.add('is-leaving');
+    backToTopButton.setAttribute('aria-hidden', 'true');
+
+    leaveTimer = setTimeout(() => {
+      backToTopButton.classList.remove('is-visible', 'is-entering', 'is-leaving');
+      leaveTimer = null;
+    }, 300);
+  };
+
+  // --- rAF-throttled scroll handler -------------------------------------------
+  let backToTopTicking = false;
+
+  const onScroll = () => {
+    if (backToTopTicking) {
+      return;
+    }
+    backToTopTicking = true;
+
+    requestAnimationFrame(() => {
+      backToTopTicking = false;
+
+      const shouldShow = window.scrollY > 520;
+      if (shouldShow) {
+        showButton();
+      } else {
+        hideButton();
+      }
+
+      updateProgressRing();
+    });
+  };
+
+  // Initial state
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
 
   backToTopButton.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });

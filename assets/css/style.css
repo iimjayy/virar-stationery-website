@@ -1,22 +1,86 @@
+/* ==============================================================================
+   AI CONTEXT NOTICE
+   ==============================================================================
+   This is a monolithic stylesheet (~8400 lines). 
+   Do NOT attempt to read or rewrite this entire file. 
+   Do NOT append new styles to the bottom blindly.
+   
+   Instead, use `grep_search` to find the exact class name, then use 
+   `multi_replace_file_content` to edit the specific block.
+   ============================================================================== */
+
 :root {
+  /* === Colors: Brand === */
   --bg: #f7f6f2;
   --surface: #ffffff;
   --surface-alt: #fcfaf4;
+  --surface-elevated: linear-gradient(160deg, #ffffff 0%, #fbfdff 58%, #fffdf7 100%);
   --text: #101828;
   --muted: #667085;
   --navy: #0b2a5b;
   --navy-2: #081e43;
+  --navy-light: rgba(11, 42, 91, 0.06);
   --yellow: #f4d21f;
   --yellow-light: #ffeb61;
+  --yellow-glow: rgba(244, 210, 31, 0.48);
   --orange: #f28c28;
   --orange-2: #ffb15e;
   --border: rgba(11, 42, 91, 0.14);
-  --radius: 22px;
+  --success: #16a34a;
+  --error: #dc2626;
+
+  /* === Typography === */
+  --font-display: 'Sora', 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+
+  /* === Spacing Scale === */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* === Border Radius === */
+  --radius: 20px;
+  --radius-sm: 14px;
+  --radius-lg: 28px;
   --radius-shell: 34px;
+  --radius-pill: 999px;
+
+  /* === Shadows (layered for depth) === */
   --shadow-sm: 0 8px 20px rgba(11, 42, 91, 0.09);
   --shadow-md: 0 16px 34px rgba(11, 42, 91, 0.13);
   --shadow-lg: 0 22px 44px rgba(11, 42, 91, 0.2);
   --shadow: var(--shadow-md);
+  --shadow-card: 0 12px 24px rgba(11, 42, 91, 0.1), 0 3px 8px rgba(11, 42, 91, 0.08);
+  --shadow-card-hover: 0 20px 36px rgba(11, 42, 91, 0.16), 0 6px 14px rgba(11, 42, 91, 0.1);
+  --shadow-glass: 0 14px 28px rgba(11, 42, 91, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* === Motion === */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.22, 0.8, 0.28, 1);
+  --duration-fast: 0.2s;
+  --duration-base: 0.34s;
+  --duration-slow: 0.5s;
+
+  /* === Z-index Scale === */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-header: 1000;
+  --z-overlay: 1100;
+  --z-modal: 1200;
+  --z-toast: 1300;
+  --z-chat: 1400;
 }
 
 * {
@@ -28,8 +92,9 @@ html {
 }
 
 body {
-  font-family: 'Poppins', sans-serif;
+  font-family: var(--font-body);
   color: var(--text);
+  line-height: 1.7;
   background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
 }
 
@@ -5099,11 +5164,7 @@ img {
   }
 }
 
-/* === Experience Upgrade v2 === */
-:root {
-  --heading-font: 'Sora', 'Poppins', sans-serif;
-  --surface-elevated: linear-gradient(160deg, #ffffff 0%, #fbfdff 58%, #fffdf7 100%);
-}
+/* === Experience Upgrade v2 (tokens consolidated to :root) === */
 
 body {
   position: relative;
@@ -5133,7 +5194,7 @@ h3,
 .how-step h3,
 .why-card h3,
 .service-card h3 {
-  font-family: var(--heading-font);
+  font-family: var(--font-display);
   letter-spacing: -0.015em;
 }
 
@@ -6813,16 +6874,7 @@ body.mobile-nav-open {
   }
 }
 
-/* === World-Class Micro Polish v8 === */
-:root {
-  --radius-unified: 20px;
-  --radius-unified-sm: 14px;
-  --radius-unified-lg: 28px;
-  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
-  --shadow-layered-card: 0 12px 24px rgba(11, 42, 91, 0.1), 0 3px 8px rgba(11, 42, 91, 0.08);
-  --shadow-layered-hover: 0 20px 36px rgba(11, 42, 91, 0.16), 0 6px 14px rgba(11, 42, 91, 0.1);
-  --shadow-glass: 0 14px 28px rgba(11, 42, 91, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.6);
-}
+/* === World-Class Micro Polish v8 (tokens consolidated to :root) === */
 
 html {
   scroll-padding-top: 168px;
@@ -6861,8 +6913,10 @@ body::after {
 
 h1,
 h2,
-h3 {
-  font-family: 'Sora', 'Poppins', sans-serif;
+h3,
+h4 {
+  font-family: var(--font-display);
+  letter-spacing: -0.02em;
 }
 
 .section-heading h2 {
@@ -6984,7 +7038,7 @@ main > section + section::before {
 }
 
 .smart-search-empty {
-  border-radius: var(--radius-unified-sm);
+  border-radius: var(--radius-sm);
   border-color: rgba(11, 42, 91, 0.18);
   background: linear-gradient(165deg, rgba(255, 255, 255, 0.94), rgba(255, 245, 197, 0.52));
 }
@@ -7003,8 +7057,8 @@ main > section + section::before {
 .faq-item,
 .trust-counter-card,
 .service-row-detail-panel {
-  border-radius: var(--radius-unified);
-  box-shadow: var(--shadow-layered-card);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
   transition: transform 0.34s var(--ease-premium), box-shadow 0.34s var(--ease-premium), border-color 0.34s var(--ease-premium), background-color 0.34s var(--ease-premium);
 }
 
@@ -7022,7 +7076,7 @@ main > section + section::before {
 .faq-item:hover,
 .trust-counter-card:hover {
   transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-layered-hover);
+  box-shadow: var(--shadow-card-hover);
 }
 
 .cta-btn,
@@ -7950,27 +8004,23 @@ main > section + section::before {
 
 .sticky-whatsapp-btn {
   position: fixed;
-  right: 18px;
-  bottom: 152px;
+  right: clamp(10px, 1.4vw, 18px);
+  bottom: calc(44px + env(safe-area-inset-bottom));
   width: 56px;
   height: 56px;
   border-radius: 50%;
-  right: clamp(10px, 1.4vw, 18px);
-  bottom: calc(44px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
   justify-content: center;
   background: #25d366;
   color: #ffffff;
   font-size: 1.35rem;
   box-shadow: 0 16px 28px rgba(37, 211, 102, 0.32);
   opacity: 0;
-    bottom: 112px;
+  pointer-events: none;
   transform: translateY(12px) scale(0.92);
   transition: opacity 0.28s ease, transform 0.32s ease, box-shadow 0.3s ease;
   z-index: 1050;
-}
-
-.sticky-whatsapp-btn {
-  display: none;
 }
 
 .sticky-whatsapp-btn::after {
@@ -8409,5 +8459,388 @@ main > section + section::before {
   .sticky-whatsapp-btn::after,
   .pdf-download-btn .btn-spinner {
     animation: none !important;
+  }
+}
+
+/* ==========================================================================
+   UI/UX ENHANCEMENT LAYER
+   Added: June 2026
+   Purpose: Premium micro-interactions, reveal variants, gallery polish,
+            form UX, back-to-top progress ring, and mobile performance
+   ========================================================================== */
+
+/* --- Phase 3: Reveal Animation Variants --- */
+
+.reveal-child {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease-premium), transform 0.7s var(--ease-premium);
+}
+
+.reveal-child.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.reveal-scale {
+  opacity: 0;
+  transform: scale(0.96);
+  transition: opacity 0.8s var(--ease-premium), transform 0.8s var(--ease-premium);
+}
+
+.reveal-scale.is-visible {
+  opacity: 1;
+  transform: scale(1);
+}
+
+/* --- Phase 2: Hero Gradient Text Effect --- */
+
+.hero-accent {
+  background: linear-gradient(135deg, var(--navy) 0%, #1e4f9e 50%, var(--navy-2) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.hero-title {
+  text-shadow: none;
+}
+
+/* --- Phase 4: Card Micro-Interactions --- */
+
+/* Service card hover: icon scale */
+.service-card:hover .service-card-icon i,
+.service-card:hover .service-card-icon .fa-solid,
+.service-card:hover .service-card-icon .fa-regular {
+  transform: scale(1.15) rotate(-3deg);
+  transition: transform 0.4s var(--ease-premium);
+}
+
+.service-card .service-card-icon i,
+.service-card .service-card-icon .fa-solid,
+.service-card .service-card-icon .fa-regular {
+  transition: transform 0.4s var(--ease-premium);
+}
+
+/* Product card hover: image zoom + overlay */
+.product-card {
+  overflow: hidden;
+  position: relative;
+}
+
+.product-card img {
+  transition: transform 0.6s var(--ease-premium);
+}
+
+.product-card:hover img {
+  transform: scale(1.07);
+}
+
+.product-card::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, transparent 40%, rgba(11, 42, 91, 0.55) 100%);
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-premium);
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+.product-card:hover::after {
+  opacity: 1;
+}
+
+/* Price card hover: shimmer sweep */
+.price-card {
+  position: relative;
+  overflow: hidden;
+}
+
+.price-card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 60%;
+  height: 100%;
+  background: linear-gradient(
+    105deg,
+    transparent 30%,
+    rgba(255, 255, 255, 0.35) 50%,
+    transparent 70%
+  );
+  transition: none;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.price-card:hover::before {
+  animation: cardShimmer 0.8s ease forwards;
+}
+
+@keyframes cardShimmer {
+  to {
+    left: 130%;
+  }
+}
+
+/* Quick action card hover: icon bounce + gradient shift */
+.quick-action-card:hover .quick-action-icon {
+  animation: quickIconBounce 0.5s var(--ease-premium);
+}
+
+@keyframes quickIconBounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-6px); }
+  70% { transform: translateY(-2px); }
+}
+
+.quick-action-card {
+  background-position: 0% 0%;
+  background-size: 200% 200%;
+  transition: background-position 0.6s var(--ease-premium), transform 0.34s var(--ease-premium), box-shadow 0.34s var(--ease-premium), border-color 0.34s var(--ease-premium);
+}
+
+.quick-action-card:hover {
+  background-position: 100% 100%;
+}
+
+/* FAQ hover: left-border accent slide-in */
+.faq-item {
+  border-left: 3px solid transparent;
+  transition: transform 0.34s var(--ease-premium), box-shadow 0.34s var(--ease-premium), border-color 0.34s var(--ease-premium), border-left-color 0.34s var(--ease-premium);
+}
+
+.faq-item:hover,
+.faq-item.is-open {
+  border-left-color: var(--yellow);
+}
+
+/* Testimonial quote decoration */
+.testimonial-slide::before {
+  content: '\201C';
+  position: absolute;
+  top: 12px;
+  left: 18px;
+  font-size: 3.5rem;
+  font-family: var(--font-display);
+  color: var(--yellow);
+  opacity: 0.18;
+  line-height: 1;
+  pointer-events: none;
+  transition: opacity 0.4s var(--ease-premium), transform 0.4s var(--ease-premium);
+}
+
+.testimonial-slide {
+  position: relative;
+}
+
+/* --- Phase 7: Gallery Lightbox Enhancements --- */
+
+/* Gallery image hover overlay */
+.gallery-grid img {
+  transition: transform 0.5s var(--ease-premium);
+}
+
+.gallery-grid figure,
+.gallery-grid .gallery-item {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius);
+}
+
+.gallery-grid figure::after,
+.gallery-grid .gallery-item::after {
+  content: '\f00e';
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.4rem;
+  color: #fff;
+  background: rgba(11, 42, 91, 0.35);
+  opacity: 0;
+  transition: opacity 0.35s var(--ease-premium);
+  pointer-events: none;
+  border-radius: inherit;
+}
+
+.gallery-grid figure:hover::after,
+.gallery-grid .gallery-item:hover::after {
+  opacity: 1;
+}
+
+.gallery-grid figure:hover img,
+.gallery-grid .gallery-item:hover img {
+  transform: scale(1.06);
+}
+
+/* Lightbox frosted glass backdrop */
+.gallery-lightbox.is-open {
+  background: rgba(8, 30, 67, 0.82);
+  backdrop-filter: blur(12px) saturate(120%);
+  -webkit-backdrop-filter: blur(12px) saturate(120%);
+}
+
+/* Lightbox image transition */
+.gallery-lightbox img {
+  transition: opacity 0.15s ease;
+}
+
+.gallery-lightbox img.lightbox-transitioning {
+  opacity: 0;
+}
+
+/* Lightbox counter */
+.lightbox-counter {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: rgba(255, 255, 255, 0.85);
+  font-size: var(--text-sm);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.05em;
+  padding: 6px 16px;
+  background: rgba(11, 42, 91, 0.45);
+  border-radius: var(--radius-pill);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  pointer-events: none;
+  z-index: 10;
+}
+
+/* --- Phase 8: Back-to-Top Progress Ring --- */
+
+.back-to-top-btn {
+  position: relative;
+  overflow: visible;
+}
+
+.back-to-top-btn .progress-ring {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  transform: rotate(-90deg);
+}
+
+.back-to-top-btn .progress-ring-circle {
+  transition: stroke-dashoffset 0.15s ease;
+  stroke: var(--yellow);
+  opacity: 0.7;
+}
+
+/* Back-to-top entrance/exit animations */
+.back-to-top-btn {
+  opacity: 0;
+  transform: scale(0.8) translateY(10px);
+  pointer-events: none;
+  transition: opacity 0.3s var(--ease-premium), transform 0.3s var(--ease-premium);
+}
+
+.back-to-top-btn.is-entering {
+  opacity: 0;
+  transform: scale(0.8) translateY(10px);
+}
+
+.back-to-top-btn.is-visible {
+  opacity: 1;
+  transform: scale(1) translateY(0);
+  pointer-events: auto;
+}
+
+.back-to-top-btn.is-leaving {
+  opacity: 0;
+  transform: scale(0.85) translateY(8px);
+  pointer-events: none;
+}
+
+/* --- Phase 9: Form Focus Enhancement --- */
+
+.contact-form-card input:focus,
+.contact-form-card select:focus,
+.contact-form-card textarea:focus,
+.bulk-enquiry-section input:focus,
+.bulk-enquiry-section select:focus,
+.bulk-enquiry-section textarea:focus {
+  border-color: var(--yellow);
+  box-shadow: 0 0 0 3px var(--yellow-glow), var(--shadow-sm);
+  outline: none;
+}
+
+/* Validation states */
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-control.is-valid {
+  border-color: var(--success) !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}
+
+/* --- Phase 10: Reduced Motion for all new animations --- */
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-child,
+  .reveal-scale {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  .product-card img,
+  .gallery-grid img {
+    transition: none;
+  }
+
+  .product-card:hover img,
+  .gallery-grid figure:hover img,
+  .gallery-grid .gallery-item:hover img {
+    transform: none;
+  }
+
+  .price-card:hover::before {
+    animation: none;
+  }
+
+  .quick-action-card:hover .quick-action-icon {
+    animation: none;
+  }
+
+  .back-to-top-btn {
+    transition: opacity 0.15s ease;
+    transform: none;
+  }
+
+  .back-to-top-btn.is-visible {
+    transform: none;
+  }
+
+  .gallery-lightbox img {
+    transition: none;
+  }
+}
+
+/* --- Phase 10: Mobile Performance --- */
+
+@media (max-width: 768px) {
+  .gallery-lightbox.is-open {
+    backdrop-filter: blur(6px);
+    -webkit-backdrop-filter: blur(6px);
+  }
+
+  .lightbox-counter {
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+    background: rgba(11, 42, 91, 0.7);
   }
 }
