@@ -34,6 +34,13 @@ import { initBulkEnquiry } from './features/bulk-enquiry.js';
 // --- Phase 2 extraction: service interactions ---
 import { initServiceInteractions } from './features/service-interactions.js';
 
+// --- Business Engine modules (June 2026) ---
+import { initPdfParser } from './features/pdf-parser.js';
+import { initOrderStatus } from './features/order-status.js';
+import { initThemeToggle } from './features/theme-toggle.js';
+import { initSocialProof } from './features/social-proof.js';
+import { initLanguageToggle } from './features/language-toggle.js';
+
 // ---------------------------------------------------------------------------
 // runAfterReady — retained exactly as the original for production safety
 // ---------------------------------------------------------------------------
@@ -470,4 +477,11 @@ runAfterReady(() => {
 
   // Phase 2 extraction: service interactions (detail panels + mobile slider)
   safeRun('service-interactions', initServiceInteractions);
+
+  // Business Engine modules (June 2026)
+  safeRun('pdf-parser', initPdfParser);
+  safeRun('order-status', initOrderStatus);
+  safeRun('theme-toggle', initThemeToggle);
+  safeRun('social-proof', initSocialProof);
+  safeRun('language-toggle', initLanguageToggle);
 });

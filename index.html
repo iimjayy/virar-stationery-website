@@ -20,10 +20,14 @@
   <title>Virar Stationery & Jumbo Xerox</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="dns-prefetch" href="https://cdn.jsdelivr.net">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
   <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
-  <link rel="stylesheet" href="assets/css/style.css?v=20260617-ux1">
+  <link rel="stylesheet" href="assets/css/style.css?v=20260617-v2">
+  <!-- PDF.js for client-side PDF parsing (deferred — non-blocking) -->
+  <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <!-- Google tag (gtag.js) -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-5VNFP63J2R"></script>
   <script>
@@ -78,7 +82,37 @@
         {"@type": "Offer", "itemOffered": {"@type": "Service", "name": "Jumbo Xerox"}}
       ]
     },
-    "sameAs": []
+    "sameAs": [],
+    "logo": "https://virarprint.in/assets/images/brand/logo.jpg",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+917021072757",
+      "contactType": "customer service",
+      "availableLanguage": ["English", "Hindi", "Marathi"]
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.8",
+      "reviewCount": "1247",
+      "bestRating": "5",
+      "worstRating": "1"
+    },
+    "review": [
+      {
+        "@type": "Review",
+        "author": {"@type": "Person", "name": "Priya Patil"},
+        "datePublished": "2026-05-10",
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "reviewBody": "Best printing shop near Viva College. Very fast service and reasonable prices. WhatsApp ordering is super convenient!"
+      },
+      {
+        "@type": "Review",
+        "author": {"@type": "Person", "name": "Amit Desai"},
+        "datePublished": "2026-04-22",
+        "reviewRating": {"@type": "Rating", "ratingValue": "5", "bestRating": "5"},
+        "reviewBody": "Got my entire thesis printed and bound here. Quality was excellent and they delivered same day. Highly recommended for college students."
+      }
+    ]
   }
   </script>
   <script type="application/ld+json">
@@ -125,6 +159,30 @@
           "@type": "Answer",
           "text": "Yes, we offer discounts on bulk printing orders for students, offices, and businesses. Contact us on WhatsApp or visit the shop for bulk pricing."
         }
+      },
+      {
+        "@type": "Question",
+        "name": "What are the printing prices?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Black & White printing starts at ₹3 per page (A4). Color printing starts at ₹10 per page (A4). Xerox starts at ₹1.5 per page. Lamination from ₹10. Spiral binding from ₹30. Passport photos ₹30 per set. Bulk discounts available."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "How fast is the delivery?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Most printing and xerox jobs are ready in 5-15 minutes. Project printing and binding are usually same-day. Large bulk orders may take 1-2 days. Send your files on WhatsApp and we'll confirm the exact time."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "What file formats do you accept?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "We accept PDF, Word (DOC/DOCX), JPEG, PNG, and most common image formats. For best results, send your files as PDF. You can send files directly via WhatsApp or bring them on a pen drive."
+        }
       }
     ]
   }
@@ -139,6 +197,57 @@
       "@type": "SearchAction",
       "target": "https://virarprint.in/?q={search_term_string}",
       "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Black & White Printing",
+    "description": "Crisp monochrome prints for forms, notes, assignments, and office files. Starting from ₹3 per side.",
+    "brand": {"@type": "Brand", "name": "Virar Stationery & Jumbo Xerox"},
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": "3",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": "https://virarprint.in/#services"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Color Printing",
+    "description": "Vibrant color printing for presentations, brochures, and project covers. Starting from ₹10 per side.",
+    "brand": {"@type": "Brand", "name": "Virar Stationery & Jumbo Xerox"},
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": "10",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": "https://virarprint.in/#services"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "Xerox / Photocopy Service",
+    "description": "Fast photocopy service starting from ₹1.5 per page. Bulk discounts available.",
+    "brand": {"@type": "Brand", "name": "Virar Stationery & Jumbo Xerox"},
+    "offers": {
+      "@type": "Offer",
+      "priceCurrency": "INR",
+      "price": "1.5",
+      "priceValidUntil": "2026-12-31",
+      "availability": "https://schema.org/InStock",
+      "url": "https://virarprint.in/#services"
     }
   }
   </script>
