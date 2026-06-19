@@ -303,6 +303,14 @@
               <a class="action-btn" href="#contact" aria-label="Inquiry cart and contact section">
                 <i class="fa-solid fa-cart-shopping"></i>
               </a>
+              <!-- Dark mode toggle -->
+              <button class="action-btn theme-toggle-btn" id="themeToggleBtn" type="button" aria-label="Toggle dark mode" title="Toggle dark mode">
+                <i class="fa-solid fa-moon"></i>
+              </button>
+              <!-- Language cycle: EN → मर → हि -->
+              <button class="action-btn lang-toggle-btn" id="langToggle" type="button" aria-label="Switch language" title="Switch language">
+                <span class="lang-label">EN</span>
+              </button>
             </div>
           </div>
         </div>
@@ -644,6 +652,23 @@
                   </label>
                 </div>
                 <p class="quote-note">Estimates update instantly. Final pricing depends on paper choice and file details.</p>
+              </div>
+
+              <!-- [ARCH] PDF drop zone — wired by js/features/pdf-parser.js (pdf.js CDN) -->
+              <div class="quote-step quote-pdf-step">
+                <div class="quote-step-head">
+                  <span class="quote-step-index">4</span>
+                  <div>
+                    <h3>Upload PDF <span class="quote-step-optional">(Optional)</span></h3>
+                    <p>Drop your PDF and we'll count the pages automatically.</p>
+                  </div>
+                </div>
+                <div id="quotePdfDrop" class="quote-pdf-dropzone" role="button" tabindex="0" aria-label="Drop PDF here or click to select">
+                  <i class="fa-solid fa-file-pdf quote-pdf-icon" aria-hidden="true"></i>
+                  <p class="quote-pdf-label">Drop PDF here or <span class="quote-pdf-browse">browse</span></p>
+                  <p class="quote-pdf-hint">Page count auto-fills quantity · Max 25 MB</p>
+                </div>
+                <div id="quotePdfPreview" class="quote-pdf-preview" aria-live="polite"></div>
               </div>
             </form>
           </div>
@@ -1164,6 +1189,60 @@
               <h3><span class="counter-value" data-counter-target="10" data-counter-suffix=" min">0</span></h3>
               <p>Typical Fast Order Time</p>
             </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         ORDER STATUS SECTION
+         [ARCH] id="order-status" — wired by js/features/order-status.js
+         [ARCH] Mock data ready; backend hookable by swapping MOCK_ORDERS array
+         ═══════════════════════════════════════════════ -->
+    <!-- === SECTION: ORDER-STATUS === -->
+    <section id="order-status" class="section-pad order-status-section" data-section="order-status" aria-labelledby="order-status-heading">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker" data-i18n="section.orderStatus.kicker">Track Your Order</span>
+          <h2 id="order-status-heading" data-i18n="section.orderStatus.title">Check Your Print Order Status</h2>
+          <p data-i18n="section.orderStatus.subtitle">Enter your order ID or the last 4 digits of your phone number to see real-time status.</p>
+        </div>
+        <div class="row justify-content-center">
+          <div class="col-12 col-lg-8 col-xl-7 reveal">
+            <div class="order-status-card">
+              <!-- Search form -->
+              <form id="orderStatusForm" class="order-status-form" autocomplete="off" novalidate>
+                <label for="orderLookupInput" class="order-status-label">
+                  <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i>
+                  <span data-i18n="form.orderIdOrPhone">Order ID or Phone Number</span>
+                </label>
+                <div class="order-status-input-row">
+                  <input
+                    type="text"
+                    id="orderLookupInput"
+                    class="form-control order-status-input"
+                    placeholder="e.g. VS-2026-0847 or last 4 digits of phone"
+                    maxlength="30"
+                    aria-label="Order ID or phone number"
+                    autocomplete="off"
+                  >
+                  <button type="submit" class="btn order-status-btn" aria-label="Track order">
+                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                    <span data-i18n="cta.trackOrder">Track Order</span>
+                  </button>
+                </div>
+                <p class="order-status-hint">Try <strong>VS-2026-0847</strong> or last 4 digits <strong>2757</strong> to see a demo.</p>
+              </form>
+              <!-- Results rendered here by JS -->
+              <div id="orderStatusResult" class="order-status-result" aria-live="polite"></div>
+            </div>
+            <!-- Direct WhatsApp fallback -->
+            <p class="order-status-fallback">
+              Can't find your order?
+              <a href="https://wa.me/917021072757?text=Hi!%20I%20want%20to%20check%20my%20order%20status." target="_blank" rel="noopener noreferrer" class="order-status-wa-link">
+                <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Ask on WhatsApp
+              </a>
+            </p>
           </div>
         </div>
       </div>

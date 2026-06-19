@@ -9498,3 +9498,556 @@ main > section + section::before {
     min-height: 38px;
   }
 }
+
+
+/* =============================================================================
+   BUSINESS ENGINE — JUNE 2026
+   Dark Mode · Order Status · PDF Drop Zone · Header Toggles
+   ============================================================================= */
+
+/* ---------------------------------------------------------------------------
+   DARK MODE TOKENS
+   Applied when data-theme="dark" is set on <html> by theme-toggle.js
+   Brand navy + yellow preserved — only surfaces and text shift
+   --------------------------------------------------------------------------- */
+[data-theme="dark"] {
+  --bg:               #0f1419;
+  --surface:          #1a2233;
+  --surface-alt:      #151d2e;
+  --surface-elevated: linear-gradient(160deg, #1a2233 0%, #1e2840 58%, #1a2233 100%);
+  --text:             #e8eaed;
+  --muted:            #9aa0ab;
+  --border:           rgba(255, 255, 255, 0.10);
+  --navy-light:       rgba(244, 210, 31, 0.07);
+  --shadow-sm:        0 8px 20px rgba(0,0,0,0.35);
+  --shadow-md:        0 16px 34px rgba(0,0,0,0.45);
+  --shadow-lg:        0 22px 44px rgba(0,0,0,0.55);
+  --shadow-card:      0 12px 24px rgba(0,0,0,0.40), 0 3px 8px rgba(0,0,0,0.30);
+  --shadow-card-hover:0 20px 36px rgba(0,0,0,0.52), 0 6px 14px rgba(0,0,0,0.36);
+  --shadow-glass:     0 14px 28px rgba(0,0,0,0.50), inset 0 1px 0 rgba(255,255,255,0.08);
+}
+
+/* Smooth transitions on theme switch */
+body,
+.site-header,
+.service-card,
+.price-card,
+.quote-card,
+.quote-summary-card,
+.contact-card,
+.faq-item,
+.trust-counter-card,
+.stationery-card,
+.bulk-form-card,
+.order-status-card,
+.order-status-input,
+.form-control,
+.form-select {
+  transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+[data-theme="dark"] body {
+  background-color: var(--bg);
+  color: var(--text);
+}
+
+[data-theme="dark"] .site-header {
+  background: rgba(15, 20, 25, 0.97);
+  border-bottom-color: var(--border);
+}
+
+[data-theme="dark"] .section-alt {
+  background-color: var(--surface-alt);
+}
+
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .price-card,
+[data-theme="dark"] .stationery-card,
+[data-theme="dark"] .trust-counter-card,
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] .order-status-card,
+[data-theme="dark"] .quote-card,
+[data-theme="dark"] .bulk-form-card {
+  background: var(--surface);
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select {
+  background-color: #0f1419;
+  border-color: var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .form-control::placeholder {
+  color: var(--muted);
+}
+
+[data-theme="dark"] .site-footer {
+  background: #0a0f17;
+}
+
+[data-theme="dark"] .mobile-bottom-bar {
+  background: rgba(15, 20, 25, 0.97);
+  border-top-color: var(--border);
+}
+
+/* Dark mode — keep yellow accents vivid */
+[data-theme="dark"] .section-kicker,
+[data-theme="dark"] .badge-primary,
+[data-theme="dark"] .quote-step-index {
+  color: var(--yellow);
+}
+
+/* Header toggle buttons */
+.theme-toggle-btn,
+.lang-toggle-btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-family: var(--font-body);
+}
+
+.lang-toggle-btn .lang-label {
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  line-height: 1;
+}
+
+/* ---------------------------------------------------------------------------
+   ORDER STATUS SECTION
+   --------------------------------------------------------------------------- */
+.order-status-section {
+  background: var(--bg);
+}
+
+.order-status-card {
+  background: var(--surface);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-6);
+  border: 1px solid var(--border);
+}
+
+.order-status-form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-3);
+}
+
+.order-status-label {
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-weight: 600;
+  font-size: var(--text-sm);
+  color: var(--navy);
+  cursor: pointer;
+}
+
+[data-theme="dark"] .order-status-label {
+  color: var(--yellow);
+}
+
+.order-status-input-row {
+  display: flex;
+  gap: var(--space-2);
+}
+
+.order-status-input {
+  flex: 1;
+  border-radius: var(--radius-sm) !important;
+  border: 1.5px solid var(--border);
+  font-size: var(--text-base);
+  padding: 12px 16px;
+  transition: border-color var(--duration-fast) var(--ease-premium);
+}
+
+.order-status-input:focus {
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px var(--navy-light);
+  outline: none;
+}
+
+.order-status-btn {
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--radius-sm);
+  padding: 12px 20px;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+  white-space: nowrap;
+  transition: background-color var(--duration-fast) var(--ease-premium), transform var(--duration-fast);
+}
+
+.order-status-btn:hover {
+  background: var(--navy-2);
+  transform: translateY(-1px);
+  color: #fff;
+}
+
+.order-status-hint {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  margin: 0;
+}
+
+.order-status-result {
+  margin-top: var(--space-5);
+}
+
+.order-status-fallback {
+  text-align: center;
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-top: var(--space-4);
+}
+
+.order-status-wa-link {
+  color: #25d366;
+  font-weight: 600;
+  text-decoration: none;
+  gap: var(--space-1);
+  display: inline-flex;
+  align-items: center;
+}
+
+/* Order result card (rendered by JS) */
+.order-result-card {
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-5);
+  margin-top: var(--space-4);
+  background: var(--surface-alt);
+  animation: fadeSlideUp 0.4s var(--ease-premium) both;
+}
+
+.order-result-id {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: var(--navy);
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 4px 14px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  margin-bottom: var(--space-3);
+}
+
+.order-result-name {
+  font-weight: 700;
+  font-size: var(--text-lg);
+  color: var(--text);
+  margin-bottom: var(--space-1);
+}
+
+.order-result-detail {
+  font-size: var(--text-sm);
+  color: var(--muted);
+  margin-bottom: var(--space-5);
+}
+
+/* Stepper */
+.order-stepper {
+  display: flex;
+  align-items: flex-start;
+  gap: 0;
+  margin-bottom: var(--space-5);
+  position: relative;
+}
+
+.order-stepper::before {
+  content: '';
+  position: absolute;
+  top: 18px;
+  left: 18px;
+  right: 18px;
+  height: 2px;
+  background: var(--border);
+  z-index: 0;
+}
+
+.order-step {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--space-2);
+  position: relative;
+  z-index: 1;
+}
+
+.order-step-icon {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.9rem;
+  background: var(--bg);
+  border: 2px solid var(--border);
+  color: var(--muted);
+  transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+}
+
+.order-step.is-done .order-step-icon {
+  background: var(--success);
+  border-color: var(--success);
+  color: #fff;
+}
+
+.order-step.is-active .order-step-icon {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: var(--yellow);
+  box-shadow: 0 0 0 4px var(--navy-light);
+  animation: stepPulse 1.6s ease-in-out infinite;
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--navy-light); }
+  50%       { box-shadow: 0 0 0 8px var(--navy-light); }
+}
+
+.order-step-label {
+  font-size: 0.7rem;
+  font-weight: 600;
+  text-align: center;
+  color: var(--muted);
+  line-height: 1.2;
+}
+
+.order-step.is-done .order-step-label,
+.order-step.is-active .order-step-label {
+  color: var(--text);
+}
+
+.order-result-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-4);
+  font-size: var(--text-sm);
+  color: var(--muted);
+  border-top: 1px solid var(--border);
+  padding-top: var(--space-4);
+  margin-bottom: var(--space-4);
+}
+
+.order-result-meta strong {
+  color: var(--text);
+}
+
+.order-result-wa {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  background: #25d366;
+  color: #fff;
+  border-radius: var(--radius-pill);
+  padding: 9px 20px;
+  font-weight: 600;
+  font-size: var(--text-sm);
+  text-decoration: none;
+  transition: background-color var(--duration-fast), transform var(--duration-fast);
+}
+
+.order-result-wa:hover {
+  background: #128c4a;
+  color: #fff;
+  transform: translateY(-1px);
+}
+
+/* No-result state */
+.order-no-result {
+  text-align: center;
+  padding: var(--space-6) var(--space-4);
+  color: var(--muted);
+  animation: fadeSlideUp 0.3s var(--ease-premium) both;
+}
+
+.order-no-result i {
+  font-size: 2.5rem;
+  opacity: 0.3;
+  margin-bottom: var(--space-3);
+  display: block;
+}
+
+/* ---------------------------------------------------------------------------
+   PDF DROP ZONE (Quote Calculator Step 4)
+   --------------------------------------------------------------------------- */
+.quote-pdf-step {
+  border-top: 1px dashed var(--border);
+  margin-top: var(--space-4);
+  padding-top: var(--space-4);
+}
+
+.quote-step-optional {
+  font-size: var(--text-xs);
+  font-weight: 400;
+  color: var(--muted);
+  margin-left: 6px;
+}
+
+.quote-pdf-dropzone {
+  border: 2px dashed var(--border);
+  border-radius: var(--radius);
+  padding: var(--space-6) var(--space-4);
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--duration-base) var(--ease-premium),
+              background-color var(--duration-base) var(--ease-premium);
+  background: var(--surface-alt);
+  user-select: none;
+}
+
+.quote-pdf-dropzone:hover,
+.quote-pdf-dropzone.is-active {
+  border-color: var(--navy);
+  background: var(--navy-light);
+}
+
+.quote-pdf-dropzone.is-loading {
+  border-color: var(--orange);
+  background: rgba(242, 140, 40, 0.06);
+  pointer-events: none;
+}
+
+.quote-pdf-dropzone.is-disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.quote-pdf-icon {
+  font-size: 2.2rem;
+  color: var(--navy);
+  margin-bottom: var(--space-2);
+  display: block;
+}
+
+[data-theme="dark"] .quote-pdf-icon {
+  color: var(--yellow);
+}
+
+.quote-pdf-label {
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: var(--space-1);
+  font-size: var(--text-sm);
+}
+
+.quote-pdf-browse {
+  color: var(--navy);
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+[data-theme="dark"] .quote-pdf-browse {
+  color: var(--yellow);
+}
+
+.quote-pdf-hint {
+  font-size: var(--text-xs);
+  color: var(--muted);
+  margin: 0;
+}
+
+/* PDF preview card (rendered by JS) */
+.quote-pdf-preview {
+  margin-top: var(--space-3);
+}
+
+.pdf-preview-card {
+  display: flex;
+  align-items: center;
+  gap: var(--space-4);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  padding: var(--space-3) var(--space-4);
+  animation: fadeSlideUp 0.3s var(--ease-premium) both;
+}
+
+.pdf-preview-thumb {
+  width: 54px;
+  height: 70px;
+  border-radius: 6px;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: var(--navy-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+  color: var(--navy);
+}
+
+.pdf-preview-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.pdf-preview-info {
+  flex: 1;
+  min-width: 0;
+}
+
+.pdf-preview-name {
+  font-weight: 700;
+  font-size: var(--text-sm);
+  color: var(--text);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 2px;
+}
+
+.pdf-preview-meta {
+  font-size: var(--text-xs);
+  color: var(--muted);
+}
+
+.pdf-preview-pages {
+  font-weight: 700;
+  color: var(--navy);
+}
+
+[data-theme="dark"] .pdf-preview-pages {
+  color: var(--yellow);
+}
+
+.pdf-preview-clear {
+  background: none;
+  border: 1.5px solid var(--border);
+  border-radius: var(--radius-pill);
+  color: var(--muted);
+  padding: 4px 12px;
+  font-size: var(--text-xs);
+  cursor: pointer;
+  transition: border-color var(--duration-fast), color var(--duration-fast);
+}
+
+.pdf-preview-clear:hover {
+  border-color: var(--error);
+  color: var(--error);
+}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .order-step.is-active .order-step-icon {
+    animation: none;
+  }
+  .order-result-card,
+  .pdf-preview-card,
+  .order-no-result {
+    animation: none;
+  }
+}
