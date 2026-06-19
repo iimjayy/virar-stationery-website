@@ -1,0 +1,243 @@
+/* ====================================================================
+   ANIMATIONS.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+@keyframes searchTargetPulse {
+  0% {
+    box-shadow: 0 0 0 0 rgba(244, 210, 31, 0.45);
+  }
+  100% {
+    box-shadow: 0 0 0 16px rgba(244, 210, 31, 0);
+  }
+}
+
+@keyframes heroOpenDotPulse {
+  0% {
+    box-shadow: 0 0 0 0 var(--hero-open-dot-glow);
+    opacity: 0.92;
+  }
+  70% {
+    box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
+    opacity: 1;
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
+    opacity: 0.92;
+  }
+}
+
+@keyframes heroStatusFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-1.5px);
+  }
+}
+
+@keyframes heroFadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroImageFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-6px);
+  }
+}
+
+@keyframes heroCardDriftUp {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-7px);
+  }
+}
+
+@keyframes heroCardDriftDown {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(6px);
+  }
+}
+
+@keyframes heroSheen {
+  0% {
+    transform: translateX(0) rotate(10deg);
+  }
+  50% {
+    transform: translateX(260%) rotate(10deg);
+  }
+  100% {
+    transform: translateX(260%) rotate(10deg);
+  }
+}
+
+@keyframes servicePanelFade {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes enquirySpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes typingCaretBlink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes rippleExpand {
+  to {
+    transform: translate(-50%, -50%) scale(18);
+    opacity: 0;
+  }
+}
+
+@keyframes shimmerSweep {
+  to {
+    transform: translateX(130%);
+  }
+}
+
+@keyframes quickIconPulse {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-2px);
+  }
+}
+
+@keyframes ambientShift {
+  0%,
+  100% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+@keyframes heroAuraDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(8px, -6px, 0);
+  }
+}
+
+@keyframes shimmerSweepLuxury {
+  from {
+    transform: translateX(-140%);
+  }
+  to {
+    transform: translateX(140%);
+  }
+}
+
+@keyframes statusPulse {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.18);
+  }
+}
+
+@keyframes pdfSpin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes waPulse {
+  0%,
+  100% {
+    transform: scale(0.96);
+    opacity: 0.3;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0;
+  }
+}
+
+@keyframes chatPulse {
+  0%,
+  100% {
+    transform: scale(0.9);
+    opacity: 0.25;
+  }
+  50% {
+    transform: scale(1.14);
+    opacity: 0;
+  }
+}
+
+@keyframes chatFloat {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-3px);
+  }
+}
+
+@keyframes cardShimmer {
+  to {
+    left: 130%;
+  }
+}
+
+@keyframes quickIconBounce {
+  0%, 100% { transform: translateY(0); }
+  40% { transform: translateY(-6px); }
+  70% { transform: translateY(-2px); }
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 3px rgba(10,132,255,0.20); }
+  50%       { box-shadow: 0 0 0 7px rgba(10,132,255,0.08); }
+}
+
+@keyframes stepPulse {
+  0%, 100% { box-shadow: 0 0 0 4px var(--navy-light); }
+  50%       { box-shadow: 0 0 0 8px var(--navy-light); }
+}

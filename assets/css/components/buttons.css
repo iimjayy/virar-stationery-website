@@ -1,0 +1,78 @@
+/* ====================================================================
+   BUTTONS.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.cta-btn {
+  border-radius: 999px;
+  min-height: 48px;
+  padding: 0.7rem 1.5rem;
+  font-weight: 700;
+  font-size: 0.95rem;
+  transition: transform 0.26s ease, box-shadow 0.26s ease, background-color 0.26s ease, border-color 0.26s ease, color 0.26s ease;
+}
+
+.btn-primary.cta-btn {
+  background: var(--yellow);
+  border: 1px solid rgba(11, 42, 91, 0.2);
+  color: var(--navy);
+}
+
+.btn-primary.cta-btn:hover {
+  background: #ffe767;
+  border-color: rgba(11, 42, 91, 0.25);
+  color: var(--navy);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: var(--shadow-md);
+}
+
+.btn-outline-primary.cta-btn {
+  background: #fff;
+  color: var(--navy);
+  border-color: var(--navy);
+  border-width: 2px;
+}
+
+.btn-outline-primary.cta-btn:hover {
+  background: rgba(255, 255, 255, 0.98);
+  color: var(--navy);
+  border-color: var(--yellow);
+  transform: translateY(-3px) scale(1.01);
+  box-shadow: var(--shadow-md);
+}
+
+.cta-btn:hover,
+.service-cta-btn:hover,
+.map-directions-btn:hover {
+  transform: translateY(-2px);
+}
+
+.cta-btn,
+.service-cta-btn,
+.map-directions-btn {
+  min-height: 50px;
+  padding: 0.76rem 1.36rem;
+}
+
+.pdf-download-btn .btn-spinner {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  border: 2px solid rgba(255, 255, 255, 0.45);
+  border-top-color: #ffffff;
+  display: none;
+  animation: pdfSpin 0.8s linear infinite;
+}
+
+.pdf-download-btn.is-loading .btn-spinner {
+  display: inline-block;
+}
+
+.pdf-download-btn.is-loading .btn-label {
+  opacity: 0.7;
+}
+
+.pdf-download-btn.btn-outline-primary .btn-spinner {
+  border-color: rgba(11, 42, 91, 0.3);
+  border-top-color: var(--navy);
+}

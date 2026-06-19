@@ -1,0 +1,43 @@
+/* ====================================================================
+   TRUST-COUNTERS.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.trust-counter-section {
+  background: linear-gradient(180deg, #fffdf7 0%, #ffffff 100%);
+}
+
+.trust-counter-grid {
+  --bs-gutter-x: 0.9rem;
+  --bs-gutter-y: 0.9rem;
+}
+
+.trust-counter-card {
+  height: 100%;
+  border-radius: 20px;
+  border: 1px solid rgba(11, 42, 91, 0.14);
+  background: linear-gradient(160deg, #ffffff 0%, #f7fbff 100%);
+  padding: 16px 14px;
+  box-shadow: 0 12px 22px rgba(11, 42, 91, 0.1);
+  text-align: center;
+  transition: transform 0.32s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.32s ease, border-color 0.32s ease;
+}
+
+.trust-counter-card:hover {
+  box-shadow: 0 16px 26px rgba(11, 42, 91, 0.14);
+  border-color: rgba(244, 210, 31, 0.5);
+}
+
+.trust-counter-card h3 {
+  margin: 0 0 4px;
+  color: var(--navy);
+  font-size: clamp(1.2rem, 2vw, 1.62rem);
+  line-height: 1.12;
+}
+
+.trust-counter-card p {
+  margin: 0;
+  color: rgba(11, 42, 91, 0.66);
+  font-size: 0.82rem;
+  line-height: 1.45;
+}

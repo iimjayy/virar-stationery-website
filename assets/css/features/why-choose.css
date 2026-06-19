@@ -1,0 +1,29 @@
+/* ====================================================================
+   WHY-CHOOSE.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+/* Why choose us premium section */
+
+.section-pad.why-choose-section {
+  padding-top: 54px;
+  padding-bottom: 52px;
+}
+
+.why-choose-section .section-heading {
+  max-width: 860px;
+  margin-bottom: 34px;
+}
+
+.why-choose-section .section-heading h2 {
+  margin-bottom: 10px;
+}
+
+#services,
+#stationery,
+#gallery,
+.why-choose-section,
+.section-alt {
+  content-visibility: auto;
+  contain-intrinsic-size: 900px;
+}

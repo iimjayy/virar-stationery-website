@@ -1,0 +1,78 @@
+/* ====================================================================
+   BADGES.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.section-kicker,
+.eyebrow {
+  letter-spacing: 0.05em;
+}
+
+.eyebrow,
+.section-kicker {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--navy);
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+
+.popular-badge {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  padding: 0.32rem 0.62rem;
+  border-radius: 999px;
+  color: var(--navy);
+  background: var(--yellow);
+}
+
+.section-kicker,
+.eyebrow {
+  border-radius: 999px;
+  padding: 0.24rem 0.58rem;
+  border: 1px solid rgba(11, 42, 91, 0.14);
+  background: rgba(255, 255, 255, 0.84);
+  box-shadow: 0 7px 14px rgba(11, 42, 91, 0.08);
+}
+
+.section-kicker,
+.eyebrow {
+  letter-spacing: 0.11em;
+  font-weight: 700;
+}
+
+.service-detail-badge.tag.badge-fast {
+  color: #0d3d2d;
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  background: linear-gradient(145deg, rgba(220, 252, 231, 0.96), rgba(134, 239, 172, 0.72));
+}
+
+.service-detail-badge.tag.badge-popular {
+  color: #5f4600;
+  border: 1px solid rgba(244, 210, 31, 0.46);
+  background: linear-gradient(145deg, rgba(255, 247, 204, 0.98), rgba(244, 210, 31, 0.72));
+}
+
+.service-detail-badge.tag.badge-student {
+  color: #0b2a5b;
+  border: 1px solid rgba(59, 130, 246, 0.34);
+  background: linear-gradient(145deg, rgba(219, 234, 254, 0.96), rgba(147, 197, 253, 0.72));
+}
+
+.service-detail-badge.tag.badge-bulk {
+  color: #7c2d12;
+  border: 1px solid rgba(251, 146, 60, 0.38);
+  background: linear-gradient(145deg, rgba(255, 237, 213, 0.96), rgba(253, 186, 116, 0.7));
+}
+
+.service-detail-badge.tag.badge-default {
+  color: #fff;
+  border: 1px solid rgba(11, 42, 91, 0.28);
+  background: linear-gradient(145deg, rgba(11, 42, 91, 0.94), rgba(8, 30, 67, 0.88));
+}

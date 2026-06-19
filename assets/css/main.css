@@ -1,0 +1,42 @@
+/* ============================================================
+   MASTER CSS MANIFEST — virar-stationery-website
+   Load order is load order. Do not reorder @imports.
+   ============================================================ */
+
+/* 1. Base — tokens and resets first */
+@import url('./base/variables.css');
+@import url('./base/reset.css');
+@import url('./base/typography.css');
+@import url('./base/animations.css');
+
+/* 2. Layout — structural shells */
+@import url('./layout/header.css');
+@import url('./layout/footer.css');
+@import url('./layout/sections.css');
+
+/* 3. Components — reusable UI atoms */
+@import url('./components/buttons.css');
+@import url('./components/forms.css');
+@import url('./components/badges.css');
+@import url('./components/cards.css');
+@import url('./components/modals.css');
+
+/* 4. Features — page sections */
+@import url('./features/hero.css');
+@import url('./features/services.css');
+@import url('./features/gallery.css');
+@import url('./features/contact.css');
+@import url('./features/products.css');
+@import url('./features/testimonials.css');
+@import url('./features/why-choose.css');
+@import url('./features/quote-calculator.css');
+@import url('./features/bulk-order.css');
+@import url('./features/order-status.css');
+
+/* 5. Utilities — helpers and interactive layer */
+@import url('./utilities/trust-counters.css');
+@import url('./utilities/interactive.css');
+@import url('./utilities/responsive-mobile.css');
+
+/* 6. Themes — must come last to override cleanly */
+@import url('./themes/dark.css');

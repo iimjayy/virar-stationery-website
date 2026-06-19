@@ -1,0 +1,14 @@
+/* ====================================================================
+   TYPOGRAPHY.CSS — Virar Stationery
+   Section headings, kickers, eyebrow text, typographic utilities.
+   ==================================================================== */
+
+.section-heading h2 {
+  font-size: clamp(1.55rem, 2.8vw, 2.15rem);
+  line-height: 1.22;
+}
+
+.section-heading p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+}

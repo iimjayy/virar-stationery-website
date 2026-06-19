@@ -1,0 +1,32 @@
+/* ====================================================================
+   RESET.CSS — Virar Stationery
+   Global resets, box-model, and element base rules.
+   ==================================================================== */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-body);
+  color: var(--text);
+  line-height: 1.7;
+  background: linear-gradient(180deg, #ffffff 0%, var(--bg) 100%);
+}
+
+a {
+  text-decoration: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+section[id] {
+  scroll-margin-top: 180px;
+}

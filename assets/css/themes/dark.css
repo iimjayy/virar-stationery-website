@@ -1,0 +1,457 @@
+/* ====================================================================
+   DARK.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+/* =============================================================================
+   DARK MODE — APPLE iOS / macOS QUALITY
+   Based on Apple Human Interface Guidelines (HIG) dark mode color system.
+   =============================================================================
+   iOS System Color Palette (dark):
+   systemBackground        → #000000
+   secondarySystemBackground → #1C1C1E
+   tertiarySystemBackground  → #2C2C2E
+   systemGroupedBackground   → #000000
+   Separator                 → rgba(84,84,88,0.65)
+   Label                     → #FFFFFF
+   SecondaryLabel            → rgba(235,235,245,0.6)
+   TertiaryLabel             → rgba(235,235,245,0.3)
+   ============================================================================= */
+
+
+/* --- Instant flash prevention: applied synchronously by theme-toggle.js --- */
+html[data-theme="dark"] {
+  background: #000;
+  color-scheme: dark;
+}
+
+/* --- Design tokens --- */
+
+[data-theme="dark"] {
+  /* iOS Material System — 4-level depth */
+  --bg:               #000000;              /* systemBackground */
+  --surface:          #1C1C1E;              /* secondarySystemBackground — cards */
+  --surface-alt:      #000000;              /* grouped sections alternate */
+  --surface-elevated: #2C2C2E;              /* tertiarySystemBackground — elevated cards */
+  --surface-group:    #1C1C1E;              /* grouped table cells */
+  --surface-glass:    rgba(28, 28, 30, 0.8);/* Vibrancy — header/tab bar */
+
+  /* Text hierarchy (iOS labels) */
+  --text:             #FFFFFF;
+  --text-secondary:   rgba(235,235,245,0.60);
+  --text-tertiary:    rgba(235,235,245,0.30);
+  --muted:            rgba(235,235,245,0.25);
+
+  /* Separator (iOS — not pure white, slightly warm) */
+  --border:           rgba(84,84,88,0.65);
+  --border-strong:    rgba(84,84,88,0.85);
+
+  /* Accents */
+  --navy:             #0A84FF;              /* iOS Blue (dark) */
+  --navy-2:           #0071E3;
+  --navy-light:       rgba(10,132,255,0.14);
+  --yellow:           #F4D21F;              /* Brand yellow — preserved */
+  --yellow-light:     rgba(244,210,31,0.85);
+
+  /* Shadows: Apple dark mode uses elevation, not heavy shadow */
+  --shadow-sm:        none;
+  --shadow-md:        0 1px 0 rgba(255,255,255,0.04) inset;
+  --shadow-lg:        0 1px 0 rgba(255,255,255,0.06) inset;
+  --shadow-card:      0 0 0 0.5px rgba(84,84,88,0.65);   /* Hairline stroke only */
+  --shadow-card-hover:0 0 0 1px rgba(10,132,255,0.5), 0 4px 20px rgba(10,132,255,0.12);
+  --shadow-glass:     none;
+
+  /* Keep functional colors */
+  --success:          #30D158;              /* iOS Green (dark) */
+  --error:            #FF453A;              /* iOS Red (dark) */
+  --orange:           #FF9F0A;              /* iOS Orange (dark) */
+}
+
+/* ── Base ── */
+
+[data-theme="dark"] body {
+  background: var(--bg);
+  color: var(--text);
+}
+
+/* ── Header: macOS menu bar vibrancy ── */
+
+[data-theme="dark"] .site-header {
+  background: var(--surface-glass);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-bottom: 0.5px solid var(--border);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .top-header {
+  border-bottom: 0.5px solid var(--border) !important;
+}
+
+[data-theme="dark"] .nav-strip {
+  background: rgba(0,0,0,0.6);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-top: 0.5px solid var(--border);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .nav-link {
+  color: var(--text-secondary) !important;
+  font-weight: 500;
+}
+
+[data-theme="dark"] .nav-link:hover,
+[data-theme="dark"] .nav-link.active {
+  color: var(--yellow) !important;
+}
+
+/* ── Section backgrounds ── */
+
+[data-theme="dark"] section {
+  background-color: var(--bg);
+}
+
+[data-theme="dark"] .section-alt {
+  background-color: var(--surface-alt);
+}
+
+/* Alternate rows: iOS grouped table style — subtle inset */
+
+[data-theme="dark"] .pricing-section,
+[data-theme="dark"] .how-it-works-section,
+[data-theme="dark"] .why-choose-section,
+[data-theme="dark"] .faq-section,
+[data-theme="dark"] .order-status-section {
+  background-color: #000;
+}
+
+[data-theme="dark"] .services-section,
+[data-theme="dark"] .gallery-section,
+[data-theme="dark"] .stationery-section,
+[data-theme="dark"] .testimonials-section,
+[data-theme="dark"] .bulk-section,
+[data-theme="dark"] .contact-section {
+  background-color: #1C1C1E;
+}
+
+/* ── Cards: secondarySystemBackground, hairline border ── */
+
+[data-theme="dark"] .service-card,
+[data-theme="dark"] .price-card,
+[data-theme="dark"] .stationery-card,
+[data-theme="dark"] .trust-counter-card,
+[data-theme="dark"] .testimonial-card,
+[data-theme="dark"] .product-card,
+[data-theme="dark"] .faq-item,
+[data-theme="dark"] .order-status-card,
+[data-theme="dark"] .quote-card,
+[data-theme="dark"] .bulk-form-card,
+[data-theme="dark"] .contact-card,
+[data-theme="dark"] .pdf-preview-card,
+[data-theme="dark"] .order-result-card {
+  background: var(--surface);
+  border-color: var(--border);
+  box-shadow: var(--shadow-card);
+  color: var(--text);
+}
+
+/* Hover: iOS tappable cell highlight */
+
+[data-theme="dark"] .service-card:hover,
+[data-theme="dark"] .price-card:hover,
+[data-theme="dark"] .stationery-card:hover {
+  background: var(--surface-elevated);
+  box-shadow: var(--shadow-card-hover);
+}
+
+/* Quote summary elevated */
+
+[data-theme="dark"] .quote-summary-card {
+  background: var(--surface-elevated);
+  border: 0.5px solid var(--border-strong);
+  box-shadow: var(--shadow-card);
+}
+
+/* ── Typography hierarchy ── */
+
+[data-theme="dark"] h1,
+[data-theme="dark"] h2,
+[data-theme="dark"] h3,
+[data-theme="dark"] h4,
+[data-theme="dark"] .counter-value,
+[data-theme="dark"] .quote-summary-value {
+  color: var(--text);
+}
+
+[data-theme="dark"] p,
+[data-theme="dark"] .section-heading > p,
+[data-theme="dark"] .service-card p,
+[data-theme="dark"] .price-card p,
+[data-theme="dark"] .faq-answer,
+[data-theme="dark"] .quote-summary-label,
+[data-theme="dark"] .quote-summary-disclaimer {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] small,
+[data-theme="dark"] .quote-note,
+[data-theme="dark"] .order-status-hint {
+  color: var(--text-tertiary);
+}
+
+/* Section kicker chips */
+
+[data-theme="dark"] .section-kicker {
+  background: rgba(10,132,255,0.14);
+  color: var(--navy);
+  border-color: rgba(10,132,255,0.22);
+}
+
+/* Price emphasis */
+
+[data-theme="dark"] .price-value strong {
+  color: var(--yellow);
+}
+
+/* Step index — circle */
+
+[data-theme="dark"] .quote-step-index {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: none;
+}
+
+/* ── Forms ── */
+
+[data-theme="dark"] .form-control,
+[data-theme="dark"] .form-select,
+[data-theme="dark"] .order-status-input {
+  background: var(--surface-elevated);
+  border: 0.5px solid var(--border);
+  color: var(--text);
+}
+
+[data-theme="dark"] .form-control:focus,
+[data-theme="dark"] .form-select:focus,
+[data-theme="dark"] .order-status-input:focus {
+  background: var(--surface-elevated);
+  border-color: var(--navy);
+  box-shadow: 0 0 0 3px rgba(10,132,255,0.20);
+  outline: none;
+}
+
+[data-theme="dark"] .form-control::placeholder,
+[data-theme="dark"] .form-select option,
+[data-theme="dark"] .order-status-input::placeholder {
+  color: var(--text-tertiary);
+}
+
+[data-theme="dark"] .form-select option {
+  background: var(--surface-elevated);
+  color: var(--text);
+}
+
+/* ── PDF Drop zone ── */
+
+[data-theme="dark"] .quote-pdf-dropzone {
+  background: var(--surface-elevated);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .quote-pdf-dropzone:hover,
+[data-theme="dark"] .quote-pdf-dropzone.is-active {
+  background: rgba(10,132,255,0.06);
+  border-color: var(--navy);
+}
+
+/* ── Action buttons (header icons) ── */
+
+[data-theme="dark"] .action-btn {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .action-btn:hover {
+  color: var(--yellow);
+  background: rgba(255,255,255,0.06);
+  border-radius: 8px;
+}
+
+[data-theme="dark"] .theme-toggle-btn:hover,
+[data-theme="dark"] .lang-toggle-btn:hover {
+  background: rgba(255,255,255,0.08);
+  border-color: var(--border);
+}
+
+/* ── Quick convert bar ── */
+
+[data-theme="dark"] .quick-convert-bar {
+  background: rgba(10,132,255,0.10);
+  border-top: 0.5px solid var(--border);
+  border-bottom: 0.5px solid var(--border);
+}
+
+/* ── FAQ ── */
+
+[data-theme="dark"] .faq-item {
+  border-color: var(--border);
+  background: transparent;
+}
+
+[data-theme="dark"] .faq-question {
+  color: var(--text);
+}
+
+/* ── Search box ── */
+
+[data-theme="dark"] .search-box {
+  background: rgba(118,118,128,0.18);
+  border-color: transparent;
+}
+
+[data-theme="dark"] .search-input {
+  background: transparent;
+  color: var(--text);
+}
+
+[data-theme="dark"] .search-input::placeholder {
+  color: var(--text-secondary);
+}
+
+/* ── Footer: deepest level ── */
+
+[data-theme="dark"] .site-footer {
+  background: #000;
+  border-top: 0.5px solid var(--border);
+}
+
+[data-theme="dark"] .footer-bottom {
+  background: #000;
+  border-top: 0.5px solid var(--border);
+}
+
+[data-theme="dark"] .site-footer a {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .site-footer a:hover {
+  color: var(--yellow);
+}
+
+/* ── Mobile bottom bar: iOS tab bar vibrancy ── */
+
+[data-theme="dark"] .mobile-bottom-bar {
+  background: rgba(28,28,30,0.82);
+  backdrop-filter: saturate(180%) blur(24px);
+  -webkit-backdrop-filter: saturate(180%) blur(24px);
+  border-top: 0.5px solid var(--border);
+  box-shadow: none;
+}
+
+[data-theme="dark"] .mobile-bottom-bar a {
+  color: var(--text-secondary);
+}
+
+[data-theme="dark"] .mobile-bottom-bar a.active,
+[data-theme="dark"] .mobile-bottom-bar a:hover {
+  color: var(--yellow);
+}
+
+/* ── Scroll progress ── */
+
+[data-theme="dark"] .scroll-progress {
+  background: linear-gradient(90deg, var(--navy), var(--yellow));
+}
+
+/* ── Brand logo area ── */
+
+[data-theme="dark"] .brand-name {
+  color: var(--text);
+}
+
+[data-theme="dark"] .brand-tagline {
+  color: var(--text-secondary);
+}
+
+/* ── Hero section specific ── */
+
+[data-theme="dark"] .hero-section {
+  background: radial-gradient(ellipse at top left, rgba(10,132,255,0.08) 0%, transparent 60%),
+              radial-gradient(ellipse at bottom right, rgba(244,210,31,0.05) 0%, transparent 50%),
+              #000;
+}
+
+/* ── CTA buttons stay vivid ── */
+
+[data-theme="dark"] .btn-primary {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+[data-theme="dark"] .btn-primary:hover {
+  background: var(--navy-2);
+  border-color: var(--navy-2);
+}
+
+/* ── Popular badge ── */
+
+[data-theme="dark"] .popular-badge {
+  background: var(--yellow);
+  color: #000;
+}
+
+/* ── Order status ── */
+
+[data-theme="dark"] .order-status-btn {
+  background: var(--navy);
+  color: #fff;
+}
+
+[data-theme="dark"] .order-status-btn:hover {
+  background: var(--navy-2);
+  color: #fff;
+}
+
+[data-theme="dark"] .order-status-label {
+  color: var(--navy);
+}
+
+[data-theme="dark"] .order-result-id {
+  background: rgba(10,132,255,0.18);
+  color: var(--navy);
+}
+
+/* ── Stepper ── */
+
+[data-theme="dark"] .order-step-icon {
+  background: var(--surface-elevated);
+  border-color: var(--border);
+}
+
+[data-theme="dark"] .order-step.is-done .order-step-icon {
+  background: var(--success);
+  border-color: var(--success);
+}
+
+[data-theme="dark"] .order-step.is-active .order-step-icon {
+  background: var(--navy);
+  border-color: var(--navy);
+  color: #fff;
+}
+
+[data-theme="dark"] .order-status-label {
+  color: var(--yellow);
+}
+
+[data-theme="dark"] .quote-pdf-icon {
+  color: var(--yellow);
+}
+
+[data-theme="dark"] .quote-pdf-browse {
+  color: var(--yellow);
+}
+
+[data-theme="dark"] .pdf-preview-pages {
+  color: var(--yellow);
+}

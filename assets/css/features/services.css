@@ -1,0 +1,58 @@
+/* ====================================================================
+   SERVICES.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.service-card,
+.feature-card,
+.testimonial-card,
+.contact-card {
+  padding: 28px;
+}
+
+.service-card h3,
+.feature-card h3,
+.product-body h3,
+.testimonial-card h3,
+.contact-card h3 {
+  color: var(--navy);
+  font-size: 1.1rem;
+  font-weight: 700;
+  margin-top: 18px;
+}
+
+.service-card p,
+.feature-card p,
+.testimonial-card p,
+.contact-card p,
+.product-body p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.service-link-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.service-card {
+  position: relative;
+}
+
+/* --- Phase 4: Card Micro-Interactions --- */
+
+
+/* Service card hover: icon scale */
+.service-card:hover .service-card-icon i,
+.service-card:hover .service-card-icon .fa-solid,
+.service-card:hover .service-card-icon .fa-regular {
+  transform: scale(1.15) rotate(-3deg);
+  transition: transform 0.4s var(--ease-premium);
+}
+
+.service-card .service-card-icon i,
+.service-card .service-card-icon .fa-solid,
+.service-card .service-card-icon .fa-regular {
+  transition: transform 0.4s var(--ease-premium);
+}

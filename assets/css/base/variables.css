@@ -1,0 +1,78 @@
+/* ====================================================================
+   VARIABLES.CSS — Virar Stationery
+   Design tokens: colors, typography, spacing, shadows, motion, z-index.
+   ==================================================================== */
+
+:root {
+  /* === Colors: Brand === */
+  --bg: #f7f6f2;
+  --surface: #ffffff;
+  --surface-alt: #fcfaf4;
+  --surface-elevated: linear-gradient(160deg, #ffffff 0%, #fbfdff 58%, #fffdf7 100%);
+  --text: #101828;
+  --muted: #667085;
+  --navy: #0b2a5b;
+  --navy-2: #081e43;
+  --navy-light: rgba(11, 42, 91, 0.06);
+  --yellow: #f4d21f;
+  --yellow-light: #ffeb61;
+  --yellow-glow: rgba(244, 210, 31, 0.48);
+  --orange: #f28c28;
+  --orange-2: #ffb15e;
+  --border: rgba(11, 42, 91, 0.14);
+  --success: #16a34a;
+  --error: #dc2626;
+
+  /* === Typography === */
+  --font-display: 'Sora', 'Poppins', sans-serif;
+  --font-body: 'Poppins', sans-serif;
+  --text-xs: 0.75rem;
+  --text-sm: 0.875rem;
+  --text-base: 1rem;
+  --text-lg: 1.125rem;
+  --text-xl: 1.25rem;
+  --text-2xl: 1.5rem;
+  --text-3xl: 2rem;
+
+  /* === Spacing Scale === */
+  --space-1: 0.25rem;
+  --space-2: 0.5rem;
+  --space-3: 0.75rem;
+  --space-4: 1rem;
+  --space-5: 1.5rem;
+  --space-6: 2rem;
+  --space-7: 3rem;
+  --space-8: 4rem;
+
+  /* === Border Radius === */
+  --radius: 20px;
+  --radius-sm: 14px;
+  --radius-lg: 28px;
+  --radius-shell: 34px;
+  --radius-pill: 999px;
+
+  /* === Shadows (layered for depth) === */
+  --shadow-sm: 0 8px 20px rgba(11, 42, 91, 0.09);
+  --shadow-md: 0 16px 34px rgba(11, 42, 91, 0.13);
+  --shadow-lg: 0 22px 44px rgba(11, 42, 91, 0.2);
+  --shadow: var(--shadow-md);
+  --shadow-card: 0 12px 24px rgba(11, 42, 91, 0.1), 0 3px 8px rgba(11, 42, 91, 0.08);
+  --shadow-card-hover: 0 20px 36px rgba(11, 42, 91, 0.16), 0 6px 14px rgba(11, 42, 91, 0.1);
+  --shadow-glass: 0 14px 28px rgba(11, 42, 91, 0.16), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+
+  /* === Motion === */
+  --ease-premium: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-bounce: cubic-bezier(0.22, 0.8, 0.28, 1);
+  --duration-fast: 0.2s;
+  --duration-base: 0.34s;
+  --duration-slow: 0.5s;
+
+  /* === Z-index Scale === */
+  --z-dropdown: 100;
+  --z-sticky: 200;
+  --z-header: 1000;
+  --z-overlay: 1100;
+  --z-modal: 1200;
+  --z-toast: 1300;
+  --z-chat: 1400;
+}

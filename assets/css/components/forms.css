@@ -1,0 +1,35 @@
+/* ====================================================================
+   FORMS.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.form-label {
+  font-weight: 600;
+  color: var(--navy-2);
+}
+
+.form-control,
+.form-select {
+  border-radius: 16px;
+  border-color: rgba(18, 48, 89, 0.15);
+  padding: 0.9rem 1rem;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: rgba(242, 140, 40, 0.55);
+  box-shadow: 0 0 0 0.2rem rgba(242, 140, 40, 0.15);
+}
+
+/* Validation states */
+
+.form-control.is-invalid,
+.form-select.is-invalid {
+  border-color: var(--error) !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.15);
+}
+
+.form-control.is-valid {
+  border-color: var(--success) !important;
+  box-shadow: 0 0 0 3px rgba(22, 163, 74, 0.15);
+}

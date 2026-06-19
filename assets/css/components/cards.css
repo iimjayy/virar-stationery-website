@@ -1,0 +1,99 @@
+/* ====================================================================
+   CARDS.CSS — Virar Stationery
+   Auto-extracted from style.css
+   ==================================================================== */
+
+.card-icon {
+  width: 56px;
+  height: 56px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  color: var(--navy);
+  background: var(--yellow);
+  box-shadow: 0 12px 28px rgba(244, 210, 31, 0.3);
+  font-size: 1.5rem;
+}
+
+.card-icon.small {
+  width: 50px;
+  height: 50px;
+  margin-bottom: 18px;
+}
+
+.card-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 18px;
+  color: var(--navy);
+  font-weight: 700;
+}
+
+.card-link::after {
+  content: '→';
+}
+
+.premium-service-card .card-icon {
+  transition: transform 0.28s ease, box-shadow 0.28s ease;
+}
+
+.premium-service-card:hover .card-icon {
+  transform: translateY(-2px) scale(1.03);
+}
+
+.premium-service-card .card-icon {
+  width: 62px;
+  height: 62px;
+  margin-bottom: 2px;
+  color: #20345f;
+  background: linear-gradient(145deg, rgba(255, 227, 94, 0.96), rgba(244, 210, 31, 0.9));
+  border: 1px solid rgba(255, 255, 255, 0.88);
+  box-shadow: 0 16px 26px rgba(244, 210, 31, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.72);
+  backdrop-filter: blur(3px);
+}
+
+.premium-service-card .card-icon i {
+  font-size: 1.5rem;
+}
+
+.premium-service-card .card-link {
+  cursor: pointer;
+  width: 100%;
+  justify-content: space-between;
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(11, 42, 91, 0.16);
+  font-size: 0.94rem;
+}
+
+.premium-service-card .card-link::after {
+  content: none;
+}
+
+.premium-service-card .card-link:hover .service-chevron,
+.premium-service-card .card-link:focus-visible .service-chevron {
+  transform: translateX(4px);
+}
+
+/* ==========================================================================
+   UI/UX ENHANCEMENT LAYER
+   Added: June 2026
+   Purpose: Premium micro-interactions, reveal variants, gallery polish,
+            form UX, back-to-top progress ring, and mobile performance
+   ========================================================================== */
+
+
+/* --- Phase 3: Reveal Animation Variants --- */
+
+.reveal-child {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s var(--ease-premium), transform 0.7s var(--ease-premium);
+}
+
+.reveal-child.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
