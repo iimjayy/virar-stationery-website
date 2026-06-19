@@ -14,6 +14,11 @@ export const translations = {
     'nav.home': 'Home',
     'nav.stationery': 'Stationery',
     'nav.services': 'Services',
+    'nav.printing': 'Printing Services',
+    'nav.xerox': 'Xerox',
+    'nav.lamination': 'Lamination',
+    'nav.binding': 'Binding',
+    'nav.passport': 'Passport Photos',
     'nav.gallery': 'Gallery',
     'nav.contact': 'Contact',
 
@@ -43,6 +48,8 @@ export const translations = {
     'section.bulk.title': 'Bulk & Corporate Orders',
     'section.contact.title': 'Contact Us',
     'section.orderStatus.title': 'Track Your Order',
+    'section.orderStatus.kicker': 'Track Your Order',
+    'section.orderStatus.subtitle': 'Enter your order ID or the last 4 digits of your phone number.',
 
     // Buttons / CTAs
     'cta.getQuote': 'Get a Quote',
@@ -86,6 +93,11 @@ export const translations = {
     'nav.home': 'मुख्यपृष्ठ',
     'nav.stationery': 'स्टेशनरी',
     'nav.services': 'सेवा',
+    'nav.printing': 'Printing सेवा',
+    'nav.xerox': 'Xerox',
+    'nav.lamination': 'Lamination',
+    'nav.binding': 'Binding',
+    'nav.passport': 'पासपोर्ट फोटो',
     'nav.gallery': 'गॅलरी',
     'nav.contact': 'संपर्क',
 
@@ -115,6 +127,8 @@ export const translations = {
     'section.bulk.title': 'बल्क आणि कॉर्पोरेट ऑर्डर्स',
     'section.contact.title': 'संपर्क करा',
     'section.orderStatus.title': 'तुमची ऑर्डर Track करा',
+    'section.orderStatus.kicker': 'ऑर्डर Track करा',
+    'section.orderStatus.subtitle': 'तुमचा Order ID किंवा फोन नंबरचे शेवटचे ४ अंक टाका.',
 
     // Buttons / CTAs
     'cta.getQuote': 'दर विचारा',
@@ -158,6 +172,11 @@ export const translations = {
     'nav.home': 'होम',
     'nav.stationery': 'स्टेशनरी',
     'nav.services': 'सेवाएँ',
+    'nav.printing': 'Printing सेवाएँ',
+    'nav.xerox': 'Xerox',
+    'nav.lamination': 'Lamination',
+    'nav.binding': 'Binding',
+    'nav.passport': 'पासपोर्ट फोटो',
     'nav.gallery': 'गैलरी',
     'nav.contact': 'संपर्क',
 
@@ -187,6 +206,8 @@ export const translations = {
     'section.bulk.title': 'बल्क और कॉर्पोरेट ऑर्डर',
     'section.contact.title': 'संपर्क करें',
     'section.orderStatus.title': 'अपना ऑर्डर Track करें',
+    'section.orderStatus.kicker': 'ऑर्डर Track करें',
+    'section.orderStatus.subtitle': 'अपना Order ID या फ़ोन नंबर के आखिरी 4 अंक डालें।',
 
     // Buttons / CTAs
     'cta.getQuote': 'कोटेशन लें',

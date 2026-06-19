@@ -104,9 +104,12 @@ function applyLanguage(lang, toggleBtn) {
   // Update <html lang>
   document.documentElement.lang = lang;
 
-  // Update toggle button label
+  // Update toggle button label — target the inner span, not the button itself
   if (toggleBtn) {
-    toggleBtn.textContent = LANG_BUTTON_LABELS[lang] || lang.toUpperCase();
+    const labelSpan = toggleBtn.querySelector('.lang-label');
+    if (labelSpan) {
+      labelSpan.textContent = LANG_BUTTON_LABELS[lang] || lang.toUpperCase();
+    }
   }
 }
 
