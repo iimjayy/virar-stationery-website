@@ -1,0 +1,505 @@
+/* =============================================
+   Shared Service Page Styles
+   service-pages.css — One stylesheet for all 6
+   service pages: printing, xerox, binding,
+   lamination, passport-photos, thesis-printing
+   ============================================= */
+
+/* Header */
+.sp-header {
+  background: var(--navy);
+  padding: 14px 0;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.sp-header-back {
+  color: var(--yellow);
+  font-weight: 700;
+  font-size: 1.1rem;
+  text-decoration: none;
+}
+.sp-header-back:hover { opacity: 0.85; }
+.sp-header-wa {
+  background: #25d366;
+  color: #fff;
+  padding: 8px 18px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sp-header-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  color: #fff;
+}
+
+/* Hero */
+.sp-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #1a4a8a 60%, var(--navy) 100%);
+  padding: 72px 0 56px;
+  position: relative;
+  overflow: hidden;
+}
+.sp-hero::before {
+  content: '';
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  width: 300px;
+  height: 300px;
+  background: rgba(244, 210, 31, 0.08);
+  border-radius: 50%;
+}
+.sp-badge {
+  background: rgba(244, 210, 31, 0.15);
+  color: var(--yellow);
+  border: 1px solid rgba(244, 210, 31, 0.3);
+  border-radius: 999px;
+  padding: 6px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  display: inline-block;
+  margin-bottom: 16px;
+}
+.sp-hero h1 {
+  color: #fff;
+  font-weight: 800;
+  font-size: clamp(1.8rem, 4vw, 2.8rem);
+  line-height: 1.2;
+}
+.sp-hero .lead { color: rgba(255, 255, 255, 0.82); font-size: 1.05rem; }
+.sp-hero-accent { color: var(--yellow); }
+
+/* CTA Buttons */
+.sp-btn-wa {
+  background: #25d366;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sp-btn-wa:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  color: #fff;
+}
+.sp-btn-call {
+  background: var(--yellow);
+  color: var(--navy);
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 13px 28px;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sp-btn-call:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(244, 210, 31, 0.4);
+  color: var(--navy);
+}
+
+/* Feature list in hero */
+.sp-features {
+  background: rgba(255, 255, 255, 0.07);
+  border-radius: 24px;
+  padding: 32px 28px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+}
+.sp-features-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  color: rgba(255, 255, 255, 0.85);
+}
+.sp-features-list li { margin-bottom: 8px; }
+.sp-features-list li:last-child { margin-bottom: 0; }
+.sp-features-icon {
+  color: var(--yellow);
+  font-size: 3rem;
+  text-align: center;
+  margin-bottom: 12px;
+}
+.sp-check { color: var(--yellow); margin-right: 8px; }
+
+/* Pricing section */
+.sp-pricing {
+  background: var(--bg);
+  padding: 64px 0;
+}
+.sp-pricing-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-sm);
+  border: 1px solid var(--border);
+  padding: 32px 24px;
+  text-align: center;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.sp-pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-md);
+}
+.sp-pricing-card .price-tag {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--navy);
+}
+.sp-pricing-card .price-unit {
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+.sp-pricing-card .price-label {
+  font-size: 0.95rem;
+  color: var(--text);
+  margin-top: 8px;
+}
+.sp-pricing-icon {
+  font-size: 1.7rem;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.sp-pricing-highlight {
+  border-top: 3px solid var(--yellow);
+}
+
+/* Steps section */
+.sp-steps { padding: 64px 0; }
+.sp-step-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--navy), #1a4a8a);
+  color: var(--yellow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 16px;
+}
+.sp-step-title {
+  color: var(--navy);
+  font-weight: 700;
+}
+
+/* FAQ */
+.sp-faq { background: var(--bg); padding: 64px 0; }
+.sp-faq-item {
+  background: var(--surface);
+  border-radius: var(--radius-sm);
+  padding: 20px 24px;
+  margin-bottom: 14px;
+  box-shadow: var(--shadow-sm);
+  border-left: 4px solid var(--yellow);
+}
+.sp-faq-item h5 {
+  color: var(--navy);
+  font-weight: 700;
+  margin-bottom: 8px;
+  font-size: 1rem;
+}
+.sp-faq-item p {
+  color: var(--muted);
+  margin: 0;
+  font-size: 0.95rem;
+}
+
+/* Contact bar */
+.sp-contact {
+  background: var(--navy);
+  color: #fff;
+  padding: 40px 0;
+}
+.sp-contact .icon-circle {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: rgba(244, 210, 31, 0.15);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--yellow);
+  margin-right: 12px;
+  font-size: 1rem;
+  flex-shrink: 0;
+}
+.sp-contact-label { font-weight: 700; margin-bottom: 4px; }
+.sp-contact-text { color: rgba(255, 255, 255, 0.75); font-size: 0.9rem; }
+.sp-contact-link { color: rgba(255, 255, 255, 0.85); font-size: 0.95rem; text-decoration: none; }
+.sp-contact-link:hover { text-decoration: underline; color: var(--yellow); }
+.sp-contact-sub { color: rgba(255, 255, 255, 0.55); font-size: 0.82rem; }
+.sp-contact a { color: var(--yellow); text-decoration: none; }
+.sp-contact a:hover { text-decoration: underline; }
+
+/* Footer */
+.sp-footer {
+  background: #060f1e;
+  color: rgba(255, 255, 255, 0.55);
+  padding: 20px 0;
+  font-size: 0.88rem;
+  text-align: center;
+}
+.sp-footer a { color: var(--yellow); text-decoration: none; }
+
+/* Section labels */
+.sp-section-label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+.sp-section-title {
+  font-size: clamp(1.4rem, 3vw, 1.9rem);
+  font-weight: 800;
+  color: var(--navy);
+}
+
+/* === How to Order — Service-specific WhatsApp CTA === */
+.sp-how-to-order {
+  background: linear-gradient(135deg, #f0fdf4 0%, #ecfdf5 100%);
+  padding: 48px 0;
+  border-top: 1px solid rgba(37, 211, 102, 0.15);
+  border-bottom: 1px solid rgba(37, 211, 102, 0.15);
+}
+.sp-hto-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #25d366;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px;
+}
+.sp-hto-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+.sp-hto-steps {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  flex-wrap: wrap;
+  margin-bottom: 24px;
+  font-size: 0.95rem;
+  color: var(--muted);
+}
+.sp-hto-step {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+  color: var(--text);
+}
+.sp-hto-arrow { color: #25d366; font-size: 0.8rem; }
+.sp-hto-cta {
+  background: #25d366;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 14px 32px;
+  font-size: 1rem;
+  border: none;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+.sp-hto-cta:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 24px rgba(37, 211, 102, 0.35);
+  color: #fff;
+}
+
+/* === Page-specific extras (preserved from inline) === */
+
+/* Binding page: included badge */
+.sp-incl-badge {
+  display: inline-block;
+  background: #e8f5e9;
+  color: #2e7d32;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 12px;
+  margin-top: 10px;
+}
+
+/* Lamination page: finish badge */
+.sp-finish-badge {
+  display: inline-block;
+  padding: 4px 14px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-top: 10px;
+  background: #e8f0fe;
+  color: #1a56db;
+}
+
+/* Passport photos page: pricing hero card */
+.sp-pricing-hero-card {
+  background: linear-gradient(135deg, var(--navy), #1a4a8a);
+  color: #fff;
+  border-radius: 24px;
+  padding: 40px 32px;
+  text-align: center;
+  max-width: 440px;
+  margin: 0 auto;
+  box-shadow: 0 8px 40px rgba(11, 42, 91, 0.2);
+}
+.sp-pricing-hero-card .big-price {
+  font-size: 4rem;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+}
+.sp-pricing-hero-card .sp-hero-card-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.sp-pricing-hero-card .sp-hero-card-sub {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  font-weight: 600;
+}
+.sp-pricing-hero-card .sp-hero-card-specs {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+.sp-pricing-hero-card .sp-hero-card-cta {
+  display: block;
+  margin-top: 24px;
+  background: #25d366;
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  padding: 12px 0;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.sp-pricing-hero-card .sp-hero-card-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+  color: #fff;
+}
+
+/* Passport photos page: uses grid */
+.sp-uses-section { padding: 64px 0; background: #fff; }
+.sp-uses-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 14px;
+  margin-top: 32px;
+}
+.sp-use-item {
+  background: var(--surface, #fff);
+  border-radius: var(--radius-sm, 14px);
+  padding: 18px 12px;
+  text-align: center;
+  box-shadow: var(--shadow-sm, 0 2px 12px rgba(11, 42, 91, 0.06));
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--navy);
+  border: 1px solid var(--border, rgba(11, 42, 91, 0.07));
+}
+.sp-use-item i {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--yellow);
+  margin-bottom: 8px;
+}
+
+/* Thesis page: trust strip */
+.sp-trust-strip {
+  background: linear-gradient(90deg, var(--navy), #1a4a8a);
+  padding: 28px 0;
+}
+.sp-trust-item { text-align: center; color: #fff; }
+.sp-trust-item .num {
+  font-size: 2rem;
+  font-weight: 900;
+  color: var(--yellow);
+  line-height: 1;
+}
+.sp-trust-item .lbl {
+  font-size: 0.82rem;
+  color: rgba(255, 255, 255, 0.72);
+  margin-top: 4px;
+}
+
+/* Lamination page: finish badge */
+.sp-finish-badge {
+  display: inline-block;
+  background: rgba(11, 42, 91, 0.08);
+  color: var(--navy);
+  font-size: 0.78rem;
+  font-weight: 600;
+  padding: 3px 12px;
+  border-radius: var(--radius-pill);
+  margin-top: 6px;
+}
+
+/* Passport-photos page: hero specifics */
+.sp-photo-label {
+  font-size: 1rem;
+  color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 8px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 600;
+}
+.sp-photo-sublabel {
+  font-size: 1.15rem;
+  color: rgba(255, 255, 255, 0.85);
+  margin-top: 8px;
+  font-weight: 600;
+}
+.sp-photo-divider {
+  border-color: rgba(255, 255, 255, 0.15);
+  margin: 20px 0;
+}
+.sp-photo-specs {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Steps section alt background */
+.sp-steps-alt {
+  background: var(--bg);
+}
+
+/* Responsive */
+@media (max-width: 576px) {
+  .sp-hero { padding: 48px 0 36px; }
+  .sp-pricing, .sp-steps, .sp-faq { padding: 40px 0; }
+  .sp-hto-steps { flex-direction: column; gap: 4px; }
+  .sp-hto-arrow { transform: rotate(90deg); }
+}

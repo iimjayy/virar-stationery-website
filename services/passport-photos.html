@@ -56,77 +56,47 @@
     ]
   }
   </script>
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@500;600;700;800&display=swap" rel="stylesheet">
   <!-- Bootstrap 5.3.3 -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous" />
   <!-- Font Awesome 6.5.2 -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWIX+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W==" crossorigin="anonymous" referrerpolicy="no-referrer" />
   <!-- Site Stylesheet -->
-  <link rel="stylesheet" href="../assets/css/style.css?v=20260617-v2" />
-  <style>
-    :root { --navy:#0b2a5b; --yellow:#f4d21f; }
-    body { font-family: 'Segoe UI', system-ui, sans-serif; color: #1a1a2e; }
-    .hero-service { background: linear-gradient(135deg, #0b2a5b 0%, #12356e 55%, #0b2a5b 100%); padding: 72px 0 56px; position: relative; overflow: hidden; }
-    .hero-service::before { content: ''; position: absolute; bottom: -50px; right: -50px; width: 300px; height: 300px; background: rgba(244,210,31,0.08); border-radius: 50%; }
-    .hero-service .badge-pill { background: rgba(244,210,31,0.15); color: #f4d21f; border: 1px solid rgba(244,210,31,0.3); border-radius: 999px; padding: 6px 18px; font-size: 0.82rem; font-weight: 600; letter-spacing: .5px; display: inline-block; margin-bottom: 16px; }
-    .hero-service h1 { color: #fff; font-weight: 800; font-size: clamp(1.8rem, 4vw, 2.8rem); line-height: 1.2; }
-    .hero-service .lead { color: rgba(255,255,255,0.82); font-size: 1.05rem; }
-    .btn-wa { background: #25d366; color: #fff; border-radius: 999px; font-weight: 700; padding: 13px 28px; border: none; transition: transform .2s, box-shadow .2s; }
-    .btn-wa:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(37,211,102,.4); color: #fff; }
-    .btn-call { background: #f4d21f; color: #0b2a5b; border-radius: 999px; font-weight: 700; padding: 13px 28px; border: none; transition: transform .2s, box-shadow .2s; }
-    .btn-call:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(244,210,31,.4); color: #0b2a5b; }
-    .pricing-section { background: #f8f9ff; padding: 64px 0; }
-    .pricing-hero-card { background: linear-gradient(135deg, #0b2a5b, #1a4a8a); color: #fff; border-radius: 24px; padding: 40px 32px; text-align: center; max-width: 440px; margin: 0 auto; box-shadow: 0 8px 40px rgba(11,42,91,.2); }
-    .pricing-hero-card .big-price { font-size: 4rem; font-weight: 900; color: #f4d21f; line-height: 1; }
-    .steps-section { padding: 64px 0; }
-    .step-icon { width: 64px; height: 64px; border-radius: 50%; background: linear-gradient(135deg, #0b2a5b, #1a4a8a); color: #f4d21f; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; margin: 0 auto 16px; }
-    .faq-section { background: #f8f9ff; padding: 64px 0; }
-    .faq-item { background: #fff; border-radius: 14px; padding: 20px 24px; margin-bottom: 14px; box-shadow: 0 2px 12px rgba(11,42,91,.06); border-left: 4px solid #f4d21f; }
-    .faq-item h5 { color: #0b2a5b; font-weight: 700; margin-bottom: 8px; font-size: 1rem; }
-    .faq-item p { color: #555; margin: 0; font-size: 0.95rem; }
-    .uses-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 14px; margin-top: 32px; }
-    .use-item { background: #fff; border-radius: 14px; padding: 18px 12px; text-align: center; box-shadow: 0 2px 12px rgba(11,42,91,.06); font-size: 0.88rem; font-weight: 600; color: #0b2a5b; border: 1px solid rgba(11,42,91,.07); }
-    .use-item i { display: block; font-size: 1.4rem; color: #f4d21f; margin-bottom: 8px; }
-    .contact-bar { background: #0b2a5b; color: #fff; padding: 40px 0; }
-    .contact-bar .icon-circle { width: 44px; height: 44px; border-radius: 50%; background: rgba(244,210,31,.15); display: inline-flex; align-items: center; justify-content: center; color: #f4d21f; margin-right: 12px; font-size: 1rem; flex-shrink: 0; }
-    .contact-bar a { color: #f4d21f; text-decoration: none; }
-    .contact-bar a:hover { text-decoration: underline; }
-    footer { background: #060f1e; color: rgba(255,255,255,.55); padding: 20px 0; font-size: 0.88rem; text-align: center; }
-    footer a { color: #f4d21f; text-decoration: none; }
-    .section-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; color: #f4d21f; margin-bottom: 8px; }
-    .section-title { font-size: clamp(1.4rem, 3vw, 1.9rem); font-weight: 800; color: #0b2a5b; }
-  </style>
+  <link rel="stylesheet" href="../assets/css/main.css?v=20260619-v3" />
+  <link rel="stylesheet" href="../assets/css/pages/service-pages.css" />
 </head>
 <body>
   <!-- Header -->
-  <header style="background:#0b2a5b;padding:14px 0;position:sticky;top:0;z-index:1000;">
+  <header class="sp-header">
     <div class="container d-flex align-items-center justify-content-between">
-      <a href="/" style="color:#f4d21f;font-weight:700;font-size:1.1rem;text-decoration:none;">← Virar Stationery &amp; Jumbo Xerox</a>
-      <a href="https://wa.me/917021072757" target="_blank" rel="noopener" style="background:#25d366;color:#fff;padding:8px 18px;border-radius:999px;font-size:0.85rem;font-weight:600;text-decoration:none;"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
+      <a href="/" class="sp-header-back">← Virar Stationery &amp; Jumbo Xerox</a>
+      <a href="https://wa.me/917021072757" target="_blank" rel="noopener" class="sp-header-wa"><i class="fa-brands fa-whatsapp"></i> WhatsApp Us</a>
     </div>
   </header>
 
   <!-- Hero -->
-  <section class="hero-service">
+  <section class="sp-hero">
     <div class="container">
       <div class="row align-items-center">
         <div class="col-lg-7">
-          <span class="badge-pill"><i class="fa-solid fa-id-card me-1"></i> Passport Photos · Virar West</span>
-          <h1>Passport Size Photos<br><span style="color:#f4d21f;">20 Photos for ₹30</span></h1>
+          <span class="sp-badge"><i class="fa-solid fa-id-card me-1"></i> Passport Photos · Virar West</span>
+          <h1>Passport Size Photos<br><span class="sp-hero-accent">20 Photos for ₹30</span></h1>
           <p class="lead my-4">Get crisp, government-accepted passport size photos in Virar West. Ready in 10–15 minutes. Accepted for visa applications, Aadhaar updates, college admissions, and all government forms.</p>
           <div class="d-flex flex-wrap gap-3">
-            <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20size%20photos" target="_blank" rel="noopener" class="btn btn-wa"><i class="fa-brands fa-whatsapp me-2"></i>WhatsApp Us</a>
-            <a href="tel:+919702073424" class="btn btn-call"><i class="fa-solid fa-phone me-2"></i>Call Now</a>
+            <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20size%20photos" target="_blank" rel="noopener" class="sp-btn-wa"><i class="fa-brands fa-whatsapp me-2"></i>WhatsApp Us</a>
+            <a href="tel:+919702073424" class="sp-btn-call"><i class="fa-solid fa-phone me-2"></i>Call Now</a>
           </div>
         </div>
         <div class="col-lg-5 d-none d-lg-flex justify-content-end">
-          <div style="background:rgba(255,255,255,.07);border-radius:24px;padding:32px 28px;border:1px solid rgba(255,255,255,.12);">
-            <div style="color:#f4d21f;font-size:3rem;text-align:center;margin-bottom:12px;"><i class="fa-solid fa-id-card"></i></div>
-            <ul style="list-style:none;padding:0;margin:0;color:rgba(255,255,255,.85);">
-              <li class="mb-2"><i class="fa-solid fa-check" style="color:#f4d21f;margin-right:8px;"></i>20 photos per set</li>
-              <li class="mb-2"><i class="fa-solid fa-check" style="color:#f4d21f;margin-right:8px;"></i>Standard 35×45mm size</li>
-              <li class="mb-2"><i class="fa-solid fa-check" style="color:#f4d21f;margin-right:8px;"></i>White or light-blue background</li>
-              <li class="mb-2"><i class="fa-solid fa-check" style="color:#f4d21f;margin-right:8px;"></i>Soft copy on WhatsApp free</li>
-              <li><i class="fa-solid fa-check" style="color:#f4d21f;margin-right:8px;"></i>Ready in 10–15 minutes</li>
+          <div class="sp-features">
+            <div class="sp-features-icon"><i class="fa-solid fa-id-card"></i></div>
+            <ul class="sp-features-list">
+              <li class="mb-2"><i class="fa-solid fa-check sp-check"></i>20 photos per set</li>
+              <li class="mb-2"><i class="fa-solid fa-check sp-check"></i>Standard 35×45mm size</li>
+              <li class="mb-2"><i class="fa-solid fa-check sp-check"></i>White or light-blue background</li>
+              <li class="mb-2"><i class="fa-solid fa-check sp-check"></i>Soft copy on WhatsApp free</li>
+              <li><i class="fa-solid fa-check sp-check"></i>Ready in 10–15 minutes</li>
             </ul>
           </div>
         </div>
@@ -135,34 +105,34 @@
   </section>
 
   <!-- Pricing -->
-  <section class="pricing-section">
+  <section class="sp-pricing">
     <div class="container">
       <div class="text-center mb-5">
-        <p class="section-label">Simple Pricing</p>
-        <h2 class="section-title">Passport Photo Rates</h2>
+        <p class="sp-section-label">Simple Pricing</p>
+        <h2 class="sp-section-title">Passport Photo Rates</h2>
         <p class="text-muted">One clear price — no confusion, no extras.</p>
       </div>
       <div class="pricing-hero-card">
-        <div style="font-size:1rem;color:rgba(255,255,255,.7);margin-bottom:8px;text-transform:uppercase;letter-spacing:1px;font-weight:600;">Standard Set</div>
+        <div class="sp-photo-label">Standard Set</div>
         <div class="big-price">₹30</div>
-        <div style="font-size:1.15rem;color:rgba(255,255,255,.85);margin-top:8px;font-weight:600;">for 20 Passport Photos</div>
-        <hr style="border-color:rgba(255,255,255,.15);margin:20px 0;">
-        <div class="d-flex justify-content-center gap-3 flex-wrap" style="font-size:0.9rem;color:rgba(255,255,255,.7);">
-          <span><i class="fa-solid fa-ruler-combined me-1" style="color:#f4d21f;"></i>35 × 45 mm</span>
-          <span><i class="fa-solid fa-image me-1" style="color:#f4d21f;"></i>Glossy print</span>
-          <span><i class="fa-solid fa-circle me-1" style="color:#f4d21f;"></i>White background</span>
+        <div class="sp-photo-sublabel">for 20 Passport Photos</div>
+        <hr class="sp-photo-divider">
+        <div class="d-flex justify-content-center gap-3 flex-wrap" class="sp-photo-specs">
+          <span><i class="fa-solid fa-ruler-combined me-1" class="sp-check"></i>35 × 45 mm</span>
+          <span><i class="fa-solid fa-image me-1" class="sp-check"></i>Glossy print</span>
+          <span><i class="fa-solid fa-circle me-1" class="sp-check"></i>White background</span>
         </div>
-        <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20size%20photos" target="_blank" rel="noopener" style="display:block;margin-top:24px;background:#25d366;color:#fff;border-radius:999px;font-weight:700;padding:12px 0;text-decoration:none;font-size:1rem;"><i class="fa-brands fa-whatsapp me-2"></i>Order via WhatsApp</a>
+        <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20size%20photos" target="_blank" rel="noopener" class="sp-btn-wa d-block text-center mt-3"><i class="fa-brands fa-whatsapp me-2"></i>Order via WhatsApp</a>
       </div>
     </div>
   </section>
 
   <!-- Uses -->
-  <section style="padding:64px 0;background:#fff;">
+  <section class="sp-steps">
     <div class="container">
       <div class="text-center mb-4">
-        <p class="section-label">Accepted Everywhere</p>
-        <h2 class="section-title">Where Can You Use These Photos?</h2>
+        <p class="sp-section-label">Accepted Everywhere</p>
+        <h2 class="sp-section-title">Where Can You Use These Photos?</h2>
       </div>
       <div class="uses-grid">
         <div class="use-item"><i class="fa-solid fa-passport"></i>Passport Application</div>
@@ -176,26 +146,26 @@
   </section>
 
   <!-- How It Works -->
-  <section class="steps-section" style="background:#f8f9ff;">
+  <section class="sp-steps sp-steps-alt">
     <div class="container">
       <div class="text-center mb-5">
-        <p class="section-label">Simple Process</p>
-        <h2 class="section-title">How It Works</h2>
+        <p class="sp-section-label">Simple Process</p>
+        <h2 class="sp-section-title">How It Works</h2>
       </div>
       <div class="row g-4 text-center">
         <div class="col-md-4">
-          <div class="step-icon"><i class="fa-solid fa-store"></i></div>
-          <h5 style="color:#0b2a5b;font-weight:700;">1. Walk In</h5>
+          <div class="sp-step-icon"><i class="fa-solid fa-store"></i></div>
+          <h5 class="sp-step-title">1. Walk In</h5>
           <p class="text-muted">Simply come to our shop near Old Viva College, Virar West. No appointment needed.</p>
         </div>
         <div class="col-md-4">
-          <div class="step-icon"><i class="fa-solid fa-camera"></i></div>
-          <h5 style="color:#0b2a5b;font-weight:700;">2. Photo &amp; Print</h5>
+          <div class="sp-step-icon"><i class="fa-solid fa-camera"></i></div>
+          <h5 class="sp-step-title">2. Photo &amp; Print</h5>
           <p class="text-muted">We capture or use your digital photo, adjust the size, and print on high-quality glossy photo paper.</p>
         </div>
         <div class="col-md-4">
-          <div class="step-icon"><i class="fa-solid fa-images"></i></div>
-          <h5 style="color:#0b2a5b;font-weight:700;">3. Ready in 15 Mins</h5>
+          <div class="sp-step-icon"><i class="fa-solid fa-images"></i></div>
+          <h5 class="sp-step-title">3. Ready in 15 Mins</h5>
           <p class="text-muted">Receive your set of 20 printed passport photos plus a digital copy on WhatsApp — all within 15 minutes.</p>
         </div>
       </div>
@@ -203,27 +173,27 @@
   </section>
 
   <!-- FAQ -->
-  <section class="faq-section">
+  <section class="sp-faq">
     <div class="container">
       <div class="text-center mb-5">
-        <p class="section-label">Got Questions?</p>
-        <h2 class="section-title">Frequently Asked Questions</h2>
+        <p class="sp-section-label">Got Questions?</p>
+        <h2 class="sp-section-title">Frequently Asked Questions</h2>
       </div>
       <div class="row justify-content-center">
         <div class="col-lg-8">
-          <div class="faq-item">
+          <div class="sp-faq-item">
             <h5>What are the specifications of your passport size photos?</h5>
             <p>Our passport photos are 35mm × 45mm — the standard Indian passport size — printed on high-quality glossy photo paper. They meet the photo requirements for all Indian government applications including passport, PAN, Aadhaar, and visa forms.</p>
           </div>
-          <div class="faq-item">
+          <div class="sp-faq-item">
             <h5>How many photos do I get in one set?</h5>
             <p>Each set costs ₹30 and includes 20 passport size photos — giving you enough copies for multiple applications, forms, and records at one time.</p>
           </div>
-          <div class="faq-item">
+          <div class="sp-faq-item">
             <h5>Can I get a soft copy or digital copy of my photo?</h5>
             <p>Yes! We provide a soft copy (digital file) of your passport photo on WhatsApp at no extra charge. Just let us know when collecting your photos.</p>
           </div>
-          <div class="faq-item">
+          <div class="sp-faq-item">
             <h5>What background colour is used for passport photos?</h5>
             <p>We use a white background by default, which is accepted for most Indian government documents and visa applications. A light blue background is also available on request at no extra charge.</p>
           </div>
@@ -232,31 +202,50 @@
     </div>
   </section>
 
+
+  <!-- How to Order -->
+  <section class="sp-how-to-order">
+    <div class="container text-center">
+      <div class="sp-hto-icon"><i class="fa-brands fa-whatsapp"></i></div>
+      <h2 class="sp-hto-title">How to Order</h2>
+      <div class="sp-hto-steps">
+        <span class="sp-hto-step"><i class="fa-brands fa-whatsapp"></i> Send your file on WhatsApp</span>
+        <span class="sp-hto-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        <span class="sp-hto-step"><i class="fa-solid fa-print"></i> We print it</span>
+        <span class="sp-hto-arrow"><i class="fa-solid fa-arrow-right"></i></span>
+        <span class="sp-hto-step"><i class="fa-solid fa-store"></i> Walk in and pick up</span>
+      </div>
+      <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20photos" target="_blank" rel="noopener" class="sp-hto-cta">
+        <i class="fa-brands fa-whatsapp"></i> Book Passport Photos
+      </a>
+    </div>
+  </section>
+
   <!-- Contact Bar -->
-  <section class="contact-bar">
+  <section class="sp-contact">
     <div class="container">
       <div class="row g-4">
         <div class="col-md-4 d-flex align-items-start">
           <span class="icon-circle"><i class="fa-solid fa-location-dot"></i></span>
           <div>
-            <div style="font-weight:700;margin-bottom:4px;">Our Location</div>
-            <div style="color:rgba(255,255,255,.75);font-size:0.9rem;">Shop No. 11, Takshashila Apt., Near Old Viva College, Ram Mandir Rd, Virar West – 401303</div>
+            <div class="sp-contact-label">Our Location</div>
+            <div class="sp-contact-text">Shop No. 11, Takshashila Apt., Near Old Viva College, Ram Mandir Rd, Virar West – 401303</div>
           </div>
         </div>
         <div class="col-md-4 d-flex align-items-start">
           <span class="icon-circle"><i class="fa-solid fa-phone"></i></span>
           <div>
-            <div style="font-weight:700;margin-bottom:4px;">Call Us</div>
-            <a href="tel:+919702073424" style="color:rgba(255,255,255,.85);font-size:0.95rem;">+91 97020 73424</a><br>
-            <div style="color:rgba(255,255,255,.55);font-size:0.82rem;">Mon – Sun, 8 AM to 9 PM</div>
+            <div class="sp-contact-label">Call Us</div>
+            <a href="tel:+919702073424" class="sp-contact-link">+91 97020 73424</a><br>
+            <div class="sp-contact-sub">Mon – Sun, 8 AM to 9 PM</div>
           </div>
         </div>
         <div class="col-md-4 d-flex align-items-start">
           <span class="icon-circle"><i class="fa-brands fa-whatsapp"></i></span>
           <div>
-            <div style="font-weight:700;margin-bottom:4px;">WhatsApp</div>
+            <div class="sp-contact-label">WhatsApp</div>
             <a href="https://wa.me/917021072757?text=Hi%2C%20I%20need%20passport%20photos">+91 70210 72757</a><br>
-            <div style="color:rgba(255,255,255,.55);font-size:0.82rem;">Send your digital photo on chat</div>
+            <div class="sp-contact-sub">Send your digital photo on chat</div>
           </div>
         </div>
       </div>
@@ -264,7 +253,7 @@
   </section>
 
   <!-- Footer -->
-  <footer>
+  <footer class="sp-footer">
     <div class="container">
       <p class="mb-1">&copy; 2026 <a href="https://virarprint.in">Virar Stationery &amp; Jumbo Xerox</a>. All rights reserved.</p>
       <p class="mb-0">Shop No. 11, Takshashila Apartment, Near Old Viva College, Virar West, Mumbai – 401303</p>

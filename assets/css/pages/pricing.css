@@ -1,0 +1,332 @@
+/* ====================================================================
+   PRICING.CSS — Virar Stationery Pricing Page
+   Premium, world-class styling for the service rates page.
+   Uses site design tokens exclusively — zero hardcoded values.
+   ==================================================================== */
+
+/* ── Hero Section ── */
+.pricing-hero {
+  background: linear-gradient(135deg, var(--navy) 0%, #163d75 55%, var(--navy-2) 100%);
+  padding: 80px 0 64px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-hero::before {
+  content: '';
+  position: absolute;
+  top: -120px;
+  right: -120px;
+  width: 400px;
+  height: 400px;
+  background: radial-gradient(circle, rgba(244, 210, 31, 0.08) 0%, transparent 70%);
+  border-radius: 50%;
+  animation: pricingAuraDrift 12s ease-in-out infinite alternate;
+}
+
+.pricing-hero::after {
+  content: '';
+  position: absolute;
+  bottom: -80px;
+  left: -60px;
+  width: 280px;
+  height: 280px;
+  background: radial-gradient(circle, rgba(244, 210, 31, 0.05) 0%, transparent 70%);
+  border-radius: 50%;
+}
+
+@keyframes pricingAuraDrift {
+  0% { transform: translate(0, 0) scale(1); }
+  100% { transform: translate(-30px, 20px) scale(1.15); }
+}
+
+.pricing-kicker {
+  display: inline-block;
+  background: rgba(244, 210, 31, 0.14);
+  color: var(--yellow);
+  border: 1px solid rgba(244, 210, 31, 0.28);
+  border-radius: var(--radius-pill);
+  padding: 6px 22px;
+  font-size: var(--text-xs);
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  margin-bottom: 18px;
+}
+
+.pricing-hero h1 {
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: clamp(2rem, 5vw, 3rem);
+  margin-bottom: 14px;
+  letter-spacing: -0.02em;
+}
+
+.pricing-subtitle {
+  color: rgba(255, 255, 255, 0.78);
+  font-size: var(--text-lg);
+  margin: 0;
+  max-width: 480px;
+  margin-inline: auto;
+  line-height: 1.6;
+}
+
+/* ── Pricing Grid ── */
+.pricing-grid {
+  padding: 72px 0 56px;
+  background: var(--bg);
+}
+
+/* ── Category Cards ── */
+.pricing-category-card {
+  background: var(--surface);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  border: 1px solid var(--border);
+  overflow: hidden;
+  height: 100%;
+  transition:
+    transform var(--duration-base) var(--ease-premium),
+    box-shadow var(--duration-base) var(--ease-premium),
+    border-color var(--duration-base) var(--ease-premium);
+}
+
+.pricing-category-card:hover {
+  transform: translateY(-6px) scale(1.01);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(244, 210, 31, 0.35);
+}
+
+/* Card header with navy gradient + icon */
+.pricing-card-header {
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  color: #fff;
+  padding: 20px 24px;
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  position: relative;
+  overflow: hidden;
+}
+
+/* Subtle shimmer on card headers */
+.pricing-card-header::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(244, 210, 31, 0.06) 50%,
+    transparent 100%
+  );
+  transition: left 0.6s var(--ease-premium);
+}
+
+.pricing-category-card:hover .pricing-card-header::after {
+  left: 100%;
+}
+
+.pricing-card-header i {
+  font-size: var(--text-2xl);
+  color: var(--yellow);
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(244, 210, 31, 0.12);
+  border-radius: 10px;
+  transition: transform var(--duration-fast) ease;
+}
+
+.pricing-category-card:hover .pricing-card-header i {
+  transform: scale(1.1);
+}
+
+.pricing-card-header h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+  font-weight: 700;
+  margin: 0;
+  letter-spacing: -0.01em;
+}
+
+/* ── Pricing Table ── */
+.pricing-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: var(--text-sm);
+}
+
+.pricing-table th,
+.pricing-table td {
+  padding: 14px 22px;
+  text-align: left;
+}
+
+.pricing-table thead th {
+  font-weight: 600;
+  color: var(--muted);
+  font-size: var(--text-xs);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  border-bottom: 2px solid var(--border);
+  background: rgba(11, 42, 91, 0.02);
+}
+
+.pricing-table tbody td {
+  border-bottom: 1px solid var(--border);
+  color: var(--text);
+  transition: background-color var(--duration-fast) ease;
+}
+
+.pricing-table tbody tr:nth-child(even) td {
+  background: rgba(11, 42, 91, 0.02);
+}
+
+.pricing-table tbody tr:last-child td {
+  border-bottom: 0;
+}
+
+.pricing-table tbody tr:hover td {
+  background: rgba(244, 210, 31, 0.06);
+}
+
+.price-value {
+  font-weight: 700;
+  color: var(--navy);
+  white-space: nowrap;
+  font-family: var(--font-display);
+  font-size: var(--text-base);
+}
+
+/* ── Disclaimer Note ── */
+.pricing-note {
+  text-align: center;
+  color: var(--muted);
+  font-size: var(--text-sm);
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 0 var(--space-4) var(--space-8);
+  line-height: 1.7;
+}
+
+/* ── WhatsApp CTA Section ── */
+.pricing-cta {
+  text-align: center;
+  padding: 56px 0 72px;
+  background: var(--bg);
+}
+
+.pricing-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  background: #25d366;
+  color: #fff;
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: var(--text-lg);
+  padding: 18px 40px;
+  border-radius: var(--radius-pill);
+  text-decoration: none;
+  box-shadow: 0 8px 28px rgba(37, 211, 102, 0.3);
+  transition:
+    transform var(--duration-fast) ease,
+    box-shadow var(--duration-fast) ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.pricing-cta-btn::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(255, 255, 255, 0.15),
+    transparent
+  );
+  transition: left 0.5s ease;
+}
+
+.pricing-cta-btn:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 36px rgba(37, 211, 102, 0.45);
+  color: #fff;
+}
+
+.pricing-cta-btn:hover::before {
+  left: 100%;
+}
+
+/* ── Responsive ── */
+@media (max-width: 991.98px) {
+  .pricing-hero {
+    padding: 64px 0 48px;
+  }
+  .pricing-grid {
+    padding: 52px 0 40px;
+  }
+}
+
+@media (max-width: 575.98px) {
+  .pricing-hero {
+    padding: 48px 0 36px;
+  }
+  .pricing-hero h1 {
+    font-size: clamp(1.6rem, 6vw, 2.2rem);
+  }
+  .pricing-grid {
+    padding: 36px 0 28px;
+  }
+  .pricing-table th,
+  .pricing-table td {
+    padding: 10px 14px;
+    font-size: var(--text-xs);
+  }
+  .price-value {
+    font-size: var(--text-sm);
+  }
+  .pricing-card-header {
+    padding: 16px 18px;
+    gap: 10px;
+  }
+  .pricing-card-header i {
+    width: 34px;
+    height: 34px;
+    font-size: var(--text-lg);
+    border-radius: 8px;
+  }
+  .pricing-cta {
+    padding: 36px 0 48px;
+  }
+  .pricing-cta-btn {
+    font-size: var(--text-sm);
+    padding: 14px 28px;
+  }
+  .pricing-note {
+    font-size: var(--text-xs);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pricing-hero::before {
+    animation: none;
+  }
+  .pricing-category-card:hover .pricing-card-header::after,
+  .pricing-cta-btn::before {
+    transition: none;
+  }
+}
