@@ -1,6 +1,27 @@
 /* ====================================================================
    MODALS.CSS — Virar Stationery
-   Auto-extracted from style.css
+   Base modal overlay and backdrop patterns.
+   
+   NOTE: The gallery lightbox (.gallery-lightbox, .gallery-lightbox-*)
+   lives in features/gallery.css as it is tightly coupled to the
+   gallery feature's JavaScript and markup. This is intentional per
+   the conflict resolution rules (each rule in its primary concern file).
    ==================================================================== */
 
+/* ── Base overlay backdrop (used by any future modal) ── */
+.overlay-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.72);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  z-var: var(--z-overlay);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
 
+.overlay-backdrop.is-open {
+  opacity: 1;
+  pointer-events: auto;
+}

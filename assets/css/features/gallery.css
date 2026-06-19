@@ -1,6 +1,6 @@
 /* ====================================================================
    GALLERY.CSS — Virar Stationery
-   Auto-extracted from style.css
+   Gallery grid, gallery items, photo lightbox, and image modal.
    ==================================================================== */
 
 .info-card,
@@ -34,6 +34,7 @@
 }
 
 /* Gallery premium polish */
+
 
 .gallery-section.section-pad {
   padding-top: 58px;
@@ -202,42 +203,6 @@ body.lightbox-open {
   background: linear-gradient(180deg, rgba(255, 255, 255, 0.96) 0%, rgba(248, 251, 255, 0.96) 100%);
 }
 
-.info-card,
-.feature-card,
-.testimonial-card,
-.contact-card,
-.product-card,
-.gallery-item,
-.quick-action-card,
-.price-card,
-.how-step,
-.why-card,
-.premium-service-card,
-.faq-item,
-.trust-counter-card,
-.service-row-detail-panel {
-  border-radius: var(--radius);
-  box-shadow: var(--shadow-card);
-  transition: transform 0.34s var(--ease-premium), box-shadow 0.34s var(--ease-premium), border-color 0.34s var(--ease-premium), background-color 0.34s var(--ease-premium);
-}
-
-.info-card:hover,
-.feature-card:hover,
-.testimonial-card:hover,
-.contact-card:hover,
-.product-card:hover,
-.gallery-item:hover,
-.quick-action-card:hover,
-.price-card:hover,
-.how-step:hover,
-.why-card:hover,
-.premium-service-card:hover,
-.faq-item:hover,
-.trust-counter-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-card-hover);
-}
-
 .gallery-section .gallery-grid {
   --bs-gutter-x: clamp(0.9rem, 1.4vw, 1.2rem);
   --bs-gutter-y: clamp(0.9rem, 1.4vw, 1.2rem);
@@ -304,6 +269,7 @@ body.lightbox-open {
 /* --- Phase 7: Gallery Lightbox Enhancements --- */
 
 
+
 /* Gallery image hover overlay */
 .gallery-grid img {
   transition: transform 0.5s var(--ease-premium);
@@ -347,6 +313,7 @@ body.lightbox-open {
 
 /* Lightbox frosted glass backdrop */
 
+
 .gallery-lightbox.is-open {
   background: rgba(8, 30, 67, 0.82);
   backdrop-filter: blur(12px) saturate(120%);
@@ -354,6 +321,7 @@ body.lightbox-open {
 }
 
 /* Lightbox image transition */
+
 
 .gallery-lightbox img {
   transition: opacity 0.15s ease;
@@ -364,6 +332,7 @@ body.lightbox-open {
 }
 
 /* Lightbox counter */
+
 
 .lightbox-counter {
   position: absolute;

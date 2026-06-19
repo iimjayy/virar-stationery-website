@@ -1,6 +1,7 @@
 /* ====================================================================
    HEADER.CSS — Virar Stationery
-   Auto-extracted from style.css
+   Site header, top bar, brand mark, navigation strip,
+   search box, smart search dropdown, nav links, header actions.
    ==================================================================== */
 
 .site-header {
@@ -536,20 +537,6 @@ h3,
   background: linear-gradient(165deg, rgba(255, 255, 255, 0.94), rgba(255, 245, 197, 0.52));
 }
 
-.cta-btn,
-.service-cta-btn,
-.map-directions-btn,
-.action-btn,
-.mobile-bottom-bar a,
-.desktop-cta-chip,
-.search-button,
-.testimonial-nav-btn,
-.gallery-lightbox-close,
-.gallery-lightbox-nav {
-  border-radius: 999px;
-  transition: transform 0.28s var(--ease-premium), box-shadow 0.28s var(--ease-premium), border-color 0.28s var(--ease-premium), background-color 0.28s var(--ease-premium), color 0.28s var(--ease-premium);
-}
-
 .card-icon,
 .quick-action-icon,
 .price-icon,
@@ -563,7 +550,6 @@ h3,
 }
 
 /* --- Silky 350ms transition on every themed element --- */
-
 body,
 .site-header,
 .top-header,
@@ -599,7 +585,6 @@ h1, h2, h3, h4, h5, p, span, a,
 }
 
 /* ── Header toggle buttons (both themes) ── */
-
 .theme-toggle-btn,
 .lang-toggle-btn {
   background: none;
