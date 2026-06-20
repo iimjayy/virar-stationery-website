@@ -2,18 +2,42 @@
 // Self-contained Testimonial Slider feature module.
 // Owns scroll snap tracking, dot navigation, prev/next buttons, and responsive sync.
 // rAF-throttled scroll handler for performance on mid-range devices.
-// Dependencies: none (pure DOM + Web APIs, zero imports)
+
+import { TESTIMONIALS } from '../data/testimonials.js';
 
 // ---------------------------------------------------------------------------
 // initTestimonialSlider — public entry point called by main.js
 // ---------------------------------------------------------------------------
 export const initTestimonialSlider = () => {
   const track = document.getElementById('testimonialsTrack');
+  if (!track) return;
+
+  // Render testimonial cards from data if container is empty or has placeholder cards
+  if (TESTIMONIALS && TESTIMONIALS.length > 0) {
+    track.innerHTML = TESTIMONIALS.map(t => {
+      const stars = '★'.repeat(t.rating) + '☆'.repeat(5 - t.rating);
+      const dateLine = t.date ? `<span class="testimonial-date">${t.date}</span>` : '';
+      const serviceLine = t.service ? `<span class="testimonial-service">${t.service}</span>` : '';
+      return `
+      <div class="col-12 col-lg-4 reveal testimonial-slide">
+        <div class="testimonial-card h-100">
+          <div class="stars">${stars}</div>
+          <p>${t.quote}</p>
+          <h3>${t.name}</h3>
+          <span>${t.role}</span>
+          ${dateLine}
+          ${serviceLine}
+        </div>
+      </div>
+    `;
+    }).join('');
+  }
+
   const previousButton = document.getElementById('testimonialsPrevBtn');
   const nextButton = document.getElementById('testimonialsNextBtn');
   const dotsContainer = document.getElementById('testimonialsDots');
 
-  if (!track || !previousButton || !nextButton || !dotsContainer) {
+  if (!previousButton || !nextButton || !dotsContainer) {
     return;
   }
 
