@@ -736,7 +736,8 @@ main > section + section::before {
 .floating-actions {
   position: fixed;
   right: clamp(10px, 1.4vw, 18px);
-  bottom: calc(36px + env(safe-area-inset-bottom));
+  top: 50%;
+  transform: translateY(-50%);
   display: flex;
   flex-direction: column;
   gap: 12px;

@@ -3326,7 +3326,6 @@
 }
 
 @media (min-width: 992px) {
-  .chat-widget,
   .sticky-whatsapp-btn {
     right: 92px;
   }
