@@ -214,8 +214,23 @@ export const initQuoteCalculator = () => {
     fileInput.hidden = true;
     pdfDropZone.insertAdjacentElement('afterend', fileInput);
 
-    const setPdfStatus = (message, type = 'info') => {
-      pdfPreview.innerHTML = `<p class="pdf-status-message is-${type}">${message}</p>`;
+    const setPdfStatus = (message, type = 'info', fileDetails = null) => {
+      if (fileDetails) {
+        pdfPreview.innerHTML = `
+          <div class="d-flex align-items-center p-3 mt-3 rounded border" style="background: var(--surface-1); box-shadow: 0 4px 12px rgba(0,0,0,0.05);">
+            <i class="fa-solid fa-file-pdf fs-2 me-3" style="color: #e53e3e;"></i>
+            <div class="flex-grow-1 overflow-hidden" style="text-align: left;">
+              <div class="text-truncate fw-bold" style="color: var(--text-primary); font-size: 0.95rem;">${fileDetails.name}</div>
+              <div class="small mt-1" style="color: var(--text-secondary);">
+                ${fileDetails.size} <span class="mx-1">•</span> <span class="text-success fw-bold">✅ ${fileDetails.pages} Pages Detected</span>
+              </div>
+            </div>
+            <i class="fa-solid fa-circle-check text-success fs-4 ms-2"></i>
+          </div>
+        `;
+      } else {
+        pdfPreview.innerHTML = `<p class="pdf-status-message is-${type} mt-2 mb-0 fw-medium">${message}</p>`;
+      }
     };
 
     const setLoading = (isLoading) => {
@@ -251,7 +266,13 @@ export const initQuoteCalculator = () => {
         quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
 
         pdfDropZone.classList.add('has-file');
-        setPdfStatus(`✅ ${pageCount} page${pageCount === 1 ? '' : 's'} detected`, 'success');
+        
+        // Pass the file details for the gorgeous preview card
+        setPdfStatus('', 'success', {
+          name: file.name,
+          size: formatFileSize(file.size),
+          pages: pageCount
+        });
       } catch (error) {
         console.error('[quote-calculator] PDF page counting failed:', error);
         setPdfStatus('Could not read this PDF. Try another file or enter pages manually.', 'error');
