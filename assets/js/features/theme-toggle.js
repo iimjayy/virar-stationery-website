@@ -76,7 +76,9 @@ const resolveInitialTheme = () => {
   if (stored === 'dark' || stored === 'light') {
     return stored;
   }
-  return DARK_MQ.matches ? 'dark' : 'light';
+  // User reported the homepage "gone black" on load (OS auto dark mode).
+  // Default to light mode always to ensure brand consistency unless toggled manually.
+  return 'light'; // Was: return DARK_MQ.matches ? 'dark' : 'light';
 };
 
 // ---------------------------------------------------------------------------
@@ -129,6 +131,8 @@ export const initThemeToggle = () => {
    * @param {MediaQueryListEvent} e — the change event
    */
   DARK_MQ.addEventListener('change', (e) => {
+    // Disabled OS-level auto-toggling to prevent the site from "going black" unexpectedly.
+    /*
     const hasManualPref = localStorage.getItem(STORAGE_KEY) !== null;
     if (hasManualPref) {
       return;
@@ -136,5 +140,6 @@ export const initThemeToggle = () => {
 
     const systemTheme = e.matches ? 'dark' : 'light';
     applyTheme(systemTheme, btn);
+    */
   });
 };
