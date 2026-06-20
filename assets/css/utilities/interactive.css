@@ -182,7 +182,7 @@
 .chat-widget {
   position: fixed;
   right: 35px;
-  bottom: -165px;
+  bottom: 35px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
@@ -191,9 +191,10 @@
 }
 
 .chat-tooltip {
-  position: fixed;
-  right: 35px;
-  bottom: 24px;
+  position: absolute;
+  right: calc(100% + 16px);
+  top: 50%;
+  transform: translateY(-50%);
   background: var(--navy);
   color: #fff;
   padding: 8px 14px;
@@ -210,7 +211,7 @@
   z-index: 1049;
 }
 
-/* .chat-tooltip::after {
+.chat-tooltip::after {
   content: '';
   position: absolute;
   top: 50%;
@@ -219,7 +220,7 @@
   border-width: 6px 0 6px 6px;
   border-style: solid;
   border-color: transparent transparent transparent var(--navy);
-} */
+}
 
 .chat-widget.is-open .chat-tooltip {
   opacity: 0;
