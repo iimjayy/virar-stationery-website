@@ -108,11 +108,8 @@
   transform: scale(1.05);
 }
 
-.gallery-item.ratio-16-10 { aspect-ratio: 16 / 10; }
-.gallery-item.ratio-4-3 { aspect-ratio: 4 / 3; }
-.gallery-item.ratio-3-4 { aspect-ratio: 3 / 4; }
-.gallery-item.ratio-1-1 { aspect-ratio: 1 / 1; }
-
+/* Universal uniform grid alignment */
+.gallery-item { aspect-ratio: 4 / 3; }
 .gallery-item img {
   width: 100%;
   height: 100%;
