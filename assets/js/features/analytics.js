@@ -56,4 +56,77 @@ export const initAnalytics = () => {
     'Service Interest',
     'Service Card'
   );
+
+  // --- NEW EXHAUSTIVE TRACKING ---
+
+  // Track Gallery Image Views
+  bindClickTracking(
+    '.gallery-item, .gallery-link, [data-gallery]',
+    'gallery_image_view',
+    'Gallery Interaction',
+    'Viewed Gallery Image'
+  );
+
+  // Track FAQ Reads
+  bindClickTracking(
+    '.accordion-button, .faq-question',
+    'faq_interaction',
+    'FAQ Read',
+    'Opened FAQ'
+  );
+
+  // Track Language Changes
+  bindClickTracking(
+    '.language-btn, .lang-toggle, [data-lang]',
+    'language_change',
+    'Localization',
+    'Changed Language'
+  );
+
+  // Track Address Copies (High Intent to Visit)
+  bindClickTracking(
+    '#copyAddressBtn, .copy-btn, .address-card',
+    'address_copy',
+    'Location Interest',
+    'Copied Address'
+  );
+
+  // Track Footer Links (Legal, Maps, Contact)
+  bindClickTracking(
+    'footer a',
+    'footer_link_click',
+    'Footer Interaction',
+    'Footer Link'
+  );
+
+  // Track Search Usage (Stationery & Main Site)
+  const bindSearchTracking = (inputId, eventName) => {
+    const input = document.getElementById(inputId);
+    if (input) {
+      let timeout = null;
+      input.addEventListener('input', () => {
+        clearTimeout(timeout);
+        timeout = setTimeout(() => {
+          if (input.value.trim().length > 2) {
+            trackEvent(eventName, 'Search', input.value.trim());
+          }
+        }, 1500); // Only track after they stop typing for 1.5s
+      });
+    }
+  };
+
+  bindSearchTracking('stationerySearchInput', 'stationery_search');
+  
+  const siteSearch = document.querySelector('#siteSearch input, .search-box input');
+  if (siteSearch) {
+    bindSearchTracking(siteSearch.id || 'mainSearch', 'site_search');
+  }
+
+  // Track PDF Upload Intent
+  bindClickTracking(
+    '#quotePdfDrop',
+    'pdf_upload_intent',
+    'Quote Calculated',
+    'Clicked/Dropped PDF Zone'
+  );
 };
