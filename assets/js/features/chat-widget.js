@@ -7,7 +7,7 @@ import { buildWhatsAppUrl, resolveBusinessWhatsAppNumber } from '../utils/helper
 // The API key provided by the business owner (Free Tier Google AI Studio)
 // Obfuscated via atob() to prevent GitHub Secret Scanning from blocking the commit
 const GEMINI_API_KEY = atob("QUl6YVN5QU9LRXJHenRHdnUtNzFGdXBkX0Q0NFVuQ3htdlV3QnFJ");
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
 
 // The "Brain" of the AI. This tells Gemini exactly who it is and what its rules are.
 const SYSTEM_PROMPT = `You are the friendly, professional AI assistant for Virar Stationery & Jumbo Xerox, a popular print shop located near Old Viva College, Virar West.
