@@ -506,11 +506,11 @@ const DICT = {
 
     // ── Navigation ──
     'Home': 'मुख्यपृष्ठ',
-    'Stationery': 'Stationery',
-    'Printing Services': 'Printing सेवा',
-    'Xerox': 'Xerox',
-    'Lamination': 'Lamination',
-    'Binding': 'Binding',
+    'Stationery': 'स्टेशनरी',
+    'Printing Services': 'प्रिंटिंग सेवा',
+    'Xerox': 'झेरॉक्स',
+    'Lamination': 'लॅमिनेशन',
+    'Binding': 'बाइंडिंग',
     'Passport Photos': 'Passport फोटो',
     'Gallery': 'गॅलरी',
     'Contact': 'संपर्क',
@@ -813,7 +813,7 @@ const DICT = {
     'WhatsApp Quote': 'WhatsApp अंदाज',
 
     // ── Footer ──
-    'Virar Stationery & Jumbo Xerox': 'विरार Stationery आणि जम्बो Xerox',
+    'Virar Stationery & Jumbo Xerox': 'विरार स्टेशनरी आणि जम्बो झेरॉक्स',
     'Printing, stationery, xerox and lamination services in Virar.': 'विरारमध्ये Printing, Stationery, Xerox आणि Lamination सेवा.',
     'Trusted by students, offices and families across Virar': 'विरारमधील विद्यार्थी, कार्यालये आणि कुटुंबांचा विश्वास',
     'Open Today · 8am – 9pm': 'आज खुले · सकाळी ८ - रात्री ९',
@@ -1316,11 +1316,11 @@ const DICT = {
 
     // ── Navigation ──
     'Home': 'होम',
-    'Stationery': 'Stationery',
-    'Printing Services': 'Printing सेवाएँ',
-    'Xerox': 'Xerox',
-    'Lamination': 'Lamination',
-    'Binding': 'Binding',
+    'Stationery': 'स्टेशनरी',
+    'Printing Services': 'प्रिंटिंग सेवाएँ',
+    'Xerox': 'ज़ेरॉक्स',
+    'Lamination': 'लैमिनेशन',
+    'Binding': 'बाइंडिंग',
     'Passport Photos': 'Passport फोटो',
     'Gallery': 'गैलरी',
     'Contact': 'संपर्क',
@@ -1622,7 +1622,7 @@ const DICT = {
     'WhatsApp Quote': 'WhatsApp पर कीमत जानें',
 
     // ── Footer ──
-    'Virar Stationery & Jumbo Xerox': 'Virar Stationery & Jumbo Xerox',
+    'Virar Stationery & Jumbo Xerox': 'विरार स्टेशनरी और जंबो ज़ेरॉक्स',
     'Printing, stationery, xerox and lamination services in Virar.': 'विरार में Printing, Stationery, Xerox और Lamination सेवाएँ।',
     'Trusted by students, offices and families across Virar': 'विरार में विद्यार्थियों, कार्यालयों और परिवारों का भरोसा',
     'Open Today · 8am – 9pm': 'आज खुला · सुबह 8 - रात 9',
@@ -2125,11 +2125,11 @@ const DICT = {
 
     // ── Navigation ──
     'Home': 'હોમ',
-    'Stationery': 'Stationery',
-    'Printing Services': 'Printing સેવાઓ',
-    'Xerox': 'Xerox',
-    'Lamination': 'Lamination',
-    'Binding': 'Binding',
+    'Stationery': 'સ્ટેશનરી',
+    'Printing Services': 'પ્રિન્ટિંગ સેવાઓ',
+    'Xerox': 'ઝેરોક્ષ',
+    'Lamination': 'લેમિનેશન',
+    'Binding': 'બાઇન્ડિંગ',
     'Passport Photos': 'Passport ફોટા',
     'Gallery': 'ગેલેરી',
     'Contact': 'સંપર્ક',
