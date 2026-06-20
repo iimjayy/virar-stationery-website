@@ -37,12 +37,8 @@ const DARK_MQ = window.matchMedia('(prefers-color-scheme: dark)');
 const applyTheme = (theme, btn) => {
   document.documentElement.setAttribute('data-theme', theme);
 
-  // Swap icon: light → show moon (click to go dark), dark → show sun (click to go light)
-  const icon = btn.querySelector('i');
-  if (icon) {
-    icon.classList.remove('fa-moon', 'fa-sun');
-    icon.classList.add(theme === 'dark' ? 'fa-sun' : 'fa-moon');
-  }
+  // The icon is now a universal hybrid sun/moon SVG, so we no longer
+  // need to toggle FontAwesome classes here. The icon remains static.
 
   // Sync <meta name="theme-color">
   updateMetaThemeColor(theme);
