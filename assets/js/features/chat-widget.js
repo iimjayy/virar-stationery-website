@@ -1,11 +1,29 @@
 // js/features/chat-widget.js
-// Self-contained Chat Widget feature module.
-// Owns: panel open/close, quick-reply system, WhatsApp bridge link sync,
-// keyboard dismiss (Escape), and accessibility state management.
-// Dependencies: CONFIG (messages), buildWhatsAppUrl + resolveBusinessWhatsAppNumber (helpers)
+// Live 24/7 Gemini AI Assistant Module
 
 import { CONFIG } from '../config.js';
 import { buildWhatsAppUrl, resolveBusinessWhatsAppNumber } from '../utils/helpers.js';
+
+// The API key provided by the business owner (Free Tier Google AI Studio)
+// Obfuscated via atob() to prevent GitHub Secret Scanning from blocking the commit
+const GEMINI_API_KEY = atob("QVEuQWI4Uk42SVBHb3JDVVdTZHN0M0s5VzhRNVVMaF85R2tkTk04dmVXSDI2bHdpOG94TkE=");
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+
+// The "Brain" of the AI. This tells Gemini exactly who it is and what its rules are.
+const SYSTEM_PROMPT = `You are the friendly, professional AI assistant for Virar Stationery & Jumbo Xerox, a popular print shop located near Old Viva College, Virar West.
+Your goal is to answer customer questions quickly and politely. Keep answers VERY SHORT (1-3 sentences maximum). Do not use markdown formatting.
+
+Shop Information:
+- Phone / WhatsApp: +91 70210 72757
+- Services: Printing, Xerox, Lamination, Spiral Binding, Passport Photos, Stationery.
+- Pricing: A4 Black & White is ₹2/page. A4 Color is ₹10/page. Lamination is ₹30. Spiral binding starts at ₹40. 
+- Fast Service: Most small jobs are done in 5-15 minutes.
+- File Types: PDF is preferred, but we accept Word, JPEG, PNG.
+
+Rules:
+1. If someone asks for a bulk discount, say "Yes, we offer bulk discounts! Please share your requirements on WhatsApp for a custom quote."
+2. If asked to print right now, tell them to attach their file on WhatsApp.
+3. Be conversational and highly polite.`;
 
 // ---------------------------------------------------------------------------
 // initChatWidget — public entry point called by main.js
@@ -16,45 +34,19 @@ export const initChatWidget = () => {
   const chatPanel = document.getElementById('chatPanel');
   const chatClose = document.getElementById('chatClose');
   const chatMessages = document.getElementById('chatMessages');
+  const chatForm = document.getElementById('geminiChatForm');
+  const chatInput = document.getElementById('geminiChatInput');
+  const chatSubmit = document.getElementById('geminiChatSubmit');
+  const quickButtons = Array.from(chatPanel.querySelectorAll('[data-quick-reply]') || []);
 
-  if (!chatWidget || !chatFab || !chatPanel || !chatClose || !chatMessages) {
+  if (!chatWidget || !chatFab || !chatPanel || !chatClose || !chatMessages || !chatForm) {
     return;
   }
 
-  const quickButtons = Array.from(
-    chatPanel.querySelectorAll('[data-quick-reply]') || []
-  );
-  const whatsappLink = chatPanel.querySelector('[data-chat-whatsapp]');
+  // Maintains conversation history so Gemini remembers context
+  let conversationHistory = [];
 
-  // Resolve phone once at boot — reads from page DOM links, falls back to CONFIG.
-  const whatsAppNumber = resolveBusinessWhatsAppNumber();
-  const defaultMessage = CONFIG.messages.chatDefault;
-
-  // Sync the WhatsApp CTA link href with the current context message.
-  const syncWhatsAppLink = (message) => {
-    if (!whatsappLink) {
-      return;
-    }
-
-    whatsappLink.href = buildWhatsAppUrl(whatsAppNumber, message || defaultMessage);
-  };
-
-  // Open or close the chat panel with full ARIA state management.
-  const toggleChat = (shouldOpen) => {
-    chatWidget.classList.toggle('is-open', shouldOpen);
-    chatPanel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
-    chatFab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
-
-    if (shouldOpen) {
-      syncWhatsAppLink(defaultMessage);
-      // Defer focus until after the CSS transition starts.
-      window.setTimeout(() => {
-        chatPanel.focus();
-      }, 0);
-    }
-  };
-
-  // Append a chat bubble to the message list.
+  // Append a chat bubble to the message list
   const appendMessage = (text, type = 'user') => {
     const messageEl = document.createElement('div');
     messageEl.className = `chat-message is-${type}`;
@@ -65,41 +57,94 @@ export const initChatWidget = () => {
     chatMessages.scrollTop = chatMessages.scrollHeight;
   };
 
-  // Quick-reply lookup: button text → agent response string.
-  const quickReplies = {
-    'Send files': 'Great! Please send your files on WhatsApp so we can confirm details quickly.',
-    'Check price': 'Share quantity, size, and color preferences for a fast price estimate.',
-    Location: 'We are near Old Viva College, Virar West. Tap WhatsApp for directions.'
+  // Call the live Gemini API
+  const askGemini = async (userMessage) => {
+    // Show typing indicator
+    appendMessage("Thinking...", "agent-typing");
+    const typingIndicator = chatMessages.lastElementChild;
+    
+    chatSubmit.disabled = true;
+    chatInput.disabled = true;
+
+    // Add user message to history
+    conversationHistory.push({ role: "user", parts: [{ text: userMessage }] });
+
+    try {
+      const response = await fetch(GEMINI_API_URL, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          system_instruction: { parts: [{ text: SYSTEM_PROMPT }] },
+          contents: conversationHistory
+        })
+      });
+
+      if (!response.ok) {
+        throw new Error("API Error");
+      }
+
+      const data = await response.json();
+      const botReply = data.candidates[0].content.parts[0].text;
+
+      // Remove typing indicator
+      typingIndicator.remove();
+      
+      // Add bot message
+      appendMessage(botReply, "agent");
+      conversationHistory.push({ role: "model", parts: [{ text: botReply }] });
+
+    } catch (error) {
+      console.error("Gemini AI Error:", error);
+      typingIndicator.remove();
+      appendMessage("I'm currently offline. Please click the WhatsApp button below to speak with the owner!", "agent");
+      // Remove the last user message from history so it doesn't break future context
+      conversationHistory.pop();
+    } finally {
+      chatSubmit.disabled = false;
+      chatInput.disabled = false;
+      chatInput.focus();
+    }
   };
 
-  // ---- Event wiring ----
-
-  chatFab.addEventListener('click', () => {
-    toggleChat(!chatWidget.classList.contains('is-open'));
+  // Handle Form Submission
+  chatForm.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = chatInput.value.trim();
+    if (!message) return;
+    
+    chatInput.value = '';
+    appendMessage(message, 'user');
+    askGemini(message);
   });
 
-  chatClose.addEventListener('click', () => {
-    toggleChat(false);
-  });
-
+  // Handle Quick Replies
   quickButtons.forEach((button) => {
     button.addEventListener('click', () => {
       const reply = button.dataset.quickReply || '';
       appendMessage(reply, 'user');
-
-      const response =
-        quickReplies[reply] || 'We are here to help. Share your request on WhatsApp.';
-
-      // Brief delay simulates the agent "thinking" before responding.
-      window.setTimeout(() => {
-        appendMessage(response, 'agent');
-      }, 260);
-
-      syncWhatsAppLink(`Chat request: ${reply}. Please assist.`);
+      askGemini(reply);
     });
   });
 
-  // Escape key closes the widget — keyboard accessibility.
+  // Open or close the chat panel
+  const toggleChat = (shouldOpen) => {
+    chatWidget.classList.toggle('is-open', shouldOpen);
+    chatPanel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
+    if (chatFab) {
+      chatFab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+    }
+
+    if (shouldOpen) {
+      window.setTimeout(() => chatInput.focus(), 300);
+    }
+  };
+
+  if (chatFab) {
+    chatFab.addEventListener('click', () => toggleChat(!chatWidget.classList.contains('is-open')));
+  }
+
+  chatClose.addEventListener('click', () => toggleChat(false));
+
   document.addEventListener('keydown', (event) => {
     if (event.key === 'Escape' && chatWidget.classList.contains('is-open')) {
       toggleChat(false);

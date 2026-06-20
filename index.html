@@ -1889,10 +1889,16 @@ Source: Sticky Button
         <div class="chat-panel-footer">
           <div class="chat-quick-replies">
             <!-- [ARCH] data-quick-reply already present (good pattern) — preserved as-is -->
-            <button type="button" class="chat-quick-btn" data-quick-reply="Send files">Send files</button>
-            <button type="button" class="chat-quick-btn" data-quick-reply="Check price">Check price</button>
-            <button type="button" class="chat-quick-btn" data-quick-reply="Location">Location</button>
+            <button type="button" class="chat-quick-btn" data-quick-reply="Do you do spiral binding?">Spiral Binding</button>
+            <button type="button" class="chat-quick-btn" data-quick-reply="What is the price for color print?">Color Print Price</button>
+            <button type="button" class="chat-quick-btn" data-quick-reply="Where is your shop located?">Location</button>
           </div>
+          <form id="geminiChatForm" class="chat-input-form" onsubmit="event.preventDefault();">
+            <input type="text" id="geminiChatInput" placeholder="Ask a question..." autocomplete="off" aria-label="Type your message" required>
+            <button type="submit" id="geminiChatSubmit" aria-label="Send message">
+              <i class="fa-solid fa-paper-plane"></i>
+            </button>
+          </form>
           <a class="chat-whatsapp-btn" data-chat-whatsapp href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-whatsapp"></i>
             Continue on WhatsApp
