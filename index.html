@@ -1869,7 +1869,9 @@ Source: Sticky Button
 
     <!-- [ARCH] data-module="chat-widget": JS init target for chat panel toggle and quick reply logic -->
     <div class="chat-widget" id="chatWidget" data-module="chat-widget" aria-live="polite">
-        <!-- chat FAB removed per request -->
+      <button class="chat-fab" id="chatFab" aria-label="Open AI chat" aria-expanded="false">
+        <i class="fa-solid fa-robot"></i>
+      </button>
       <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Quick chat" aria-hidden="true" tabindex="-1">
         <div class="chat-panel-header">
           <div>
