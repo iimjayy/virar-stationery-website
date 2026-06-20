@@ -10,6 +10,7 @@ import { ensureEnquiryToast, showEnquiryToast } from './core/toast.js';
 
 // --- Phase 1 feature modules ---
 import { initSmartSearch } from './features/smart-search.js';
+import { initStationeryStockSearch } from './features/stationery-stock-search.js';
 import { initGalleryLightbox } from './features/gallery-lightbox.js';
 import { initQuoteCalculator } from './features/quote-calculator.js';
 
@@ -467,6 +468,7 @@ runAfterReady(() => {
 
   // Phase 1 modules
   safeRun('smart-search', initSmartSearch);
+  safeRun('stationery-stock-search', initStationeryStockSearch);
   safeRun('gallery-lightbox', initGalleryLightbox);
   safeRun('quote-calculator', initQuoteCalculator);
 

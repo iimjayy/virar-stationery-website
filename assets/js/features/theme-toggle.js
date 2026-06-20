@@ -17,7 +17,7 @@ const STORAGE_KEY = 'virar-theme';
 const META_COLOR_LIGHT = '#0b2a5b';
 
 /** @type {string} Dark mode meta theme-color */
-const META_COLOR_DARK = '#0f1419';
+const META_COLOR_DARK = '#050506';
 
 /** @type {MediaQueryList} System prefers-color-scheme media query */
 const DARK_MQ = window.matchMedia('(prefers-color-scheme: dark)');
