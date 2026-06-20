@@ -8,12 +8,9 @@ export const trackEvent = (eventName, eventCategory, eventLabel, extraParams = {
     ...extraParams
   };
 
-  if (typeof window.gtag === 'function') {
-    window.gtag('event', eventName, params);
-  } else {
-    window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(['event', eventName, params]);
-  }
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){ window.dataLayer.push(arguments); }
+  gtag('event', eventName, params);
 };
 
 const getElementContext = (el) => {
