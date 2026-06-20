@@ -17,15 +17,16 @@ import { showEnquiryToast } from '../core/toast.js';
 // ---------------------------------------------------------------------------
 
 const STORAGE_KEY = 'virar-lang';
-const LANG_CYCLE  = ['en', 'mr', 'hi'];
+const LANG_CYCLE  = ['en', 'mr', 'hi', 'gu'];
 
 const LANG_TOAST = {
   en: 'Language: English',
   mr: 'भाषा: मराठी',
   hi: 'भाषा: हिंदी',
+  gu: 'ભાષા: ગુજરાતી',
 };
 
-const LANG_LABEL = { en: 'EN', mr: 'मर', hi: 'हि' };
+const LANG_LABEL = { en: 'EN', mr: 'मर', hi: 'हि', gu: 'ગુજ' };
 
 // ---------------------------------------------------------------------------
 // Complete phrase dictionary — every visible string on the page
@@ -700,6 +701,85 @@ const DICT = {
     'Check price': 'कीमत देखें',
     'Location': 'स्थान',
     'Continue on WhatsApp': 'WhatsApp पर जारी रखें',
+  },
+
+  gu: {
+    // ── Navigation ──
+    'Home': 'હોમ',
+    'Stationery': 'સ્ટેશનરી',
+    'Printing Services': 'Printing સેવાઓ',
+    'Xerox': 'Xerox',
+    'Lamination': 'Lamination',
+    'Binding': 'Binding',
+    'Passport Photos': 'પાસપોર્ટ ફોટા',
+    'Gallery': 'ગેલેરી',
+    'Contact': 'સંપર્ક',
+
+    // ── Hero ──
+    "VIRAR'S TRUSTED STATIONERY, PRINTING & XEROX DESTINATION": 'વિરારનું વિશ્વસનીય સ્ટેશનરી, Printing અને Xerox કેન્દ્ર',
+    'Your One-Stop Shop for Printing, Xerox & Stationery in Virar': 'વિરારમાં Printing, Xerox અને Stationery માટે એક જ જગ્યા',
+    'Serving students, offices and local businesses with fast Xerox, colour printing, lamination, binding, passport photos and stationery essentials.': 'વિદ્યાર્થીઓ, કાર્યાલયો અને સ્થાનિક વ્યવસાયોને ઝડપી Xerox, રંગીન Printing, Lamination, Binding, પાસપોર્ટ ફોટા અને સ્ટેશનરી સાથે સેવા.',
+    'Fast prints. Reliable service.': 'ઝડપી પ્રિન્ટ. વિશ્વસનીય સેવા.',
+    'Send Files on WhatsApp': 'WhatsApp પર ફાઈલો મોકલો',
+    'Call Now': 'અત્યારે કૉલ કરો',
+    '10+ Years Serving Virar': '10+ વર્ષ વિરારની સેવા',
+    '2,00,000+ Happy Customers': '2,00,000+ ખુશ ગ્રાહકો',
+    'Same-Day Delivery Available': 'તે જ દિવસે ડિલિવરી ઉપલબ્ધ',
+    'Open 7 Days · 8am - 9pm': '7 દિવસ ખુલ્લું · સવારે 8 - રાત્રે 9',
+    'Bulk Orders Accepted': 'Bulk Orders સ્વીકારવામાં આવે છે',
+    'For offices, schools and projects': 'કાર્યાલયો, શાળાઓ અને પ્રોજેક્ટ્સ માટે',
+    'Passport Photos in 10 Minutes': '10 મિનિટમાં પાસપોર્ટ ફોટા',
+    'Quick photo print service': 'ત્વરિત ફોટો પ્રિન્ટ સેવા',
+
+    // ── Quick Actions ──
+    'Print Documents': 'દસ્તાવેજો Print કરો',
+    'WhatsApp Inquiry': 'WhatsApp પૂછપરછ',
+    'Get Directions': 'રસ્તો જુઓ',
+    'View Services': 'સેવાઓ જુઓ',
+    'Ask for Prices': 'કિંમતો પૂછો',
+
+    // ── Pricing ──
+    'Popular Services': 'લોકપ્રિય સેવાઓ',
+    'Most Popular': 'સૌથી લોકપ્રિય',
+    'Xerox / Photocopy': 'Xerox / Photocopy',
+    'Colour Printout': 'રંગીન Printout',
+    'Spiral Binding': 'Spiral Binding',
+    'Smart Card': 'Smart Card',
+
+    // ── Quote Calculator ──
+    'Instant Quote': 'તાત્કાલિક ભાવપત્રક',
+    'Calculate your print estimate in seconds': 'સેકન્ડોમાં તમારો પ્રિન્ટ અંદાજ મેળવો',
+    'Select a service': 'સેવા પસંદ કરો',
+    'Service Type': 'સેવાનો પ્રકાર',
+    'Black & White Printing': 'Black & White Printing',
+    'Color Printing': 'Color Printing',
+    'Jumbo Xerox': 'Jumbo Xerox',
+    'Paper Size': 'કાગળનું કદ',
+    'Standard': 'સ્ટાન્ડર્ડ',
+    'Print Type': 'Print નો પ્રકાર',
+    'Quantity': 'જથ્થો',
+
+    // ── FAQ ──
+    'Frequently Asked Questions': 'વારંવાર પૂછાતા પ્રશ્નો',
+    'Quick Answers': 'ઝડપી જવાબો',
+
+    // ── Contact ──
+    'Contact Us': 'અમારો સંપર્ક કરો',
+    'Address': 'સરનામું',
+    'Today': 'આજે',
+    'Send a Message': 'સંદેશ મોકલો',
+    'Get Free Quote': 'મફત ભાવપત્રક મેળવો',
+    'WhatsApp Quote': 'WhatsApp ભાવપત્રક',
+
+    // ── Mobile Bar / Chat ──
+    'WhatsApp': 'WhatsApp',
+    'Call': 'Call',
+    'Directions': 'રસ્તો જુઓ',
+    'Chat with us': 'અમારી સાથે Chat કરો',
+    'Send files': 'ફાઈલો મોકલો',
+    'Check price': 'કિંમત જુઓ',
+    'Location': 'સ્થળ',
+    'Continue on WhatsApp': 'WhatsApp પર ચાલુ રાખો',
   },
 };
 
