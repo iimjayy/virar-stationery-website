@@ -59,6 +59,30 @@ export const initAnalytics = () => {
         eventName = 'whatsapp_click';
         category = 'High Intent Lead';
       }
+      if (context.href.includes('tel:')) {
+        eventName = 'phone_call_intent';
+        category = 'High Intent Lead';
+      }
+      if (context.href.includes('mailto:')) {
+        eventName = 'email_intent';
+        category = 'High Intent Lead';
+      }
+      if (context.href.includes('maps.google.com') || context.href.includes('goo.gl/maps') || target.closest('[data-map-link]')) {
+        eventName = 'map_direction_intent';
+        category = 'Location Interest';
+      }
+      if (target.closest('.service-card') || target.closest('.price-card') || target.closest('[data-service-id]')) {
+        eventName = 'service_click';
+        category = 'Service Interest';
+      }
+      if (target.closest('.product-card') || target.closest('[data-product-id]')) {
+        eventName = 'product_click';
+        category = 'Product Interest';
+      }
+      if (target.closest('.theme-toggle') || target.closest('#themeToggle')) {
+        eventName = 'theme_changed';
+        category = 'UI Preference';
+      }
       if (target.closest('footer')) {
         eventName = 'footer_click';
         category = 'Footer Interaction';
