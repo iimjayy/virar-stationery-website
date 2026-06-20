@@ -33,6 +33,16 @@ const LANG_LABEL = { en: 'EN', mr: 'मर', hi: 'हि', gu: 'ગુજ' };
 // ---------------------------------------------------------------------------
 const DICT = {
   mr: {
+    // ── Attributes & Placeholders ──
+    'What are you looking for?': 'तुम्ही काय शोधत आहात?',
+    'Search services and products': 'सेवा आणि उत्पादने शोधा',
+    'e.g. VS-2026-0847 or last 4 digits of phone': 'उदा. VS-2026-0847 किंवा फोनचे शेवटचे 4 अंक',
+    'e.g. 250': 'उदा. २५०',
+    'WhatsApp inquiry': 'WhatsApp चौकशी',
+    'Send email to the shop': 'दुकानाला ईमेल पाठवा',
+    'Call the shop': 'दुकानाला कॉल करा',
+    'Switch language': 'भाषा बदला',
+
     // ── Navigation ──
     'Home': 'मुख्यपृष्ठ',
     'Stationery': 'स्टेशनरी',
@@ -369,6 +379,16 @@ const DICT = {
   },
 
   hi: {
+    // ── Attributes & Placeholders ──
+    'What are you looking for?': 'आप क्या ढूंढ रहे हैं?',
+    'Search services and products': 'सेवाएं और उत्पाद खोजें',
+    'e.g. VS-2026-0847 or last 4 digits of phone': 'उदा. VS-2026-0847 या फोन के अंतिम 4 अंक',
+    'e.g. 250': 'उदा. 250',
+    'WhatsApp inquiry': 'WhatsApp पूछताछ',
+    'Send email to the shop': 'दुकान को ईमेल भेजें',
+    'Call the shop': 'दुकान को कॉल करें',
+    'Switch language': 'भाषा बदलें',
+
     // ── Navigation ──
     'Home': 'होम',
     'Stationery': 'स्टेशनरी',
@@ -704,6 +724,16 @@ const DICT = {
   },
 
   gu: {
+    // ── Attributes & Placeholders ──
+    'What are you looking for?': 'તમે શું શોધી રહ્યા છો?',
+    'Search services and products': 'સેવાઓ અને ઉત્પાદનો શોધો',
+    'e.g. VS-2026-0847 or last 4 digits of phone': 'દા.ત. VS-2026-0847 અથવા ફોનના છેલ્લા 4 અંક',
+    'e.g. 250': 'દા.ત. ૨૫૦',
+    'WhatsApp inquiry': 'WhatsApp પૂછપરછ',
+    'Send email to the shop': 'દુકાનને ઇમેઇલ મોકલો',
+    'Call the shop': 'દુકાનને કૉલ કરો',
+    'Switch language': 'ભાષા બદલો',
+
     // ── Navigation ──
     'Home': 'હોમ',
     'Stationery': 'સ્ટેશનરી',
@@ -788,75 +818,147 @@ const DICT = {
 // ---------------------------------------------------------------------------
 
 let currentLang = 'en';
-/** @type {Map<Text, string>} — original EN text of every touched node */
-const originalNodes = new Map();
+/** @type {WeakMap<Node, Object>} — original EN text/attributes of every touched node */
+const originalNodes = new WeakMap();
 
-// ---------------------------------------------------------------------------
-// Core: TreeWalker-based full-page translation
-// ---------------------------------------------------------------------------
+// Attributes we want to translate
+const TRANSLATABLE_ATTRS = ['placeholder', 'title', 'aria-label', 'value'];
 
-/**
- * Walk every text node in <body> and replace its text if a dictionary match exists.
- * Stores the original English text so we can restore it when switching back to EN.
- *
- * @param {string} targetLang — 'en' | 'mr' | 'hi'
- */
-function translatePage(targetLang) {
+function getOriginalText(node, key) {
+  let store = originalNodes.get(node);
+  if (!store) return null;
+  return store[key];
+}
+
+function setOriginalText(node, key, text) {
+  let store = originalNodes.get(node);
+  if (!store) {
+    store = {};
+    originalNodes.set(node, store);
+  }
+  if (!(key in store)) {
+    store[key] = text;
+  }
+}
+
+function translateElementAttributes(el, dict, targetLang) {
+  TRANSLATABLE_ATTRS.forEach(attr => {
+    if (el.hasAttribute(attr)) {
+      if (attr === 'value' && !['submit', 'button'].includes(el.type)) return;
+      
+      const raw = el.getAttribute(attr);
+      if (!raw || raw.trim().length < 2) return;
+      
+      setOriginalText(el, attr, raw);
+      const enText = getOriginalText(el, attr).trim();
+      
+      if (targetLang === 'en') {
+        el.setAttribute(attr, getOriginalText(el, attr));
+        return;
+      }
+      
+      const translated = dict[enText];
+      if (translated) {
+        el.setAttribute(attr, translated);
+      }
+    }
+  });
+}
+
+function translateTextNode(textNode, dict, targetLang) {
+  const raw = textNode.textContent;
+  if (!raw || raw.trim().length < 2) return;
+  
+  setOriginalText(textNode, 'text', raw);
+  const enText = getOriginalText(textNode, 'text').trim();
+  
   if (targetLang === 'en') {
-    // Restore all original English nodes
-    originalNodes.forEach((originalText, node) => {
-      if (node.parentNode) node.textContent = originalText;
-    });
+    textNode.textContent = getOriginalText(textNode, 'text');
     return;
   }
+  
+  const translated = dict[enText];
+  if (translated) {
+    const leading  = raw.match(/^\s*/)[0];
+    const trailing = raw.match(/\s*$/)[0];
+    textNode.textContent = leading + translated + trailing;
+  }
+}
 
-  const dict = DICT[targetLang];
-  if (!dict) return;
+function walkAndTranslate(rootNode, targetLang) {
+  const dict = targetLang === 'en' ? null : DICT[targetLang];
+  if (targetLang !== 'en' && !dict) return;
 
-  const walker = document.createTreeWalker(
-    document.body,
+  // 1. Translate Attributes
+  const elWalker = document.createTreeWalker(
+    rootNode,
+    NodeFilter.SHOW_ELEMENT,
+    {
+      acceptNode(node) {
+        if (node.tagName === 'SCRIPT' || node.tagName === 'STYLE') return NodeFilter.FILTER_REJECT;
+        return NodeFilter.FILTER_ACCEPT;
+      }
+    }
+  );
+  
+  const elements = [];
+  if (rootNode.nodeType === Node.ELEMENT_NODE) elements.push(rootNode);
+  let el;
+  while ((el = elWalker.nextNode())) elements.push(el);
+  elements.forEach(node => translateElementAttributes(node, dict, targetLang));
+
+  // 2. Translate Text Nodes
+  const txtWalker = document.createTreeWalker(
+    rootNode,
     NodeFilter.SHOW_TEXT,
     {
       acceptNode(node) {
-        // Skip script/style/noscript content
         const parent = node.parentElement;
         if (!parent) return NodeFilter.FILTER_REJECT;
         const tag = parent.tagName;
-        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') {
-          return NodeFilter.FILTER_REJECT;
-        }
-        // Only process nodes with visible text
-        const text = node.textContent.trim();
-        if (!text || text.length < 2) return NodeFilter.FILTER_SKIP;
+        if (tag === 'SCRIPT' || tag === 'STYLE' || tag === 'NOSCRIPT') return NodeFilter.FILTER_REJECT;
+        if (!node.textContent.trim() || node.textContent.trim().length < 2) return NodeFilter.FILTER_SKIP;
         return NodeFilter.FILTER_ACCEPT;
-      },
+      }
     }
   );
+  
+  const textNodes = [];
+  let txt;
+  while ((txt = txtWalker.nextNode())) textNodes.push(txt);
+  textNodes.forEach(node => translateTextNode(node, dict, targetLang));
+}
 
-  const nodesToProcess = [];
-  let node;
-  while ((node = walker.nextNode())) nodesToProcess.push(node);
+let observer = null;
 
-  nodesToProcess.forEach((textNode) => {
-    const raw = textNode.textContent;
-    const trimmed = raw.trim();
+/**
+ * Walk every text node and element attribute in <body> and replace if a dictionary match exists.
+ * Observes DOM mutations to translate dynamically added content instantly.
+ *
+ * @param {string} targetLang — 'en' | 'mr' | 'hi' | 'gu'
+ */
+function translatePage(targetLang) {
+  if (observer) observer.disconnect();
 
-    // Store original EN text on first encounter
-    if (!originalNodes.has(textNode)) {
-      originalNodes.set(textNode, raw);
-    }
-
-    // Use original EN text as the lookup key (so we always translate from English)
-    const enText = originalNodes.get(textNode).trim();
-    const translated = dict[enText];
-
-    if (translated) {
-      // Preserve leading/trailing whitespace from original
-      const leading  = raw.match(/^\s*/)[0];
-      const trailing = raw.match(/\s*$/)[0];
-      textNode.textContent = leading + translated + trailing;
-    }
-  });
+  walkAndTranslate(document.body, targetLang);
+  
+  if (targetLang !== 'en') {
+    observer = new MutationObserver(mutations => {
+      observer.disconnect();
+      mutations.forEach(mutation => {
+        mutation.addedNodes.forEach(node => {
+          if (node.nodeType === Node.ELEMENT_NODE || node.nodeType === Node.TEXT_NODE) {
+            walkAndTranslate(node, targetLang);
+          }
+        });
+        if (mutation.type === 'attributes' && TRANSLATABLE_ATTRS.includes(mutation.attributeName)) {
+          translateElementAttributes(mutation.target, DICT[targetLang], targetLang);
+        }
+      });
+      observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: TRANSLATABLE_ATTRS });
+    });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: TRANSLATABLE_ATTRS });
+  }
 }
 
 // ---------------------------------------------------------------------------
