@@ -75,7 +75,7 @@ export const initAnalytics = () => {
 
   // Track FAQ Reads
   bindClickTracking(
-    '.accordion-button, .faq-question',
+    '.faq-question, [aria-expanded]',
     'faq_interaction',
     'FAQ Read',
     'Opened FAQ'
@@ -83,7 +83,7 @@ export const initAnalytics = () => {
 
   // Track Language Changes
   bindClickTracking(
-    '.language-btn, .lang-toggle, [data-lang]',
+    '.lang-toggle-btn, #langToggle',
     'language_change',
     'Localization',
     'Changed Language'
@@ -91,7 +91,7 @@ export const initAnalytics = () => {
 
   // Track Address Copies (High Intent to Visit)
   bindClickTracking(
-    '#copyAddressBtn, .copy-btn, .address-card',
+    '.contact-copy-card, [data-copy-address]',
     'address_copy',
     'Location Interest',
     'Copied Address'
