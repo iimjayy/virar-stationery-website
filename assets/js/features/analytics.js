@@ -1,111 +1,71 @@
 // js/features/analytics.js
-// Lightweight GA4-compatible click tracking for high-intent website actions.
+// Enterprise-Grade Global GA4 Click Tracking Engine
 
-export const trackEvent = (eventName, eventCategory, eventLabel) => {
+export const trackEvent = (eventName, eventCategory, eventLabel, extraParams = {}) => {
+  const params = {
+    event_category: eventCategory,
+    event_label: eventLabel,
+    ...extraParams
+  };
+
   if (typeof window.gtag === 'function') {
-    window.gtag('event', eventName, {
-      event_category: eventCategory,
-      event_label: eventLabel
-    });
+    window.gtag('event', eventName, params);
   } else {
     window.dataLayer = window.dataLayer || [];
-    window.dataLayer.push(['event', eventName, {
-      event_category: eventCategory,
-      event_label: eventLabel
-    }]);
+    window.dataLayer.push(['event', eventName, params]);
   }
 };
 
-const getLabel = (element, fallback) => {
-  const ariaLabel = element.getAttribute('aria-label');
-  const text = element.textContent?.replace(/\s+/g, ' ').trim();
-  return ariaLabel || text || fallback;
-};
+const getElementContext = (el) => {
+  const ariaLabel = el.getAttribute('aria-label');
+  const title = el.getAttribute('title');
+  const id = el.id;
+  const href = el.getAttribute('href');
+  let text = el.innerText || el.textContent || '';
+  text = text.replace(/\s+/g, ' ').trim().substring(0, 50); // Truncate to 50 chars for clean reporting
 
-const bindClickTracking = (selector, eventName, eventCategory, fallbackLabel) => {
-  document.querySelectorAll(selector).forEach((element) => {
-    element.addEventListener('click', () => {
-      trackEvent(eventName, eventCategory, getLabel(element, fallbackLabel));
-    });
-  });
+  // SVG and Math elements have different className objects, handle gracefully
+  const classes = typeof el.className === 'string' ? el.className : 'svg-or-complex-element';
+
+  return {
+    label: ariaLabel || title || text || id || href || 'Unknown Element',
+    id: id || 'none',
+    href: href || 'none',
+    classes: classes || 'none',
+    tag: el.tagName ? el.tagName.toLowerCase() : 'unknown'
+  };
 };
 
 export const initAnalytics = () => {
-  bindClickTracking(
-    '.whatsapp-btn, #quoteWhatsAppBtn, a[href*="wa.me"], a[href*="api.whatsapp.com"]',
-    'whatsapp_inquiry',
-    'WhatsApp Inquiry',
-    'WhatsApp Inquiry'
-  );
+  // 1. "God-Mode" Global Event Delegation for ALL Clicks
+  // O(1) memory complexity, highly performant
+  document.addEventListener('click', (e) => {
+    // Traverse up to find the nearest interactive element
+    const target = e.target.closest('a, button, input[type="submit"], input[type="button"], select, [role="button"], [data-action], .clickable, .nav-link, .gallery-item, .faq-question, .service-card, .price-card, [data-copy-address], #quotePdfDrop');
+    
+    if (target) {
+      const context = getElementContext(target);
+      
+      // Determine a smart category based on the element
+      let category = 'User Interaction';
+      if (context.tag === 'a') category = 'Link Click';
+      if (context.tag === 'button') category = 'Button Click';
+      if (context.href.includes('wa.me')) category = 'WhatsApp Intent';
+      if (target.closest('footer')) category = 'Footer Click';
+      if (target.closest('header')) category = 'Header Click';
+      if (target.closest('.gallery-item')) category = 'Gallery Interaction';
 
-  const quoteCalculator = document.getElementById('quoteCalculator');
-  if (quoteCalculator) {
-    quoteCalculator.addEventListener('input', () => {
-      trackEvent('quote_calculated', 'Quote Calculated', 'Live Quote Updated');
-    });
+      // Send the master event to Google Analytics
+      trackEvent('global_click', category, context.label, {
+        element_id: context.id,
+        element_classes: context.classes,
+        element_tag: context.tag,
+        destination_url: context.href
+      });
+    }
+  });
 
-    quoteCalculator.addEventListener('change', () => {
-      trackEvent('quote_calculated', 'Quote Calculated', 'Quote Option Changed');
-    });
-  }
-
-  bindClickTracking(
-    '.nav-link, [data-nav-target]',
-    'navigation_click',
-    'Navigation',
-    'Navigation Click'
-  );
-
-  bindClickTracking(
-    '.service-card, .price-card, [data-service-id]',
-    'service_card_click',
-    'Service Interest',
-    'Service Card'
-  );
-
-  // --- NEW EXHAUSTIVE TRACKING ---
-
-  // Track Gallery Image Views
-  bindClickTracking(
-    '.gallery-item, .gallery-link, [data-gallery]',
-    'gallery_image_view',
-    'Gallery Interaction',
-    'Viewed Gallery Image'
-  );
-
-  // Track FAQ Reads
-  bindClickTracking(
-    '.faq-question, [aria-expanded]',
-    'faq_interaction',
-    'FAQ Read',
-    'Opened FAQ'
-  );
-
-  // Track Language Changes
-  bindClickTracking(
-    '.lang-toggle-btn, #langToggle',
-    'language_change',
-    'Localization',
-    'Changed Language'
-  );
-
-  // Track Address Copies (High Intent to Visit)
-  bindClickTracking(
-    '.contact-copy-card, [data-copy-address]',
-    'address_copy',
-    'Location Interest',
-    'Copied Address'
-  );
-
-  // Track Footer Links (Legal, Maps, Contact)
-  bindClickTracking(
-    'footer a',
-    'footer_link_click',
-    'Footer Interaction',
-    'Footer Link'
-  );
-
-  // Track Search Usage (Stationery & Main Site)
+  // 2. Preserve specialized search tracking (Keyboard input is not a click)
   const bindSearchTracking = (inputId, eventName) => {
     const input = document.getElementById(inputId);
     if (input) {
@@ -116,7 +76,7 @@ export const initAnalytics = () => {
           if (input.value.trim().length > 2) {
             trackEvent(eventName, 'Search', input.value.trim());
           }
-        }, 1500); // Only track after they stop typing for 1.5s
+        }, 1500);
       });
     }
   };
@@ -128,11 +88,14 @@ export const initAnalytics = () => {
     bindSearchTracking(siteSearch.id || 'mainSearch', 'site_search');
   }
 
-  // Track PDF Upload Intent
-  bindClickTracking(
-    '#quotePdfDrop',
-    'pdf_upload_intent',
-    'Quote Calculated',
-    'Clicked/Dropped PDF Zone'
-  );
+  // 3. Preserve specialized Quote Calculator Logic (Change/Input events)
+  const quoteCalculator = document.getElementById('quoteCalculator');
+  if (quoteCalculator) {
+    quoteCalculator.addEventListener('input', () => {
+      trackEvent('quote_calculated', 'Quote Calculated', 'Live Quote Updated');
+    });
+    quoteCalculator.addEventListener('change', () => {
+      trackEvent('quote_calculated', 'Quote Calculated', 'Quote Option Changed');
+    });
+  }
 };
