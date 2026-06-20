@@ -126,7 +126,7 @@ const findOrders = (raw) => {
  */
 const buildWhatsAppUrl = (orderId) => {
   const message = encodeURIComponent(
-    `Hi! I have a question about my order ${orderId}.`
+    `🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nOrder: ${orderId}\nHi! I have a question about this order.\n━━━━━━━━━━━━━━━━━━\nSource: Order Status Check\n\n📎 Please attach your file below this message.`
   );
   return `https://wa.me/${CONFIG.business.whatsAppNumber}?text=${message}`;
 };
@@ -227,7 +227,7 @@ const renderOrderCard = (order) => {
  */
 const renderNoResults = (query) => {
   const message = encodeURIComponent(
-    `Hi! I'd like to check the status of my order. Reference: ${query}`
+    `🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nOrder: ${query}\nHi! I'd like to check the status of my order.\n━━━━━━━━━━━━━━━━━━\nSource: Order Status Check\n\n📎 Please attach your file below this message.`
   );
   const whatsappUrl = `https://wa.me/${CONFIG.business.whatsAppNumber}?text=${message}`;
 

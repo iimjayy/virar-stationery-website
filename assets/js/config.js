@@ -21,10 +21,10 @@ export const CONFIG = Object.freeze({
   messages: {
     enquirySubject: 'New Website Enquiry - Virar Stationery & Jumbo Xerox',
     bulkSubject: 'Bulk / Business Enquiry - Virar Stationery & Jumbo Xerox',
-    defaultWhatsApp: 'Hi! I want details for your services.',
-    stickyWhatsAppDefault: 'Hi! I want to place a print order.',
-    chatDefault: 'Hi! I need help with printing.',
-    quoteDefault: 'Hi! I need a print quote.',
+    defaultWhatsApp: '🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nHi! I\'d like to place an order.\n━━━━━━━━━━━━━━━━━━\nSource: Website\n\n📎 Please attach your file below this message.',
+    stickyWhatsAppDefault: '🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nHi! I\'d like to place an order.\n━━━━━━━━━━━━━━━━━━\nSource: Sticky Button\n\n📎 Please attach your file below this message.',
+    chatDefault: '🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nHi! I need help with printing.\n━━━━━━━━━━━━━━━━━━\nSource: Chat Widget\n\n📎 Please attach your file below this message.',
+    quoteDefault: '🖨️ New Enquiry — virarprint.in\n━━━━━━━━━━━━━━━━━━\nHi! I need a print quote.\n━━━━━━━━━━━━━━━━━━\nSource: Quote Calculator\n\n📎 Please attach your file below this message.',
   },
 
   search: {

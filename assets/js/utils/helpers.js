@@ -175,3 +175,80 @@ export const openEnquiryChannel = (whatsAppUrl, mailtoUrl) => {
   return false;
 };
 
+/**
+ * Format a timestamp for WhatsApp messages.
+ * @returns {string} e.g. "20 Jun 2026, 3:45 PM"
+ */
+const formatTimestamp = () => {
+  const now = new Date();
+  const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+  const day = now.getDate();
+  const month = months[now.getMonth()];
+  const year = now.getFullYear();
+  const hours = now.getHours();
+  const minutes = String(now.getMinutes()).padStart(2, '0');
+  const ampm = hours >= 12 ? 'PM' : 'AM';
+  const h12 = hours % 12 || 12;
+  return `${day} ${month} ${year}, ${h12}:${minutes} ${ampm}`;
+};
+
+/**
+ * Build a structured WhatsApp order message for the print-agent pipeline.
+ * Human-readable key:value format that is also machine-parseable.
+ *
+ * @param {Object} opts
+ * @param {string} [opts.service]  - Service name (e.g. "Printing", "Xerox")
+ * @param {string} [opts.size]     - Paper size (e.g. "A4", "A3")
+ * @param {string} [opts.type]     - Color mode (e.g. "B&W", "Color")
+ * @param {number|string} [opts.qty] - Quantity / page count
+ * @param {string[]} [opts.addons] - Finishing options (e.g. ["Lamination", "Spiral Binding"])
+ * @param {string} [opts.total]    - Estimated total (e.g. "Rs 150")
+ * @param {string} opts.source     - Where on the site this was sent from
+ * @param {string} [opts.orderId]  - Existing order ID (for status checks)
+ * @param {string} [opts.notes]    - Free-text notes
+ * @returns {string} Formatted plain-text message
+ */
+export const buildOrderMessage = (opts = {}) => {
+  const lines = [];
+  const hasDetails = opts.service || opts.orderId;
+
+  lines.push(hasDetails ? '🖨️ New Order — virarprint.in' : '🖨️ New Enquiry — virarprint.in');
+  lines.push('━━━━━━━━━━━━━━━━━━');
+
+  if (opts.orderId) {
+    lines.push(`Order: ${opts.orderId}`);
+  }
+  if (opts.service) {
+    lines.push(`Service: ${opts.service}`);
+  }
+  if (opts.size) {
+    lines.push(`Size: ${opts.size}`);
+  }
+  if (opts.type) {
+    lines.push(`Type: ${opts.type}`);
+  }
+  if (opts.qty) {
+    lines.push(`Qty: ${opts.qty}`);
+  }
+  if (opts.addons && opts.addons.length > 0) {
+    lines.push(`Add-ons: ${opts.addons.join(', ')}`);
+  }
+  if (opts.total) {
+    lines.push(`Estimated Total: ${opts.total}`);
+  }
+  if (opts.notes) {
+    lines.push(`Notes: ${opts.notes}`);
+  }
+
+  if (!hasDetails) {
+    lines.push("Hi! I'd like to place an order.");
+  }
+
+  lines.push('━━━━━━━━━━━━━━━━━━');
+  lines.push(`Source: ${opts.source || 'Website'}`);
+  lines.push(`Timestamp: ${formatTimestamp()}`);
+  lines.push('');
+  lines.push('📎 Please attach your file below this message.');
+
+  return lines.join('\n');
+};

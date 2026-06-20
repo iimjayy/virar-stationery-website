@@ -5,7 +5,7 @@
 
 import { CONFIG } from '../config.js';
 import { pricingConfig, addonRates } from '../data/business-data.js';
-import { normalizePhoneNumber, resolveBusinessWhatsAppNumber } from '../utils/helpers.js';
+import { normalizePhoneNumber, resolveBusinessWhatsAppNumber, buildOrderMessage } from '../utils/helpers.js';
 
 // ---------------------------------------------------------------------------
 // initQuoteCalculator — public entry point called by main.js
@@ -145,16 +145,19 @@ export const initQuoteCalculator = () => {
     const detailLine = `${service.label} | ${size} | ${color === 'bw' ? 'B&W' : 'Color'} | Qty ${quantity}`;
     summaryLine.textContent = detailLine;
 
-    const message = [
-      'Instant Quote Request',
-      `Service: ${service.label}`,
-      `Size: ${size}`,
-      `Type: ${color === 'bw' ? 'Black & White' : 'Color'}`,
-      `Quantity: ${quantity}`,
-      laminationAddon.checked ? 'Add-on: Lamination' : null,
-      bindingAddon.checked ? 'Add-on: Spiral Binding' : null,
-      `Estimated Total: ${formatCurrency(total)}`
-    ].filter(Boolean).join('\n');
+    const addons = [];
+    if (laminationAddon.checked) addons.push('Lamination');
+    if (bindingAddon.checked) addons.push('Spiral Binding');
+
+    const message = buildOrderMessage({
+      service: service.label,
+      size,
+      type: color === 'bw' ? 'Black & White' : 'Color',
+      qty: quantity,
+      addons,
+      total: formatCurrency(total),
+      source: 'Quote Calculator'
+    });
 
     whatsappBtn.href = buildWhatsAppUrl(message);
   };

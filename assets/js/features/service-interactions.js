@@ -8,7 +8,7 @@
 
 import { CONFIG } from '../config.js';
 import { detailedServices } from '../data/business-data.js';
-import { escapeHtml, buildWhatsAppUrl } from '../utils/helpers.js';
+import { escapeHtml, buildWhatsAppUrl, buildOrderMessage } from '../utils/helpers.js';
 
 // ---------------------------------------------------------------------------
 // initServiceInteractions — public entry point called by main.js
@@ -34,7 +34,10 @@ export const initServiceInteractions = () => {
   const phoneLabel = CONFIG.business.phoneLabel;
 
   const buildServiceWhatsAppLink = (serviceName) => {
-    const message = `Hi, I want details for ${serviceName}.`;
+    const message = buildOrderMessage({
+      service: serviceName,
+      source: `Service Detail: ${serviceName}`
+    });
     return buildWhatsAppUrl(phoneHref, message);
   };
 
