@@ -181,8 +181,8 @@
 
 .chat-widget {
   position: fixed;
-  right: 18px;
-  bottom: 96px;
+  right: 12px;
+  bottom: 24px;
   display: flex;
   flex-direction: column;
   align-items: flex-end;
