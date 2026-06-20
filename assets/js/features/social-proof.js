@@ -1,34 +1,35 @@
 /**
  * @module social-proof
- * @description Shows subtle notification popups with fake recent activity
- * to build urgency and trust. Notifications slide in from the bottom-left,
- * auto-dismiss after 5 seconds, and are capped at 6 per page load.
+ * @description Shows subtle notification popups with representative activity
+ * to showcase the variety of services handled daily. Notifications slide in
+ * from the bottom-left, auto-dismiss after 7 seconds, and are capped at
+ * 6 per page load.
  */
 
-/** @type {Array<{action: string, detail: string, location: string, time: string, icon: string}>} */
+/** @type {Array<{action: string, detail: string, location: string, icon: string}>} */
 const ACTIVITY_POOL = [
-  { action: 'Just printed', detail: '200 Spiral Bound Project Books', location: 'Viva College student', time: '2 min ago', icon: 'fa-solid fa-book' },
-  { action: 'Delivered', detail: '500 Color Brochures', location: 'Local business', time: '5 min ago', icon: 'fa-solid fa-palette' },
-  { action: 'Completed', detail: '50 Passport Photo Sets', location: 'Walk-in customer', time: '8 min ago', icon: 'fa-solid fa-camera' },
-  { action: 'Bulk order', detail: '1000 B&W Xerox Copies', location: 'Office client', time: '12 min ago', icon: 'fa-solid fa-copy' },
-  { action: 'Just finished', detail: '25 Laminated Certificates', location: 'School order', time: '15 min ago', icon: 'fa-solid fa-layer-group' },
-  { action: 'Ready for pickup', detail: 'Thesis Printing — 3 copies', location: 'Engineering student', time: '18 min ago', icon: 'fa-solid fa-print' },
-  { action: 'Delivered', detail: '100 Visiting Cards', location: 'New business owner', time: '22 min ago', icon: 'fa-solid fa-address-card' },
-  { action: 'Completed', detail: '15 Smart ID Cards', location: 'Company order', time: '25 min ago', icon: 'fa-solid fa-id-card' },
-  { action: 'Just printed', detail: '75 Color A3 Posters', location: 'Event organizer', time: '28 min ago', icon: 'fa-solid fa-expand' },
-  { action: 'Bulk order', detail: '300 Letterheads', location: 'CA office', time: '32 min ago', icon: 'fa-solid fa-heading' },
-  { action: 'Ready for pickup', detail: 'Blackbook Printing — 5 copies', location: 'Architecture student', time: '35 min ago', icon: 'fa-solid fa-folder-open' },
-  { action: 'Just finished', detail: 'A0 Autocad Plot', location: 'Civil engineer', time: '40 min ago', icon: 'fa-solid fa-ruler-combined' },
-  { action: 'Completed', detail: '10 Billbook Sets', location: 'Retail shop', time: '45 min ago', icon: 'fa-solid fa-receipt' },
-  { action: 'Delivered', detail: '250 Exam Notes Xerox', location: 'Coaching class', time: '50 min ago', icon: 'fa-solid fa-file-lines' },
-  { action: 'Just printed', detail: '30 Resume Prints', location: 'Job seekers', time: '55 min ago', icon: 'fa-solid fa-file-lines' }
+  { action: 'Printed & delivered', detail: 'Spiral Bound Project Reports', location: 'College student', icon: 'fa-solid fa-book' },
+  { action: 'Completed', detail: 'Color Brochures — bulk order', location: 'Local business', icon: 'fa-solid fa-palette' },
+  { action: 'Ready for pickup', detail: 'Passport Photo Set', location: 'Walk-in customer', icon: 'fa-solid fa-camera' },
+  { action: 'Bulk xerox done', detail: 'B&W Xerox Copies — office set', location: 'Nearby office', icon: 'fa-solid fa-copy' },
+  { action: 'Lamination done', detail: 'Certificates — glossy finish', location: 'School order', icon: 'fa-solid fa-layer-group' },
+  { action: 'Printed & bound', detail: 'Thesis — hardbound copies', location: 'Engineering student', icon: 'fa-solid fa-print' },
+  { action: 'Completed', detail: 'Visiting Cards — premium stock', location: 'Small business owner', icon: 'fa-solid fa-address-card' },
+  { action: 'Printed', detail: 'Smart ID Cards — company batch', location: 'Corporate order', icon: 'fa-solid fa-id-card' },
+  { action: 'Delivered', detail: 'A3 Color Posters — event set', location: 'Event organizer', icon: 'fa-solid fa-expand' },
+  { action: 'Completed', detail: 'Letterhead Printing — bulk', location: 'Professional office', icon: 'fa-solid fa-heading' },
+  { action: 'Printed & bound', detail: 'Blackbook — architecture project', location: 'Architecture student', icon: 'fa-solid fa-folder-open' },
+  { action: 'Xerox done', detail: 'Exam Notes — full set', location: 'Coaching class', icon: 'fa-solid fa-file-lines' },
+  { action: 'Printed', detail: 'Resumes — clean format', location: 'Job applicant', icon: 'fa-solid fa-file-lines' },
+  { action: 'Completed', detail: 'Aadhar & PAN Smart Cards', location: 'Walk-in customer', icon: 'fa-solid fa-id-card' },
+  { action: 'Spiral binding done', detail: 'Project Files — transparent cover', location: 'College student', icon: 'fa-solid fa-book' }
 ];
 
 /** Maximum number of notifications to show per page load. */
 const SESSION_LIMIT = 6;
 
 /** Duration (ms) each notification stays visible before auto-dismiss. */
-const DISPLAY_DURATION = 5000;
+const DISPLAY_DURATION = 7000;
 
 /** Initial delay (ms) before the first notification appears. */
 const INITIAL_DELAY = 15000;
@@ -86,9 +87,9 @@ function injectStyles() {
   style.textContent = `
     .social-proof-ticker {
       position: fixed;
-      bottom: 24px;
+      bottom: 90px;
       left: 24px;
-      z-index: 9999;
+      z-index: 1040;
       pointer-events: none;
       font-family: inherit;
     }
@@ -102,7 +103,7 @@ function injectStyles() {
       border-radius: 12px;
       padding: 14px 16px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.12), 0 2px 8px rgba(0, 0, 0, 0.06);
-      max-width: 380px;
+      max-width: 360px;
       pointer-events: auto;
       opacity: 0;
       transform: translateY(20px) translateX(-10px);
@@ -214,7 +215,7 @@ function injectStyles() {
       .social-proof-ticker {
         left: 12px;
         right: 12px;
-        bottom: 16px;
+        bottom: 80px;
       }
       .social-proof-notification {
         max-width: 100%;
@@ -240,7 +241,7 @@ function createContainer() {
 
 /**
  * Builds the notification element for a given activity item.
- * @param {{action: string, detail: string, location: string, time: string, icon: string}} item - The activity data.
+ * @param {{action: string, detail: string, location: string, icon: string}} item - The activity data.
  * @returns {HTMLElement} The notification DOM element.
  */
 function buildNotification(item) {
@@ -257,10 +258,9 @@ function buildNotification(item) {
       </p>
       <div class="social-proof-notification__meta">
         <span class="social-proof-notification__location">
-          <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+          <i class="fa-solid fa-user" aria-hidden="true"></i>
           ${item.location}
         </span>
-        <span>${item.time}</span>
       </div>
     </div>
     <button class="social-proof-notification__close" aria-label="Dismiss notification" type="button">

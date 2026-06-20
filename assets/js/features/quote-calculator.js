@@ -54,7 +54,7 @@ export const initQuoteCalculator = () => {
 
   const formatCurrency = (value) => {
     if (!Number.isFinite(value)) {
-      return 'Rs 0';
+      return '\u2014';
     }
 
     const formatted = Number.isInteger(value) ? value.toFixed(0) : value.toFixed(1);
@@ -108,12 +108,18 @@ export const initQuoteCalculator = () => {
     const service = pricingConfig[serviceKey];
 
     if (!service) {
-      unitCostEl.textContent = 'Rs 0';
-      totalCostEl.textContent = 'Rs 0';
+      unitCostEl.textContent = '\u2014';
+      totalCostEl.textContent = '\u2014';
       summaryLine.textContent = 'Select a service to calculate pricing.';
       whatsappBtn.href = buildWhatsAppUrl(CONFIG.messages.quoteDefault);
+      const grid = unitCostEl.closest('.quote-summary-grid');
+      if (grid) grid.classList.add('is-empty');
       return;
     }
+
+    // Remove empty state when a real service is selected
+    const grid = unitCostEl.closest('.quote-summary-grid');
+    if (grid) grid.classList.remove('is-empty');
 
     syncOptions(service);
 
