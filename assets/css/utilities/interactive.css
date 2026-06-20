@@ -191,6 +191,7 @@
   align-items: flex-end;
   gap: 14px;
   z-index: 1048;
+  pointer-events: none;
 }
 
 /* --- Tooltip Badge --- */
@@ -236,6 +237,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 
 .chat-fab:hover {
@@ -281,8 +283,10 @@
   display: none;
 }
 
-/* --- Chat Panel --- */
 .chat-panel {
+  position: fixed;
+  bottom: 100px;
+  right: 35px;
   width: min(370px, calc(100vw - 20px));
   border-radius: 24px;
   background: #fff;
@@ -293,6 +297,7 @@
   transform: translateY(16px) scale(0.96);
   transition: opacity 0.3s cubic-bezier(.34,1.2,.64,1), transform 0.3s cubic-bezier(.34,1.2,.64,1);
   transform-origin: bottom right;
+  z-index: 1050;
 }
 
 .chat-widget.is-open .chat-panel {
