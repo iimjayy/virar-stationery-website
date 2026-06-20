@@ -2,12 +2,18 @@
 // Lightweight GA4-compatible click tracking for high-intent website actions.
 
 export const trackEvent = (eventName, eventCategory, eventLabel) => {
-  window.dataLayer = window.dataLayer || [];
-  window.dataLayer.push({
-    event: eventName,
-    event_category: eventCategory,
-    event_label: eventLabel
-  });
+  if (typeof window.gtag === 'function') {
+    window.gtag('event', eventName, {
+      event_category: eventCategory,
+      event_label: eventLabel
+    });
+  } else {
+    window.dataLayer = window.dataLayer || [];
+    window.dataLayer.push(['event', eventName, {
+      event_category: eventCategory,
+      event_label: eventLabel
+    }]);
+  }
 };
 
 const getLabel = (element, fallback) => {
