@@ -68,6 +68,20 @@
 </head>
 <body>
   <!-- Header -->
+  
+  <!-- Shop Info Bar -->
+  <div class="shop-info-bar" aria-label="Shop contact information">
+    <div class="container-fluid px-3 px-xl-4 d-flex justify-content-between align-items-center">
+      <div class="info-items-left d-none d-sm-flex">
+        <span class="info-item"><i class="fa-solid fa-location-dot"></i> Virar West, Maharashtra</span>
+        <span class="info-item"><i class="fa-solid fa-clock"></i> Open: 8:00 AM - 9:00 PM</span>
+      </div>
+      <div class="info-items-right w-100 w-sm-auto text-center text-sm-end">
+        <a href="tel:+919702073424" class="info-phone-link"><i class="fa-solid fa-phone"></i> +91 97020 73424</a>
+      </div>
+    </div>
+  </div>
+
   <header class="sp-header">
     <div class="container d-flex align-items-center justify-content-between">
       <a href="/" class="sp-header-back">← Virar Stationery &amp; Jumbo Xerox</a>
@@ -289,5 +303,20 @@
   </footer>
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc4s9bIOgUxi8T/jzmcM5GN9f45C0lXHhvzc0v0pv0SB" crossorigin="anonymous"></script>
+
+  <!-- Floating Actions (Sticky WhatsApp) -->
+  <div class="floating-actions" aria-label="Floating action buttons">
+    <a
+      id="stickyWhatsAppBtn"
+      class="sticky-whatsapp-btn is-visible"
+      href="https://wa.me/917021072757?text=Hi!%20I%20want%20to%20place%20a%20print%20order.%20Please%20share%20details."
+      aria-label="Chat with us on WhatsApp"
+      target="_blank"
+      rel="noopener noreferrer">
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+      <span class="sticky-whatsapp-tooltip">Chat with us</span>
+    </a>
+  </div>
+
 </body>
 </html>

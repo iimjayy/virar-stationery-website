@@ -4,6 +4,44 @@
    search box, smart search dropdown, nav links, header actions.
    ==================================================================== */
 
+/* Shop Info Bar */
+.shop-info-bar {
+  background-color: var(--navy);
+  color: #fff;
+  font-size: 0.85rem;
+  padding: 8px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.shop-info-bar .info-item {
+  margin-right: 20px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.shop-info-bar .info-item i {
+  color: var(--yellow);
+  margin-right: 6px;
+}
+
+.shop-info-bar .info-phone-link {
+  color: var(--yellow);
+  text-decoration: none;
+  font-weight: 700;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 12px;
+  background: rgba(244, 210, 31, 0.15);
+  border-radius: var(--radius-pill);
+  transition: all 0.2s ease;
+}
+
+.shop-info-bar .info-phone-link:hover {
+  background: var(--yellow);
+  color: var(--navy);
+  transform: translateY(-1px);
+}
+
 .site-header {
   backdrop-filter: blur(16px);
   background: linear-gradient(180deg, var(--yellow-light) 0%, var(--yellow) 100%);
@@ -12,6 +50,7 @@
 }
 
 .site-header.is-scrolled {
+
   box-shadow: 0 14px 30px rgba(15, 23, 42, 0.12);
 }
 
