@@ -43,17 +43,49 @@ export const initAnalytics = () => {
     if (target) {
       const context = getElementContext(target);
       
-      // Determine a smart category based on the element
+      // Determine a highly specific event name based on the element
+      let eventName = 'ui_interaction';
       let category = 'User Interaction';
-      if (context.tag === 'a') category = 'Link Click';
-      if (context.tag === 'button') category = 'Button Click';
-      if (context.href.includes('wa.me')) category = 'WhatsApp Intent';
-      if (target.closest('footer')) category = 'Footer Click';
-      if (target.closest('header')) category = 'Header Click';
-      if (target.closest('.gallery-item')) category = 'Gallery Interaction';
 
-      // Send the master event to Google Analytics
-      trackEvent('global_click', category, context.label, {
+      if (context.tag === 'a') {
+        eventName = 'link_click';
+        category = 'Navigation';
+      }
+      if (context.tag === 'button') {
+        eventName = 'button_click';
+        category = 'Interaction';
+      }
+      if (context.href.includes('wa.me') || target.closest('.whatsapp-btn')) {
+        eventName = 'whatsapp_click';
+        category = 'High Intent Lead';
+      }
+      if (target.closest('footer')) {
+        eventName = 'footer_click';
+        category = 'Footer Interaction';
+      }
+      if (target.closest('header')) {
+        eventName = 'header_click';
+        category = 'Header Interaction';
+      }
+      if (target.closest('.gallery-item')) {
+        eventName = 'gallery_image_view';
+        category = 'Media View';
+      }
+      if (target.closest('.faq-question')) {
+        eventName = 'faq_open';
+        category = 'Information Seek';
+      }
+      if (target.closest('[data-copy-address]')) {
+        eventName = 'address_copied';
+        category = 'Location Interest';
+      }
+      if (target.closest('.lang-toggle-btn') || target.closest('#langToggle')) {
+        eventName = 'language_changed';
+        category = 'Localization';
+      }
+
+      // Send the highly specific event to Google Analytics
+      trackEvent(eventName, category, context.label, {
         element_id: context.id,
         element_classes: context.classes,
         element_tag: context.tag,
