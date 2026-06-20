@@ -1873,41 +1873,62 @@ Source: Sticky Button
       <span class="chat-tooltip">👋 Hi there! I'm your AI Assistant, ready to help!</span>
       <button class="chat-fab" id="chatFab" aria-label="Open AI chat" aria-expanded="false">
         <i class="fa-solid fa-robot"></i>
+        <span class="chat-fab-notif"></span>
       </button>
-      <div class="chat-panel" id="chatPanel" role="dialog" aria-label="Quick chat" aria-hidden="true" tabindex="-1">
+      <div class="chat-panel" id="chatPanel" role="dialog" aria-label="AI Assistant" aria-hidden="true" tabindex="-1">
+
+        <!-- Header -->
         <div class="chat-panel-header">
-          <div>
-            <h4>Virar Stationery</h4>
-            <p>Quick help in seconds</p>
+          <div class="chat-header-avatar">
+            <i class="fa-solid fa-robot"></i>
+            <span class="chat-header-status-dot"></span>
+          </div>
+          <div class="chat-header-info">
+            <h4>Virar Print AI</h4>
+            <p class="chat-header-status"><span class="status-pulse"></span>Online · Always here to help</p>
           </div>
           <button type="button" class="chat-close" id="chatClose" aria-label="Close chat">
             <i class="fa-solid fa-xmark" aria-hidden="true"></i>
           </button>
         </div>
+
+        <!-- Messages -->
         <div class="chat-panel-body" id="chatMessages" aria-live="polite">
+          <div class="chat-date-divider"><span>Today</span></div>
           <div class="chat-message is-agent">
-            <p>Hi! How can we help you today?</p>
-            <span>Try a quick option below.</span>
+            <div class="chat-msg-avatar"><i class="fa-solid fa-robot"></i></div>
+            <div class="chat-msg-bubble">
+              <p>Namaste! 🙏 I'm your <strong>Virar Print AI Assistant</strong> — here 24/7 to help you with printing, xerox, lamination and more.</p>
+              <p>What can I help you with today?</p>
+              <span class="chat-msg-time">Just now</span>
+            </div>
           </div>
         </div>
+
+        <!-- Quick Replies -->
+        <div class="chat-quick-replies" id="chatQuickReplies">
+          <button type="button" class="chat-quick-btn" data-quick-reply="What is the price for B&W printing?">🖨️ Print Prices</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="Do you do spiral binding and project work?">📚 Binding</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="Where is your shop located?">📍 Location</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="What are your shop timings?">🕐 Timings</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="How can I send my file for printing?">📤 Send File</button>
+          <button type="button" class="chat-quick-btn" data-quick-reply="Do you do passport size photos?">🪪 Passport Photo</button>
+        </div>
+
+        <!-- Footer Input -->
         <div class="chat-panel-footer">
-          <div class="chat-quick-replies">
-            <!-- [ARCH] data-quick-reply already present (good pattern) — preserved as-is -->
-            <button type="button" class="chat-quick-btn" data-quick-reply="Do you do spiral binding?">Spiral Binding</button>
-            <button type="button" class="chat-quick-btn" data-quick-reply="What is the price for color print?">Color Print Price</button>
-            <button type="button" class="chat-quick-btn" data-quick-reply="Where is your shop located?">Location</button>
-          </div>
-          <form id="geminiChatForm" class="chat-input-form" onsubmit="event.preventDefault();">
-            <input type="text" id="geminiChatInput" placeholder="Ask a question..." autocomplete="off" aria-label="Type your message" required>
+          <form id="geminiChatForm" class="chat-input-form">
+            <input type="text" id="geminiChatInput" placeholder="Type your question..." autocomplete="off" aria-label="Type your message" required>
             <button type="submit" id="geminiChatSubmit" aria-label="Send message">
               <i class="fa-solid fa-paper-plane"></i>
             </button>
           </form>
-          <a class="chat-whatsapp-btn" data-chat-whatsapp href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer">
+          <a class="chat-whatsapp-btn" data-chat-whatsapp href="https://wa.me/917021072757?text=Hi%2C%20I%20was%20chatting%20with%20your%20AI%20and%20need%20more%20help!" target="_blank" rel="noopener noreferrer">
             <i class="fa-brands fa-whatsapp"></i>
-            Continue on WhatsApp
+            Chat directly with the owner on WhatsApp
           </a>
         </div>
+
       </div>
     </div>
 
