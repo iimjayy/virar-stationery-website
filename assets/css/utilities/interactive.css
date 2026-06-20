@@ -191,9 +191,9 @@
 }
 
 .chat-tooltip {
-  position: absolute;
-  right: calc(100% + 14px);
-  bottom: 8px;
+  position: fixed;
+  right: 35px;
+  bottom: 24px;
   background: var(--navy);
   color: #fff;
   padding: 8px 14px;
@@ -207,22 +207,13 @@
   border: 1px solid rgba(244, 210, 31, 0.4);
   transition: opacity 0.2s ease, transform 0.2s ease;
   transform: translateX(0);
+  animation: chatTooltipPulse 3s infinite ease-in-out;
+  z-index: 1049;
 }
 
 .chat-widget.is-open .chat-tooltip {
   opacity: 0;
   transform: translateX(10px);
-}
-
-.chat-tooltip::after {
-  content: '';
-  position: absolute;
-  top: 50%;
-  right: -5px;
-  transform: translateY(-50%);
-  border-width: 6px 0 6px 6px;
-  border-style: solid;
-  border-color: transparent transparent transparent var(--navy);
 }
 
 .chat-fab {
