@@ -250,6 +250,31 @@
   margin-top: var(--space-3);
 }
 
+.pdf-status-message {
+  margin: 0;
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: var(--text-sm);
+  font-weight: 700;
+}
+
+.pdf-status-message.is-info {
+  background: rgba(11, 42, 91, 0.06);
+  color: var(--navy);
+}
+
+.pdf-status-message.is-success {
+  background: rgba(25, 135, 84, 0.1);
+  color: #146c43;
+  border: 1px solid rgba(25, 135, 84, 0.22);
+}
+
+.pdf-status-message.is-error {
+  background: rgba(220, 53, 69, 0.08);
+  color: var(--error);
+  border: 1px solid rgba(220, 53, 69, 0.2);
+}
+
 .pdf-preview-card {
   display: flex;
   align-items: center;

@@ -703,6 +703,80 @@ const setupSmartSearch = (form) => {
   });
 };
 
+const stationeryProducts = [
+  { name: 'Scientific Calculator', price: 450, tags: ['calculator', 'casio', 'science'] },
+  { name: 'A3 Project File', price: 35, tags: ['file', 'project', 'a3'] },
+  { name: 'Cello Pens', price: 10, tags: ['pen', 'ball pen', 'writing'] },
+  { name: 'Chart Paper', price: 8, tags: ['chart', 'paper', 'school'] },
+  { name: 'Spring Files', price: 25, tags: ['spring file', 'office file'] },
+  { name: 'Spiral Notebook', price: 60, tags: ['notebook', 'college book'] },
+  { name: 'Practical Journal', price: 45, tags: ['journal', 'practical book'] },
+  { name: 'Geometry Box', price: 90, tags: ['compass', 'geometry'] },
+  { name: 'Fevicol Glue', price: 20, tags: ['glue', 'adhesive'] },
+  { name: 'Stapler', price: 85, tags: ['staples', 'office'] },
+  { name: 'Brown Cover Paper', price: 12, tags: ['cover', 'book cover'] },
+  { name: 'Sticky Notes', price: 35, tags: ['notes', 'post it'] },
+  { name: 'Highlighter', price: 25, tags: ['marker', 'highlight'] },
+  { name: 'A4 Copier Paper', price: 280, tags: ['paper rim', 'a4 paper'] },
+  { name: 'Transparent Sheet', price: 10, tags: ['ohp', 'cover sheet'] }
+];
+
+const setupStationerySearch = (module) => {
+  const input = module.querySelector('[data-stationery-search-input]');
+  const results = module.querySelector('[data-stationery-search-results]');
+  const empty = module.querySelector('[data-stationery-search-empty]');
+
+  if (!input || !results || !empty) {
+    return;
+  }
+
+  const renderProducts = (products, query) => {
+    results.innerHTML = products
+      .map((product) => `
+        <div class="stationery-result-card" role="listitem">
+          <div>
+            <h3>${highlightMatchForInventory(product.name, query)}</h3>
+            <p>✅ Yes, in stock starting at ₹${product.price}</p>
+          </div>
+          <span class="stationery-price-pill">₹${product.price}+</span>
+        </div>
+      `)
+      .join('');
+  };
+
+  const updateResults = () => {
+    const query = input.value.trim();
+    const normalizedQuery = toLookupKey(query);
+
+    if (!normalizedQuery) {
+      renderProducts(stationeryProducts.slice(0, 6), '');
+      empty.hidden = true;
+      return;
+    }
+
+    const matches = stationeryProducts.filter((product) => {
+      const productTerms = [product.name, ...product.tags].map((term) => toLookupKey(term));
+      return productTerms.some((term) => term.includes(normalizedQuery));
+    });
+
+    renderProducts(matches, query);
+    empty.hidden = matches.length > 0;
+  };
+
+  const highlightMatchForInventory = (text, query) => {
+    if (!query.trim()) {
+      return escapeHtml(text);
+    }
+
+    const safeText = escapeHtml(text);
+    const token = escapeHtml(query.trim()).replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return safeText.replace(new RegExp(`(${token})`, 'ig'), '<mark>$1</mark>');
+  };
+
+  input.addEventListener('input', updateResults);
+  updateResults();
+};
+
 // ---------------------------------------------------------------------------
 // initSmartSearch — public entry point called by main.js
 // Finds all .search-box forms and initialises each one.
@@ -710,4 +784,8 @@ const setupSmartSearch = (form) => {
 export const initSmartSearch = () => {
   const searchForms = document.querySelectorAll('.search-box');
   searchForms.forEach((form) => setupSmartSearch(form));
+
+  document
+    .querySelectorAll('[data-module="stationery-search"]')
+    .forEach((module) => setupStationerySearch(module));
 };

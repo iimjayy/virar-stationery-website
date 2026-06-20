@@ -7,6 +7,29 @@ import { CONFIG } from '../config.js';
 import { pricingConfig, addonRates } from '../data/business-data.js';
 import { normalizePhoneNumber, resolveBusinessWhatsAppNumber, buildOrderMessage } from '../utils/helpers.js';
 
+const PDF_WORKER_SRC = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+const MAX_PDF_SIZE_BYTES = 25 * 1024 * 1024;
+
+const formatFileSize = (bytes) => {
+  if (!Number.isFinite(bytes) || bytes < 0) {
+    return '0 KB';
+  }
+
+  if (bytes >= 1024 * 1024) {
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  return `${(bytes / 1024).toFixed(1)} KB`;
+};
+
+const readFileAsArrayBuffer = (file) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = () => reject(new Error('Unable to read the selected PDF.'));
+    reader.readAsArrayBuffer(file);
+  });
+
 // ---------------------------------------------------------------------------
 // initQuoteCalculator — public entry point called by main.js
 // ---------------------------------------------------------------------------
@@ -26,6 +49,8 @@ export const initQuoteCalculator = () => {
   const totalCostEl = document.getElementById('quoteTotalCost');
   const summaryLine = document.getElementById('quoteSummaryLine');
   const whatsappBtn = document.getElementById('quoteWhatsAppBtn');
+  const pdfDropZone = document.getElementById('quotePdfDrop');
+  const pdfPreview = document.getElementById('quotePdfPreview');
 
   if (
     !serviceSelect || !sizeSelect || !colorSelect || !quantityInput ||
@@ -170,6 +195,103 @@ export const initQuoteCalculator = () => {
   laminationAddon.addEventListener('change', calculateQuote);
   bindingAddon.addEventListener('change', calculateQuote);
 
+  const initPdfPageCounter = () => {
+    if (!pdfDropZone || !pdfPreview) {
+      return;
+    }
+
+    if (typeof window.pdfjsLib === 'undefined') {
+      pdfDropZone.classList.add('is-disabled');
+      pdfPreview.innerHTML = '<p class="pdf-status-message is-error">PDF page counting is unavailable right now.</p>';
+      return;
+    }
+
+    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+
+    const fileInput = document.createElement('input');
+    fileInput.type = 'file';
+    fileInput.accept = 'application/pdf';
+    fileInput.hidden = true;
+    pdfDropZone.insertAdjacentElement('afterend', fileInput);
+
+    const setPdfStatus = (message, type = 'info') => {
+      pdfPreview.innerHTML = `<p class="pdf-status-message is-${type}">${message}</p>`;
+    };
+
+    const setLoading = (isLoading) => {
+      pdfDropZone.classList.toggle('is-loading', isLoading);
+      pdfDropZone.setAttribute('aria-busy', isLoading ? 'true' : 'false');
+    };
+
+    const parsePdfFile = async (file) => {
+      if (!file) {
+        return;
+      }
+
+      const isPdf = file.type === 'application/pdf' || file.name.toLowerCase().endsWith('.pdf');
+      if (!isPdf) {
+        setPdfStatus('Please choose a valid PDF file.', 'error');
+        return;
+      }
+
+      if (file.size > MAX_PDF_SIZE_BYTES) {
+        setPdfStatus(`PDF is ${formatFileSize(file.size)}. Please upload a file below 25 MB.`, 'error');
+        return;
+      }
+
+      setLoading(true);
+      setPdfStatus('Reading PDF pages...', 'info');
+
+      try {
+        const arrayBuffer = await readFileAsArrayBuffer(file);
+        const pdf = await window.pdfjsLib.getDocument({ data: arrayBuffer }).promise;
+        const pageCount = pdf.numPages;
+
+        quantityInput.value = String(pageCount);
+        quantityInput.dispatchEvent(new Event('input', { bubbles: true }));
+
+        pdfDropZone.classList.add('has-file');
+        setPdfStatus(`✅ ${pageCount} page${pageCount === 1 ? '' : 's'} detected`, 'success');
+      } catch (error) {
+        console.error('[quote-calculator] PDF page counting failed:', error);
+        setPdfStatus('Could not read this PDF. Try another file or enter pages manually.', 'error');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    pdfDropZone.addEventListener('click', () => fileInput.click());
+    pdfDropZone.addEventListener('keydown', (event) => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        fileInput.click();
+      }
+    });
+
+    fileInput.addEventListener('change', () => {
+      parsePdfFile(fileInput.files?.[0]);
+    });
+
+    ['dragenter', 'dragover'].forEach((eventName) => {
+      pdfDropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        pdfDropZone.classList.add('is-active');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((eventName) => {
+      pdfDropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        pdfDropZone.classList.remove('is-active');
+      });
+    });
+
+    pdfDropZone.addEventListener('drop', (event) => {
+      parsePdfFile(event.dataTransfer?.files?.[0]);
+    });
+  };
+
   // Run once on init to populate the UI
   calculateQuote();
+  initPdfPageCounter();
 };

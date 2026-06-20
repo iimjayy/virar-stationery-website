@@ -30,12 +30,13 @@ import { initChatWidget } from './features/chat-widget.js';
 import { initServiceAvailability } from './features/service-availability.js';
 import { initPdfDownloads } from './features/pdf-downloads.js';
 import { initBulkEnquiry } from './features/bulk-enquiry.js';
+import { initAnalytics } from './features/analytics.js';
+import { initReviewPrompt } from './features/review-prompt.js';
 
 // --- Phase 2 extraction: service interactions ---
 import { initServiceInteractions } from './features/service-interactions.js';
 
 // --- Business Engine modules (June 2026) ---
-import { initPdfParser } from './features/pdf-parser.js';
 import { initOrderStatus } from './features/order-status.js';
 import { initThemeToggle } from './features/theme-toggle.js';
 import { initSocialProof } from './features/social-proof.js';
@@ -474,12 +475,13 @@ runAfterReady(() => {
   safeRun('bulk-enquiry', initBulkEnquiry);
   safeRun('pdf-downloads', initPdfDownloads);
   safeRun('service-availability', initServiceAvailability);
+  safeRun('analytics', initAnalytics);
+  safeRun('review-prompt', initReviewPrompt);
 
   // Phase 2 extraction: service interactions (detail panels + mobile slider)
   safeRun('service-interactions', initServiceInteractions);
 
   // Business Engine modules (June 2026)
-  safeRun('pdf-parser', initPdfParser);
   safeRun('order-status', initOrderStatus);
   safeRun('theme-toggle', initThemeToggle);
   safeRun('social-proof', initSocialProof);

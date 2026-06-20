@@ -20,6 +20,7 @@
 @import url('./components/badges.css');
 @import url('./components/cards.css');
 @import url('./components/modals.css');
+@import url('./components/review-modal.css');
 
 /* 4. Features — page sections */
 @import url('./features/hero.css');
@@ -30,6 +31,7 @@
 @import url('./features/testimonials.css');
 @import url('./features/why-choose.css');
 @import url('./features/quote-calculator.css');
+@import url('./features/stationery-search.css');
 @import url('./features/bulk-order.css');
 @import url('./features/order-status.css');
 

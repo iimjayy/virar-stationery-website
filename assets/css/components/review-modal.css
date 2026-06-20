@@ -1,0 +1,16 @@
+/* ====================================================================
+   REVIEW MODAL — Google review prompt
+   ==================================================================== */
+
+.review-modal-content {
+  border: 0;
+  border-radius: 8px;
+  box-shadow: 0 24px 70px rgba(11, 42, 91, 0.22);
+}
+
+.review-modal-copy {
+  margin: 0;
+  color: rgba(11, 42, 91, 0.78);
+  font-size: 1rem;
+  line-height: 1.6;
+}
