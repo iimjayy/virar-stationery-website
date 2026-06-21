@@ -186,7 +186,6 @@ const loadPickups = async () => {
   const collectionName = CONFIG.integrations.firebase.pickupsCollection || 'pickups';
   const pickupQuery = firestore.query(
     firestore.collection(db, collectionName),
-    firestore.orderBy('timestamp', 'desc'),
     firestore.limit(CONFIG.integrations.firebase.maxPickupNotifications || 6)
   );
 
