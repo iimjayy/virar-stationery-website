@@ -369,6 +369,7 @@ export const initChatWidget = () => {
   const chatSubmit = document.getElementById('geminiChatSubmit');
   const quickReplies = document.getElementById('chatQuickReplies');
   const whatsappLink = chatPanel?.querySelector('[data-chat-whatsapp]');
+  const heroSection = document.getElementById('home') || document.querySelector('.hero-section');
 
   if (!chatWidget || !chatFab || !chatPanel || !chatClose || !chatMessages || !chatForm || !chatInput || !chatSubmit) {
     return;
@@ -379,6 +380,8 @@ export const initChatWidget = () => {
   let latestCustomerNeed = '';
   let latestHandoff = null;
   const aiResponseCache = new Map();
+  let chatRevealVisible = false;
+  let revealTicking = false;
 
   const updateWhatsAppLink = (notes = latestCustomerNeed, handoff = latestHandoff) => {
     if (!whatsappLink) return;
@@ -460,6 +463,40 @@ export const initChatWidget = () => {
     chatSubmit.disabled = isBusy;
     chatInput.disabled = isBusy;
     chatPanel.classList.toggle('is-thinking', isBusy);
+  };
+
+  const applyChatReveal = (shouldShow) => {
+    const shouldStayVisible = shouldShow || chatWidget.classList.contains('is-open');
+    if (shouldStayVisible === chatRevealVisible) {
+      return;
+    }
+
+    chatRevealVisible = shouldStayVisible;
+    chatWidget.classList.toggle('is-visible', shouldStayVisible);
+    chatWidget.setAttribute('aria-hidden', shouldStayVisible ? 'false' : 'true');
+    chatFab.tabIndex = shouldStayVisible ? 0 : -1;
+  };
+
+  const syncChatReveal = () => {
+    if (!heroSection) {
+      applyChatReveal(true);
+      return;
+    }
+
+    const heroBottom = heroSection.getBoundingClientRect().bottom;
+    applyChatReveal(heroBottom <= 80);
+  };
+
+  const queueChatReveal = () => {
+    if (revealTicking) {
+      return;
+    }
+
+    revealTicking = true;
+    window.requestAnimationFrame(() => {
+      revealTicking = false;
+      syncChatReveal();
+    });
   };
 
   const askGemini = async (userMessage, localAnswer) => {
@@ -570,11 +607,27 @@ export const initChatWidget = () => {
     chatWidget.classList.toggle('is-open', shouldOpen);
     chatPanel.setAttribute('aria-hidden', shouldOpen ? 'false' : 'true');
     chatFab.setAttribute('aria-expanded', shouldOpen ? 'true' : 'false');
+    syncChatReveal();
 
     if (shouldOpen) {
       window.setTimeout(() => chatInput.focus(), 300);
     }
   };
+
+  syncChatReveal();
+
+  if (heroSection && 'IntersectionObserver' in window) {
+    const heroObserver = new IntersectionObserver(
+      () => {
+        queueChatReveal();
+      },
+      { threshold: [0, 0.2, 0.5, 1], rootMargin: '-60px 0px 0px 0px' }
+    );
+    heroObserver.observe(heroSection);
+  }
+
+  window.addEventListener('scroll', queueChatReveal, { passive: true });
+  window.addEventListener('resize', queueChatReveal);
 
   chatFab.addEventListener('click', () => toggleChat(!chatWidget.classList.contains('is-open')));
   chatClose.addEventListener('click', () => toggleChat(false));

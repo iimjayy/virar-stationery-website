@@ -191,7 +191,19 @@
   height: 64px;
   align-items: flex-end;
   justify-content: center;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(16px) scale(0.9);
+  transition: opacity 0.32s ease, transform 0.42s cubic-bezier(0.22, 1, 0.36, 1);
   z-index: 1048;
+  will-change: opacity, transform;
+}
+
+.chat-widget.is-visible,
+.chat-widget.is-open {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0) scale(1);
 }
 
 /* --- Tooltip Badge --- */
