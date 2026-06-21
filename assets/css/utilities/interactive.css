@@ -184,20 +184,22 @@
 
 .chat-widget {
   position: fixed;
-  right: 35px;
-  bottom: -165px;
+  right: clamp(18px, 2vw, 32px);
+  bottom: calc(28px + env(safe-area-inset-bottom));
   display: flex;
-  flex-direction: column;
+  width: 64px;
+  height: 64px;
   align-items: flex-end;
-  gap: 14px;
+  justify-content: center;
   z-index: 1048;
 }
 
 /* --- Tooltip Badge --- */
 .chat-tooltip {
-  position: fixed;
-  right: 90px;
-  top: 770px;
+  position: absolute;
+  right: calc(100% + 14px);
+  bottom: 50%;
+  transform: translateY(50%);
   background: linear-gradient(135deg, var(--navy) 0%, #1a3a7c 100%);
   color: #fff;
   padding: 9px 16px;
@@ -210,7 +212,7 @@
   pointer-events: none;
   border: 1px solid rgba(244, 210, 31, 0.35);
   animation: chatTooltipPulse 3.5s ease-in-out infinite;
-  z-index: 1049;
+  z-index: 2;
 }
 
 .chat-widget.is-open .chat-tooltip {
@@ -283,6 +285,9 @@
 
 /* --- Chat Panel --- */
 .chat-panel {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 16px);
   width: min(370px, calc(100vw - 20px));
   border-radius: 24px;
   background: #fff;
@@ -293,6 +298,7 @@
   transform: translateY(16px) scale(0.96);
   transition: opacity 0.3s cubic-bezier(.34,1.2,.64,1), transform 0.3s cubic-bezier(.34,1.2,.64,1);
   transform-origin: bottom right;
+  z-index: 1;
 }
 
 .chat-widget.is-open .chat-panel {
@@ -549,6 +555,35 @@
 
 .chat-message.is-agent-typing .chat-msg-bubble p {
   display: none;
+}
+
+.chat-action-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 9px;
+}
+
+.chat-action-btn {
+  border: 1px solid rgba(11, 42, 91, 0.14);
+  border-radius: 999px;
+  background: rgba(244, 210, 31, 0.12);
+  color: var(--navy);
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1;
+  padding: 7px 10px;
+  transition: background 0.18s ease, border-color 0.18s ease, transform 0.18s ease;
+}
+
+.chat-action-btn:hover {
+  background: rgba(244, 210, 31, 0.22);
+  border-color: rgba(244, 210, 31, 0.7);
+  transform: translateY(-1px);
+}
+
+.chat-panel.is-thinking .chat-input-form {
+  opacity: 0.72;
 }
 
 /* --- Quick Reply Chips --- */
