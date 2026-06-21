@@ -69,15 +69,15 @@ export const CONFIG = Object.freeze({
       measurementId: 'G-5VNFP63J2R',
     },
     firebase: {
-      enabled: false,
+      enabled: true,
       // Replace these values from Firebase Console > Project settings > Web app.
       config: {
-        apiKey: 'FIREBASE_API_KEY',
-        authDomain: 'FIREBASE_PROJECT_ID.firebaseapp.com',
-        projectId: 'FIREBASE_PROJECT_ID',
-        storageBucket: 'FIREBASE_PROJECT_ID.appspot.com',
-        messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID',
-        appId: 'FIREBASE_APP_ID',
+        apiKey: 'AIzaSyDsvWnPl-A3xU8pJn5MKhs12FV1xSzECgI',
+        authDomain: 'virarprint001.firebaseapp.com',
+        projectId: 'virarprint001',
+        storageBucket: 'virarprint001.firebasestorage.app',
+        messagingSenderId: '321800981410',
+        appId: '1:321800981410:web:854ad9ace07d0fd23100fb',
       },
       pickupsCollection: 'pickups',
       maxPickupNotifications: 6,
