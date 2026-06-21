@@ -61,4 +61,26 @@ export const CONFIG = Object.freeze({
       'image/png',
     ],
   },
+
+  integrations: {
+    googleAnalytics: {
+      // Replace with your GA4 Measurement ID, e.g. G-XXXXXXXXXX.
+      // Get it from Google Analytics > Admin > Data streams > Web stream.
+      measurementId: 'G-5VNFP63J2R',
+    },
+    firebase: {
+      enabled: false,
+      // Replace these values from Firebase Console > Project settings > Web app.
+      config: {
+        apiKey: 'FIREBASE_API_KEY',
+        authDomain: 'FIREBASE_PROJECT_ID.firebaseapp.com',
+        projectId: 'FIREBASE_PROJECT_ID',
+        storageBucket: 'FIREBASE_PROJECT_ID.appspot.com',
+        messagingSenderId: 'FIREBASE_MESSAGING_SENDER_ID',
+        appId: 'FIREBASE_APP_ID',
+      },
+      pickupsCollection: 'pickups',
+      maxPickupNotifications: 6,
+    },
+  },
 });

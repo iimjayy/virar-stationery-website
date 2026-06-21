@@ -32,6 +32,8 @@ import { initServiceAvailability } from './features/service-availability.js';
 import { initPdfDownloads } from './features/pdf-downloads.js';
 import { initBulkEnquiry } from './features/bulk-enquiry.js';
 import { initAnalytics } from './features/analytics.js';
+import { initGoogleAnalytics } from './features/google-analytics.js';
+import { initLazyGoogleMap } from './features/lazy-google-map.js';
 import { initReviewPrompt } from './features/review-prompt.js';
 
 // --- Phase 2 extraction: service interactions ---
@@ -477,7 +479,9 @@ runAfterReady(() => {
   safeRun('bulk-enquiry', initBulkEnquiry);
   safeRun('pdf-downloads', initPdfDownloads);
   safeRun('service-availability', initServiceAvailability);
+  safeRun('google-analytics', initGoogleAnalytics);
   safeRun('analytics', initAnalytics);
+  safeRun('lazy-google-map', initLazyGoogleMap);
   safeRun('review-prompt', initReviewPrompt);
 
   // Phase 2 extraction: service interactions (detail panels + mobile slider)

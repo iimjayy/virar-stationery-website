@@ -206,6 +206,10 @@
   transform: translateY(0) scale(1);
 }
 
+.chat-widget.is-open {
+  z-index: 1110;
+}
+
 /* --- Tooltip Badge --- */
 .chat-tooltip {
   position: absolute;

@@ -44,7 +44,13 @@ const SERVICE_ALIASES = [
   { key: 'binding', label: 'Spiral Binding', words: ['binding', 'spiral', 'bind'] },
   { key: 'passport', label: 'Passport Photos', words: ['passport', 'photo', 'id photo'] },
   { key: 'smart-card', label: 'Smart Card', words: ['smart card', 'id card', 'card print'] },
-  { key: 'jumbo-xerox', label: 'Jumbo Xerox', words: ['jumbo', 'a0', 'a1', 'a2', 'large format', 'plotting'] }
+  { key: 'jumbo-xerox', label: 'Jumbo Xerox', words: ['jumbo', 'a0', 'a1', 'a2', 'large format', 'plotting'] },
+  { key: 'stationery', label: 'Stationery Products', words: ['stationery', 'notebook', 'pen', 'pens', 'file', 'folder', 'calculator', 'chart', 'marker', 'paper'] },
+  { key: 'scanning', label: 'All Size Scanning', words: ['scan', 'scanning', 'scanner', 'soft copy'] },
+  { key: 'visiting-card', label: 'Visiting Card', words: ['visiting card', 'business card'] },
+  { key: 'letterhead', label: 'Letterhead Print', words: ['letterhead', 'letter head'] },
+  { key: 'billbook', label: 'Billbook Print', words: ['billbook', 'bill book', 'invoice book', 'receipt book'] },
+  { key: 'cartridge', label: 'Cartridge Refilling', words: ['cartridge', 'ink refill', 'toner', 'printer ink'] }
 ];
 
 const formatCurrency = (amount) => {
@@ -153,6 +159,76 @@ const estimateFromMessage = (message) => {
       ...(laminationRate ? ['Lamination'] : []),
       ...(bindingFlatRate ? ['Spiral Binding'] : [])
     ]
+  };
+};
+
+const createServiceAnswer = (message, service) => {
+  if (!service) return null;
+
+  const details = detailedServices[service.label] || detailedServices[pricingConfig[service.key]?.label];
+  if (!details) return null;
+
+  const uses = details.commonUses?.slice(0, 2).join(', ');
+  const addOns = details.addOns?.slice(0, 3).join(', ');
+  const english = `${details.explanation} ${details.priceTag}. Ready time: ${details.deliveryTime.join(' / ')}.${uses ? ` Common uses: ${uses}.` : ''}${addOns ? ` Add-ons: ${addOns}.` : ''}`;
+  const hinglish = `${details.explanation} ${details.priceTag}. Ready time: ${details.deliveryTime.join(' / ')}.${addOns ? ` Add-ons: ${addOns}.` : ''} Aap quantity/file details bhej doge to exact quote bata denge.`;
+
+  return {
+    text: localizeReply(message, english, hinglish),
+    suggestions: [
+      { label: 'Check price', value: `${service.label} price` },
+      { label: 'Send file', value: 'How can I send my file?' },
+      { label: 'Open now?', value: 'Are you open now?' }
+    ]
+  };
+};
+
+const createContextFallbackAnswer = (message) => {
+  const text = normalizeText(message).replace(/\bcolour\b/g, 'color');
+  const service = detectService(message);
+  const serviceAnswer = service ? createServiceAnswer(message, service) : null;
+
+  if (serviceAnswer) {
+    return serviceAnswer;
+  }
+
+  if (includesAny(text, ['format', 'file type', 'file format', 'doc', 'docx', 'jpg', 'jpeg', 'png'])) {
+    return {
+      text: localizeReply(
+        message,
+        'PDF is best for printing, but Word, JPEG and PNG are also accepted. Send the file on WhatsApp with copies, size, B&W/color and pickup time.',
+        'PDF best hai printing ke liye, but Word, JPEG aur PNG bhi chalega. WhatsApp pe file ke saath copies, size, B&W/color aur pickup time bhej do.'
+      ),
+      suggestions: [
+        { label: 'Send file', value: 'How can I send my file?' },
+        { label: 'Print price', value: 'What is print price?' },
+        { label: 'Urgent print', value: 'Can you print urgently today?' }
+      ]
+    };
+  }
+
+  if (includesAny(text, ['urgent', 'fast', 'jaldi', 'quick', 'same day', 'today', 'abhi'])) {
+    return {
+      text: localizeReply(
+        message,
+        'For most normal print, xerox, lamination and binding jobs, same-day pickup is available. Small jobs are usually ready in 5 to 15 minutes after file confirmation.',
+        'Normal print, xerox, lamination aur binding ka same-day pickup ho jata hai. Small jobs usually file confirm hone ke 5-15 minutes me ready ho jate hain.'
+      ),
+      suggestions: [
+        { label: 'Send file', value: 'How can I send my file?' },
+        { label: 'Open now?', value: 'Are you open now?' },
+        { label: 'Directions', value: 'Where is your shop?' }
+      ]
+    };
+  }
+
+  return {
+    text: localizeReply(
+      message,
+      'I can help with that. Please share the service name, page count or quantity, paper size, B&W/color choice, and any finishing like lamination or binding.',
+      'Haan, help kar dunga. Bas service name, pages/quantity, paper size, B&W/color aur lamination/binding jaisi finishing bata do.'
+    ),
+    suggestions: DEFAULT_SUGGESTIONS
   };
 };
 
@@ -355,7 +431,7 @@ const createKnowledgeAnswer = (message) => {
     };
   }
 
-  return null;
+  return createServiceAnswer(message, detectService(message));
 };
 
 export const initChatWidget = () => {
@@ -551,13 +627,20 @@ export const initChatWidget = () => {
       console.error('Gemini AI Error:', error);
       typingIndicator.remove();
       if (!localAnswer) {
-        appendMessage(
-          'I can answer prices, timing, files and location instantly. For a custom request, tap WhatsApp and the owner will assist right away.',
-          'agent',
-          { actions: DEFAULT_SUGGESTIONS }
-        );
+        const fallback = createContextFallbackAnswer(userMessage);
+        appendMessage(fallback.text, 'agent', {
+          meta: 'Instant shop answer',
+          actions: [
+            { label: 'Send on WhatsApp', value: 'How can I send my file?' },
+            { label: 'Check price', value: 'Show popular prices' }
+          ]
+        });
+        renderSuggestions(fallback.suggestions);
+        conversationHistory.push({ role: 'model', parts: [{ text: fallback.text }] });
       }
-      conversationHistory.pop();
+      if (localAnswer) {
+        conversationHistory.pop();
+      }
     } finally {
       window.clearTimeout(timeoutId);
       setBusy(false);

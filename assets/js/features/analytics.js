@@ -1,154 +1,99 @@
 // js/features/analytics.js
-// Enterprise-Grade Global GA4 Click Tracking Engine
+// Privacy-safe GA4 event tracking. No names, typed form text, phone numbers,
+// or full destination URLs are sent as event parameters.
 
-export const trackEvent = (eventName, eventCategory, eventLabel, extraParams = {}) => {
-  const params = {
-    event_category: eventCategory,
-    event_label: eventLabel,
-    ...extraParams
-  };
-
+const safeGtag = (eventName, params = {}) => {
   window.dataLayer = window.dataLayer || [];
-  function gtag(){ window.dataLayer.push(arguments); }
-  gtag('event', eventName, params);
+  window.gtag = window.gtag || function gtag(){ window.dataLayer.push(arguments); };
+  window.gtag('event', eventName, params);
 };
 
-const getElementContext = (el) => {
-  const ariaLabel = el.getAttribute('aria-label');
-  const title = el.getAttribute('title');
-  const id = el.id;
-  const href = el.getAttribute('href');
-  let text = el.innerText || el.textContent || '';
-  text = text.replace(/\s+/g, ' ').trim().substring(0, 50); // Truncate to 50 chars for clean reporting
+export const trackEvent = (eventName, params = {}) => {
+  safeGtag(eventName, {
+    engagement_type: 'website_interaction',
+    ...params
+  });
+};
 
-  // SVG and Math elements have different className objects, handle gracefully
-  const classes = typeof el.className === 'string' ? el.className : 'svg-or-complex-element';
+const findSection = (element) => {
+  const section = element.closest('[data-section], section[id], header, footer, .quick-convert-bar, .mobile-bottom-bar, .floating-actions');
+  if (!section) return 'unknown';
+  return section.dataset.section || section.id || section.tagName.toLowerCase();
+};
 
-  return {
-    label: ariaLabel || title || text || id || href || 'Unknown Element',
-    id: id || 'none',
-    href: href || 'none',
-    classes: classes || 'none',
-    tag: el.tagName ? el.tagName.toLowerCase() : 'unknown'
-  };
+const classifyWhatsAppSource = (element) => {
+  if (element.closest('#quoteCalculator, .quote-summary-card')) return 'quote_calculator';
+  if (element.closest('#bulkEnquiryForm, .bulk-enquiry-section')) return 'bulk_enquiry';
+  if (element.closest('.sticky-whatsapp-btn')) return 'sticky_floating_button';
+  if (element.closest('.desktop-cta-rail')) return 'desktop_cta_rail';
+  if (element.closest('.mobile-bottom-bar')) return 'mobile_bottom_bar';
+  if (element.closest('.chat-panel')) return 'chat_widget';
+  if (element.closest('.sp-hero, .sp-header')) return 'service_page';
+  if (element.closest('#home')) return 'hero';
+  return findSection(element);
+};
+
+const serviceNameFor = (element) => {
+  const serviceCard = element.closest('[data-service-id]');
+  if (serviceCard?.dataset.serviceId) return serviceCard.dataset.serviceId;
+  const serviceSelect = document.getElementById('quoteService');
+  return serviceSelect?.value || 'unknown';
 };
 
 export const initAnalytics = () => {
-  // 1. "God-Mode" Global Event Delegation for ALL Clicks
-  // O(1) memory complexity, highly performant
-  document.addEventListener('click', (e) => {
-    // Traverse up to find the nearest interactive element
-    const target = e.target.closest('a, button, input[type="submit"], input[type="button"], select, [role="button"], [data-action], .clickable, .nav-link, .gallery-item, .faq-question, .service-card, .price-card, [data-copy-address], #quotePdfDrop');
-    
-    if (target) {
-      const context = getElementContext(target);
-      
-      // Determine a highly specific event name based on the element
-      let eventName = 'ui_interaction';
-      let category = 'User Interaction';
+  document.addEventListener('click', (event) => {
+    const target = event.target.closest('a, button, [role="button"], .gallery-item, [data-pdf-type], #quoteWhatsAppBtn');
+    if (!target) return;
 
-      if (context.tag === 'a') {
-        eventName = 'link_click';
-        category = 'Navigation';
-      }
-      if (context.tag === 'button') {
-        eventName = 'button_click';
-        category = 'Interaction';
-      }
-      if (context.href.includes('wa.me') || target.closest('.whatsapp-btn')) {
-        eventName = 'whatsapp_click';
-        category = 'High Intent Lead';
-      }
-      if (context.href.includes('tel:')) {
-        eventName = 'phone_call_intent';
-        category = 'High Intent Lead';
-      }
-      if (context.href.includes('mailto:')) {
-        eventName = 'email_intent';
-        category = 'High Intent Lead';
-      }
-      if (context.href.includes('maps.google.com') || context.href.includes('goo.gl/maps') || target.closest('[data-map-link]')) {
-        eventName = 'map_direction_intent';
-        category = 'Location Interest';
-      }
-      if (target.closest('.service-card') || target.closest('.price-card') || target.closest('[data-service-id]')) {
-        eventName = 'service_click';
-        category = 'Service Interest';
-      }
-      if (target.closest('.product-card') || target.closest('[data-product-id]')) {
-        eventName = 'product_click';
-        category = 'Product Interest';
-      }
-      if (target.closest('.theme-toggle') || target.closest('#themeToggle')) {
-        eventName = 'theme_changed';
-        category = 'UI Preference';
-      }
-      if (target.closest('footer')) {
-        eventName = 'footer_click';
-        category = 'Footer Interaction';
-      }
-      if (target.closest('header')) {
-        eventName = 'header_click';
-        category = 'Header Interaction';
-      }
-      if (target.closest('.gallery-item')) {
-        eventName = 'gallery_image_view';
-        category = 'Media View';
-      }
-      if (target.closest('.faq-question')) {
-        eventName = 'faq_open';
-        category = 'Information Seek';
-      }
-      if (target.closest('[data-copy-address]')) {
-        eventName = 'address_copied';
-        category = 'Location Interest';
-      }
-      if (target.closest('.lang-toggle-btn') || target.closest('#langToggle')) {
-        eventName = 'language_changed';
-        category = 'Localization';
-      }
+    const href = target.getAttribute('href') || '';
 
-      // Send the highly specific event to Google Analytics
-      trackEvent(eventName, category, context.label, {
-        element_id: context.id,
-        element_classes: context.classes,
-        element_tag: context.tag,
-        destination_url: context.href
+    if (href.includes('wa.me') || href.includes('api.whatsapp.com') || target.closest('[data-chat-whatsapp]')) {
+      trackEvent('whatsapp_click', {
+        source_section: classifyWhatsAppSource(target),
+        service_name: serviceNameFor(target)
+      });
+      return;
+    }
+
+    if (href.startsWith('tel:')) {
+      trackEvent('call_click', {
+        source_section: findSection(target)
+      });
+      return;
+    }
+
+    if (href.includes('google.com/maps') || target.closest('.map-directions-btn')) {
+      trackEvent('directions_click', {
+        source_section: findSection(target)
+      });
+      return;
+    }
+
+    if (target.closest('.gallery-item')) {
+      const galleryItem = target.closest('.gallery-item');
+      trackEvent('gallery_image_open', {
+        image_index: galleryItem?.dataset.galleryIndex || 'unknown'
+      });
+      return;
+    }
+
+    const pdfButton = target.closest('[data-pdf-type]');
+    if (pdfButton) {
+      trackEvent('pdf_download', {
+        document_type: pdfButton.dataset.pdfType || 'unknown'
       });
     }
   });
 
-  // 2. Preserve specialized search tracking (Keyboard input is not a click)
-  const bindSearchTracking = (inputId, eventName) => {
-    const input = document.getElementById(inputId);
-    if (input) {
-      let timeout = null;
-      input.addEventListener('input', () => {
-        clearTimeout(timeout);
-        timeout = setTimeout(() => {
-          if (input.value.trim().length > 2) {
-            trackEvent(eventName, 'Search', input.value.trim());
-          }
-        }, 1500);
+  const quoteWhatsAppBtn = document.getElementById('quoteWhatsAppBtn');
+  if (quoteWhatsAppBtn) {
+    quoteWhatsAppBtn.addEventListener('click', () => {
+      const service = document.getElementById('quoteService')?.value || 'unknown';
+      const quantity = Number(document.getElementById('quoteQty')?.value || 0);
+      trackEvent('quote_completed', {
+        service_name: service,
+        quantity_bucket: quantity >= 500 ? '500_plus' : quantity >= 100 ? '100_499' : quantity >= 25 ? '25_99' : '1_24'
       });
-    }
-  };
-
-  bindSearchTracking('stationerySearchInput', 'stationery_search');
-  
-  const siteSearch = document.querySelector('#siteSearch input, .search-box input');
-  if (siteSearch) {
-    bindSearchTracking(siteSearch.id || 'mainSearch', 'site_search');
-  }
-
-  // 3. Preserve specialized Quote Calculator Logic (Change/Input events)
-  const quoteCalculator = document.getElementById('quoteCalculator');
-  if (quoteCalculator) {
-    quoteCalculator.addEventListener('input', () => {
-      trackEvent('quote_calculated', 'Quote Calculated', 'Live Quote Updated');
-    });
-    quoteCalculator.addEventListener('change', () => {
-      trackEvent('quote_calculated', 'Quote Calculated', 'Quote Option Changed');
     });
   }
 };
