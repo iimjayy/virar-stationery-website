@@ -221,8 +221,11 @@
 }
 
 @keyframes cardShimmer {
+  from {
+    transform: translateX(-100%);
+  }
   to {
-    left: 130%;
+    transform: translateX(230%);
   }
 }
 
@@ -232,10 +235,7 @@
   70% { transform: translateY(-2px); }
 }
 
-@keyframes stepPulse {
-  0%, 100% { box-shadow: 0 0 0 3px rgba(10,132,255,0.20); }
-  50%       { box-shadow: 0 0 0 7px rgba(10,132,255,0.08); }
-}
+
 
 @keyframes stepPulse {
   0%, 100% { box-shadow: 0 0 0 4px var(--navy-light); }

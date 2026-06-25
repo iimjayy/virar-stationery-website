@@ -12,7 +12,6 @@ import { ensureEnquiryToast, showEnquiryToast } from './core/toast.js';
 import { initSmartSearch } from './features/smart-search.js';
 import { initStationeryStockSearch } from './features/stationery-stock-search.js';
 import { initGalleryLightbox } from './features/gallery-lightbox.js';
-import { initQuoteCalculator } from './features/quote-calculator.js';
 
 // --- Phase 2 feature modules ---
 import { initFAQ } from './features/faq.js';
@@ -25,12 +24,9 @@ import { initStickyWhatsApp } from './features/sticky-whatsapp.js';
 import { initNavigation } from './features/navigation.js';
 import { initFloatingActions } from './features/floating-actions.js';
 import { initRevealAnimations } from './features/reveal-animations.js';
-import { initChatWidget } from './features/chat-widget.js';
 
 // --- Phase 5 feature modules ---
 import { initServiceAvailability } from './features/service-availability.js';
-import { initPdfDownloads } from './features/pdf-downloads.js';
-import { initBulkEnquiry } from './features/bulk-enquiry.js';
 import { initAnalytics } from './features/analytics.js';
 import { initGoogleAnalytics } from './features/google-analytics.js';
 import { initLazyGoogleMap } from './features/lazy-google-map.js';
@@ -43,7 +39,7 @@ import { initServiceInteractions } from './features/service-interactions.js';
 import { initOrderStatus } from './features/order-status.js';
 import { initThemeToggle } from './features/theme-toggle.js';
 import { initSocialProof } from './features/social-proof.js';
-import { initLanguageToggle } from './features/language-toggle.js';
+// language-toggle.js (339KB) is lazy-loaded on user interaction below
 
 // ---------------------------------------------------------------------------
 // runAfterReady — retained exactly as the original for production safety
@@ -71,7 +67,6 @@ runAfterReady(() => {
 
   // --- Shared references (resolved once, used by all features) ---
   const contactForm = document.getElementById('contactForm');
-  const searchForms = document.querySelectorAll('.search-box');
   const businessWhatsAppNumber = resolveBusinessWhatsAppNumber();
   const businessEmail = resolveBusinessEmail();
 
@@ -472,12 +467,17 @@ runAfterReady(() => {
   safeRun('smart-search', initSmartSearch);
   safeRun('stationery-stock-search', initStationeryStockSearch);
   safeRun('gallery-lightbox', initGalleryLightbox);
-  safeRun('quote-calculator', initQuoteCalculator);
 
-  // Phase 3 + 5 interaction systems
-  safeRun('chat-widget', initChatWidget);
-  safeRun('bulk-enquiry', initBulkEnquiry);
-  safeRun('pdf-downloads', initPdfDownloads);
+  // Phase 3 + 5 interaction systems — lazy-load heavy modules
+  safeRun('chat-widget', () => {
+    import('./features/chat-widget.js').then(m => m.initChatWidget()).catch(e => console.error('chat-widget lazy load failed:', e));
+  });
+  safeRun('bulk-enquiry', () => {
+    import('./features/bulk-enquiry.js').then(m => m.initBulkEnquiry()).catch(e => console.error('bulk-enquiry lazy load failed:', e));
+  });
+  safeRun('pdf-downloads', () => {
+    import('./features/pdf-downloads.js').then(m => m.initPdfDownloads()).catch(e => console.error('pdf-downloads lazy load failed:', e));
+  });
   safeRun('service-availability', initServiceAvailability);
   safeRun('google-analytics', initGoogleAnalytics);
   safeRun('analytics', initAnalytics);
@@ -491,5 +491,14 @@ runAfterReady(() => {
   safeRun('order-status', initOrderStatus);
   safeRun('theme-toggle', initThemeToggle);
   safeRun('social-proof', initSocialProof);
-  safeRun('language-toggle', initLanguageToggle);
+
+  // Language toggle (339KB) — lazy-loaded on first user interaction
+  safeRun('language-toggle', () => {
+    import('./features/language-toggle.js').then(m => m.initLanguageToggle()).catch(e => console.error('language-toggle lazy load failed:', e));
+  });
+
+  // Quote calculator — lazy-loaded (below the fold)
+  safeRun('quote-calculator', () => {
+    import('./features/quote-calculator.js').then(m => m.initQuoteCalculator()).catch(e => console.error('quote-calculator lazy load failed:', e));
+  });
 });

@@ -91,20 +91,29 @@ export const initPdfParser = () => {
     return;
   }
 
-  // --- Guard: pdf.js library availability ---
+  // --- Lazy-load pdf.js library if not already present ---
   if (typeof window.pdfjsLib === 'undefined') {
-    console.warn(
-      '[pdf-parser] window.pdfjsLib is not available. ' +
-      'Ensure the pdf.js CDN script is loaded before this module.'
-    );
-    dropZone.classList.add('is-disabled');
-    dropZone.setAttribute('title', 'PDF parsing unavailable — library not loaded');
+    const script = document.createElement('script');
+    script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+    script.onload = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+      setupPdfParser(dropZone);
+    };
+    script.onerror = () => {
+      console.warn('[pdf-parser] Failed to load pdf.js CDN');
+      dropZone.classList.add('is-disabled');
+    };
+    document.head.appendChild(script);
     return;
   }
 
   // Configure the pdf.js web-worker
   window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+  setupPdfParser(dropZone);
+};
 
+// Extracted so it can be called both synchronously and from the lazy-loader callback
+const setupPdfParser = (dropZone) => {
   const previewContainer = document.getElementById('quotePdfPreview');
   const quantityInput = document.getElementById('quoteQty');
 
