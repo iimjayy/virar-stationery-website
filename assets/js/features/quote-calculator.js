@@ -200,13 +200,28 @@ export const initQuoteCalculator = () => {
       return;
     }
 
+    const bootPdfCounter = () => {
+      window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+      setupPdfCounter();
+    };
+
     if (typeof window.pdfjsLib === 'undefined') {
-      pdfDropZone.classList.add('is-disabled');
-      pdfPreview.innerHTML = '<p class="pdf-status-message is-error">PDF page counting is unavailable right now.</p>';
+      // Lazy-load pdf.js on demand
+      const script = document.createElement('script');
+      script.src = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js';
+      script.onload = bootPdfCounter;
+      script.onerror = () => {
+        pdfDropZone.classList.add('is-disabled');
+        pdfPreview.innerHTML = '<p class="pdf-status-message is-error">PDF page counting is unavailable right now.</p>';
+      };
+      document.head.appendChild(script);
       return;
     }
 
-    window.pdfjsLib.GlobalWorkerOptions.workerSrc = PDF_WORKER_SRC;
+    bootPdfCounter();
+  };
+
+  const setupPdfCounter = () => {
 
     const fileInput = document.createElement('input');
     fileInput.type = 'file';
