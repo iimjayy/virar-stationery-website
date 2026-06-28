@@ -25,7 +25,6 @@ export const initTestimonialSlider = () => {
     return;
   }
 
-  const mobileBreakpoint = window.matchMedia('(max-width: 991px)');
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   let activeIndex = 0;
   let scrollTicking = false;
@@ -99,11 +98,11 @@ export const initTestimonialSlider = () => {
     setActiveIndex(index);
   };
 
-  // rAF-throttled scroll handler — tracks active slide as user swipes.
+  // rAF-throttled scroll handler — tracks active slide as user swipes or scrolls.
   track.addEventListener(
     'scroll',
     () => {
-      if (!mobileBreakpoint.matches || scrollTicking) {
+      if (scrollTicking) {
         return;
       }
 
@@ -126,26 +125,10 @@ export const initTestimonialSlider = () => {
     centerSlide(nextIndex, 'smooth');
   });
 
-  // Sync state when viewport switches between mobile and desktop.
-  const syncSliderState = () => {
-    if (!mobileBreakpoint.matches) {
-      setActiveIndex(0);
-      return;
-    }
-
-    window.requestAnimationFrame(() => {
-      setActiveIndex(getNearestSlideIndex());
-    });
-  };
-
-  if (typeof mobileBreakpoint.addEventListener === 'function') {
-    mobileBreakpoint.addEventListener('change', syncSliderState);
-  } else if (typeof mobileBreakpoint.addListener === 'function') {
-    // Legacy Safari fallback.
-    mobileBreakpoint.addListener(syncSliderState);
-  }
-
-  syncSliderState();
+  // Sync state initially
+  window.requestAnimationFrame(() => {
+    setActiveIndex(getNearestSlideIndex());
+  });
 
   // ---------------------------------------------------------------------------
   // Auto-advance (every 5 s). Paused on hover, pointer/touch, or reduced motion.

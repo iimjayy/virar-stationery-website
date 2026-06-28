@@ -107,3 +107,47 @@
   border-radius: 999px;
   margin-top: 8px;
 }
+
+/* ====================================================================
+   FORCE DESKTOP SLIDER BEHAVIOR
+   Overrides Bootstrap .row wrapping on all screen sizes
+   ==================================================================== */
+
+.testimonials-track {
+  margin-left: 0 !important;
+  margin-right: 0 !important;
+  padding: 4px 10px 24px;
+  display: flex !important;
+  flex-wrap: nowrap !important;
+  gap: 20px;
+  overflow-x: auto;
+  overflow-y: visible;
+  scroll-snap-type: x mandatory;
+  scroll-padding-inline: 10px;
+  -webkit-overflow-scrolling: touch;
+  overscroll-behavior-inline: contain;
+  scrollbar-width: none;
+}
+
+.testimonials-track::-webkit-scrollbar {
+  display: none;
+}
+
+.testimonials-track > .testimonial-slide {
+  flex: 0 0 min(84vw, 420px) !important;
+  width: min(84vw, 420px) !important;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+}
+
+.testimonials-track .testimonial-card {
+  min-height: 100%;
+  border-radius: 20px;
+  padding: 24px 20px;
+}
+
+.testimonial-slider-controls {
+  display: flex !important;
+}
