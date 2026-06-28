@@ -186,6 +186,18 @@
   transition: transform 0.3s ease, background-color 0.3s ease, border-color 0.3s ease;
 }
 
+/* Invisible expanded hit area so the tiny dots are easy to tap on
+   touch screens. Vertical room is free (no neighbours above/below);
+   horizontal stays within the inter-dot pitch to avoid mis-taps. */
+.service-slider-dot::before {
+  content: '';
+  position: absolute;
+  top: -18px;
+  bottom: -18px;
+  left: -3px;
+  right: -3px;
+}
+
 .service-slider-dot:focus-visible,
 .service-slider-nav:focus-visible {
   outline: 2px solid rgba(244, 210, 31, 0.86);

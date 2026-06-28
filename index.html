@@ -676,6 +676,182 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
+         SERVICES SECTION  ← MOST CRITICAL ARCHITECTURE CHANGE
+         [ARCH] data-service-id on EVERY .info-card.service-card:
+                Eliminates text-content coupling. JS reads data-service-id instead of h3.textContent.
+                Changing visible heading text no longer silently breaks search, detail panels, or WA messages.
+         ═══════════════════════════════════════════════ -->
+    <!-- === SECTION: SERVICES === -->
+<section id="services" class="section-pad section-alt" data-section="services" aria-labelledby="services-heading">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Printing, Xerox & Stationery Services</span>
+          <h2 id="services-heading">Fast, Reliable & Affordable Services for Students, Offices and Everyday Needs</h2>
+          <p>From colour printouts and xerox to lamination, binding and stationery, we provide everything you need under one roof in Virar.</p>
+        </div>
+        <div class="row g-4 service-grid">
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <!-- [ARCH] data-service-id="black-white-printing": replaces h3 text scraping for JS lookups -->
+            <div class="info-card service-card h-100" data-service-id="black-white-printing">
+              <div class="card-icon"><i class="fa-solid fa-file-lines"></i></div>
+              <h3>Black & White Printing</h3>
+              <p>Sharp monochrome prints for forms, assignments, reports and office documents.</p>
+              <a href="#contact" class="card-link" data-service-link="black-white-printing">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="color-printing">
+              <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
+              <h3>Color Printing</h3>
+              <p>Vibrant colour prints for presentations, brochures, posters and project work.</p>
+              <a href="#contact" class="card-link" data-service-link="color-printing">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="xerox-photocopy">
+              <div class="card-icon"><i class="fa-solid fa-copy"></i></div>
+              <h3>Xerox / Photocopy</h3>
+              <p>Affordable photocopying for books, forms, IDs and daily office needs.</p>
+              <a href="#contact" class="card-link" data-service-link="xerox-photocopy">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="lamination">
+              <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
+              <h3>Lamination</h3>
+              <p>Protect important certificates, ID cards and documents with durable lamination.</p>
+              <a href="#contact" class="card-link" data-service-link="lamination">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="spiral-binding">
+              <div class="card-icon"><i class="fa-solid fa-clipboard-list"></i></div>
+              <h3>Spiral Binding</h3>
+              <p>Professional binding for project reports, files and presentations.</p>
+              <a href="#contact" class="card-link" data-service-link="spiral-binding">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="passport-photos">
+              <div class="card-icon"><i class="fa-solid fa-id-card"></i></div>
+              <h3>Passport Photos</h3>
+              <p>Quick passport-size photo prints with clean framing and fast delivery.</p>
+              <a href="#contact" class="card-link" data-service-link="passport-photos">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="project-printing">
+              <div class="card-icon"><i class="fa-solid fa-folder-open"></i></div>
+              <h3>Project Printing</h3>
+              <p>Complete support for school and college projects with print and finishing options.</p>
+              <a href="#contact" class="card-link" data-service-link="project-printing">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="stationery-products">
+              <div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div>
+              <h3>Stationery Products</h3>
+              <p>Daily-use stationery, notebooks, pens, files, and office essentials in one place.</p>
+              <a href="#stationery" class="card-link" data-service-link="stationery-products">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="blackbook-printing">
+              <div class="card-icon"><i class="fa-solid fa-book"></i></div>
+              <h3>Blackbook Printing</h3>
+              <p>Clear and durable blackbook print service for projects, records, and submissions.</p>
+              <a href="#contact" class="card-link" data-service-link="blackbook-printing">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="letterhead-print">
+              <div class="card-icon"><i class="fa-solid fa-heading"></i></div>
+              <h3>Letterhead Print</h3>
+              <p>Professional letterhead printing for offices, shops, and local business branding.</p>
+              <a href="#contact" class="card-link" data-service-link="letterhead-print">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="visiting-card">
+              <div class="card-icon"><i class="fa-solid fa-address-card"></i></div>
+              <h3>Visiting Card</h3>
+              <p>Neat visiting card printing with quality finish for personal and business use.</p>
+              <a href="#contact" class="card-link" data-service-link="visiting-card">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="billbook-print">
+              <div class="card-icon"><i class="fa-solid fa-receipt"></i></div>
+              <h3>Billbook Print</h3>
+              <p>Custom billbook printing for daily billing, invoicing, and store operations.</p>
+              <a href="#contact" class="card-link" data-service-link="billbook-print">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="smart-card">
+              <div class="card-icon"><i class="fa-solid fa-id-badge"></i></div>
+              <h3>Smart Card</h3>
+              <p>Smart card printing for ID cards, membership cards, office cards and custom cards. Starting from &#8377;80.</p>
+              <a href="#contact" class="card-link" data-service-link="smart-card">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="jumbo-xerox">
+              <div class="card-icon"><i class="fa-solid fa-expand"></i></div>
+              <h3>Jumbo Xerox</h3>
+              <p>Large-size xerox and copy solutions available in A3, A2, A1, A0, A00 for drawings, plans, posters, and charts.</p>
+              <a href="#contact" class="card-link" data-service-link="jumbo-xerox">Learn More</a>
+            </div>
+          </div>
+
+          <!-- [ARCH NOTE] data-service-id="cartridge-refilling" — h3 text corrected from "Refelling" to "Refilling".
+               The stable ID was already correct before the text fix. -->
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="cartridge-refilling">
+              <div class="card-icon"><i class="fa-solid fa-fill-drip"></i></div>
+              <h3>Cartridge Refilling</h3>
+              <p>Reliable ink and toner cartridge refilling for regular office and home printing.</p>
+              <a href="#contact" class="card-link" data-service-link="cartridge-refilling">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="all-size-scanning">
+              <div class="card-icon"><i class="fa-solid fa-file-import"></i></div>
+              <h3>All Size Scanning</h3>
+              <p>Document scanning support in multiple sizes for records, forms, and submissions.</p>
+              <a href="#contact" class="card-link" data-service-link="all-size-scanning">Learn More</a>
+            </div>
+          </div>
+
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
+            <div class="info-card service-card h-100" data-service-id="computer-accessories">
+              <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
+              <h3>Computer Accessories</h3>
+              <p>Essential computer accessories including cables, peripherals, and daily-use items.</p>
+              <a href="#contact" class="card-link" data-service-link="computer-accessories">Learn More</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
          POPULAR SERVICES WITH PRICES SECTION
          [ARCH] data-service-id on price cards: decouples JS logic from h3 text content.
                 Script can now read card.dataset.serviceId instead of card.querySelector('h3').textContent
@@ -891,39 +1067,91 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
-         DOWNLOADABLE GUIDES SECTION
-         [ARCH] data-pdf-type already present (good pattern) — preserved as-is
+         WHY CHOOSE US SECTION
+         [ARCH] id="why-choose" ADDED — was missing
          ═══════════════════════════════════════════════ -->
-    <!-- === SECTION: DOWNLOADS === -->
-<section id="downloads" class="section-pad section-alt download-section" data-section="downloads" data-feature="pdf-downloads" aria-labelledby="downloads-heading">
+    <!-- === SECTION: WHY-CHOOSE === -->
+<section id="why-choose" class="section-pad why-choose-section" data-section="why-choose" aria-labelledby="why-choose-heading">
       <div class="container-fluid px-3 px-xl-4">
         <div class="section-heading reveal">
-          <span class="section-kicker">Downloads</span>
-          <h2 id="downloads-heading">Quick PDF guides for pricing and services</h2>
-          <p>Download the latest price list and service guide to plan your visit or office order.</p>
+          <span class="section-kicker">Why Choose Us</span>
+          <h2 id="why-choose-heading">Why Virar Chooses Us</h2>
+          <p>Fast service, affordable pricing, professional quality, and trusted support for students, offices, and families across Virar.</p>
         </div>
-        <div class="row g-3 g-lg-4">
-          <div class="col-12 col-md-6 reveal">
-            <div class="download-card h-100">
-              <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
-              <h3>Price List PDF</h3>
-              <p>Updated pricing overview for popular printing and xerox services.</p>
-              <button type="button" class="btn btn-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="price-list">
-                <span class="btn-label">Download Price List</span>
-                <span class="btn-spinner" aria-hidden="true"></span>
-              </button>
-            </div>
+        <div class="row g-4 why-card-track">
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
+            <article class="why-card h-100">
+              <div class="why-card-icon"><i class="fa-solid fa-bolt"></i></div>
+              <h3>Fast Turnaround</h3>
+              <p>Urgent printouts, xerox, lamination, and project work completed quickly with same-day service available.</p>
+            </article>
           </div>
-          <div class="col-12 col-md-6 reveal">
-            <div class="download-card h-100">
-              <div class="download-icon"><i class="fa-solid fa-book-open"></i></div>
-              <h3>Service Guide PDF</h3>
-              <p>Service details, turnaround times, and ordering tips in one file.</p>
-              <button type="button" class="btn btn-outline-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="service-guide">
-                <span class="btn-label">Download Service Guide</span>
-                <span class="btn-spinner" aria-hidden="true"></span>
-              </button>
-            </div>
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
+            <article class="why-card is-featured h-100">
+              <span class="why-card-flag">Most Chosen</span>
+              <div class="why-card-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
+              <h3>Affordable Pricing</h3>
+              <p>Budget-friendly rates for students, offices, bulk orders, and everyday printing needs.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
+            <article class="why-card h-100">
+              <div class="why-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
+              <h3>Professional Quality</h3>
+              <p>Sharp printing, neat finishing, accurate colours, and premium-quality materials for every order.</p>
+            </article>
+          </div>
+          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
+            <article class="why-card h-100">
+              <div class="why-card-icon"><i class="fa-solid fa-headset"></i></div>
+              <h3>Trusted Local Support</h3>
+              <p>Friendly assistance, WhatsApp ordering, quick guidance, and reliable service trusted across Virar.</p>
+            </article>
+          </div>
+        </div>
+        <div class="why-trust-strip reveal" role="list" aria-label="Trust highlights">
+          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-store"></i>10+ Years in Virar</span>
+          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-users"></i>200,000+ Customers Served Since 2016</span>
+          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-bolt"></i>Same-Day Service</span>
+          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-calendar-days"></i>Open 7 Days a Week</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         HOW IT WORKS SECTION
+         [ARCH] id="how-it-works" ADDED — was missing
+         [ARCH] data-step: stable ordering for each process step
+         ═══════════════════════════════════════════════ -->
+    <!-- === SECTION: HOW-IT-WORKS === -->
+<section id="how-it-works" class="section-pad how-it-works-section" data-section="how-it-works" aria-labelledby="how-it-works-heading">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">How It Works</span>
+          <h2 id="how-it-works-heading">Simple 3-step process for faster service</h2>
+          <p>From WhatsApp file sharing to easy pickup at the shop.</p>
+        </div>
+        <div class="how-it-works-track reveal">
+          <!-- [ARCH] data-step="N": stable step ordering; future JS can reorder or highlight specific steps -->
+          <div class="how-step reveal-child" data-step="1">
+            <div class="how-step-number">1</div>
+            <div class="how-step-icon"><i class="fa-brands fa-whatsapp"></i></div>
+            <h3>Send your file on WhatsApp</h3>
+            <p>Share documents, images, or print instructions directly.</p>
+          </div>
+          <div class="how-step-connector" aria-hidden="true"></div>
+          <div class="how-step reveal-child" data-step="2">
+            <div class="how-step-number">2</div>
+            <div class="how-step-icon"><i class="fa-solid fa-list-check"></i></div>
+            <h3>Confirm print details and quantity</h3>
+            <p>Approve paper, copies, size, and final cost quickly.</p>
+          </div>
+          <div class="how-step-connector" aria-hidden="true"></div>
+          <div class="how-step reveal-child" data-step="3">
+            <div class="how-step-number">3</div>
+            <div class="how-step-icon"><i class="fa-solid fa-store"></i></div>
+            <h3>Visit the shop and collect your order</h3>
+            <p>Pickup at Virar Stationery & Jumbo Xerox with ease.</p>
           </div>
         </div>
       </div>
@@ -984,273 +1212,6 @@
         <!-- Faded Disclaimer -->
         <div class="text-center mt-4 pb-5 mb-5 reveal">
           <p class="text-muted small mb-0" style="opacity: 0.75; font-style: italic; letter-spacing: 0.3px;">* Please note: Prices listed are starting estimates and subject to change based on brand and real-time availability.</p>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         HOW IT WORKS SECTION
-         [ARCH] id="how-it-works" ADDED — was missing
-         [ARCH] data-step: stable ordering for each process step
-         ═══════════════════════════════════════════════ -->
-    <!-- === SECTION: HOW-IT-WORKS === -->
-<section id="how-it-works" class="section-pad how-it-works-section" data-section="how-it-works" aria-labelledby="how-it-works-heading">
-      <div class="container-fluid px-3 px-xl-4">
-        <div class="section-heading reveal">
-          <span class="section-kicker">How It Works</span>
-          <h2 id="how-it-works-heading">Simple 3-step process for faster service</h2>
-          <p>From WhatsApp file sharing to easy pickup at the shop.</p>
-        </div>
-        <div class="how-it-works-track reveal">
-          <!-- [ARCH] data-step="N": stable step ordering; future JS can reorder or highlight specific steps -->
-          <div class="how-step reveal-child" data-step="1">
-            <div class="how-step-number">1</div>
-            <div class="how-step-icon"><i class="fa-brands fa-whatsapp"></i></div>
-            <h3>Send your file on WhatsApp</h3>
-            <p>Share documents, images, or print instructions directly.</p>
-          </div>
-          <div class="how-step-connector" aria-hidden="true"></div>
-          <div class="how-step reveal-child" data-step="2">
-            <div class="how-step-number">2</div>
-            <div class="how-step-icon"><i class="fa-solid fa-list-check"></i></div>
-            <h3>Confirm print details and quantity</h3>
-            <p>Approve paper, copies, size, and final cost quickly.</p>
-          </div>
-          <div class="how-step-connector" aria-hidden="true"></div>
-          <div class="how-step reveal-child" data-step="3">
-            <div class="how-step-number">3</div>
-            <div class="how-step-icon"><i class="fa-solid fa-store"></i></div>
-            <h3>Visit the shop and collect your order</h3>
-            <p>Pickup at Virar Stationery & Jumbo Xerox with ease.</p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         SERVICES SECTION  ← MOST CRITICAL ARCHITECTURE CHANGE
-         [ARCH] data-service-id on EVERY .info-card.service-card:
-                Eliminates text-content coupling. JS reads data-service-id instead of h3.textContent.
-                Changing visible heading text no longer silently breaks search, detail panels, or WA messages.
-         ═══════════════════════════════════════════════ -->
-    <!-- === SECTION: SERVICES === -->
-<section id="services" class="section-pad section-alt" data-section="services" aria-labelledby="services-heading">
-      <div class="container-fluid px-3 px-xl-4">
-        <div class="section-heading reveal">
-          <span class="section-kicker">Printing, Xerox & Stationery Services</span>
-          <h2 id="services-heading">Fast, Reliable & Affordable Services for Students, Offices and Everyday Needs</h2>
-          <p>From colour printouts and xerox to lamination, binding and stationery, we provide everything you need under one roof in Virar.</p>
-        </div>
-        <div class="row g-4 service-grid">
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <!-- [ARCH] data-service-id="black-white-printing": replaces h3 text scraping for JS lookups -->
-            <div class="info-card service-card h-100" data-service-id="black-white-printing">
-              <div class="card-icon"><i class="fa-solid fa-file-lines"></i></div>
-              <h3>Black & White Printing</h3>
-              <p>Sharp monochrome prints for forms, assignments, reports and office documents.</p>
-              <a href="#contact" class="card-link" data-service-link="black-white-printing">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="color-printing">
-              <div class="card-icon"><i class="fa-solid fa-palette"></i></div>
-              <h3>Color Printing</h3>
-              <p>Vibrant colour prints for presentations, brochures, posters and project work.</p>
-              <a href="#contact" class="card-link" data-service-link="color-printing">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="xerox-photocopy">
-              <div class="card-icon"><i class="fa-solid fa-copy"></i></div>
-              <h3>Xerox / Photocopy</h3>
-              <p>Affordable photocopying for books, forms, IDs and daily office needs.</p>
-              <a href="#contact" class="card-link" data-service-link="xerox-photocopy">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="lamination">
-              <div class="card-icon"><i class="fa-solid fa-layer-group"></i></div>
-              <h3>Lamination</h3>
-              <p>Protect important certificates, ID cards and documents with durable lamination.</p>
-              <a href="#contact" class="card-link" data-service-link="lamination">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="spiral-binding">
-              <div class="card-icon"><i class="fa-solid fa-clipboard-list"></i></div>
-              <h3>Spiral Binding</h3>
-              <p>Professional binding for project reports, files and presentations.</p>
-              <a href="#contact" class="card-link" data-service-link="spiral-binding">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="passport-photos">
-              <div class="card-icon"><i class="fa-solid fa-id-card"></i></div>
-              <h3>Passport Photos</h3>
-              <p>Quick passport-size photo prints with clean framing and fast delivery.</p>
-              <a href="#contact" class="card-link" data-service-link="passport-photos">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="project-printing">
-              <div class="card-icon"><i class="fa-solid fa-folder-open"></i></div>
-              <h3>Project Printing</h3>
-              <p>Complete support for school and college projects with print and finishing options.</p>
-              <a href="#contact" class="card-link" data-service-link="project-printing">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="stationery-products">
-              <div class="card-icon"><i class="fa-solid fa-pen-ruler"></i></div>
-              <h3>Stationery Products</h3>
-              <p>Daily-use stationery, notebooks, pens, files, and office essentials in one place.</p>
-              <a href="#stationery" class="card-link" data-service-link="stationery-products">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="blackbook-printing">
-              <div class="card-icon"><i class="fa-solid fa-book"></i></div>
-              <h3>Blackbook Printing</h3>
-              <p>Clear and durable blackbook print service for projects, records, and submissions.</p>
-              <a href="#contact" class="card-link" data-service-link="blackbook-printing">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="letterhead-print">
-              <div class="card-icon"><i class="fa-solid fa-heading"></i></div>
-              <h3>Letterhead Print</h3>
-              <p>Professional letterhead printing for offices, shops, and local business branding.</p>
-              <a href="#contact" class="card-link" data-service-link="letterhead-print">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="visiting-card">
-              <div class="card-icon"><i class="fa-solid fa-address-card"></i></div>
-              <h3>Visiting Card</h3>
-              <p>Neat visiting card printing with quality finish for personal and business use.</p>
-              <a href="#contact" class="card-link" data-service-link="visiting-card">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="billbook-print">
-              <div class="card-icon"><i class="fa-solid fa-receipt"></i></div>
-              <h3>Billbook Print</h3>
-              <p>Custom billbook printing for daily billing, invoicing, and store operations.</p>
-              <a href="#contact" class="card-link" data-service-link="billbook-print">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="smart-card">
-              <div class="card-icon"><i class="fa-solid fa-id-badge"></i></div>
-              <h3>Smart Card</h3>
-              <p>Smart card printing for ID cards, membership cards, office cards and custom cards. Starting from &#8377;80.</p>
-              <a href="#contact" class="card-link" data-service-link="smart-card">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="jumbo-xerox">
-              <div class="card-icon"><i class="fa-solid fa-expand"></i></div>
-              <h3>Jumbo Xerox</h3>
-              <p>Large-size xerox and copy solutions available in A3, A2, A1, A0, A00 for drawings, plans, posters, and charts.</p>
-              <a href="#contact" class="card-link" data-service-link="jumbo-xerox">Learn More</a>
-            </div>
-          </div>
-
-          <!-- [ARCH NOTE] data-service-id="cartridge-refilling" — h3 text corrected from "Refelling" to "Refilling".
-               The stable ID was already correct before the text fix. -->
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="cartridge-refilling">
-              <div class="card-icon"><i class="fa-solid fa-fill-drip"></i></div>
-              <h3>Cartridge Refilling</h3>
-              <p>Reliable ink and toner cartridge refilling for regular office and home printing.</p>
-              <a href="#contact" class="card-link" data-service-link="cartridge-refilling">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="all-size-scanning">
-              <div class="card-icon"><i class="fa-solid fa-file-import"></i></div>
-              <h3>All Size Scanning</h3>
-              <p>Document scanning support in multiple sizes for records, forms, and submissions.</p>
-              <a href="#contact" class="card-link" data-service-link="all-size-scanning">Learn More</a>
-            </div>
-          </div>
-
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
-            <div class="info-card service-card h-100" data-service-id="computer-accessories">
-              <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
-              <h3>Computer Accessories</h3>
-              <p>Essential computer accessories including cables, peripherals, and daily-use items.</p>
-              <a href="#contact" class="card-link" data-service-link="computer-accessories">Learn More</a>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </section>
-
-    <!-- ═══════════════════════════════════════════════
-         WHY CHOOSE US SECTION
-         [ARCH] id="why-choose" ADDED — was missing
-         ═══════════════════════════════════════════════ -->
-    <!-- === SECTION: WHY-CHOOSE === -->
-<section id="why-choose" class="section-pad why-choose-section" data-section="why-choose" aria-labelledby="why-choose-heading">
-      <div class="container-fluid px-3 px-xl-4">
-        <div class="section-heading reveal">
-          <span class="section-kicker">Why Choose Us</span>
-          <h2 id="why-choose-heading">Why Virar Chooses Us</h2>
-          <p>Fast service, affordable pricing, professional quality, and trusted support for students, offices, and families across Virar.</p>
-        </div>
-        <div class="row g-4 why-card-track">
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
-            <article class="why-card h-100">
-              <div class="why-card-icon"><i class="fa-solid fa-bolt"></i></div>
-              <h3>Fast Turnaround</h3>
-              <p>Urgent printouts, xerox, lamination, and project work completed quickly with same-day service available.</p>
-            </article>
-          </div>
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
-            <article class="why-card is-featured h-100">
-              <span class="why-card-flag">Most Chosen</span>
-              <div class="why-card-icon"><i class="fa-solid fa-indian-rupee-sign"></i></div>
-              <h3>Affordable Pricing</h3>
-              <p>Budget-friendly rates for students, offices, bulk orders, and everyday printing needs.</p>
-            </article>
-          </div>
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
-            <article class="why-card h-100">
-              <div class="why-card-icon"><i class="fa-solid fa-shield-halved"></i></div>
-              <h3>Professional Quality</h3>
-              <p>Sharp printing, neat finishing, accurate colours, and premium-quality materials for every order.</p>
-            </article>
-          </div>
-          <div class="col-12 col-md-6 col-xl-3 reveal reveal-child why-card-col">
-            <article class="why-card h-100">
-              <div class="why-card-icon"><i class="fa-solid fa-headset"></i></div>
-              <h3>Trusted Local Support</h3>
-              <p>Friendly assistance, WhatsApp ordering, quick guidance, and reliable service trusted across Virar.</p>
-            </article>
-          </div>
-        </div>
-        <div class="why-trust-strip reveal" role="list" aria-label="Trust highlights">
-          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-store"></i>10+ Years in Virar</span>
-          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-users"></i>200,000+ Customers Served Since 2016</span>
-          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-bolt"></i>Same-Day Service</span>
-          <span class="why-trust-pill" role="listitem"><i class="fa-solid fa-calendar-days"></i>Open 7 Days a Week</span>
         </div>
       </div>
     </section>
@@ -1489,6 +1450,45 @@
               <h3><span class="counter-value" data-counter-target="10" data-counter-suffix=" min">0</span></h3>
               <p>Typical Fast Order Time</p>
             </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════════════
+         DOWNLOADABLE GUIDES SECTION
+         [ARCH] data-pdf-type already present (good pattern) — preserved as-is
+         ═══════════════════════════════════════════════ -->
+    <!-- === SECTION: DOWNLOADS === -->
+<section id="downloads" class="section-pad section-alt download-section" data-section="downloads" data-feature="pdf-downloads" aria-labelledby="downloads-heading">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="section-heading reveal">
+          <span class="section-kicker">Downloads</span>
+          <h2 id="downloads-heading">Quick PDF guides for pricing and services</h2>
+          <p>Download the latest price list and service guide to plan your visit or office order.</p>
+        </div>
+        <div class="row g-3 g-lg-4">
+          <div class="col-12 col-md-6 reveal">
+            <div class="download-card h-100">
+              <div class="download-icon"><i class="fa-solid fa-file-pdf"></i></div>
+              <h3>Price List PDF</h3>
+              <p>Updated pricing overview for popular printing and xerox services.</p>
+              <button type="button" class="btn btn-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="price-list">
+                <span class="btn-label">Download Price List</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
+          </div>
+          <div class="col-12 col-md-6 reveal">
+            <div class="download-card h-100">
+              <div class="download-icon"><i class="fa-solid fa-book-open"></i></div>
+              <h3>Service Guide PDF</h3>
+              <p>Service details, turnaround times, and ordering tips in one file.</p>
+              <button type="button" class="btn btn-outline-primary btn-lg cta-btn pdf-download-btn" data-pdf-type="service-guide">
+                <span class="btn-label">Download Service Guide</span>
+                <span class="btn-spinner" aria-hidden="true"></span>
+              </button>
+            </div>
           </div>
         </div>
       </div>

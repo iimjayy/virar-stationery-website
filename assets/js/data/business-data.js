@@ -587,28 +587,28 @@ export const pdfTemplates = {
       {
         title: 'Printing & Photocopy',
         items: [
-          'A4 Black & White Print: ₹3 per side',
-          'A4 Color Print: ₹10 per side',
-          'A4 Xerox / Photocopy: ₹1.5 (B&W) / ₹9 (Color)',
-          'A3 Color Print: ₹20 per side'
+          'A4 Black & White Print: Rs. 3 per side',
+          'A4 Color Print: Rs. 10 per side',
+          'A4 Xerox / Photocopy: Rs. 1.5 (B&W) / Rs. 9 (Color)',
+          'A3 Color Print: Rs. 20 per side'
         ]
       },
       {
         title: 'Finishing & Binding',
         items: [
-          'A4 Lamination (Thick): ₹10 per sheet',
-          'A3 Lamination: ₹20 per sheet',
-          'Spiral Binding: ₹30 per set (Standard)',
+          'A4 Lamination (Thick): Rs. 10 per sheet',
+          'A3 Lamination: Rs. 20 per sheet',
+          'Spiral Binding: Rs. 30 per set (Standard)',
           'Project Hard Binding: Price on request (Bulk only)'
         ]
       },
       {
         title: 'Identity & Large Format',
         items: [
-          'Passport Photos (Urgent): ₹30 per set (10 mins)',
-          'Smart ID Card (PVC): ₹80 per card',
-          'Visiting Cards (100 pcs): From ₹150',
-          'Jumbo Xerox / Plotting (A2/A1/A0): Starting ₹30'
+          'Passport Photos (Urgent): Rs. 30 per set (10 mins)',
+          'Smart ID Card (PVC): Rs. 80 per card',
+          'Visiting Cards (100 pcs): From Rs. 150',
+          'Jumbo Xerox / Plotting (A2/A1/A0): Starting Rs. 30'
         ]
       },
       {
