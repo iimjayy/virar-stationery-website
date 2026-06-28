@@ -26,6 +26,157 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
   <link rel="stylesheet" href="assets/css/main.css?v=20260626-fix">
+  <!-- Review CTA styles — scoped, no FOUC risk, load-bearing for 3 new CTAs -->
+  <style>
+    /* ==================================================================
+       REVIEW CTA BAND — placed after testimonials section
+       ================================================================== */
+    .review-cta-band {
+      background: linear-gradient(135deg, var(--navy) 0%, #0f3870 55%, #0b2a5b 100%);
+      padding: 52px 0 56px;
+      position: relative;
+      overflow: hidden;
+    }
+    .review-cta-band::before {
+      content: "";
+      position: absolute;
+      top: -60px; right: -80px;
+      width: 420px; height: 420px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 210, 31, 0.14) 0%, transparent 70%);
+      pointer-events: none;
+    }
+    .review-cta-band::after {
+      content: "";
+      position: absolute;
+      bottom: -80px; left: -60px;
+      width: 320px; height: 320px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(244, 210, 31, 0.09) 0%, transparent 65%);
+      pointer-events: none;
+    }
+    .rcb-inner {
+      position: relative; z-index: 1;
+      display: flex; flex-direction: column;
+      align-items: center; text-align: center; gap: 10px;
+    }
+    .rcb-stars {
+      display: flex; gap: 5px; margin-bottom: 4px;
+    }
+    .rcb-stars span {
+      font-size: 1.55rem; color: var(--yellow);
+      filter: drop-shadow(0 2px 6px rgba(244, 210, 31, 0.55));
+      animation: rcbStarDrop 0.4s cubic-bezier(0.22, 1, 0.36, 1) backwards;
+    }
+    .rcb-stars span:nth-child(1) { animation-delay: 0.05s; }
+    .rcb-stars span:nth-child(2) { animation-delay: 0.12s; }
+    .rcb-stars span:nth-child(3) { animation-delay: 0.19s; }
+    .rcb-stars span:nth-child(4) { animation-delay: 0.26s; }
+    .rcb-stars span:nth-child(5) { animation-delay: 0.33s; }
+    @keyframes rcbStarDrop {
+      from { opacity: 0; transform: translateY(-10px) scale(0.6); }
+      to   { opacity: 1; transform: none; }
+    }
+    .rcb-kicker {
+      font-size: 0.72rem; font-weight: 700; letter-spacing: 0.1em;
+      text-transform: uppercase; color: var(--yellow); opacity: 0.9;
+    }
+    .rcb-title {
+      font-family: var(--font-display, 'Sora', sans-serif);
+      font-size: clamp(1.45rem, 3.5vw, 2rem);
+      font-weight: 800; color: #fff;
+      margin: 4px 0 6px; line-height: 1.18;
+    }
+    .rcb-sub {
+      color: rgba(255,255,255,0.72); font-size: 0.97rem;
+      max-width: 480px; line-height: 1.55; margin: 0;
+    }
+    .rcb-btn {
+      display: inline-flex; align-items: center; gap: 11px;
+      background: var(--yellow); color: var(--navy);
+      font-family: var(--font-display, 'Sora', sans-serif);
+      font-weight: 800; font-size: 1rem;
+      padding: 14px 26px; border-radius: 999px;
+      text-decoration: none; margin-top: 20px;
+      box-shadow: 0 12px 28px rgba(244, 210, 31, 0.38);
+      transition: transform 0.22s cubic-bezier(0.22,1,0.36,1),
+                  box-shadow 0.22s cubic-bezier(0.22,1,0.36,1),
+                  background 0.2s;
+      position: relative; overflow: hidden;
+    }
+    .rcb-btn:hover {
+      background: var(--yellow-light, #ffeb61);
+      color: var(--navy);
+      transform: translateY(-3px) scale(1.02);
+      box-shadow: 0 18px 38px rgba(244, 210, 31, 0.52);
+    }
+    .rcb-btn:active { transform: scale(0.99); }
+    .rcb-btn .rcb-g {
+      width: 22px; height: 22px; flex: 0 0 auto;
+      background: #fff; border-radius: 50%; padding: 3px;
+    }
+    .rcb-note {
+      color: rgba(255,255,255,0.48); font-size: 0.76rem; margin-top: 12px;
+    }
+
+    /* ==================================================================
+       FOOTER REVIEW PILL — inside .footer-brand-col
+       ================================================================== */
+    .footer-review-pill {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(255,255,255,0.12);
+      border-radius: 999px;
+      padding: 9px 14px;
+      text-decoration: none;
+      color: rgba(255,255,255,0.88);
+      font-size: 0.83rem; font-weight: 600;
+      margin-top: 14px;
+      transition: background 0.2s, border-color 0.2s, transform 0.2s;
+      width: fit-content;
+    }
+    .footer-review-pill:hover {
+      background: rgba(244, 210, 31, 0.15);
+      border-color: rgba(244, 210, 31, 0.45);
+      color: #fff;
+      transform: translateY(-1px);
+    }
+    .footer-review-pill .fp-stars {
+      display: flex; gap: 2px; color: var(--yellow); font-size: 0.72rem;
+    }
+    .footer-review-pill .fp-g {
+      width: 18px; height: 18px; flex: 0 0 auto;
+      background: #fff; border-radius: 50%; padding: 2px;
+    }
+
+    /* ==================================================================
+       CONTACT SECTION — subtle secondary review nudge
+       ================================================================== */
+    .contact-review-nudge {
+      display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+      margin-top: 20px; padding: 14px 18px;
+      background: rgba(244, 210, 31, 0.08);
+      border: 1px solid rgba(244, 210, 31, 0.2);
+      border-radius: 14px;
+    }
+    .crn-stars { color: var(--yellow); font-size: 0.9rem; letter-spacing: 1px; }
+    .crn-text { font-size: 0.88rem; color: var(--navy); font-weight: 500; flex: 1; min-width: 140px; }
+    .crn-link {
+      display: inline-flex; align-items: center; gap: 7px;
+      background: var(--navy); color: #fff;
+      font-weight: 700; font-size: 0.82rem;
+      padding: 9px 16px; border-radius: 999px; text-decoration: none;
+      white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s;
+    }
+    .crn-link:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(11,42,91,0.25); color: #fff; }
+    .crn-link .crn-g { width: 16px; height: 16px; background: #fff; border-radius: 50%; padding: 2px; flex: 0 0 auto; }
+
+    @media (prefers-reduced-motion: reduce) {
+      .rcb-btn, .footer-review-pill, .crn-link { transition: none; }
+      .rcb-stars span { animation: none; }
+    }
+  </style>
   <!-- PDF.js for client-side PDF parsing (deferred — non-blocking) -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
   <script type="application/ld+json">
@@ -1240,6 +1391,29 @@
     </section>
 
     <!-- ═══════════════════════════════════════════════
+         REVIEW CTA BAND — follows testimonials naturally
+         ═══════════════════════════════════════════════ -->
+    <div class="review-cta-band reveal">
+      <div class="container-fluid px-3 px-xl-4">
+        <div class="rcb-inner">
+          <div class="rcb-stars" aria-hidden="true">
+            <span>★</span><span>★</span><span>★</span><span>★</span><span>★</span>
+          </div>
+          <span class="rcb-kicker">Loved our service?</span>
+          <h2 class="rcb-title">Tell others about your experience</h2>
+          <p class="rcb-sub">It takes 10 seconds and helps our small shop grow. Pick a review or build your own — we make it super easy.</p>
+          <a href="review.html" class="rcb-btn" aria-label="Leave a Google review">
+            <span class="rcb-g" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7z"/></svg>
+            </span>
+            Drop a Review
+          </a>
+          <p class="rcb-note">Opens a quick, friendly review page — no account needed</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════════════
          TRUST COUNTERS SECTION
          [ARCH] id="trust-counters" ADDED — was missing
          [ARCH] data-counter-target + data-counter-suffix already present (good pattern) — preserved
@@ -1693,6 +1867,17 @@
                   <a class="btn btn-outline-primary btn-lg cta-btn secondary" href="https://wa.me/917021072757?text=%F0%9F%96%A8%EF%B8%8F%20New%20Enquiry%20%E2%80%94%20virarprint.in%0ASource%3A%20Contact%20Section%0A%0A%F0%9F%93%8E%20Please%20attach%20your%20file%20below." target="_blank" rel="noopener noreferrer"><i class="fa-brands fa-whatsapp"></i>WhatsApp Quote</a>
                 </div>
               </form>
+              <!-- Review nudge — visible after the enquiry form -->
+              <div class="contact-review-nudge reveal">
+                <span class="crn-stars" aria-hidden="true">★★★★★</span>
+                <p class="crn-text">Happy with our service? A quick review means the world to us.</p>
+                <a href="review.html" class="crn-link" aria-label="Leave a Google review">
+                  <span class="crn-g" aria-hidden="true">
+                    <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7z"/></svg>
+                  </span>
+                  Rate Us
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -1736,6 +1921,13 @@
           </div>
           <p class="footer-description">Printing, stationery, xerox and lamination services in Virar.</p>
           <p class="footer-trust">Trusted by students, offices and families across Virar</p>
+          <a href="review.html" class="footer-review-pill" aria-label="Leave a Google review">
+            <span class="fp-g" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7z"/></svg>
+            </span>
+            <span class="fp-stars" aria-hidden="true">★★★★★</span>
+            Rate your experience
+          </a>
           <span class="footer-open-badge">Open Today &middot; 8am &ndash; 9pm</span>
         </div>
         <div class="col-6 col-lg-2 footer-links-col">
