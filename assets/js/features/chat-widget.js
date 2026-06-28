@@ -173,8 +173,16 @@ const createServiceAnswer = (message, service) => {
   const english = `${details.explanation} ${details.priceTag}. Ready time: ${details.deliveryTime.join(' / ')}.${uses ? ` Common uses: ${uses}.` : ''}${addOns ? ` Add-ons: ${addOns}.` : ''}`;
   const hinglish = `${details.explanation} ${details.priceTag}. Ready time: ${details.deliveryTime.join(' / ')}.${addOns ? ` Add-ons: ${addOns}.` : ''} Aap quantity/file details bhej doge to exact quote bata denge.`;
 
+  const htmlBlock = (content) => `
+    <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-circle-info" style="color: #0b2a5b; opacity: 0.8; margin-right: 4px;"></i> ${service.label}</strong></div>
+    <div style="background: rgba(11,42,91,0.05); padding: 10px; border-radius: 6px; font-size: 0.95em; line-height: 1.5;">
+      ${content}
+    </div>
+  `;
+
   return {
-    text: localizeReply(message, english, hinglish),
+    text: localizeReply(message, htmlBlock(english), htmlBlock(hinglish)),
+    isHtml: true,
     suggestions: [
       { label: 'Check price', value: `${service.label} price` },
       { label: 'Send file', value: 'How can I send my file?' },
@@ -193,12 +201,20 @@ const createContextFallbackAnswer = (message) => {
   }
 
   if (includesAny(text, ['format', 'file type', 'file format', 'doc', 'docx', 'jpg', 'jpeg', 'png'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-file-pdf" style="color: #e53935; margin-right: 4px;"></i> Accepted File Formats</strong></div>
+      <div style="font-size: 0.95em; line-height: 1.5;">
+        <p style="margin: 0 0 8px;"><strong>PDF is best</strong> for printing, but Word, JPEG and PNG are also accepted.</p>
+        <div style="background: rgba(37, 211, 102, 0.1); padding: 8px; border-radius: 6px; border-left: 3px solid #25D366;">
+          <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> Send on WhatsApp with: <strong>Copies, Size, B&W/Color & Pickup Time</strong>
+        </div>
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('<strong>PDF is best</strong> for printing, but Word, JPEG and PNG are also accepted.', '<strong>PDF best hai</strong> printing ke liye, but Word, JPEG aur PNG bhi chalega.').replace('Send on WhatsApp with:', 'WhatsApp pe bhejein:');
+
     return {
-      text: localizeReply(
-        message,
-        'PDF is best for printing, but Word, JPEG and PNG are also accepted. Send the file on WhatsApp with copies, size, B&W/color and pickup time.',
-        'PDF best hai printing ke liye, but Word, JPEG aur PNG bhi chalega. WhatsApp pe file ke saath copies, size, B&W/color aur pickup time bhej do.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Send file', value: 'How can I send my file?' },
         { label: 'Print price', value: 'What is print price?' },
@@ -208,12 +224,18 @@ const createContextFallbackAnswer = (message) => {
   }
 
   if (includesAny(text, ['urgent', 'fast', 'jaldi', 'quick', 'same day', 'today', 'abhi'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-bolt" style="color: #ffc107; margin-right: 4px;"></i> Urgent & Same-Day Services</strong></div>
+      <div style="background: rgba(11,42,91,0.05); padding: 10px; border-radius: 6px; font-size: 0.95em; line-height: 1.5;">
+        <p style="margin: 0 0 6px;"><i class="fa-solid fa-check" style="color: #28a745; margin-right: 4px;"></i> <strong>Same-day pickup</strong> is available for most normal print, xerox, lamination & binding jobs.</p>
+        <p style="margin: 0;"><i class="fa-solid fa-stopwatch" style="opacity: 0.7; margin-right: 4px;"></i> Small jobs are usually ready in <strong>5 to 15 minutes</strong> after file confirmation.</p>
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('<strong>Same-day pickup</strong> is available for most normal print, xerox, lamination & binding jobs.', 'Normal print, xerox, lamination aur binding ka <strong>same-day pickup</strong> ho jata hai.').replace('Small jobs are usually ready in <strong>5 to 15 minutes</strong> after file confirmation.', 'Small jobs usually file confirm hone ke <strong>5-15 minutes</strong> me ready ho jate hain.');
+
     return {
-      text: localizeReply(
-        message,
-        'For most normal print, xerox, lamination and binding jobs, same-day pickup is available. Small jobs are usually ready in 5 to 15 minutes after file confirmation.',
-        'Normal print, xerox, lamination aur binding ka same-day pickup ho jata hai. Small jobs usually file confirm hone ke 5-15 minutes me ready ho jate hain.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Send file', value: 'How can I send my file?' },
         { label: 'Open now?', value: 'Are you open now?' },
@@ -264,12 +286,23 @@ const createKnowledgeAnswer = (message) => {
 
   if (includesAny(text, ['price', 'rate', 'cost', 'charges', 'kitna', 'how much'])) {
     if ((text.includes('b w') || text.includes('bw') || text.includes('black')) && text.includes('color')) {
+      const htmlEn = `
+        <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-print" style="margin-right: 4px;"></i> A4 Printing Prices</strong></div>
+        <div style="background: rgba(11,42,91,0.05); padding: 8px; border-radius: 6px; margin-bottom: 8px; font-size: 0.95em;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 4px; border-bottom: 1px dashed rgba(0,0,0,0.1); padding-bottom: 4px;">
+            <span><i class="fa-solid fa-file-lines" style="opacity: 0.6; width: 20px;"></i> B&W Print</span> <strong>₹3 / side</strong>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span><i class="fa-solid fa-palette" style="opacity: 0.6; width: 20px;"></i> Color Print</span> <strong>₹10 / side</strong>
+          </div>
+        </div>
+        <p style="margin: 0; font-size: 0.85em; opacity: 0.8;"><i class="fa-brands fa-whatsapp"></i> Share your page count & file on WhatsApp for a confirmed total.</p>
+      `;
+      const htmlHi = htmlEn.replace('Share your page count & file on WhatsApp for a confirmed total.', 'Pages aur file WhatsApp pe bhej do, total confirm kar denge.');
+      
       return {
-        text: localizeReply(
-          message,
-          'A4 B&W printing starts at ₹3 per side, and A4 color printing starts at ₹10 per side. Share your page count and file on WhatsApp for a confirmed total.',
-          'A4 B&W print ₹3 per side se start hai, aur A4 color print ₹10 per side se. Pages aur file WhatsApp pe bhej do, total confirm kar denge.'
-        ),
+        text: localizeReply(message, htmlEn, htmlHi),
+        isHtml: true,
         suggestions: [
           { label: '50 B&W pages', value: 'Estimate 50 pages B&W printing' },
           { label: '20 color pages', value: 'Estimate 20 pages color printing' },
@@ -282,12 +315,23 @@ const createKnowledgeAnswer = (message) => {
     if (service) {
       const details = detailedServices[service.label] || detailedServices[pricingConfig[service.key]?.label];
       if (details) {
+        const formatPrices = (prices) => {
+          return prices.map(p => `<li style="padding: 4px 0;"><i class="fa-solid fa-circle-check" style="opacity:0.5; font-size: 0.8em; margin-right: 6px;"></i>${p}</li>`).join('');
+        };
+        const htmlEn = `
+          <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-tag" style="margin-right: 4px; opacity: 0.7;"></i> ${details.priceTag}</strong></div>
+          <ul style="list-style: none; padding: 0; margin: 0 0 10px; font-size: 0.95em;">
+            ${formatPrices(details.startingPrice)}
+          </ul>
+          <div style="font-size: 0.85em; opacity: 0.8; padding-top: 6px; border-top: 1px dashed rgba(11,42,91,0.15);">
+            <i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 1.1em; margin-right: 4px;"></i> Bulk or special paper orders get a custom quote on WhatsApp.
+          </div>
+        `;
+        const htmlHi = htmlEn.replace('Bulk or special paper orders get a custom quote on WhatsApp.', 'Bulk ya special paper ke liye WhatsApp pe custom quote mil jayega.');
+        
         return {
-          text: localizeReply(
-            message,
-            `${details.priceTag}. ${details.startingPrice.join(' | ')}. Bulk or special paper orders get a custom quote on WhatsApp.`,
-            `${details.priceTag}. ${details.startingPrice.join(' | ')}. Bulk ya special paper ke liye WhatsApp pe custom quote mil jayega.`
-          ),
+          text: localizeReply(message, htmlEn, htmlHi),
+          isHtml: true,
           suggestions: [
             { label: 'Estimate total', value: `Estimate ${service.label} for 50 pages` },
             { label: 'Bulk discount', value: 'Do you offer bulk discount?' },
@@ -321,12 +365,21 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['send file', 'upload', 'pdf', 'word', 'jpeg', 'png', 'whatsapp', 'order'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-paper-plane" style="color: #007bff; margin-right: 4px;"></i> How to send your files:</strong></div>
+      <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 10px; background: rgba(37, 211, 102, 0.1); padding: 8px; border-radius: 6px; border-left: 3px solid #25D366;">
+        <i class="fa-brands fa-whatsapp" style="color: #25D366; font-size: 1.3em;"></i> <strong>${CONFIG.business.phoneLabel}</strong>
+      </div>
+      <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.9em; opacity: 0.9; line-height: 1.6;">
+        <li><i class="fa-solid fa-file-pdf" style="opacity:0.6; width:20px;"></i> <strong>PDF is best</strong> (Word/JPEG/PNG also work)</li>
+        <li><i class="fa-solid fa-list-check" style="opacity:0.6; width:20px;"></i> Mention copies, A4/A3 size, B&W/color, & pickup time</li>
+      </ul>
+    `;
+    const htmlHi = htmlEn.replace('<strong>PDF is best</strong> (Word/JPEG/PNG also work)', '<strong>PDF best hai</strong> (Word/JPEG/PNG bhi chalega)').replace('Mention copies, A4/A3 size, B&W/color, & pickup time', 'Copies, A4/A3 size, B&W/color, aur pickup time likh dena');
+
     return {
-      text: localizeReply(
-        message,
-        `Send your file on WhatsApp to ${CONFIG.business.phoneLabel}. PDF is best; Word, JPEG and PNG also work. Mention copies, A4/A3 size, B&W/color, finishing, and pickup time.`,
-        `File WhatsApp pe ${CONFIG.business.phoneLabel} par bhej do. PDF best hai, Word/JPEG/PNG bhi chalega. Copies, A4/A3 size, B&W/color, finishing aur pickup time likh dena.`
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'WhatsApp format', value: 'What should I write on WhatsApp?' },
         { label: 'File types', value: 'Which file formats do you accept?' },
@@ -336,12 +389,23 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['payment', 'upi', 'gpay', 'phonepe', 'cash', 'pay'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 10px;"><strong><i class="fa-solid fa-credit-card" style="margin-right: 4px; opacity: 0.8;"></i> Accepted Payment Methods</strong></div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px;">
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px; font-size: 0.9em;">💵 Cash</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px; font-size: 0.9em;">📱 UPI</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px; font-size: 0.9em;"><i class="fa-brands fa-google-pay"></i> GPay</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px; font-size: 0.9em;">💳 PhonePe</span>
+      </div>
+      <div style="font-size: 0.85em; opacity: 0.8; padding-top: 6px; border-top: 1px dashed rgba(11,42,91,0.15);">
+        <i class="fa-solid fa-circle-info"></i> For WhatsApp orders, we'll confirm the final amount before printing.
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('For WhatsApp orders, we\'ll confirm the final amount before printing.', 'WhatsApp order me print se pehle owner final amount confirm kar denge.');
+
     return {
-      text: localizeReply(
-        message,
-        'We accept cash, UPI, Google Pay and PhonePe at the shop. For orders sent on WhatsApp, the owner will confirm the final amount before printing.',
-        'Shop pe cash, UPI, Google Pay aur PhonePe accept hai. WhatsApp order me print se pehle owner final amount confirm kar denge.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Send file', value: 'How can I send my file?' },
         { label: 'Prices', value: 'Show popular prices' },
@@ -351,12 +415,22 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['open', 'timing', 'time', 'hours', 'closed', 'today'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-regular fa-clock" style="margin-right: 4px; color: #0b2a5b;"></i> Store Timings</strong></div>
+      <div style="font-size: 1.05em; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px dashed rgba(11,42,91,0.15);">${getOpenStatusLine()}</div>
+      <div style="display: flex; align-items: center; gap: 12px; background: rgba(11,42,91,0.05); padding: 10px; border-radius: 6px;">
+        <i class="fa-regular fa-calendar-days" style="opacity: 0.6; font-size: 1.2em;"></i>
+        <div style="font-size: 0.95em; line-height: 1.4;">
+          <strong>8:00 AM – 9:00 PM</strong><br>
+          <span style="opacity: 0.8;">Open all 7 days a week</span>
+        </div>
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('Open all 7 days a week', 'Daily timing saare 7 din');
+
     return {
-      text: localizeReply(
-        message,
-        `${getOpenStatusLine()} Regular timings are 8:00 AM to 9:00 PM, all 7 days.`,
-        `${getOpenStatusLine()} Daily timing 8:00 AM se 9:00 PM hai, saare 7 din.`
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Directions', value: 'How do I reach your shop?' },
         { label: 'Send file', value: 'Can I send file now?' },
@@ -366,12 +440,21 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['where', 'location', 'address', 'direction', 'map', 'near', 'viva', 'mahavir'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-location-dot" style="margin-right: 4px; color: #dc3545;"></i> Our Location</strong></div>
+      <div style="font-size: 0.95em; margin-bottom: 10px; line-height: 1.5;">
+        ${BUSINESS_ADDRESS}
+      </div>
+      <div style="background: rgba(11,42,91,0.05); padding: 8px 10px; border-radius: 6px; font-size: 0.9em; display: flex; gap: 8px; align-items: flex-start;">
+        <i class="fa-solid fa-map-pin" style="opacity: 0.6; margin-top: 3px;"></i>
+        <div><strong>Landmark:</strong> Opposite Mahavir Hospital, near Old Viva College.</div>
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('<strong>Landmark:</strong> Opposite Mahavir Hospital, near Old Viva College.', '<strong>Landmark:</strong> Mahavir Hospital ke opposite, Old Viva College ke paas.');
+
     return {
-      text: localizeReply(
-        message,
-        `We are at ${BUSINESS_ADDRESS}. Landmark: opposite Mahavir Hospital, near Old Viva College.`,
-        `Shop yaha hai: ${BUSINESS_ADDRESS}. Landmark: Mahavir Hospital ke opposite, Old Viva College ke paas.`
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Open now?', value: 'Are you open now?' },
         { label: 'WhatsApp', value: 'Send me WhatsApp contact' },
@@ -381,12 +464,20 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['bulk', 'discount', 'office', 'school', 'college', 'hundred', '500', '1000'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-tags" style="color: #ffc107; margin-right: 4px;"></i> Bulk Discounts Available</strong></div>
+      <div style="background: rgba(11,42,91,0.05); padding: 10px; border-radius: 6px; font-size: 0.95em; line-height: 1.5; margin-bottom: 8px;">
+        <p style="margin: 0;">Special rates for <strong>students, offices, schools, and coaching classes.</strong></p>
+      </div>
+      <div style="font-size: 0.85em; opacity: 0.9;">
+        <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> Share page count, print type, paper size & deadline on WhatsApp for the best quote.
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('Special rates for <strong>students, offices, schools, and coaching classes.</strong>', 'Bulk discount available for <strong>students, offices, schools, and coaching classes.</strong>').replace('Share page count, print type, paper size & deadline on WhatsApp for the best quote.', 'Page count, print type, paper size & deadline WhatsApp pe bhej do.');
+
     return {
-      text: localizeReply(
-        message,
-        'Yes, bulk discounts are available for students, offices, schools and coaching classes. Share page count, print type, paper size and deadline on WhatsApp for the best quote.',
-        'Haan, bulk discount available hai students, offices, schools aur coaching classes ke liye. Page count, print type, paper size aur deadline WhatsApp pe bhej do.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: '200 pages quote', value: 'Estimate 200 pages xerox' },
         { label: 'Project binding', value: 'Do you do project printing and binding?' },
@@ -396,12 +487,25 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['service', 'provide', 'available', 'do you do', 'what all'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 10px;"><strong><i class="fa-solid fa-list-ul" style="margin-right: 4px; opacity: 0.8;"></i> Our Services</strong></div>
+      <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 10px; font-size: 0.85em;">
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-print"></i> Printing & Xerox</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-book"></i> Binding</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-camera"></i> Passport Photos</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-layer-group"></i> Lamination</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-id-card-clip"></i> Smart Cards</span>
+        <span style="background: rgba(11,42,91,0.05); padding: 4px 10px; border-radius: 12px;"><i class="fa-solid fa-pen-ruler"></i> Stationery</span>
+      </div>
+      <div style="font-size: 0.85em; opacity: 0.8; padding-top: 6px; border-top: 1px dashed rgba(11,42,91,0.15);">
+        Ask for prices for any specific service!
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('Ask for prices for any specific service!', 'Kisi bhi service ka price pooch sakte ho!');
+
     return {
-      text: localizeReply(
-        message,
-        'We do printing, xerox, lamination, spiral binding, passport photos, project printing, smart cards, visiting cards, scanning, jumbo xerox and stationery products.',
-        'Haan, printing, xerox, lamination, spiral binding, passport photos, project printing, smart cards, visiting cards, scanning, jumbo xerox aur stationery sab available hai.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Prices', value: 'Show popular prices' },
         { label: 'Project work', value: 'Do you do college project work?' },
@@ -411,12 +515,25 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['passport', 'photo'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-camera" style="margin-right: 4px; color: #0b2a5b;"></i> Passport Photos</strong></div>
+      <div style="background: rgba(11,42,91,0.05); padding: 10px; border-radius: 6px; font-size: 0.95em; line-height: 1.5; margin-bottom: 8px;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 6px; padding-bottom: 6px; border-bottom: 1px dashed rgba(0,0,0,0.1);">
+          <span><i class="fa-solid fa-images" style="opacity: 0.6; width: 20px;"></i> Starting Price</span> <strong>₹30 / set</strong>
+        </div>
+        <div style="display: flex; justify-content: space-between;">
+          <span><i class="fa-solid fa-stopwatch" style="opacity: 0.6; width: 20px;"></i> Ready Time</span> <strong>~ 10 mins</strong>
+        </div>
+      </div>
+      <div style="font-size: 0.85em; opacity: 0.9;">
+        You can walk in or <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp your photo first.
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('You can walk in or <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp your photo first.', 'Aap walk-in kar sakte ho ya photo pehle <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> WhatsApp kar do.');
+
     return {
-      text: localizeReply(
-        message,
-        'Passport photos start from ₹30 per set and are usually ready in about 10 minutes. You can walk in or WhatsApp your photo first.',
-        'Passport photos ₹30 per set se start hai aur usually 10 minutes me ready ho jata hai. Aap walk-in kar sakte ho ya photo pehle WhatsApp kar do.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Open now?', value: 'Are you open now?' },
         { label: 'Location', value: 'Where is your shop?' },
@@ -426,12 +543,20 @@ const createKnowledgeAnswer = (message) => {
   }
 
   if (includesAny(text, ['delivery', 'home delivery', 'courier'])) {
+    const htmlEn = `
+      <div style="margin-bottom: 8px;"><strong><i class="fa-solid fa-motorcycle" style="margin-right: 4px; opacity: 0.8;"></i> Home Delivery</strong></div>
+      <div style="background: rgba(220, 53, 69, 0.05); padding: 8px; border-radius: 6px; margin-bottom: 8px; border-left: 3px solid #dc3545; font-size: 0.95em;">
+        <strong>Home delivery is not available</strong> right now. We are store-pickup only.
+      </div>
+      <div style="font-size: 0.85em; opacity: 0.9; line-height: 1.5;">
+        <i class="fa-brands fa-whatsapp" style="color: #25D366;"></i> Send files on WhatsApp → We confirm price & time → Collect from shop.
+      </div>
+    `;
+    const htmlHi = htmlEn.replace('<strong>Home delivery is not available</strong> right now. We are store-pickup only.', '<strong>Abhi home delivery available nahi hai.</strong> Aapko shop se pickup karna hoga.').replace('Send files on WhatsApp → We confirm price & time → Collect from shop.', 'File WhatsApp pe bhej do → Price confirm hoga → Shop se pickup kar lena.');
+
     return {
-      text: localizeReply(
-        message,
-        'Home delivery is not available right now. Send files on WhatsApp, we will confirm the price and readiness time, then you can collect from the shop.',
-        'Abhi home delivery available nahi hai. File WhatsApp pe bhej do, price aur ready time confirm hoga, phir shop se pickup kar lena.'
-      ),
+      text: localizeReply(message, htmlEn, htmlHi),
+      isHtml: true,
       suggestions: [
         { label: 'Pickup time', value: 'How fast can I collect?' },
         { label: 'Send file', value: 'How can I send my file?' },
