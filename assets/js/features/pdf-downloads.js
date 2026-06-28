@@ -148,12 +148,12 @@ export const initPdfDownloads = () => {
 
         if (section.isHighlight) {
           // Calculate precise box height
-          let boxHeight = 50; // padding top + title space
+          let boxHeight = 42; // padding top + title space
           section.items.forEach((item) => {
             const wrapped = doc.splitTextToSize(item, maxWidth - 40);
-            boxHeight += (18 * wrapped.length) + 8; // 18 line-height + 8 paragraph spacing
+            boxHeight += (16 * wrapped.length) + 6; // 16 line-height + 6 paragraph spacing
           });
-          boxHeight += 10; // padding bottom
+          boxHeight += 12; // padding bottom
 
           // Draw Highlight Box
           doc.setFillColor(...brandHighlightBg);
@@ -161,13 +161,13 @@ export const initPdfDownloads = () => {
           doc.setLineWidth(1.5);
           doc.rect(marginX, cursorY, maxWidth, boxHeight, 'FD'); // Fill and Draw
           
-          cursorY += 28; // Padding Top
+          cursorY += 24; // Padding Top
           doc.setTextColor(...brandNavy);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(13);
           doc.text(section.title, marginX + 15, cursorY);
           
-          cursorY += 20;
+          cursorY += 18; // Move to first bullet
           doc.setTextColor(...brandText);
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(11);
@@ -177,11 +177,11 @@ export const initPdfDownloads = () => {
             doc.text('•', marginX + 15, cursorY);
             wrapped.forEach((line) => {
               doc.text(line, marginX + 25, cursorY);
-              cursorY += 18; // Line height
+              cursorY += 16; // Line height
             });
-            cursorY += 8; // Paragraph spacing
+            cursorY += 6; // Paragraph spacing
           });
-          cursorY += 25; // Space after box
+          cursorY += 20; // Space after box
         } else {
           // Standard Section
           doc.setTextColor(...brandNavy);
@@ -189,7 +189,7 @@ export const initPdfDownloads = () => {
           doc.setFontSize(14);
           doc.text(section.title, marginX, cursorY);
           
-          cursorY += 22;
+          cursorY += 20; // Space after title
           doc.setTextColor(...brandText);
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(12);
@@ -202,11 +202,11 @@ export const initPdfDownloads = () => {
             
             wrapped.forEach((line) => {
               doc.text(line, marginX + 18, cursorY);
-              cursorY += 18; // Line height
+              cursorY += 16; // Line height
             });
-            cursorY += 8; // Paragraph spacing
+            cursorY += 6; // Paragraph spacing
           });
-          cursorY += 15; // Space after section
+          cursorY += 12; // Space after section
         }
       });
     }
