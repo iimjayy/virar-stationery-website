@@ -487,148 +487,238 @@
     function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
 
     // ----- content engine -----
+    // Casual openers — many are empty so reviews don't all start the same way.
     var OPENERS = [
-      "Had a really great experience at Virar Stationery & Jumbo Xerox.",
-      "Genuinely impressed with Virar Stationery & Jumbo Xerox.",
-      "One of the best printing and stationery shops in Virar.",
-      "So glad I found Virar Stationery & Jumbo Xerox.",
-      "Highly satisfied with my visit to Virar Stationery & Jumbo Xerox.",
-      "My go-to shop in Virar West for printing and stationery.",
-      "Wonderful little shop for all your xerox and stationery needs.",
-      "Visited Virar Stationery & Jumbo Xerox and it did not disappoint."
+      "", "", "",
+      "Best shop in Virar for printing!",
+      "Bohot badhiya experience yahan.",
+      "Went here for some work,",
+      "Really happy with this place.",
+      "Found this shop near Viva College,",
+      "My regular shop for all printing work.",
+      "Virar West mein best hai ye shop.",
+      "First time aaya tha, ekdum mast.",
+      "Go-to place for xerox and stationery."
     ];
 
+    // Full-length closers (casual + Hinglish).
     var CLOSERS = [
-      "Highly recommended!",
-      "Will definitely come back.",
-      "Best in Virar West!",
-      "Strongly recommend this place.",
-      "Thank you for the great service!",
-      "5 stars from me!",
-      "Don't think twice, just go.",
-      "A reliable spot you can trust."
+      "Totally recommend!",
+      "Highly recommended 👍",
+      "Will come again for sure.",
+      "Best in Virar!",
+      "Zaroor visit karein.",
+      "Bahut khush hua 🙏",
+      "Worth it, try once.",
+      "Acha kaam karte hai log.",
+      "5 stars from my side ⭐",
+      "Recommended to everyone."
     ];
 
-    var EMOJIS = ["", "", " 👍", " ⭐", " 🙏", " 😊"];
+    // Short closers (used after a tiny phrase, kept lowercase to read naturally).
+    var SHORT_CLOSERS = [
+      "totally recommend!",
+      "highly recommend!",
+      "best in Virar!",
+      "loved it!",
+      "zaroor try karein!",
+      "fully worth it!",
+      "must visit!"
+    ];
 
-    // Each aspect: a pool of standalone sentences. Random pick => uniqueness.
+    var EMOJIS = ["", "", "", " 👍", " ⭐", " 🙏", " 😊", " 💯"];
+
+    // Each aspect has SHORT punchy fragments + FULL casual sentences.
+    // The engine mixes both so reviews vary from 4 words to two sentences.
     var ASPECTS = {
       print_quality: {
         label: "Print Quality", icon: "🖨️", group: "Printing & Xerox",
-        lines: [
-          "The print quality was crisp and clear.",
-          "Prints came out sharp and professional.",
-          "Excellent printing — colours looked vibrant and clean.",
-          "Top-notch print quality, exactly as I wanted.",
-          "The colour prints were rich and accurate."
+        short: ["print quality top class", "prints ekdum clear", "colour prints superb", "print quality bohot acchi"],
+        full: [
+          "Print quality is really good, colours came out clean.",
+          "Prints nikle ekdum clear and sharp.",
+          "Got colour prints done, quality was top class.",
+          "Printing is neat, exactly jaisa chahiye tha."
         ]
       },
       xerox: {
         label: "Xerox / Photocopy", icon: "📄", group: "Printing & Xerox",
-        lines: [
-          "Their xerox copies are fast and neat.",
-          "Got my photocopies done in no time.",
-          "Quick, clean and affordable xerox service.",
-          "Even old documents came out clear on the copier.",
-          "Bulk xerox was handled quickly and accurately."
+        short: ["xerox ekdum fast", "fast xerox", "xerox quick aur sasta", "photocopy done in minutes"],
+        full: [
+          "Xerox was super fast and sasta.",
+          "Got my photocopies done within minutes.",
+          "Xerox quality acchi thi even for old papers.",
+          "Bulk xerox bhi jaldi ho gaya, no problem."
         ]
       },
       passport: {
         label: "Passport Photos", icon: "📸", group: "Printing & Xerox",
-        lines: [
-          "Got my passport photos clicked perfectly.",
-          "Passport-size photos came out great with correct sizing.",
-          "Quick passport photos, ready in minutes.",
-          "Professional passport photos at a fair price."
+        short: ["passport photos perfect", "quick passport pics", "passport photo ekdum sahi"],
+        full: [
+          "Passport photos came out perfect, size bhi sahi.",
+          "Got passport pics clicked, ready in 5 mins.",
+          "Passport photo ka kaam bohot fast hai yahan."
         ]
       },
       binding: {
         label: "Binding & Projects", icon: "📖", group: "Printing & Xerox",
-        lines: [
-          "Spiral binding was neat and sturdy.",
-          "My project binding looked really professional.",
-          "Got my thesis printed and bound perfectly.",
-          "Binding work was clean and well finished."
+        short: ["binding neat aur strong", "project binding superb", "spiral binding clean"],
+        full: [
+          "Spiral binding was neat and strong.",
+          "Got my project bound, looked really good.",
+          "Thesis printing and binding done perfectly.",
+          "Binding ka kaam ekdum clean tha."
         ]
       },
       lamination: {
         label: "Lamination", icon: "✨", group: "Printing & Xerox",
-        lines: [
-          "Lamination was smooth and bubble-free.",
-          "Nice clean lamination with a great finish.",
-          "Documents were laminated perfectly."
+        short: ["lamination ekdum smooth", "lamination clean", "neat lamination"],
+        full: [
+          "Lamination was smooth, no bubbles at all.",
+          "Got my documents laminated, nice finish."
         ]
       },
       fast: {
         label: "Fast Service", icon: "⚡", group: "Service & Staff",
-        lines: [
-          "Service was super fast.",
-          "They finished my work within minutes.",
-          "No long waiting — really quick turnaround.",
-          "Impressively fast, even when the shop was busy."
+        short: ["ekdum fast service", "service bohot fast", "super quick", "kaam jaldi ho gaya"],
+        full: [
+          "Service was super fast, zyada wait nahi karna pada.",
+          "Kaam minutes mein ho gaya.",
+          "Really quick even when the shop was busy.",
+          "Fast service, didn't have to wait at all."
         ]
       },
       staff: {
         label: "Friendly Staff", icon: "😊", group: "Service & Staff",
-        lines: [
-          "The staff was friendly and helpful.",
-          "Very supportive and polite team.",
-          "The owner guided me patiently through everything.",
-          "Helpful people who actually understand what you need."
+        short: ["staff bahut helpful hai", "helpful staff", "owner bohot nice hai", "friendly staff"],
+        full: [
+          "Staff is very helpful and friendly.",
+          "Owner guided me patiently, bahut acche log hai.",
+          "Staff bahut helpful hai, sab samjha diya.",
+          "Polite staff, they get exactly what you need."
         ]
       },
       affordable: {
         label: "Affordable Pricing", icon: "💰", group: "Service & Staff",
-        lines: [
-          "Prices are very reasonable.",
-          "Great value for money.",
-          "Affordable rates compared to other shops nearby.",
-          "Pocket-friendly pricing, especially for students."
+        short: ["sasta aur acha", "rates bahut reasonable", "cheap rates", "budget friendly"],
+        full: [
+          "Prices are reasonable, sasta aur acha dono.",
+          "Rates are cheap compared to other shops.",
+          "Pocket-friendly, especially for students.",
+          "Good rates, paisa vasool."
         ]
       },
       bulk: {
         label: "Bulk Orders", icon: "📦", group: "Service & Staff",
-        lines: [
-          "Handled my bulk order without any hassle.",
-          "Large printing order was managed smoothly.",
-          "Perfect for bulk work — quick and well organised."
+        short: ["bulk order easy", "bulk printing smooth", "bada order, no tension"],
+        full: [
+          "Handled my bulk order without any tension.",
+          "Bulk printing was managed smoothly.",
+          "Bada order tha, bina kisi problem ke ho gaya."
         ]
       },
       stationery: {
         label: "Stationery Range", icon: "✏️", group: "Shop & Stationery",
-        lines: [
-          "They have a wide range of stationery.",
+        short: ["sab stationery milti hai", "full stationery range", "har item available"],
+        full: [
+          "They have all kinds of stationery, ek hi jagah sab mil gaya.",
+          "Well stocked with school and office stuff.",
           "Found everything I needed in one place.",
-          "Well stocked with school and office supplies.",
-          "Great variety of stationery at good prices."
+          "Good variety of stationery, sab kuch milta hai."
         ]
       },
       clean: {
         label: "Clean & Organised", icon: "✅", group: "Shop & Stationery",
-        lines: [
-          "The shop is clean and well organised.",
-          "Everything is neatly arranged and easy to find.",
-          "Tidy, welcoming shop with quick service."
+        short: ["shop clean aur organised", "neat shop", "sab kuch organised"],
+        full: [
+          "Shop is clean and sab kuch organised hai.",
+          "Everything neatly kept, easy to find.",
+          "Tidy shop with quick service."
         ]
       },
       convenient: {
         label: "Great Location", icon: "📍", group: "Shop & Stationery",
-        lines: [
-          "Super convenient location near Viva College.",
+        short: ["location convenient", "near Viva College", "easy to find"],
+        full: [
+          "Location is convenient, near Viva College.",
           "Easy to reach and always reliable.",
-          "Handy spot for students and offices in Virar West."
+          "Handy spot for students in Virar West."
         ]
       }
     };
 
-    // Build a unique review from a list of aspect keys.
+    // --- review writers ---------------------------------------------------
+    // Make a fragment read like a sentence: capitalise + end mark.
+    function asSentence(frag) {
+      var s = cap(frag.trim());
+      return /[.!?]$/.test(s) ? s : s + ".";
+    }
+    function maybeEmoji(text) {
+      // Don't stack emojis — some closers already end with one.
+      if (/[^\x00-\x7F]$/.test(text.trim())) return text;
+      return Math.random() < 0.4 ? text + pick(EMOJIS) : text;
+    }
+    function clean(text) {
+      return text.replace(/\s+/g, " ").replace(/\s+([.,!?])/g, "$1").trim();
+    }
+    // Join an opener to the first sentence — if the opener ends in a comma,
+    // continue in lowercase so it reads as one natural sentence.
+    function lead(op, sentence) {
+      if (!op) return sentence;
+      if (/,$/.test(op)) return op + " " + sentence.charAt(0).toLowerCase() + sentence.slice(1);
+      return op + " " + sentence;
+    }
+
+    // Build a unique, human-sounding review from selected aspect keys.
+    // Length varies by style: tiny one-liners, compact lists, or casual sentences.
     function generate(keys) {
       if (!keys || !keys.length) return "";
-      var sentences = shuffle(keys).map(function (k) {
-        return ASPECTS[k] ? pick(ASPECTS[k].lines) : "";
-      }).filter(Boolean);
-      var out = pick(OPENERS) + " " + sentences.join(" ") + " " + pick(CLOSERS) + pick(EMOJIS);
-      return out.replace(/\s+/g, " ").trim();
+      var ks = shuffle(keys);
+      var n = ks.length;
+
+      // SINGLE aspect → usually a short, punchy review (sometimes ~4 words).
+      if (n === 1) {
+        var k = ks[0];
+        var r = Math.random();
+        if (r < 0.5) {
+          // tiny: "Fast xerox, totally recommend!"
+          return clean(maybeEmoji(cap(pick(ASPECTS[k].short)) + ", " + pick(SHORT_CLOSERS)));
+        }
+        if (r < 0.75) {
+          // tiny: "Prints ekdum clear!"
+          return clean(maybeEmoji(cap(pick(ASPECTS[k].short)) + "!"));
+        }
+        // one full line + maybe closer
+        var op1 = Math.random() < 0.4 ? pick(OPENERS) : "";
+        var body1 = asSentence(pick(ASPECTS[k].full));
+        var end1 = Math.random() < 0.75 ? " " + pick(CLOSERS) : "";
+        return clean(maybeEmoji(lead(op1, body1) + end1));
+      }
+
+      var roll = Math.random();
+
+      // COMPACT list: "Fast xerox, staff helpful hai, sasta aur acha. Recommend!"
+      if (roll < 0.42) {
+        var frags = ks.slice(0, Math.min(n, 3)).map(function (k) { return pick(ASPECTS[k].short); });
+        var listed = cap(frags.join(", ")) + ".";
+        var c = Math.random() < 0.85 ? " " + pick(CLOSERS) : "";
+        return clean(maybeEmoji(listed + c));
+      }
+
+      // MIXED: short lead + a full line or two + closer.
+      if (roll < 0.74) {
+        var leadFrag = cap(pick(ASPECTS[ks[0]].short)) + "!";
+        var rest = ks.slice(1, 3).map(function (k) { return asSentence(pick(ASPECTS[k].full)); });
+        return clean(maybeEmoji([leadFrag].concat(rest).join(" ") + " " + pick(CLOSERS)));
+      }
+
+      // CASUAL: optional opener + a couple of full sentences + closer.
+      // Capped at 3 sentences so it never becomes a wall of text.
+      var op = Math.random() < 0.6 ? pick(OPENERS) : "";
+      var lines = ks.slice(0, 3).map(function (k) { return asSentence(pick(ASPECTS[k].full)); });
+      var first = lines.shift();
+      var body = lead(op, first) + (lines.length ? " " + lines.join(" ") : "");
+      return clean(maybeEmoji(body + " " + pick(CLOSERS)));
     }
 
     // Curated presets — rendered through the SAME engine, so every copy is unique.
