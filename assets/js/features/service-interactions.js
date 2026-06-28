@@ -156,9 +156,15 @@ export const initServiceInteractions = () => {
             <ul class="service-detail-list compact">${renderList(details.addOns)}</ul>
           </div>
           <div class="service-row-cta">
-            <a class="service-cta-btn" href="${whatsappHref}" target="_blank" rel="noopener">WhatsApp Inquiry</a>
-            <a class="service-cta-btn is-outline" href="tel:${phoneHref}">Call Now</a>
-            <a class="service-cta-btn is-light" href="#contact">Get Quote</a>
+            <a class="service-cta-btn is-whatsapp" href="${whatsappHref}" target="_blank" rel="noopener">
+              <i class="fa-brands fa-whatsapp"></i> WhatsApp
+            </a>
+            <a class="service-cta-btn is-call" href="tel:${phoneHref}">
+              <i class="fa-solid fa-phone"></i> Call
+            </a>
+            <a class="service-cta-btn is-quote" href="#contact">
+              <i class="fa-solid fa-bolt"></i> Quote
+            </a>
           </div>
           <p class="service-row-contact-note">Need quick help? Call ${escapeHtml(phoneLabel)}.</p>
         </div>

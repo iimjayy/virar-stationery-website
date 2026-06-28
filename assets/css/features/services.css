@@ -364,37 +364,70 @@
   margin-bottom: 3px;
 }
 
-.service-row-ct
+.service-row-cta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+}
 
 .service-cta-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border-radius: 999px;
-  padding: 0.53rem 0.88rem;
-  font-size: 0.8rem;
+  gap: 8px;
+  border-radius: 12px;
+  padding: 0.65rem 1.15rem;
+  font-size: 0.85rem;
   font-weight: 700;
-  border: 1px solid rgba(11, 42, 91, 0.2);
-  background: var(--navy);
-  color: #fff;
-  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+  border: 1px solid transparent;
+  transition: transform 0.2s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.2s ease, background-color 0.2s ease;
+  flex: 1;
+  min-width: fit-content;
 }
 
 .service-cta-btn:hover {
-  transform: translateY(-1px);
-  box-shadow: 0 10px 18px rgba(11, 42, 91, 0.22);
+  transform: translateY(-2px);
+}
+
+.service-cta-btn:active {
+  transform: scale(0.98);
+}
+
+.service-cta-btn.is-whatsapp {
+  background: #25D366; /* Official WhatsApp Green */
   color: #fff;
+  box-shadow: 0 8px 20px rgba(37, 211, 102, 0.28);
 }
 
-.service-cta-btn.is-outline {
-  background: rgba(255, 255, 255, 0.92);
+.service-cta-btn.is-whatsapp:hover {
+  background: #128C7E;
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(37, 211, 102, 0.35);
+}
+
+.service-cta-btn.is-call {
+  background: var(--navy);
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(11, 42, 91, 0.22);
+}
+
+.service-cta-btn.is-call:hover {
+  background: #081e43;
+  color: #fff;
+  box-shadow: 0 12px 24px rgba(11, 42, 91, 0.3);
+}
+
+.service-cta-btn.is-quote {
+  background: var(--yellow);
   color: var(--navy);
+  box-shadow: 0 8px 20px rgba(244, 210, 31, 0.35);
 }
 
-.service-cta-btn.is-light {
-  background: rgba(244, 210, 31, 0.28);
-  border-color: rgba(244, 210, 31, 0.5);
-  color: #6f5300;
+.service-cta-btn.is-quote:hover {
+  background: var(--yellow-light, #ffeb61);
+  color: var(--navy);
+  box-shadow: 0 12px 24px rgba(244, 210, 31, 0.45);
 }
 
 .service-row-contact-note {
