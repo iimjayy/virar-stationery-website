@@ -3,6 +3,6 @@
     "translate-google": "^1.5.0"
   },
   "scripts": {
-    "build:css": "node build-css.js"
+    "build:css": "node tools/build-css.js"
   }
 }

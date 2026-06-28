@@ -4,6 +4,36 @@
    navy accents, yellow highlights. Uses site design tokens exclusively.
    ==================================================================== */
 
+.sp-header {
+  background: rgba(255, 255, 255, 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 16px 0;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+
+.sp-header-back {
+  color: var(--navy, #0f2c59);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: opacity 0.2s ease;
+}
+
+.sp-header-back:hover {
+  opacity: 0.7;
+}
+
+.sp-header-title {
+  font-family: var(--font-display, "Sora", sans-serif);
+  font-weight: 700;
+  font-size: 1.1rem;
+  color: var(--navy, #0f2c59);
+}
+
 /* ── Hero Section — light, warm, matching homepage ── */
 .pricing-hero {
   background: linear-gradient(180deg, var(--bg, #f8f9fa) 0%, #fff 100%);
@@ -94,9 +124,21 @@
 }
 
 .pricing-category-card:hover {
-  transform: translateY(-6px) scale(1.01);
-  box-shadow: var(--shadow-card-hover);
-  border-color: rgba(244, 210, 31, 0.35);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08);
+  border-color: rgba(244, 210, 31, 0.5);
+}
+
+/* ── Highlighted Card Enhancement ── */
+.pricing-category-card.is-highlighted {
+  border: 2px solid var(--yellow, #f4d21f);
+  box-shadow: 0 10px 30px rgba(244, 210, 31, 0.15);
+  transform: scale(1.02);
+}
+
+.pricing-category-card.is-highlighted:hover {
+  transform: translateY(-8px) scale(1.04);
+  box-shadow: 0 24px 48px rgba(244, 210, 31, 0.25);
 }
 
 /* Card header — sleek, modern gradient */
