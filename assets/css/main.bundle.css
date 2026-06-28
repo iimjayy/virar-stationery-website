@@ -6946,6 +6946,17 @@ body.lightbox-open {
   pointer-events: none;
 }
 
+/* Fix for iOS Full-Page Screenshots and Printing */
+@media print {
+  .reveal,
+  .reveal-scale,
+  .reveal-child {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
 
 /* --- utilities/responsive-mobile.css --- */
 /* ====================================================================
