@@ -297,12 +297,21 @@ const createKnowledgeAnswer = (message) => {
       }
     }
 
+    const htmlResponse = `
+      <div style="margin-bottom: 8px;"><strong>Popular Starting Prices</strong></div>
+      <ul style="list-style: none; padding: 0; margin: 0; font-size: 0.95em;">
+        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(11,42,91,0.15); padding: 5px 0;"><span><i class="fa-solid fa-copy" style="opacity: 0.6; width: 20px;"></i> Xerox A4</span> <strong>₹1.5</strong></li>
+        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(11,42,91,0.15); padding: 5px 0;"><span><i class="fa-solid fa-print" style="opacity: 0.6; width: 20px;"></i> B&W Print</span> <strong>₹3</strong></li>
+        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(11,42,91,0.15); padding: 5px 0;"><span><i class="fa-solid fa-palette" style="opacity: 0.6; width: 20px;"></i> Color Print</span> <strong>₹10</strong></li>
+        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(11,42,91,0.15); padding: 5px 0;"><span><i class="fa-solid fa-layer-group" style="opacity: 0.6; width: 20px;"></i> Lamination</span> <strong>₹10+</strong></li>
+        <li style="display: flex; justify-content: space-between; border-bottom: 1px dashed rgba(11,42,91,0.15); padding: 5px 0;"><span><i class="fa-solid fa-book" style="opacity: 0.6; width: 20px;"></i> Spiral Binding</span> <strong>₹30+</strong></li>
+        <li style="display: flex; justify-content: space-between; padding: 5px 0 0;"><span><i class="fa-solid fa-camera" style="opacity: 0.6; width: 20px;"></i> Passport Photos</span> <strong>₹30</strong></li>
+      </ul>
+    `;
+
     return {
-      text: localizeReply(
-        message,
-        'Popular starting prices: Xerox A4 ₹1.5, B&W print A4 ₹3, color print A4 ₹10, lamination from ₹10, spiral binding from ₹30, passport photos ₹30.',
-        'Popular rates: A4 Xerox ₹1.5, A4 B&W print ₹3, A4 color print ₹10, lamination ₹10 se, spiral binding ₹30 se, passport photos ₹30.'
-      ),
+      text: htmlResponse,
+      isHtml: true,
       suggestions: [
         { label: '50 page estimate', value: 'Estimate 50 pages B&W printing' },
         { label: 'Color print', value: 'Color print price' },
@@ -490,9 +499,16 @@ export const initChatWidget = () => {
 
   const appendMessage = (text, type = 'user', options = {}) => {
     const { messageEl, bubble } = createMessageShell(type);
-    const paragraph = document.createElement('p');
-    paragraph.textContent = text;
-    bubble.appendChild(paragraph);
+    
+    if (options.isHtml && type === 'agent') {
+      const container = document.createElement('div');
+      container.innerHTML = text;
+      bubble.appendChild(container);
+    } else {
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      bubble.appendChild(paragraph);
+    }
 
     if (options.meta) {
       const meta = document.createElement('span');
@@ -661,6 +677,7 @@ export const initChatWidget = () => {
       latestHandoff = localAnswer.handoff || latestHandoff;
       updateWhatsAppLink(cleanMessage, latestHandoff);
       appendMessage(localAnswer.text, 'agent', {
+        isHtml: localAnswer.isHtml,
         meta: getOpenStatusLine(),
         actions: [
           { label: 'WhatsApp owner', value: 'I want to continue on WhatsApp' },
