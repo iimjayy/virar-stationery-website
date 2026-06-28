@@ -11,14 +11,14 @@ import {
 } from '../utils/helpers.js';
 
 const GEMINI_API_KEY = atob('QUl6YVN5QU9LRXJHenRHdnUtNzFGdXBkX0Q0NFVuQ3htdlV3QnFJ');
-const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-flash-latest:generateContent?key=${GEMINI_API_KEY}`;
-const GEMINI_TIMEOUT_MS = 3500;
+const GEMINI_API_URL = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${GEMINI_API_KEY}`;
+const GEMINI_TIMEOUT_MS = 6000;
 
 const BUSINESS_ADDRESS =
   'Shop No. 11, Takshashila Apartment, opposite Mahavir Hospital, near Old Viva College, Ram Mandir Road, Virar West, Mumbai 401303';
 
-const SYSTEM_PROMPT = `You are the expert AI assistant for Virar Stationery & Jumbo Xerox.
-Answer like a helpful shop employee. Keep replies short, concrete, and accurate.
+const SYSTEM_PROMPT = `You are the friendly, expert AI assistant for Virar Stationery & Jumbo Xerox.
+Answer like a helpful shop employee. Keep replies short, concrete, and accurate. Be warm and conversational, especially when the customer says "hello" or "hi".
 Use these facts:
 - Location: ${BUSINESS_ADDRESS}
 - Open daily: 8:00 AM to 9:00 PM.
@@ -27,7 +27,7 @@ Use these facts:
 - Prices: B&W print A4 Rs 3, color print A4 Rs 10, xerox A4 Rs 1.5 B&W / Rs 9 color, lamination A4 Rs 10, spiral binding Rs 30, passport photos Rs 30, smart card Rs 80.
 - Bulk orders get custom quotes. No home delivery; pickup from shop.
 - Language: reply in the customer's style. If they use Hindi-English, Hinglish, or casual local slang, answer naturally in simple Hinglish. Examples: "Haan, file WhatsApp pe bhej do", "Aap pages aur copies bata do", "pickup shop se hoga".
-Do not use markdown. If unsure, guide the customer to WhatsApp the owner.`;
+Do not use markdown. Always be helpful. If you don't know the exact price for a complex request, guide the customer to WhatsApp the owner.`;
 
 const DEFAULT_SUGGESTIONS = [
   { label: 'Print price', value: 'What is the price for B&W and color printing?' },
