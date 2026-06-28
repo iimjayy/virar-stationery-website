@@ -837,7 +837,6 @@
               <a href="#contact" class="card-link" data-service-link="all-size-scanning">Learn More</a>
             </div>
           </div>
-
           <div class="col-12 col-md-6 col-xl-3 reveal reveal-child">
             <div class="info-card service-card h-100" data-service-id="computer-accessories">
               <div class="card-icon"><i class="fa-solid fa-desktop"></i></div>
@@ -857,65 +856,84 @@
                 Script can now read card.dataset.serviceId instead of card.querySelector('h3').textContent
          ═══════════════════════════════════════════════ -->
     <!-- === SECTION: POPULAR-PRICES === -->
-<section id="popular-prices" class="section-pad section-alt" data-section="popular-prices" aria-labelledby="popular-prices-heading">
+    <section id="popular-prices" class="section-pad section-alt" data-section="popular-prices" aria-labelledby="popular-prices-heading">
       <div class="container-fluid px-3 px-xl-4">
         <div class="section-heading reveal">
-          <span class="section-kicker">Popular Services</span>
-          <!-- [ARCH] id="popular-prices-heading": enables aria-labelledby on parent section -->
-          <h2 id="popular-prices-heading">Most requested services with starting prices</h2>
-          <p>Indicative prices to help customers estimate costs quickly.</p>
-        </div>
-        <div class="row g-4">
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <!-- [ARCH] data-service-id="xerox-photocopy": stable service identity, replaces h3 text scraping -->
-            <div class="price-card h-100" data-service-id="xerox-photocopy">
-              <span class="popular-badge">Most Popular</span>
-              <div class="price-icon"><i class="fa-solid fa-copy"></i></div>
-              <h3>Xerox / Photocopy</h3>
-              <p class="price-value">Starting from <strong>&#8377;1.5</strong></p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="price-card h-100" data-service-id="color-printing">
-              <span class="popular-badge">Most Popular</span>
-              <div class="price-icon"><i class="fa-solid fa-palette"></i></div>
-              <h3>Colour Printout</h3>
-              <p class="price-value">Starting from <strong>&#8377;10</strong></p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="price-card h-100" data-service-id="lamination">
-              <div class="price-icon"><i class="fa-solid fa-layer-group"></i></div>
-              <h3>Lamination</h3>
-              <p class="price-value">Starting from <strong>&#8377;10</strong></p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="price-card h-100" data-service-id="spiral-binding">
-              <div class="price-icon"><i class="fa-solid fa-clipboard-list"></i></div>
-              <h3>Spiral Binding</h3>
-              <p class="price-value">Starting from <strong>&#8377;30</strong></p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="price-card h-100" data-service-id="passport-photos">
-              <div class="price-icon"><i class="fa-solid fa-camera"></i></div>
-              <h3>Passport Photos</h3>
-              <p class="price-value">Starting from <strong>&#8377;30</strong></p>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="price-card h-100" data-service-id="smart-card">
-              <div class="price-icon"><i class="fa-solid fa-id-card-clip"></i></div>
-              <h3>Smart Card</h3>
-              <p class="price-value">Starting from <strong>&#8377;80</strong></p>
-            </div>
-          </div>
+          <span class="section-kicker">Transparent Pricing</span>
+          <h2 id="popular-prices-heading">Affordable rates for premium quality</h2>
+          <p>Whether you need a single photocopy or bulk project binding, our prices are unmatched in Virar.</p>
         </div>
         
-        <!-- Faded Disclaimer -->
-        <div class="text-center mt-4 pt-2 pb-5 mb-4 reveal">
-          <p class="text-muted small mb-0" style="opacity: 0.75; font-style: italic; letter-spacing: 0.3px;">* Please note: All prices listed above are indicative and subject to change. Final pricing will be confirmed at the shop.</p>
+        <div class="row g-4 align-items-center justify-content-center">
+          
+          <!-- Pricing Tier 1 -->
+          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
+            <div class="price-tier-card">
+              <div class="ptc-header">
+                <div class="ptc-icon"><i class="fa-solid fa-copy"></i></div>
+                <h3>Print &amp; Xerox</h3>
+                <p>For daily documents and notes.</p>
+                <div class="ptc-price">From <span>₹1.5</span>/pg</div>
+              </div>
+              <div class="ptc-body">
+                <ul class="ptc-features">
+                  <li><i class="fa-solid fa-check"></i> High-speed B&amp;W and Color</li>
+                  <li><i class="fa-solid fa-check"></i> A4 and A3 size papers</li>
+                  <li><i class="fa-solid fa-check"></i> 70 GSM &amp; 100 GSM options</li>
+                  <li><i class="fa-solid fa-check"></i> Print from WhatsApp/Email</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Tier 2 (Highlighted) -->
+          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
+            <div class="price-tier-card is-highlighted">
+              <span class="ptc-badge">Most Requested</span>
+              <div class="ptc-header">
+                <div class="ptc-icon"><i class="fa-solid fa-book-open"></i></div>
+                <h3>Projects &amp; Binding</h3>
+                <p>Premium finish for presentations.</p>
+                <div class="ptc-price">From <span>₹30</span></div>
+              </div>
+              <div class="ptc-body">
+                <ul class="ptc-features">
+                  <li><i class="fa-solid fa-check"></i> Spiral &amp; Hardbound Binding</li>
+                  <li><i class="fa-solid fa-check"></i> Glossy / Matte Lamination</li>
+                  <li><i class="fa-solid fa-check"></i> Thesis and Project Reports</li>
+                  <li><i class="fa-solid fa-check"></i> Same-day delivery available</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Tier 3 -->
+          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
+            <div class="price-tier-card">
+              <div class="ptc-header">
+                <div class="ptc-icon"><i class="fa-solid fa-bolt"></i></div>
+                <h3>Instant Services</h3>
+                <p>Quick turnaround for urgent needs.</p>
+                <div class="ptc-price">From <span>₹30</span></div>
+              </div>
+              <div class="ptc-body">
+                <ul class="ptc-features">
+                  <li><i class="fa-solid fa-check"></i> 20 Passport Photos (₹30/set)</li>
+                  <li><i class="fa-solid fa-check"></i> PVC Smart Card Printing</li>
+                  <li><i class="fa-solid fa-check"></i> Aadhar &amp; PAN Card prints</li>
+                  <li><i class="fa-solid fa-check"></i> Lamination in 2 minutes</li>
+                </ul>
+              </div>
+            </div>
+          </div>
+
+        </div><!-- /.row -->
+
+        <div class="text-center mt-5 pt-3 pb-5 reveal">
+          <p class="text-muted mb-4 small" style="opacity: 0.8; font-style: italic;">* Prices may vary slightly based on specific paper quality and bulk quantities.</p>
+          <a href="pages/pricing.html" class="btn btn-primary btn-lg custom-btn shadow-sm" style="border-radius: 999px; font-weight: 700; padding: 14px 32px;">
+            View Full Detailed Price List <i class="fa-solid fa-arrow-right ms-2"></i>
+          </a>
         </div>
       </div>
     </section>

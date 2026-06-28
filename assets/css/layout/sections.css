@@ -838,6 +838,136 @@ main > section + section::before {
 }
 
 /* ==========================================================================
+   PRICE TIER CARDS (SaaS Style)
+   ========================================================================== */
+
+.price-tier-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-card);
+  height: 100%;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.3s cubic-bezier(0.22, 1, 0.36, 1), box-shadow 0.3s ease;
+}
+
+.price-tier-card:hover {
+  transform: translateY(-8px);
+  box-shadow: var(--shadow-card-hover);
+  border-color: rgba(244, 210, 31, 0.4);
+}
+
+.price-tier-card.is-highlighted {
+  border: 2px solid var(--yellow);
+  box-shadow: 0 12px 30px rgba(244, 210, 31, 0.2);
+}
+
+.price-tier-card.is-highlighted:hover {
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: 0 16px 40px rgba(244, 210, 31, 0.25);
+}
+
+.ptc-badge {
+  position: absolute;
+  top: 16px;
+  right: -24px;
+  background: var(--yellow);
+  color: var(--navy);
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  padding: 4px 32px;
+  transform: rotate(45deg);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 2;
+}
+
+.ptc-header {
+  padding: 32px 24px 24px;
+  text-align: center;
+  background: linear-gradient(180deg, rgba(244, 210, 31, 0.05) 0%, transparent 100%);
+  border-bottom: 1px solid var(--border);
+}
+
+.ptc-icon {
+  width: 56px;
+  height: 56px;
+  background: var(--navy);
+  color: var(--yellow);
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  margin: 0 auto 20px;
+  box-shadow: 0 8px 20px rgba(11, 42, 91, 0.15);
+  transition: transform 0.3s ease;
+}
+
+.price-tier-card:hover .ptc-icon {
+  transform: scale(1.1) rotate(5deg);
+}
+
+.ptc-header h3 {
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: var(--navy);
+  margin-bottom: 8px;
+}
+
+.ptc-header p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin-bottom: 24px;
+}
+
+.ptc-price {
+  font-size: 1rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+.ptc-price span {
+  font-family: var(--font-display);
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: var(--navy);
+  line-height: 1;
+}
+
+.ptc-body {
+  padding: 24px;
+  background: #fff;
+}
+
+.ptc-features {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.ptc-features li {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  font-size: 0.95rem;
+  color: var(--text);
+}
+
+.ptc-features li i {
+  color: var(--yellow);
+  font-size: 1.1rem;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+/* ==========================================================================
    MOBILE-FIRST OPTIMIZATION LAYER
    Added: June 2026
    Purpose: Premium mobile experience — touch targets, readability, spacing,
