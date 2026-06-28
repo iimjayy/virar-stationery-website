@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Leave a Review · Virar Stationery &amp; Jumbo Xerox</title>
+  <meta name="description" content="Share your experience with Virar Stationery & Jumbo Xerox in seconds. Pick a review or build your own, then post it on Google in one tap." />
+  <meta name="robots" content="noindex, follow" />
+  <meta name="theme-color" content="#0b2a5b" />
+  <link rel="icon" type="image/png" href="assets/images/brand/logo.png" />
+
+  <!-- Brand fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&family=Sora:wght@600;700;800&display=swap" rel="stylesheet" />
+
+  <style>
+    :root {
+      --bg: #f7f6f2;
+      --surface: #ffffff;
+      --surface-alt: #fcfaf4;
+      --text: #101828;
+      --muted: #667085;
+      --navy: #0b2a5b;
+      --navy-2: #081e43;
+      --yellow: #f4d21f;
+      --yellow-light: #ffeb61;
+      --orange: #f28c28;
+      --success: #16a34a;
+      --border: rgba(11, 42, 91, 0.14);
+      --font-display: 'Sora', 'Poppins', sans-serif;
+      --font-body: 'Poppins', sans-serif;
+      --radius: 20px;
+      --radius-sm: 14px;
+      --radius-lg: 28px;
+      --radius-shell: 30px;
+      --radius-pill: 999px;
+      --shadow-sm: 0 8px 20px rgba(11, 42, 91, 0.09);
+      --shadow-md: 0 16px 34px rgba(11, 42, 91, 0.13);
+      --shadow-lg: 0 26px 60px rgba(11, 42, 91, 0.22);
+      --ease: cubic-bezier(0.22, 1, 0.36, 1);
+    }
+
+    * { box-sizing: border-box; }
+
+    html, body { margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--font-body);
+      color: var(--text);
+      background:
+        radial-gradient(1200px 600px at 10% -10%, rgba(244, 210, 31, 0.18), transparent 60%),
+        radial-gradient(1000px 700px at 100% 0%, rgba(11, 42, 91, 0.10), transparent 55%),
+        var(--bg);
+      min-height: 100vh;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      padding: 22px 16px calc(120px + env(safe-area-inset-bottom));
+    }
+
+    .wrap { max-width: 680px; margin: 0 auto; }
+
+    /* ---- Brand header ---- */
+    .r-top {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      margin-bottom: 18px;
+    }
+    .r-brand { display: flex; align-items: center; gap: 10px; min-width: 0; }
+    .r-brand img {
+      width: 42px; height: 42px; border-radius: 12px;
+      object-fit: cover; box-shadow: var(--shadow-sm); background: #fff;
+    }
+    .r-brand b {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: 0.98rem; color: var(--navy); line-height: 1.15;
+    }
+    .r-back {
+      text-decoration: none; color: var(--navy); font-weight: 600;
+      font-size: 0.82rem; white-space: nowrap; opacity: 0.75;
+      border: 1px solid var(--border); padding: 7px 12px; border-radius: var(--radius-pill);
+      transition: background 0.2s, opacity 0.2s;
+    }
+    .r-back:hover { opacity: 1; background: var(--surface); }
+
+    /* ---- Hero card ---- */
+    .r-hero {
+      text-align: center;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius-shell);
+      padding: 28px 22px 26px;
+      box-shadow: var(--shadow-md);
+      position: relative;
+      overflow: hidden;
+    }
+    .r-hero::before {
+      content: "";
+      position: absolute; inset: 0 0 auto 0; height: 5px;
+      background: linear-gradient(90deg, var(--yellow), var(--orange), var(--navy));
+    }
+    .r-stars { display: flex; justify-content: center; gap: 6px; margin-bottom: 14px; }
+    .r-stars i {
+      color: var(--yellow); font-style: normal; font-size: 1.7rem;
+      filter: drop-shadow(0 3px 6px rgba(244, 210, 31, 0.5));
+      animation: starPop 0.5s var(--ease) backwards;
+    }
+    .r-stars i:nth-child(1) { animation-delay: 0.05s; }
+    .r-stars i:nth-child(2) { animation-delay: 0.13s; }
+    .r-stars i:nth-child(3) { animation-delay: 0.21s; }
+    .r-stars i:nth-child(4) { animation-delay: 0.29s; }
+    .r-stars i:nth-child(5) { animation-delay: 0.37s; }
+    @keyframes starPop {
+      0% { opacity: 0; transform: scale(0.3) rotate(-25deg); }
+      70% { transform: scale(1.18) rotate(6deg); }
+      100% { opacity: 1; transform: scale(1) rotate(0); }
+    }
+    .r-hero h1 {
+      font-family: var(--font-display); font-weight: 800;
+      font-size: clamp(1.5rem, 5.5vw, 2.05rem); color: var(--navy);
+      margin: 0 0 8px; line-height: 1.18;
+    }
+    .r-hero p { color: var(--muted); margin: 0 auto; max-width: 460px; font-size: 0.96rem; line-height: 1.55; }
+    .r-hero .r-time {
+      display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
+      font-size: 0.8rem; font-weight: 600; color: var(--navy);
+      background: rgba(244, 210, 31, 0.22); padding: 6px 14px; border-radius: var(--radius-pill);
+    }
+
+    /* ---- Mode toggle ---- */
+    .r-modes {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 6px;
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: var(--radius-pill); padding: 6px; margin: 22px 0 18px;
+      box-shadow: var(--shadow-sm); position: relative;
+    }
+    .r-mode-btn {
+      appearance: none; border: 0; background: transparent; cursor: pointer;
+      font-family: var(--font-body); font-weight: 700; font-size: 0.92rem;
+      color: var(--muted); padding: 12px 10px; border-radius: var(--radius-pill);
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      transition: color 0.25s var(--ease); position: relative; z-index: 2;
+    }
+    .r-mode-btn.is-active { color: var(--navy); }
+    .r-mode-glider {
+      position: absolute; z-index: 1; top: 6px; bottom: 6px; left: 6px;
+      width: calc(50% - 6px);
+      background: linear-gradient(160deg, var(--yellow-light), var(--yellow));
+      border-radius: var(--radius-pill);
+      box-shadow: 0 6px 14px rgba(244, 210, 31, 0.4);
+      transition: transform 0.34s var(--ease);
+    }
+    .r-modes[data-mode="build"] .r-mode-glider { transform: translateX(calc(100% + 6px)); }
+
+    .r-section { margin-bottom: 8px; }
+    .r-section[hidden] { display: none; }
+
+    .r-label {
+      display: flex; align-items: center; gap: 8px;
+      font-weight: 700; color: var(--navy); font-size: 0.82rem;
+      letter-spacing: 0.04em; text-transform: uppercase; margin: 4px 2px 12px;
+    }
+    .r-label .num {
+      width: 22px; height: 22px; border-radius: 50%; background: var(--navy);
+      color: #fff; display: inline-flex; align-items: center; justify-content: center;
+      font-size: 0.72rem;
+    }
+
+    /* ---- Preset cards ---- */
+    .r-presets { display: grid; gap: 12px; }
+    .r-card {
+      text-align: left; cursor: pointer; width: 100%;
+      background: var(--surface); border: 2px solid var(--border);
+      border-radius: var(--radius); padding: 16px 16px 14px;
+      transition: border-color 0.2s var(--ease), transform 0.2s var(--ease), box-shadow 0.2s var(--ease);
+      position: relative; font-family: var(--font-body);
+      animation: cardIn 0.5s var(--ease) backwards;
+    }
+    @keyframes cardIn { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
+    .r-card:hover { border-color: rgba(11, 42, 91, 0.32); transform: translateY(-2px); box-shadow: var(--shadow-md); }
+    .r-card.is-selected {
+      border-color: var(--success);
+      box-shadow: 0 0 0 4px rgba(22, 163, 74, 0.14), var(--shadow-md);
+    }
+    .r-card-head { display: flex; align-items: center; gap: 10px; margin-bottom: 9px; }
+    .r-card-ico {
+      width: 36px; height: 36px; flex: 0 0 auto; border-radius: 11px;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-size: 1rem; color: var(--navy); background: rgba(244, 210, 31, 0.26);
+    }
+    .r-card-tag { font-weight: 700; font-size: 0.92rem; color: var(--navy); }
+    .r-card-text { color: #344054; font-size: 0.92rem; line-height: 1.5; margin: 0; }
+    .r-card-actions {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 12px; gap: 10px;
+    }
+    .r-shuffle {
+      appearance: none; border: 1px solid var(--border); background: var(--surface-alt);
+      color: var(--navy); font-weight: 600; font-size: 0.78rem; cursor: pointer;
+      padding: 7px 12px; border-radius: var(--radius-pill); display: inline-flex;
+      align-items: center; gap: 6px; transition: background 0.2s, transform 0.2s;
+    }
+    .r-shuffle:hover { background: rgba(244, 210, 31, 0.3); }
+    .r-shuffle:active { transform: scale(0.94); }
+    .r-pick {
+      font-weight: 700; font-size: 0.82rem; color: var(--success);
+      display: inline-flex; align-items: center; gap: 6px;
+    }
+    .r-card:not(.is-selected) .r-pick .picked { display: none; }
+    .r-card.is-selected .r-pick .pick { display: none; }
+
+    /* ---- Tag builder ---- */
+    .r-taggroup { margin-bottom: 16px; }
+    .r-taggroup h3 {
+      font-size: 0.78rem; color: var(--muted); font-weight: 700; margin: 0 0 9px 2px;
+      text-transform: uppercase; letter-spacing: 0.03em;
+    }
+    .r-tags { display: flex; flex-wrap: wrap; gap: 9px; }
+    .r-tag {
+      appearance: none; cursor: pointer; font-family: var(--font-body);
+      border: 1.5px solid var(--border); background: var(--surface);
+      color: var(--navy); font-weight: 600; font-size: 0.86rem;
+      padding: 9px 14px; border-radius: var(--radius-pill);
+      display: inline-flex; align-items: center; gap: 7px;
+      transition: all 0.2s var(--ease);
+    }
+    .r-tag i { font-style: normal; transition: transform 0.2s var(--ease); }
+    .r-tag:hover { border-color: rgba(11, 42, 91, 0.4); transform: translateY(-1px); }
+    .r-tag.is-on {
+      background: var(--navy); border-color: var(--navy); color: #fff;
+      box-shadow: var(--shadow-sm);
+    }
+    .r-tag.is-on i { transform: rotate(90deg); }
+
+    /* ---- Live preview ---- */
+    .r-preview-wrap { margin-top: 20px; }
+    .r-preview-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .r-preview-head .r-label { margin: 0; }
+    .r-reword {
+      appearance: none; border: 1px solid var(--border); background: var(--surface);
+      color: var(--navy); font-weight: 700; font-size: 0.8rem; cursor: pointer;
+      padding: 8px 14px; border-radius: var(--radius-pill); display: inline-flex;
+      align-items: center; gap: 7px; transition: background 0.2s, transform 0.2s, opacity 0.2s;
+    }
+    .r-reword:hover { background: rgba(244, 210, 31, 0.3); }
+    .r-reword:active { transform: scale(0.95); }
+    .r-reword[disabled] { opacity: 0.45; cursor: not-allowed; }
+    .r-reword i { font-style: normal; }
+    .r-quote {
+      position: relative; background: var(--surface);
+      border: 1px solid var(--border); border-radius: var(--radius);
+      box-shadow: var(--shadow-sm); padding: 18px 18px 16px;
+    }
+    .r-quote::before {
+      content: "\201C"; position: absolute; top: -14px; left: 12px;
+      font-family: Georgia, serif; font-size: 4rem; color: var(--yellow);
+      line-height: 1; opacity: 0.8;
+    }
+    .r-text {
+      width: 100%; border: 0; resize: none; outline: none;
+      font-family: var(--font-body); font-size: 1rem; line-height: 1.62;
+      color: var(--text); background: transparent; min-height: 120px;
+      display: block;
+    }
+    .r-text::placeholder { color: #98a2b3; }
+    .r-quote.is-empty { border-style: dashed; }
+    .r-quote-foot {
+      display: flex; align-items: center; justify-content: space-between;
+      margin-top: 8px; padding-top: 10px; border-top: 1px dashed var(--border);
+      font-size: 0.76rem; color: var(--muted);
+    }
+    .r-count { font-variant-numeric: tabular-nums; }
+    .r-edit-hint { display: inline-flex; align-items: center; gap: 5px; }
+
+    /* ---- Sticky CTA ---- */
+    .r-cta-bar {
+      position: fixed; left: 0; right: 0; bottom: 0; z-index: 50;
+      padding: 12px 16px calc(12px + env(safe-area-inset-bottom));
+      background: linear-gradient(180deg, rgba(247, 246, 242, 0) 0%, var(--bg) 38%);
+      pointer-events: none;
+    }
+    .r-cta-inner { max-width: 680px; margin: 0 auto; pointer-events: auto; }
+    .r-cta {
+      width: 100%; appearance: none; border: 0; cursor: pointer;
+      font-family: var(--font-display); font-weight: 800; font-size: 1.04rem;
+      color: #fff; background: linear-gradient(160deg, #1fa856, var(--success));
+      padding: 16px 20px; border-radius: var(--radius-pill);
+      display: inline-flex; align-items: center; justify-content: center; gap: 11px;
+      box-shadow: 0 12px 26px rgba(22, 163, 74, 0.4);
+      transition: transform 0.2s var(--ease), box-shadow 0.2s var(--ease), opacity 0.2s;
+    }
+    .r-cta:hover:not([disabled]) { transform: translateY(-2px); box-shadow: 0 16px 32px rgba(22, 163, 74, 0.5); }
+    .r-cta:active:not([disabled]) { transform: translateY(0) scale(0.99); }
+    .r-cta[disabled] { background: #c2c9d2; box-shadow: none; cursor: not-allowed; }
+    .r-cta .g { width: 22px; height: 22px; background: #fff; border-radius: 50%; padding: 3px; flex: 0 0 auto; }
+    .r-cta-note { text-align: center; font-size: 0.74rem; color: var(--muted); margin: 8px 0 0; }
+
+    /* ---- Success overlay ---- */
+    .r-overlay {
+      position: fixed; inset: 0; z-index: 100; display: none;
+      align-items: center; justify-content: center; padding: 22px;
+      background: rgba(8, 30, 67, 0.55); backdrop-filter: blur(6px);
+      -webkit-backdrop-filter: blur(6px);
+    }
+    .r-overlay.is-open { display: flex; animation: fadeIn 0.25s ease; }
+    @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+    .r-modal {
+      background: var(--surface); border-radius: var(--radius-lg);
+      max-width: 420px; width: 100%; padding: 30px 24px 24px; text-align: center;
+      box-shadow: var(--shadow-lg); animation: modalIn 0.4s var(--ease);
+    }
+    @keyframes modalIn { from { opacity: 0; transform: translateY(24px) scale(0.96); } to { opacity: 1; transform: none; } }
+    .r-check {
+      width: 72px; height: 72px; margin: 0 auto 16px; border-radius: 50%;
+      background: rgba(22, 163, 74, 0.12); display: flex; align-items: center; justify-content: center;
+    }
+    .r-check svg { width: 40px; height: 40px; }
+    .r-check circle { stroke: var(--success); stroke-width: 4; fill: none; stroke-dasharray: 166; stroke-dashoffset: 166; animation: drawC 0.5s var(--ease) forwards; }
+    .r-check path { stroke: var(--success); stroke-width: 5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 48; stroke-dashoffset: 48; animation: drawC 0.35s 0.4s var(--ease) forwards; }
+    @keyframes drawC { to { stroke-dashoffset: 0; } }
+    .r-modal h2 { font-family: var(--font-display); font-weight: 800; color: var(--navy); font-size: 1.4rem; margin: 0 0 6px; }
+    .r-modal .lead { color: var(--text); font-size: 0.98rem; line-height: 1.5; margin: 0 0 16px; }
+    .r-steps { text-align: left; background: var(--surface-alt); border: 1px solid var(--border); border-radius: var(--radius-sm); padding: 14px 16px; margin: 0 0 18px; }
+    .r-step { display: flex; align-items: flex-start; gap: 11px; font-size: 0.9rem; color: #344054; line-height: 1.45; }
+    .r-step + .r-step { margin-top: 11px; }
+    .r-step .b {
+      flex: 0 0 auto; width: 24px; height: 24px; border-radius: 50%;
+      background: var(--navy); color: #fff; font-size: 0.78rem; font-weight: 700;
+      display: inline-flex; align-items: center; justify-content: center;
+    }
+    .r-step b { color: var(--navy); }
+    .r-go {
+      width: 100%; appearance: none; border: 0; cursor: pointer;
+      font-family: var(--font-display); font-weight: 800; font-size: 1rem; color: #fff;
+      background: linear-gradient(160deg, #2a6df4, #1a56d6); padding: 15px 18px;
+      border-radius: var(--radius-pill); display: inline-flex; align-items: center;
+      justify-content: center; gap: 10px; box-shadow: 0 12px 24px rgba(26, 86, 214, 0.35);
+      transition: transform 0.2s var(--ease);
+    }
+    .r-go:active { transform: scale(0.99); }
+    .r-go .g { width: 20px; height: 20px; background: #fff; border-radius: 50%; padding: 3px; }
+    .r-countdown { display: block; font-size: 0.78rem; color: var(--muted); margin-top: 12px; }
+    .r-recopy {
+      appearance: none; border: 0; background: transparent; color: var(--navy);
+      text-decoration: underline; font-size: 0.82rem; cursor: pointer; margin-top: 10px;
+      font-family: var(--font-body);
+    }
+
+    .visually-hidden {
+      position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px;
+      overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * { animation: none !important; transition: none !important; }
+    }
+
+    @media (min-width: 560px) {
+      .r-presets { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+
+    <div class="r-top">
+      <div class="r-brand">
+        <picture>
+          <source srcset="assets/images/brand/logo.webp" type="image/webp" />
+          <img src="assets/images/brand/logo.png" alt="Virar Stationery & Jumbo Xerox" />
+        </picture>
+        <b>Virar Stationery<br />&amp; Jumbo Xerox</b>
+      </div>
+      <a class="r-back" href="/">&larr; Home</a>
+    </div>
+
+    <!-- Hero -->
+    <section class="r-hero">
+      <div class="r-stars" aria-hidden="true">
+        <i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i><i>&#9733;</i>
+      </div>
+      <h1>How was your experience?</h1>
+      <p>Your review helps our small shop grow. Pick one below or build your own &mdash; it takes <b>10 seconds</b>.</p>
+      <span class="r-time">&#9889; One tap to post on Google</span>
+    </section>
+
+    <!-- Mode toggle -->
+    <div class="r-modes" data-mode="pick" role="tablist" aria-label="Review mode">
+      <span class="r-mode-glider" aria-hidden="true"></span>
+      <button class="r-mode-btn is-active" id="tabPick" role="tab" aria-selected="true" data-mode="pick">
+        &#9889; Quick Pick
+      </button>
+      <button class="r-mode-btn" id="tabBuild" role="tab" aria-selected="false" data-mode="build">
+        &#9999;&#65039; Build Your Own
+      </button>
+    </div>
+
+    <!-- Quick Pick -->
+    <section class="r-section" id="panePick" role="tabpanel" aria-labelledby="tabPick">
+      <div class="r-label"><span class="num">1</span> Tap a review you like</div>
+      <div class="r-presets" id="presets"></div>
+    </section>
+
+    <!-- Builder -->
+    <section class="r-section" id="paneBuild" role="tabpanel" aria-labelledby="tabBuild" hidden>
+      <div class="r-label"><span class="num">1</span> Tap what you liked</div>
+      <div id="tagGroups"></div>
+    </section>
+
+    <!-- Live preview (shared) -->
+    <div class="r-preview-wrap">
+      <div class="r-preview-head">
+        <div class="r-label" style="margin:0;"><span class="num">2</span> Your review</div>
+        <button class="r-reword" id="reword" disabled><i>&#127922;</i> Reword</button>
+      </div>
+      <div class="r-quote is-empty" id="quoteBox">
+        <textarea class="r-text" id="reviewText" rows="4" spellcheck="true"
+          placeholder="Pick a review above or tap a few tags — your review will appear here. You can edit it too!"
+          aria-label="Your review text"></textarea>
+        <div class="r-quote-foot">
+          <span class="r-edit-hint"><i aria-hidden="true">&#9998;</i> You can edit this</span>
+          <span class="r-count"><span id="charCount">0</span> chars</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Sticky CTA -->
+  <div class="r-cta-bar">
+    <div class="r-cta-inner">
+      <button class="r-cta" id="postBtn" disabled>
+        <span class="g" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+        </span>
+        <span id="postBtnLabel">Pick a review first</span>
+      </button>
+      <p class="r-cta-note">We&rsquo;ll copy your review &amp; open Google &mdash; just paste &amp; post. &#128153;</p>
+    </div>
+  </div>
+
+  <!-- Success overlay -->
+  <div class="r-overlay" id="overlay" role="dialog" aria-modal="true" aria-labelledby="ovTitle">
+    <div class="r-modal">
+      <div class="r-check" aria-hidden="true">
+        <svg viewBox="0 0 56 56"><circle cx="28" cy="28" r="26"/><path d="M16 29l8 8 16-18"/></svg>
+      </div>
+      <h2 id="ovTitle">Review copied! &#9989;</h2>
+      <p class="lead">Now just paste it into Google &mdash; here&rsquo;s how:</p>
+      <div class="r-steps">
+        <div class="r-step"><span class="b">1</span><span>Google Maps opens on the next screen.</span></div>
+        <div class="r-step"><span class="b">2</span><span><b>Tap the review box</b>, then <b>press &amp; hold &rarr; Paste</b>.</span></div>
+        <div class="r-step"><span class="b">3</span><span>Make sure it&rsquo;s <b>5 stars</b> and tap <b>Post</b>. Done! &#127881;</span></div>
+      </div>
+      <button class="r-go" id="goBtn">
+        <span class="g" aria-hidden="true">
+          <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+        </span>
+        Open Google &amp; Paste Now
+      </button>
+      <span class="r-countdown" id="countdown">Opening Google automatically&hellip;</span>
+      <button class="r-recopy" id="recopyBtn">Copy the text again</button>
+    </div>
+  </div>
+
+  <div class="visually-hidden" role="status" aria-live="polite" id="live"></div>
+
+  <script>
+  (function () {
+    "use strict";
+
+    var GOOGLE_REVIEW_URL = "https://g.page/r/CQXdyEa2Thc8EBM/review";
+    var REDIRECT_DELAY = 4000; // ms — time to read instructions before auto-redirect (matches countdown)
+
+    // ----- helpers -----
+    function pick(arr) { return arr[Math.floor(Math.random() * arr.length)]; }
+    function shuffle(arr) {
+      var a = arr.slice();
+      for (var i = a.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = a[i]; a[i] = a[j]; a[j] = t;
+      }
+      return a;
+    }
+    function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+
+    // ----- content engine -----
+    var OPENERS = [
+      "Had a really great experience at Virar Stationery & Jumbo Xerox.",
+      "Genuinely impressed with Virar Stationery & Jumbo Xerox.",
+      "One of the best printing and stationery shops in Virar.",
+      "So glad I found Virar Stationery & Jumbo Xerox.",
+      "Highly satisfied with my visit to Virar Stationery & Jumbo Xerox.",
+      "My go-to shop in Virar West for printing and stationery.",
+      "Wonderful little shop for all your xerox and stationery needs.",
+      "Visited Virar Stationery & Jumbo Xerox and it did not disappoint."
+    ];
+
+    var CLOSERS = [
+      "Highly recommended!",
+      "Will definitely come back.",
+      "Best in Virar West!",
+      "Strongly recommend this place.",
+      "Thank you for the great service!",
+      "5 stars from me!",
+      "Don't think twice, just go.",
+      "A reliable spot you can trust."
+    ];
+
+    var EMOJIS = ["", "", " 👍", " ⭐", " 🙏", " 😊"];
+
+    // Each aspect: a pool of standalone sentences. Random pick => uniqueness.
+    var ASPECTS = {
+      print_quality: {
+        label: "Print Quality", icon: "🖨️", group: "Printing & Xerox",
+        lines: [
+          "The print quality was crisp and clear.",
+          "Prints came out sharp and professional.",
+          "Excellent printing — colours looked vibrant and clean.",
+          "Top-notch print quality, exactly as I wanted.",
+          "The colour prints were rich and accurate."
+        ]
+      },
+      xerox: {
+        label: "Xerox / Photocopy", icon: "📄", group: "Printing & Xerox",
+        lines: [
+          "Their xerox copies are fast and neat.",
+          "Got my photocopies done in no time.",
+          "Quick, clean and affordable xerox service.",
+          "Even old documents came out clear on the copier.",
+          "Bulk xerox was handled quickly and accurately."
+        ]
+      },
+      passport: {
+        label: "Passport Photos", icon: "📸", group: "Printing & Xerox",
+        lines: [
+          "Got my passport photos clicked perfectly.",
+          "Passport-size photos came out great with correct sizing.",
+          "Quick passport photos, ready in minutes.",
+          "Professional passport photos at a fair price."
+        ]
+      },
+      binding: {
+        label: "Binding & Projects", icon: "📖", group: "Printing & Xerox",
+        lines: [
+          "Spiral binding was neat and sturdy.",
+          "My project binding looked really professional.",
+          "Got my thesis printed and bound perfectly.",
+          "Binding work was clean and well finished."
+        ]
+      },
+      lamination: {
+        label: "Lamination", icon: "✨", group: "Printing & Xerox",
+        lines: [
+          "Lamination was smooth and bubble-free.",
+          "Nice clean lamination with a great finish.",
+          "Documents were laminated perfectly."
+        ]
+      },
+      fast: {
+        label: "Fast Service", icon: "⚡", group: "Service & Staff",
+        lines: [
+          "Service was super fast.",
+          "They finished my work within minutes.",
+          "No long waiting — really quick turnaround.",
+          "Impressively fast, even when the shop was busy."
+        ]
+      },
+      staff: {
+        label: "Friendly Staff", icon: "😊", group: "Service & Staff",
+        lines: [
+          "The staff was friendly and helpful.",
+          "Very supportive and polite team.",
+          "The owner guided me patiently through everything.",
+          "Helpful people who actually understand what you need."
+        ]
+      },
+      affordable: {
+        label: "Affordable Pricing", icon: "💰", group: "Service & Staff",
+        lines: [
+          "Prices are very reasonable.",
+          "Great value for money.",
+          "Affordable rates compared to other shops nearby.",
+          "Pocket-friendly pricing, especially for students."
+        ]
+      },
+      bulk: {
+        label: "Bulk Orders", icon: "📦", group: "Service & Staff",
+        lines: [
+          "Handled my bulk order without any hassle.",
+          "Large printing order was managed smoothly.",
+          "Perfect for bulk work — quick and well organised."
+        ]
+      },
+      stationery: {
+        label: "Stationery Range", icon: "✏️", group: "Shop & Stationery",
+        lines: [
+          "They have a wide range of stationery.",
+          "Found everything I needed in one place.",
+          "Well stocked with school and office supplies.",
+          "Great variety of stationery at good prices."
+        ]
+      },
+      clean: {
+        label: "Clean & Organised", icon: "✅", group: "Shop & Stationery",
+        lines: [
+          "The shop is clean and well organised.",
+          "Everything is neatly arranged and easy to find.",
+          "Tidy, welcoming shop with quick service."
+        ]
+      },
+      convenient: {
+        label: "Great Location", icon: "📍", group: "Shop & Stationery",
+        lines: [
+          "Super convenient location near Viva College.",
+          "Easy to reach and always reliable.",
+          "Handy spot for students and offices in Virar West."
+        ]
+      }
+    };
+
+    // Build a unique review from a list of aspect keys.
+    function generate(keys) {
+      if (!keys || !keys.length) return "";
+      var sentences = shuffle(keys).map(function (k) {
+        return ASPECTS[k] ? pick(ASPECTS[k].lines) : "";
+      }).filter(Boolean);
+      var out = pick(OPENERS) + " " + sentences.join(" ") + " " + pick(CLOSERS) + pick(EMOJIS);
+      return out.replace(/\s+/g, " ").trim();
+    }
+
+    // Curated presets — rendered through the SAME engine, so every copy is unique.
+    var PRESETS = [
+      { tag: "Xerox & Printing", icon: "🖨️", keys: ["xerox", "print_quality", "fast"] },
+      { tag: "Passport Photos", icon: "📸", keys: ["passport", "fast", "staff"] },
+      { tag: "Projects & Binding", icon: "📖", keys: ["binding", "print_quality", "staff"] },
+      { tag: "Stationery Shop", icon: "✏️", keys: ["stationery", "affordable", "clean"] },
+      { tag: "Friendly & Fast", icon: "⚡", keys: ["staff", "fast", "affordable"] },
+      { tag: "All-in-One Shop", icon: "⭐", keys: ["print_quality", "xerox", "stationery", "staff"] }
+    ];
+
+    // ----- DOM -----
+    var $ = function (id) { return document.getElementById(id); };
+    var modes = document.querySelector(".r-modes");
+    var panePick = $("panePick"), paneBuild = $("paneBuild");
+    var presetsEl = $("presets"), tagGroupsEl = $("tagGroups");
+    var reviewText = $("reviewText"), quoteBox = $("quoteBox"), charCount = $("charCount");
+    var rewordBtn = $("reword"), postBtn = $("postBtn"), postLabel = $("postBtnLabel");
+    var overlay = $("overlay"), goBtn = $("goBtn"), countdown = $("countdown"), recopyBtn = $("recopyBtn");
+    var live = $("live");
+
+    var state = { mode: "pick", selectedPreset: null, tags: [] };
+    var redirectTimer = null, countTimer = null;
+
+    // ----- render presets -----
+    PRESETS.forEach(function (p, i) {
+      var card = document.createElement("button");
+      card.type = "button";
+      card.className = "r-card";
+      card.style.animationDelay = (i * 0.05) + "s";
+      card.dataset.index = i;
+      card.innerHTML =
+        '<div class="r-card-head"><span class="r-card-ico">' + p.icon + '</span>' +
+        '<span class="r-card-tag">' + p.tag + '</span></div>' +
+        '<p class="r-card-text"></p>' +
+        '<div class="r-card-actions">' +
+        '<span class="r-shuffle" role="button" tabindex="0"><i>&#127922;</i> Different wording</span>' +
+        '<span class="r-pick"><span class="pick">Tap to use &rarr;</span>' +
+        '<span class="picked">&#10003; Selected</span></span></div>';
+      var textEl = card.querySelector(".r-card-text");
+      textEl.textContent = generate(p.keys);
+      p._sample = textEl.textContent;
+
+      // shuffle wording on this card without selecting
+      var shuf = card.querySelector(".r-shuffle");
+      function reshuffle(e) {
+        e.stopPropagation();
+        p._sample = generate(p.keys);
+        textEl.textContent = p._sample;
+        if (state.selectedPreset === i) { setText(p._sample); }
+        flash(textEl);
+      }
+      shuf.addEventListener("click", reshuffle);
+      shuf.addEventListener("keydown", function (e) {
+        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); reshuffle(e); }
+      });
+
+      card.addEventListener("click", function () { selectPreset(i); });
+      presetsEl.appendChild(card);
+    });
+
+    function selectPreset(i) {
+      state.selectedPreset = i;
+      [].forEach.call(presetsEl.children, function (c, idx) {
+        c.classList.toggle("is-selected", idx === i);
+      });
+      setText(PRESETS[i]._sample);
+      announce("Review selected.");
+    }
+
+    // ----- render tag builder -----
+    var groupOrder = ["Printing & Xerox", "Service & Staff", "Shop & Stationery"];
+    groupOrder.forEach(function (g) {
+      var keys = Object.keys(ASPECTS).filter(function (k) { return ASPECTS[k].group === g; });
+      if (!keys.length) return;
+      var wrap = document.createElement("div");
+      wrap.className = "r-taggroup";
+      var h = document.createElement("h3");
+      h.textContent = g;
+      wrap.appendChild(h);
+      var row = document.createElement("div");
+      row.className = "r-tags";
+      keys.forEach(function (k) {
+        var b = document.createElement("button");
+        b.type = "button";
+        b.className = "r-tag";
+        b.dataset.key = k;
+        b.setAttribute("aria-pressed", "false");
+        b.innerHTML = '<i>&#43;</i> ' + ASPECTS[k].icon + " " + ASPECTS[k].label;
+        b.addEventListener("click", function () { toggleTag(k, b); });
+        row.appendChild(b);
+      });
+      wrap.appendChild(row);
+      tagGroupsEl.appendChild(wrap);
+    });
+
+    function toggleTag(k, btn) {
+      var idx = state.tags.indexOf(k);
+      if (idx === -1) { state.tags.push(k); } else { state.tags.splice(idx, 1); }
+      var on = state.tags.indexOf(k) !== -1;
+      btn.classList.toggle("is-on", on);
+      btn.setAttribute("aria-pressed", on ? "true" : "false");
+      if (state.tags.length) {
+        setText(generate(state.tags));
+      } else {
+        setText("");
+      }
+    }
+
+    // ----- shared text state -----
+    function setText(t) {
+      reviewText.value = t || "";
+      onTextChange();
+      if (t) flash(quoteBox);
+    }
+
+    function onTextChange() {
+      var v = reviewText.value.trim();
+      var len = reviewText.value.length;
+      charCount.textContent = len;
+      quoteBox.classList.toggle("is-empty", len === 0);
+      var ready = v.length >= 8;
+      postBtn.disabled = !ready;
+      postLabel.textContent = ready ? "Copy & Post on Google" : "Pick a review first";
+      // Reword enabled when we have something the engine can re-roll
+      rewordBtn.disabled = !(state.mode === "build" ? state.tags.length : state.selectedPreset !== null);
+    }
+
+    reviewText.addEventListener("input", function () {
+      // manual edit detaches from preset selection highlight but keeps text
+      onTextChange();
+    });
+
+    rewordBtn.addEventListener("click", function () {
+      if (state.mode === "build" && state.tags.length) {
+        setText(generate(state.tags));
+      } else if (state.selectedPreset !== null) {
+        var p = PRESETS[state.selectedPreset];
+        p._sample = generate(p.keys);
+        presetsEl.children[state.selectedPreset].querySelector(".r-card-text").textContent = p._sample;
+        setText(p._sample);
+      }
+      announce("Reworded.");
+    });
+
+    // ----- mode switching -----
+    function switchMode(m) {
+      if (m === state.mode) return;
+      state.mode = m;
+      modes.dataset.mode = m;
+      $("tabPick").classList.toggle("is-active", m === "pick");
+      $("tabBuild").classList.toggle("is-active", m === "build");
+      $("tabPick").setAttribute("aria-selected", m === "pick");
+      $("tabBuild").setAttribute("aria-selected", m === "build");
+      panePick.hidden = m !== "pick";
+      paneBuild.hidden = m !== "build";
+      // sync preview to active mode's current selection
+      if (m === "build") {
+        setText(state.tags.length ? generate(state.tags) : "");
+      } else {
+        setText(state.selectedPreset !== null ? PRESETS[state.selectedPreset]._sample : "");
+      }
+    }
+    [].forEach.call(document.querySelectorAll(".r-mode-btn"), function (b) {
+      b.addEventListener("click", function () { switchMode(b.dataset.mode); });
+    });
+
+    // ----- flash animation -----
+    function flash(el) {
+      el.animate(
+        [{ opacity: 0.45 }, { opacity: 1 }],
+        { duration: 280, easing: "cubic-bezier(0.22,1,0.36,1)" }
+      );
+    }
+    function announce(msg) { live.textContent = ""; setTimeout(function () { live.textContent = msg; }, 30); }
+
+    // ----- clipboard -----
+    function copyText(text) {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacyCopy(text); });
+      }
+      return Promise.resolve(legacyCopy(text));
+    }
+    function legacyCopy(text) {
+      try {
+        var ta = document.createElement("textarea");
+        ta.value = text;
+        ta.setAttribute("readonly", "");
+        ta.style.position = "fixed";
+        ta.style.top = "0"; ta.style.left = "0"; ta.style.opacity = "0";
+        document.body.appendChild(ta);
+        ta.focus(); ta.select(); ta.setSelectionRange(0, text.length);
+        var ok = document.execCommand("copy");
+        document.body.removeChild(ta);
+        return ok;
+      } catch (e) { return false; }
+    }
+
+    // ----- post flow -----
+    function openGoogle() {
+      window.location.href = GOOGLE_REVIEW_URL;
+    }
+
+    postBtn.addEventListener("click", function () {
+      var text = reviewText.value.trim();
+      if (text.length < 8) return;
+      // Copy must happen inside the user gesture for best mobile support.
+      copyText(text).then(function () {
+        showOverlay();
+      });
+    });
+
+    function showOverlay() {
+      overlay.classList.add("is-open");
+      document.body.style.overflow = "hidden";
+      goBtn.focus();
+      var secs = Math.ceil(REDIRECT_DELAY / 1000);
+      countdown.textContent = "Opening Google in " + secs + "…";
+      countTimer = setInterval(function () {
+        secs -= 1;
+        if (secs > 0) { countdown.textContent = "Opening Google in " + secs + "…"; }
+        else { countdown.textContent = "Opening Google…"; clearInterval(countTimer); }
+      }, 1000);
+      redirectTimer = setTimeout(openGoogle, REDIRECT_DELAY);
+    }
+
+    goBtn.addEventListener("click", function () {
+      clearTimeout(redirectTimer); clearInterval(countTimer);
+      openGoogle();
+    });
+
+    recopyBtn.addEventListener("click", function () {
+      copyText(reviewText.value.trim()).then(function (ok) {
+        recopyBtn.textContent = ok ? "Copied again ✓" : "Press & hold the text to copy";
+      });
+    });
+
+    // init
+    onTextChange();
+  })();
+  </script>
+</body>
+</html>
