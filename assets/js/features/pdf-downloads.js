@@ -82,14 +82,14 @@ export const initPdfDownloads = () => {
     doc.rect(0, 0, pageWidth, 110, 'F');
     
     // Title
-    cursorY = 45;
+    cursorY = 48;
     doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(22);
     doc.text(template.title, marginX, cursorY);
     
     // Subtitle in Yellow
-    cursorY += 22;
+    cursorY += 26;
     doc.setTextColor(...brandYellow);
     doc.setFont('helvetica', 'bold');
     doc.setFontSize(14);
@@ -103,7 +103,7 @@ export const initPdfDownloads = () => {
       doc.setFontSize(10);
       template.meta.forEach((line) => {
         doc.text(line, marginX, cursorY);
-        cursorY += 16;
+        cursorY += 18;
       });
     }
 
@@ -141,59 +141,72 @@ export const initPdfDownloads = () => {
     if (Array.isArray(template.sections)) {
       template.sections.forEach((section) => {
         // Prevent page overflow
-        if (cursorY > pageHeight - 100) {
+        if (cursorY > pageHeight - 140) {
           doc.addPage();
           cursorY = 50;
         }
 
         if (section.isHighlight) {
+          // Calculate precise box height
+          let boxHeight = 50; // padding top + title space
+          section.items.forEach((item) => {
+            const wrapped = doc.splitTextToSize(item, maxWidth - 40);
+            boxHeight += (18 * wrapped.length) + 8; // 18 line-height + 8 paragraph spacing
+          });
+          boxHeight += 10; // padding bottom
+
           // Draw Highlight Box
-          const boxHeight = 25 + (section.items.length * 16) + 10;
           doc.setFillColor(...brandHighlightBg);
           doc.setDrawColor(...brandHighlightBorder);
           doc.setLineWidth(1.5);
           doc.rect(marginX, cursorY, maxWidth, boxHeight, 'FD'); // Fill and Draw
           
-          cursorY += 22;
-          doc.setTextColor(...brandNavy);
-          doc.setFont('helvetica', 'bold');
-          doc.setFontSize(12);
-          doc.text(section.title, marginX + 15, cursorY);
-          
-          cursorY += 18;
-          doc.setTextColor(...brandText);
-          doc.setFont('helvetica', 'normal');
-          doc.setFontSize(10);
-          
-          section.items.forEach((item) => {
-            const wrapped = doc.splitTextToSize(item, maxWidth - 40);
-            doc.text('•', marginX + 15, cursorY);
-            doc.text(wrapped, marginX + 25, cursorY);
-            cursorY += 15 * wrapped.length;
-          });
-          cursorY += 25; 
-        } else {
-          // Standard Section
+          cursorY += 28; // Padding Top
           doc.setTextColor(...brandNavy);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(13);
-          doc.text(section.title, marginX, cursorY);
+          doc.text(section.title, marginX + 15, cursorY);
           
-          cursorY += 18;
+          cursorY += 20;
           doc.setTextColor(...brandText);
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(11);
           
           section.items.forEach((item) => {
-            const wrapped = doc.splitTextToSize(item, maxWidth - 20);
+            const wrapped = doc.splitTextToSize(item, maxWidth - 40);
+            doc.text('•', marginX + 15, cursorY);
+            wrapped.forEach((line) => {
+              doc.text(line, marginX + 25, cursorY);
+              cursorY += 18; // Line height
+            });
+            cursorY += 8; // Paragraph spacing
+          });
+          cursorY += 25; // Space after box
+        } else {
+          // Standard Section
+          doc.setTextColor(...brandNavy);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(14);
+          doc.text(section.title, marginX, cursorY);
+          
+          cursorY += 22;
+          doc.setTextColor(...brandText);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(12);
+          
+          section.items.forEach((item) => {
+            const wrapped = doc.splitTextToSize(item, maxWidth - 25);
             // Draw custom styled bullet point
             doc.setFillColor(...brandYellow);
-            doc.circle(marginX + 3, cursorY - 3, 3, 'F');
+            doc.circle(marginX + 4, cursorY - 4, 3, 'F');
             
-            doc.text(wrapped, marginX + 15, cursorY);
-            cursorY += 16 * wrapped.length;
+            wrapped.forEach((line) => {
+              doc.text(line, marginX + 18, cursorY);
+              cursorY += 18; // Line height
+            });
+            cursorY += 8; // Paragraph spacing
           });
-          cursorY += 15;
+          cursorY += 15; // Space after section
         }
       });
     }
