@@ -193,12 +193,6 @@ const createServiceAnswer = (message, service) => {
 
 const createContextFallbackAnswer = (message) => {
   const text = normalizeText(message).replace(/\bcolour\b/g, 'color');
-  const service = detectService(message);
-  const serviceAnswer = service ? createServiceAnswer(message, service) : null;
-
-  if (serviceAnswer) {
-    return serviceAnswer;
-  }
 
   if (includesAny(text, ['format', 'file type', 'file format', 'doc', 'docx', 'jpg', 'jpeg', 'png'])) {
     const htmlEn = `
@@ -242,6 +236,13 @@ const createContextFallbackAnswer = (message) => {
         { label: 'Directions', value: 'Where is your shop?' }
       ]
     };
+  }
+
+  const service = detectService(message);
+  const serviceAnswer = service ? createServiceAnswer(message, service) : null;
+
+  if (serviceAnswer) {
+    return serviceAnswer;
   }
 
   return {
