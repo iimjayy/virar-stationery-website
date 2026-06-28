@@ -697,27 +697,47 @@
 
       var roll = Math.random();
 
-      // COMPACT list: "Fast xerox, staff helpful hai, sasta aur acha. Recommend!"
-      if (roll < 0.42) {
-        var frags = ks.slice(0, Math.min(n, 3)).map(function (k) { return pick(ASPECTS[k].short); });
-        var listed = cap(frags.join(", ")) + ".";
+      // COMPACT list: intelligently merges ALL selected aspects using "and"
+      if (roll < 0.35) {
+        var frags = ks.map(function (k) { return pick(ASPECTS[k].short); });
+        var listed = "";
+        if (frags.length === 2) {
+          listed = cap(frags[0]) + " and " + frags[1] + ".";
+        } else {
+          var lastFrag = frags.pop();
+          listed = cap(frags.join(", ")) + ", and " + lastFrag + ".";
+        }
         var c = Math.random() < 0.85 ? " " + pick(CLOSERS) : "";
         return clean(maybeEmoji(listed + c));
       }
 
-      // MIXED: short lead + a full line or two + closer.
-      if (roll < 0.74) {
-        var leadFrag = cap(pick(ASPECTS[ks[0]].short)) + "!";
-        var rest = ks.slice(1, 3).map(function (k) { return asSentence(pick(ASPECTS[k].full)); });
-        return clean(maybeEmoji([leadFrag].concat(rest).join(" ") + " " + pick(CLOSERS)));
+      // MIXED: short punchy lead + connected full sentences for all remaining aspects.
+      if (roll < 0.70) {
+        var leadFrag = cap(pick(ASPECTS[ks[0]].short)) + "! ";
+        var rest = [];
+        for (var i = 1; i < n; i++) {
+          var f = asSentence(pick(ASPECTS[ks[i]].full));
+          if (i === 2) f = "Also, " + f.charAt(0).toLowerCase() + f.slice(1);
+          if (i === 3) f = "Plus, " + f.charAt(0).toLowerCase() + f.slice(1);
+          if (i >= 4) f = "And " + f.charAt(0).toLowerCase() + f.slice(1);
+          rest.push(f);
+        }
+        return clean(maybeEmoji(leadFrag + rest.join(" ") + " " + pick(CLOSERS)));
       }
 
-      // CASUAL: optional opener + a couple of full sentences + closer.
-      // Capped at 3 sentences so it never becomes a wall of text.
+      // CASUAL: optional opener + full sentences intelligently linked + closer.
       var op = Math.random() < 0.6 ? pick(OPENERS) : "";
-      var lines = ks.slice(0, 3).map(function (k) { return asSentence(pick(ASPECTS[k].full)); });
-      var first = lines.shift();
-      var body = lead(op, first) + (lines.length ? " " + lines.join(" ") : "");
+      var sentences = [];
+      for (var j = 0; j < n; j++) {
+        var s = asSentence(pick(ASPECTS[ks[j]].full));
+        if (j > 0 && Math.random() > 0.4) {
+          var connector = pick(["Also, ", "Plus, ", "Not to mention, ", "And "]);
+          s = connector + s.charAt(0).toLowerCase() + s.slice(1);
+        }
+        sentences.push(s);
+      }
+      var first = sentences.shift();
+      var body = lead(op, first) + (sentences.length ? " " + sentences.join(" ") : "");
       return clean(maybeEmoji(body + " " + pick(CLOSERS)));
     }
 
