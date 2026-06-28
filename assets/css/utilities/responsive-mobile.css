@@ -2240,8 +2240,6 @@
   body {
     width: 100%;
     max-width: 100%;
-    overflow-x: hidden;
-    overflow-x: clip;
     overscroll-behavior-x: none;
   }
 
@@ -3853,35 +3851,45 @@
     border-radius: 14px;
   }
 
-  /* === HEADER: Compact but touchable === */
+  /* === HEADER: Touch-first — 44px minimum targets === */
+  /* Distribute the 6 action icons across the row so they auto-space
+     without overflowing, from 320px up to large phones. */
+  .header-actions {
+    gap: 4px;
+    justify-content: space-between;
+  }
+
   .action-btn {
-    width: 36px;
-    height: 36px;
-    font-size: 0.85rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    flex: 0 0 auto;
   }
 
   .mobile-menu-btn {
-    width: 40px;
-    height: 40px;
-    font-size: 0.9rem;
+    width: 44px;
+    height: 44px;
+    font-size: 1rem;
+    flex: 0 0 auto;
   }
 
-  /* Search bar: comfortable input size */
+  /* Search bar: comfortable, 16px input prevents iOS focus-zoom */
   .search-box {
-    min-height: 42px;
-    height: 42px;
+    min-height: 50px;
+    height: auto;
     border-radius: 12px;
   }
 
   .search-input {
-    font-size: 0.88rem;
+    font-size: 16px;
+    min-height: 44px;
   }
 
   .search-button {
-    min-width: 70px;
-    height: 32px;
-    font-size: 0.78rem;
-    border-radius: 8px;
+    min-width: 76px;
+    min-height: 44px;
+    font-size: 0.9rem;
+    border-radius: 10px;
   }
 
   /* === SMART SEARCH: Mobile dropdown optimization === */
@@ -4094,5 +4102,95 @@
   .pdf-preview-card,
   .order-no-result {
     animation: none;
+  }
+}
+
+/* ====================================================================
+   MOBILE UX HARDENING — mobile-first audit fixes
+   Loaded last on purpose so these cross-cutting rules win the cascade.
+   Covers: iOS no-zoom inputs, 44px touch-target floors, safe spacing.
+   ==================================================================== */
+@media (max-width: 991px) {
+
+  /* --- iOS Safari focus-zoom guard ---
+     Mobile Safari auto-zooms whenever a focused field has font-size < 16px.
+     Force every real text field to 16px so the viewport never jumps.
+     (Checkboxes/radios/ranges/colour pickers are exempt — size is irrelevant.) */
+  input:not([type="checkbox"]):not([type="radio"]):not([type="range"]):not([type="color"]):not([type="file"]),
+  select,
+  textarea,
+  .form-control,
+  .form-select {
+    font-size: 16px !important;
+  }
+
+  /* --- 44px touch-target floors for secondary links/buttons --- */
+  .premium-service-card .card-link,
+  .card-link,
+  .stationery-add-btn,
+  .pdf-download-btn,
+  .footer-links li a,
+  .footer-bottom-links a,
+  .bulk-contact-strip a,
+  .bulk-upload-content .btn,
+  .footer-review-pill,
+  .smart-suggestion-item {
+    min-height: 44px;
+  }
+
+  .card-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  /* Footer legal links + WhatsApp strip: align text within the tap area */
+  .footer-bottom-links a,
+  .bulk-contact-strip a {
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Footer social icons: square 44px tap targets with spacing */
+  .footer-socials a {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .footer-socials {
+    gap: 8px;
+  }
+
+  /* Top contact strip phone number — comfortable to tap */
+  .info-phone-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+
+  /* Logo link — full-height tap area */
+  .brand-mark {
+    min-height: 44px;
+    align-items: center;
+  }
+
+  /* Skip-to-content link (focus only) — keep it tappable too */
+  .skip-link {
+    min-height: 44px;
+    display: inline-flex;
+    align-items: center;
+  }
+}
+
+/* Smart-search dropdown: use dynamic viewport height so it isn't clipped
+   or left dangling as Chrome on Android shows/hides its URL bar.
+   The vh line is the fallback for browsers without dvh support. */
+@media (max-width: 991px) {
+  .smart-search-dropdown.is-open {
+    max-height: 70vh;
+    max-height: 70dvh;
   }
 }
