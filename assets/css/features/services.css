@@ -492,3 +492,33 @@
   background: #ef4444;
   box-shadow: 0 0 0 4px rgba(239, 68, 68, 0.2);
 }
+
+/* ------------------------------------------------------------------
+   Legacy service-CTA rules — preserved from the previous CSS bundle
+   so the rebuilt bundle stays a pure superset (no styling removed).
+   Currently unused by markup; kept intentionally for safety.
+   ------------------------------------------------------------------ */
+.service-row-ct .service-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  padding: 0.53rem 0.88rem;
+  font-size: 0.8rem;
+  font-weight: 700;
+  border: 1px solid rgba(11, 42, 91, 0.2);
+  background: var(--navy);
+  color: #fff;
+  transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease, border-color 0.25s ease, color 0.25s ease;
+}
+
+.service-cta-btn.is-outline {
+  background: rgba(255, 255, 255, 0.92);
+  color: var(--navy);
+}
+
+.service-cta-btn.is-light {
+  background: rgba(244, 210, 31, 0.28);
+  border-color: rgba(244, 210, 31, 0.5);
+  color: #6f5300;
+}
