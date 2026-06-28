@@ -147,6 +147,11 @@ export const initPdfDownloads = () => {
         }
 
         if (section.isHighlight) {
+          const startY = cursorY;
+          // Set font size before measuring to ensure accurate wrapping simulation!
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(11);
+          
           // Calculate precise box height
           let boxHeight = 42; // padding top + title space
           section.items.forEach((item) => {
@@ -159,29 +164,32 @@ export const initPdfDownloads = () => {
           doc.setFillColor(...brandHighlightBg);
           doc.setDrawColor(...brandHighlightBorder);
           doc.setLineWidth(1.5);
-          doc.rect(marginX, cursorY, maxWidth, boxHeight, 'FD'); // Fill and Draw
+          doc.rect(marginX, startY, maxWidth, boxHeight, 'FD'); // Fill and Draw
           
-          cursorY += 24; // Padding Top
+          let textCursorY = startY + 24; // Padding Top
           doc.setTextColor(...brandNavy);
           doc.setFont('helvetica', 'bold');
           doc.setFontSize(13);
-          doc.text(section.title, marginX + 15, cursorY);
+          doc.text(section.title, marginX + 15, textCursorY);
           
-          cursorY += 18; // Move to first bullet
+          textCursorY += 18; // Move to first bullet
           doc.setTextColor(...brandText);
           doc.setFont('helvetica', 'normal');
           doc.setFontSize(11);
           
           section.items.forEach((item) => {
+            // Need to set font size BEFORE measuring to prevent inaccurate wrapping!
             const wrapped = doc.splitTextToSize(item, maxWidth - 40);
-            doc.text('•', marginX + 15, cursorY);
+            doc.text('•', marginX + 15, textCursorY);
             wrapped.forEach((line) => {
-              doc.text(line, marginX + 25, cursorY);
-              cursorY += 16; // Line height
+              doc.text(line, marginX + 25, textCursorY);
+              textCursorY += 16; // Line height
             });
-            cursorY += 6; // Paragraph spacing
+            textCursorY += 6; // Paragraph spacing
           });
-          cursorY += 20; // Space after box
+          
+          // Explicitly set cursorY to be below the box!
+          cursorY = startY + boxHeight + 20; 
         } else {
           // Standard Section
           doc.setTextColor(...brandNavy);
