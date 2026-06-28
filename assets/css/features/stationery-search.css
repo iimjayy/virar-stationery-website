@@ -43,14 +43,41 @@
 
 .stationery-result-card {
   display: flex;
-  align-items: flex-start;
+  flex-direction: column;
   justify-content: space-between;
   gap: 12px;
-  min-height: 112px;
+  min-height: 140px;
   border: 1px solid rgba(11, 42, 91, 0.12);
-  border-radius: 8px;
+  border-radius: 12px;
   background: #ffffff;
-  padding: 14px;
+  padding: 16px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.stationery-result-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 24px rgba(11, 42, 91, 0.08);
+  border-color: var(--yellow);
+}
+
+.stationery-result-card.in-cart {
+  border-color: #198754;
+  background: rgba(25, 135, 84, 0.03);
+}
+
+.stationery-card-content {
+  margin-bottom: auto;
+}
+
+.stationery-add-btn {
+  width: 100%;
+  font-size: 0.85rem;
+  font-weight: 700;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: all 0.2s ease;
 }
 
 .stationery-result-card h3 {
@@ -83,19 +110,33 @@
   padding: 5px 9px;
 }
 
+/* Enhanced Empty State */
 .stationery-empty-state {
   margin-top: 18px;
-  border: 1px dashed rgba(11, 42, 91, 0.24);
-  border-radius: 8px;
-  background: rgba(11, 42, 91, 0.04);
-  padding: 18px;
+  border: 2px dashed rgba(11, 42, 91, 0.15);
+  border-radius: 16px;
+  background: rgba(11, 42, 91, 0.02);
+  padding: 40px 20px;
   text-align: center;
 }
 
+.empty-icon {
+  font-size: 3rem;
+  color: rgba(11, 42, 91, 0.2);
+  margin-bottom: 12px;
+}
+
+.empty-sub {
+  display: block;
+  font-size: 0.9rem;
+  color: rgba(11, 42, 91, 0.6);
+}
+
 .stationery-empty-state p {
-  margin: 0 0 12px;
+  margin: 0 0 4px;
   color: var(--navy);
   font-weight: 700;
+  font-size: 1.1rem;
 }
 
 @media (max-width: 991.98px) {
@@ -109,3 +150,122 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* ====================================================================
+   ENHANCED UI - CATEGORY PILLS & CART
+   ==================================================================== */
+
+.stationery-category-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  margin-bottom: -5px; 
+  padding-bottom: 10px;
+}
+
+.stationery-category-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+.stationery-category-pills {
+  display: flex;
+  gap: 10px;
+  flex-wrap: nowrap;
+  white-space: nowrap;
+}
+
+.category-pill {
+  border: 1px solid rgba(11, 42, 91, 0.15);
+  background: #fff;
+  color: var(--navy);
+  padding: 8px 16px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.category-pill:hover {
+  background: rgba(11, 42, 91, 0.05);
+}
+
+.category-pill.active {
+  background: var(--navy);
+  color: #fff;
+  border-color: var(--navy);
+  box-shadow: 0 4px 12px rgba(11, 42, 91, 0.2);
+}
+
+/* Animations */
+.fade-in-up {
+  opacity: 0;
+  transform: translateY(15px);
+  animation: fadeInUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Floating Cart Container */
+.stationery-cart-container {
+  position: fixed;
+  bottom: -100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: #fff;
+  border: 1px solid rgba(11, 42, 91, 0.1);
+  box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+  border-radius: 999px;
+  padding: 10px 14px 10px 24px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  z-index: 9999;
+  transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.stationery-cart-container.visible {
+  bottom: 30px;
+}
+
+.cart-info {
+  font-weight: 700;
+  color: var(--navy);
+  font-size: 0.9rem;
+}
+
+.stationery-cart-count {
+  background: var(--yellow);
+  color: var(--navy);
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 6px;
+}
+
+.stationery-cart-checkout {
+  border-radius: 999px;
+  padding: 8px 20px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+@media (max-width: 767.98px) {
+  .stationery-cart-container {
+    width: calc(100% - 40px);
+    justify-content: space-between;
+    padding: 10px;
+  }
+}
+

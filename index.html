@@ -931,7 +931,21 @@
         </div>
 
         <div class="stationery-search-shell reveal">
-          <div class="input-group input-group-lg stationery-search-bar">
+          
+          <!-- Category Pills -->
+          <div class="stationery-category-scroll">
+            <div class="stationery-category-pills">
+              <button type="button" class="category-pill active" data-stationery-category="all">All Items</button>
+              <button type="button" class="category-pill" data-stationery-category="pens">Pens & Pencils</button>
+              <button type="button" class="category-pill" data-stationery-category="paper">Paper & Books</button>
+              <button type="button" class="category-pill" data-stationery-category="files">Files & Folders</button>
+              <button type="button" class="category-pill" data-stationery-category="art">Art Supplies</button>
+              <button type="button" class="category-pill" data-stationery-category="desk">Desk Essentials</button>
+              <button type="button" class="category-pill" data-stationery-category="tech">Tech</button>
+            </div>
+          </div>
+
+          <div class="input-group input-group-lg stationery-search-bar mt-3">
             <span class="input-group-text"><i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i></span>
             <input type="search" class="form-control" data-stationery-search-input placeholder="Search calculators, files, pens, chart paper..." aria-label="Search stationery products">
           </div>
@@ -939,10 +953,22 @@
           <div class="stationery-results-grid" data-stationery-search-results role="list" aria-live="polite"></div>
 
           <div class="stationery-empty-state" data-stationery-search-empty hidden>
-            <p>Not found, but WhatsApp us to check availability!</p>
-            <a class="btn btn-outline-primary whatsapp-btn" href="https://wa.me/917021072757?text=Hi%20Virar%20Stationery%2C%20I%20want%20to%20check%20stationery%20availability." target="_blank" rel="noopener noreferrer">
+            <div class="empty-icon"><i class="fa-solid fa-box-open"></i></div>
+            <p>We probably have it in the shop!</p>
+            <span class="empty-sub">Send us a quick WhatsApp to confirm availability.</span>
+            <a class="btn btn-outline-primary whatsapp-btn mt-3" href="https://wa.me/917021072757?text=Hi%20Virar%20Stationery%2C%20I%20want%20to%20check%20stationery%20availability." target="_blank" rel="noopener noreferrer">
               <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
-              Check on WhatsApp
+              Ask on WhatsApp
+            </a>
+          </div>
+
+          <!-- Multi-item Inquiry Cart -->
+          <div class="stationery-cart-container">
+            <div class="cart-info">
+              <span class="stationery-cart-count">0</span> items selected
+            </div>
+            <a href="#" target="_blank" rel="noopener noreferrer" class="btn btn-success stationery-cart-checkout">
+              <i class="fa-brands fa-whatsapp"></i> Ask Price/Stock
             </a>
           </div>
         </div>
