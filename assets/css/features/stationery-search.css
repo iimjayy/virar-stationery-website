@@ -226,11 +226,15 @@
   align-items: center;
   gap: 20px;
   z-index: 9999;
-  transition: bottom 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  opacity: 0;
+  pointer-events: none;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
 }
 
 .stationery-cart-container.visible {
   bottom: 30px;
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .cart-info {
