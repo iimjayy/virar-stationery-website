@@ -99,16 +99,21 @@
   border-color: rgba(244, 210, 31, 0.35);
 }
 
-/* Card header — warm yellow style matching homepage */
+/* Card header — sleek, modern gradient */
 .pricing-card-header {
-  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2) 100%);
+  background: linear-gradient(135deg, var(--navy) 0%, var(--navy-2, #081e43) 100%);
   color: #fff;
-  padding: 20px 24px;
+  padding: 24px;
   display: flex;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   position: relative;
   overflow: hidden;
+  border-bottom: 3px solid rgba(244, 210, 31, 0.4);
+}
+
+.pricing-category-card.is-highlighted .pricing-card-header {
+  border-bottom-color: var(--yellow);
 }
 
 /* Subtle shimmer on card headers */
@@ -119,12 +124,7 @@
   left: -100%;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(244, 210, 31, 0.06) 50%,
-    transparent 100%
-  );
+  background: linear-gradient(90deg, transparent 0%, rgba(244, 210, 31, 0.08) 50%, transparent 100%);
   transition: left 0.6s var(--ease-premium);
 }
 
@@ -132,79 +132,89 @@
   left: 100%;
 }
 
-.pricing-card-header i {
-  font-size: var(--text-2xl);
-  color: var(--yellow);
+.pc-icon {
   flex-shrink: 0;
-  width: 40px;
-  height: 40px;
+  width: 48px;
+  height: 48px;
   display: flex;
   align-items: center;
   justify-content: center;
-  background: rgba(244, 210, 31, 0.12);
-  border-radius: 10px;
-  transition: transform var(--duration-fast) ease;
+  background: rgba(244, 210, 31, 0.15);
+  border-radius: 12px;
+  font-size: 1.25rem;
+  color: var(--yellow);
+  transition: transform var(--duration-fast) ease, background-color var(--duration-fast) ease;
 }
 
-.pricing-category-card:hover .pricing-card-header i {
-  transform: scale(1.1);
+.pricing-category-card:hover .pc-icon {
+  transform: scale(1.1) rotate(2deg);
+  background: rgba(244, 210, 31, 0.25);
+}
+
+.pc-title-block {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .pricing-card-header h2 {
   font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: 1.15rem;
   font-weight: 700;
   margin: 0;
   letter-spacing: -0.01em;
 }
 
+.pc-badge {
+  align-self: flex-start;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  padding: 3px 8px;
+  border-radius: 6px;
+}
+
+.pc-badge-highlight {
+  background: var(--yellow);
+  color: var(--navy);
+}
+
 /* ── Pricing Table ── */
+.pricing-card-body {
+  padding: 12px 24px 24px;
+}
+
 .pricing-table {
   width: 100%;
   border-collapse: collapse;
-  font-size: var(--text-sm);
-}
-
-.pricing-table th,
-.pricing-table td {
-  padding: 14px 22px;
-  text-align: left;
-}
-
-.pricing-table thead th {
-  font-weight: 600;
-  color: var(--muted);
-  font-size: var(--text-xs);
-  text-transform: uppercase;
-  letter-spacing: 0.08em;
-  border-bottom: 2px solid var(--border);
-  background: rgba(11, 42, 91, 0.02);
+  font-size: 0.95rem;
 }
 
 .pricing-table tbody td {
-  border-bottom: 1px solid var(--border);
+  padding: 16px 0;
+  border-bottom: 1px dashed var(--border);
   color: var(--text);
-  transition: background-color var(--duration-fast) ease;
-}
-
-.pricing-table tbody tr:nth-child(even) td {
-  background: rgba(11, 42, 91, 0.02);
+  vertical-align: middle;
 }
 
 .pricing-table tbody tr:last-child td {
   border-bottom: 0;
+  padding-bottom: 0;
 }
 
-.pricing-table tbody tr:hover td {
-  background: rgba(244, 210, 31, 0.06);
+.pricing-table tbody tr:first-child td {
+  padding-top: 12px;
 }
 
 .price-value {
   font-weight: 700;
   color: var(--navy);
+  text-align: right;
   white-space: nowrap;
-  font-family: var(--font-display);
-  font-size: var(--text-base);
+  font-size: 1.05rem;
 }
 
 /* ── Disclaimer Note ── */
