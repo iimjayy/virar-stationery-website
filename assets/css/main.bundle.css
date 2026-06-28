@@ -93,6 +93,9 @@
 
 html {
   scroll-behavior: smooth;
+  visibility: visible !important;
+  opacity: 1 !important;
+  transition: opacity 0.25s ease-in;
 }
 
 body {
