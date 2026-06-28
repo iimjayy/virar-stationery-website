@@ -572,96 +572,105 @@ export const detailedServices = {
  * PDF download templates used by the setupPdfDownloads feature.
  */
 export const pdfTemplates = {
-  'price-list': {
-    filename: 'virar-price-list.pdf',
+  priceList: {
+    filename: 'Virar-Stationery-Price-List.pdf',
     title: 'Virar Stationery & Jumbo Xerox',
-    subtitle: 'Price List (Indicative)',
+    subtitle: 'Official Price List & Service Guide',
     meta: [
-      'Updated: April 2026',
-      'Location: Near Old Viva College, Virar West',
-      `WhatsApp: ${CONFIG.business.phoneLabel}`
+      `Updated: ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}`,
+      'Location: Opposite Mahavir Hospital, Near Old Viva College, Virar West',
+      'Timings: Open Daily 8:00 AM to 9:00 PM'
     ],
+    whatsapp: '7021072757',
+    website: 'www.virarprint.in',
     sections: [
       {
-        title: 'Printing & Xerox',
+        title: 'Printing & Photocopy',
         items: [
-          'Xerox / Photocopy (A4): Rs 1.5 per side',
-          'Black & White Print (A4): Rs 3 per side',
-          'Color Print (A4): Rs 10 per side',
-          'Color Print (A3): Rs 20 per side'
+          'A4 Black & White Print: ₹3 per side',
+          'A4 Color Print: ₹10 per side',
+          'A4 Xerox / Photocopy: ₹1.5 (B&W) / ₹9 (Color)',
+          'A3 Color Print: ₹20 per side'
         ]
       },
       {
         title: 'Finishing & Binding',
         items: [
-          'Lamination (A4): Rs 10 per sheet',
-          'Lamination (A3): Rs 20 per sheet',
-          'Spiral Binding: Rs 30 per set',
-          'Project Binding (bulk): Price on request'
+          'A4 Lamination (Thick): ₹10 per sheet',
+          'A3 Lamination: ₹20 per sheet',
+          'Spiral Binding: ₹30 per set (Standard)',
+          'Project Hard Binding: Price on request (Bulk only)'
         ]
       },
       {
-        title: 'Photo & Cards',
+        title: 'Identity & Large Format',
         items: [
-          'Passport Photos: Rs 30 per set',
-          'Smart Card: Rs 80 per card',
-          'Visiting Card (100 pcs): From Rs 150'
+          'Passport Photos (Urgent): ₹30 per set (10 mins)',
+          'Smart ID Card (PVC): ₹80 per card',
+          'Visiting Cards (100 pcs): From ₹150',
+          'Jumbo Xerox / Plotting (A2/A1/A0): Starting ₹30'
         ]
       },
       {
-        title: 'Large Format',
+        isHighlight: true,
+        title: '💡 Pro Tip: How to get the best results & save money',
         items: [
-          'Jumbo Xerox (A2/A1/A0): Price on request',
-          'Plotting and drawings: Price on request'
+          'Always save your files as PDF. Word documents can change formatting on different computers.',
+          'For bulk printing (100+ pages) or coaching class notes, message us for special discounted rates.',
+          'Send your files on WhatsApp from home, and we will keep it printed and ready for pickup. No waiting!'
         ]
       }
     ],
     footerLines: [
       'Bulk orders and student discounts available on selected services.',
-      'Final pricing depends on paper type, file quality, and finishing options.'
+      'Prices are indicative starting estimates. Final pricing depends on paper quality and finishing options.'
     ]
   },
   'service-guide': {
-    filename: 'virar-service-guide.pdf',
+    filename: 'Virar-Print-Service-Guide.pdf',
     title: 'Virar Stationery & Jumbo Xerox',
-    subtitle: 'Service Guide',
+    subtitle: 'Complete Service & Ordering Guide',
     meta: [
-      'Updated: April 2026',
-      `WhatsApp: ${CONFIG.business.phoneLabel}`,
-      'Open: 8:00 AM - 9:00 PM (7 days)'
+      `Updated: ${new Date().toLocaleString('default', { month: 'long', year: 'numeric' })}`,
+      'Location: Opposite Mahavir Hospital, Near Old Viva College, Virar West',
+      'Timings: Open Daily 8:00 AM to 9:00 PM'
     ],
+    whatsapp: '7021072757',
+    website: 'www.virarprint.in',
     sections: [
       {
-        title: 'Core Services',
+        title: 'Our Core Services',
         items: [
-          'Black & White Printing (A4/A3)',
-          'Color Printing (A4/A3)',
-          'Xerox / Photocopy (bulk available)',
-          'Lamination and document protection'
+          'High-Speed Document Printing & Xerox (A4, A3)',
+          'Professional Project & Thesis Spiral Binding',
+          'Urgent Passport Photos & PVC Smart Cards',
+          'Large Format Printing (A2, A1, A0) for Engineering Drawings'
         ]
       },
       {
-        title: 'Project & Office Work',
+        isHighlight: true,
+        title: '⚡ How to Order via WhatsApp (Fastest Method)',
         items: [
-          'Spiral Binding and project files',
-          'Letterhead, visiting cards, and billbooks',
-          'Smart cards and ID cards',
-          'Large format printing (A2/A1/A0)'
+          'Step 1: Save our number 70210 72757 or click the link on our website.',
+          'Step 2: Send us your document (PDF preferred).',
+          'Step 3: Mention the details: Page count, Color or B&W, and any Binding needs.',
+          'Step 4: We will reply with the total price and when it will be ready.',
+          'Step 5: Walk into the shop, skip the line, pay, and pick up your prints!'
         ]
       },
       {
-        title: 'How to Order on WhatsApp',
+        title: 'File Preparation Checklist',
         items: [
-          'Send your file and quantity',
-          'Mention paper size and color preference',
-          'Share any deadline or pickup time',
-          'We confirm price and readiness time'
+          'File Format: Export to PDF to ensure fonts and layout do not break.',
+          'Resolution: For color prints and photos, ensure images are high resolution.',
+          'Margins: Leave at least 0.5-inch margins if you want spiral binding.',
+          'WhatsApp Settings: Send documents as "Document", not "Image" to preserve quality.'
         ]
       }
     ],
     footerLines: [
-      'Bulk orders and student discounts available on selected services.',
-      'Final pricing depends on paper type, quantity, and finishing options.'
+      'We accept Cash, UPI, Google Pay, and PhonePe at the shop.',
+      'For heavy files, you can bring them on a USB drive directly to our counter.'
     ]
   }
 };

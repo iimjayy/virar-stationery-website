@@ -62,69 +62,159 @@ export const initPdfDownloads = () => {
   const buildPdf = (template) => {
     const { jsPDF } = window.jspdf;
     const doc = new jsPDF({ unit: 'pt', format: 'a4' });
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
     const marginX = 48;
-    let cursorY = 64;
-    const maxWidth = 520;
+    const maxWidth = pageWidth - (marginX * 2);
+    
+    // --- BRAND COLORS ---
+    const brandNavy = [11, 42, 91];     // #0b2a5b
+    const brandYellow = [252, 203, 6];  // #fccb06
+    const brandText = [33, 37, 41];     // #212529
+    const brandMuted = [108, 117, 125]; // #6c757d
+    const brandHighlightBg = [255, 250, 230]; // Light yellow tint
+    const brandHighlightBorder = [252, 203, 6];
 
+    let cursorY = 0;
+
+    // --- 1. HEADER BANNER ---
+    doc.setFillColor(...brandNavy);
+    doc.rect(0, 0, pageWidth, 110, 'F');
+    
     // Title
+    cursorY = 45;
+    doc.setTextColor(255, 255, 255);
     doc.setFont('helvetica', 'bold');
-    doc.setFontSize(18);
+    doc.setFontSize(22);
     doc.text(template.title, marginX, cursorY);
-
-    // Subtitle
-    cursorY += 24;
-    doc.setFont('helvetica', 'normal');
-    doc.setFontSize(12);
+    
+    // Subtitle in Yellow
+    cursorY += 22;
+    doc.setTextColor(...brandYellow);
+    doc.setFont('helvetica', 'bold');
+    doc.setFontSize(14);
     doc.text(template.subtitle, marginX, cursorY);
 
-    // Meta lines (e.g. date, address)
+    // --- 2. META INFO ---
+    cursorY = 140;
     if (Array.isArray(template.meta)) {
-      cursorY += 18;
+      doc.setTextColor(...brandMuted);
+      doc.setFont('helvetica', 'normal');
       doc.setFontSize(10);
-      doc.setTextColor(90);
       template.meta.forEach((line) => {
         doc.text(line, marginX, cursorY);
-        cursorY += 14;
+        cursorY += 16;
       });
     }
 
-    // Divider rule
-    cursorY += 12;
-    doc.setDrawColor(230);
+    // Interactive Links
+    if (template.whatsapp || template.website) {
+      cursorY += 4;
+      doc.setFont('helvetica', 'bold');
+      doc.setFontSize(10);
+      
+      let linkX = marginX;
+      
+      if (template.whatsapp) {
+        doc.setTextColor(37, 211, 102); // WhatsApp Green
+        const waText = `WhatsApp: +91 ${template.whatsapp}`;
+        doc.textWithLink(waText, linkX, cursorY, { url: `https://wa.me/91${template.whatsapp}` });
+        linkX += doc.getTextWidth(waText) + 20;
+      }
+      
+      if (template.website) {
+        doc.setTextColor(...brandNavy);
+        const webText = `Website: ${template.website}`;
+        doc.textWithLink(webText, linkX, cursorY, { url: `https://${template.website}` });
+      }
+      cursorY += 20;
+    }
+
+    // Divider
+    cursorY += 10;
+    doc.setDrawColor(230, 230, 230);
+    doc.setLineWidth(1);
     doc.line(marginX, cursorY, marginX + maxWidth, cursorY);
-    cursorY += 18;
+    cursorY += 25;
 
-    doc.setTextColor(20);
-    doc.setFontSize(11);
-
-    // Sectioned content or flat line list
+    // --- 3. SECTIONS ---
     if (Array.isArray(template.sections)) {
       template.sections.forEach((section) => {
-        doc.setFont('helvetica', 'bold');
-        doc.text(section.title, marginX, cursorY);
-        cursorY += 16;
+        // Prevent page overflow
+        if (cursorY > pageHeight - 100) {
+          doc.addPage();
+          cursorY = 50;
+        }
 
-        doc.setFont('helvetica', 'normal');
-        (section.items || []).forEach((item) => {
-          const wrapped = doc.splitTextToSize(`- ${item}`, maxWidth);
-          doc.text(wrapped, marginX, cursorY);
-          cursorY += 14 * wrapped.length;
-        });
-
-        cursorY += 8;
-      });
-    } else {
-      (template.lines || []).forEach((line) => {
-        doc.text(line, marginX, cursorY);
-        cursorY += 18;
+        if (section.isHighlight) {
+          // Draw Highlight Box
+          const boxHeight = 25 + (section.items.length * 16) + 10;
+          doc.setFillColor(...brandHighlightBg);
+          doc.setDrawColor(...brandHighlightBorder);
+          doc.setLineWidth(1.5);
+          doc.rect(marginX, cursorY, maxWidth, boxHeight, 'FD'); // Fill and Draw
+          
+          cursorY += 22;
+          doc.setTextColor(...brandNavy);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(12);
+          doc.text(section.title, marginX + 15, cursorY);
+          
+          cursorY += 18;
+          doc.setTextColor(...brandText);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(10);
+          
+          section.items.forEach((item) => {
+            const wrapped = doc.splitTextToSize(item, maxWidth - 40);
+            doc.text('•', marginX + 15, cursorY);
+            doc.text(wrapped, marginX + 25, cursorY);
+            cursorY += 15 * wrapped.length;
+          });
+          cursorY += 25; 
+        } else {
+          // Standard Section
+          doc.setTextColor(...brandNavy);
+          doc.setFont('helvetica', 'bold');
+          doc.setFontSize(13);
+          doc.text(section.title, marginX, cursorY);
+          
+          cursorY += 18;
+          doc.setTextColor(...brandText);
+          doc.setFont('helvetica', 'normal');
+          doc.setFontSize(11);
+          
+          section.items.forEach((item) => {
+            const wrapped = doc.splitTextToSize(item, maxWidth - 20);
+            // Draw custom styled bullet point
+            doc.setFillColor(...brandYellow);
+            doc.circle(marginX + 3, cursorY - 3, 3, 'F');
+            
+            doc.text(wrapped, marginX + 15, cursorY);
+            cursorY += 16 * wrapped.length;
+          });
+          cursorY += 15;
+        }
       });
     }
 
-    // Footer lines (small grey text)
+    // --- 4. FOOTER ---
+    // Push footer to bottom if there's space, else just put it after a gap
+    if (cursorY < pageHeight - 60) {
+      cursorY = pageHeight - 60;
+    } else {
+      cursorY += 20;
+    }
+    
+    doc.setDrawColor(230, 230, 230);
+    doc.setLineWidth(1);
+    doc.line(marginX, cursorY, marginX + maxWidth, cursorY);
+    
+    cursorY += 15;
+    doc.setTextColor(...brandMuted);
+    doc.setFont('helvetica', 'italic');
+    doc.setFontSize(9);
     if (Array.isArray(template.footerLines)) {
-      cursorY += 6;
-      doc.setTextColor(90);
-      doc.setFontSize(9);
       template.footerLines.forEach((line) => {
         const wrapped = doc.splitTextToSize(line, maxWidth);
         doc.text(wrapped, marginX, cursorY);
