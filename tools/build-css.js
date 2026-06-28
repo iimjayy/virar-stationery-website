@@ -60,6 +60,7 @@ const MODULES = [
   // 5. Utilities — helpers and interactive layer
   'utilities/trust-counters.css',
   'utilities/interactive.css',
+  'utilities/view-transitions.css',
   'utilities/responsive-mobile.css',
   // 6. Themes — must come last to override cleanly
   'themes/dark.css',

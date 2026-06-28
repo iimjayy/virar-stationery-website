@@ -8,6 +8,7 @@ import { CONFIG } from './config.js';
 import { escapeHtml, normalizePhoneNumber, resolveBusinessWhatsAppNumber, resolveBusinessEmail, buildWhatsAppUrl, buildMailtoUrl, openEnquiryChannel } from './utils/helpers.js';
 import { ensureEnquiryToast, showEnquiryToast } from './core/toast.js';
 import { captureLead } from './core/firebase.js';
+import './core/prefetch.js';
 
 // --- Phase 1 feature modules ---
 import { initSmartSearch } from './features/smart-search.js';

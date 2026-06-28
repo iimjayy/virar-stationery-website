@@ -1,0 +1,32 @@
+/* ==========================================================================
+   view-transitions.css — Cross-document View Transitions
+   Requires: Chrome 111+ / Chrome for Android 111+ (covers ~95% of traffic).
+   Degrades gracefully — browsers without the API do instant navigation.
+   ========================================================================== */
+
+/* Exit: current page fades out */
+@keyframes vt-exit {
+  to { opacity: 0; }
+}
+
+/* Enter: new page fades in with a gentle upward slide */
+@keyframes vt-enter {
+  from { opacity: 0; transform: translateY(10px); }
+}
+
+::view-transition-old(root) {
+  animation: 180ms ease-out both vt-exit;
+}
+
+::view-transition-new(root) {
+  animation: 260ms ease-out 80ms both vt-enter;
+}
+
+/* Hard-skip for users who prefer no motion */
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+  }
+}

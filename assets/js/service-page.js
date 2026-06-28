@@ -3,6 +3,7 @@
 
 import { initGoogleAnalytics } from './features/google-analytics.js';
 import { initAnalytics } from './features/analytics.js';
+import './core/prefetch.js';
 
 const runAfterReady = (callback) => {
   if (document.readyState === 'loading') {

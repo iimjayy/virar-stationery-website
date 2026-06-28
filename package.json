@@ -3,6 +3,8 @@
     "translate-google": "^1.5.0"
   },
   "scripts": {
-    "build:css": "node tools/build-css.js"
+    "build:css": "node tools/build-css.js",
+    "build:partials": "node tools/inject-partials.js",
+    "build": "node tools/build-css.js && node tools/inject-partials.js"
   }
 }
