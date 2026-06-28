@@ -14,6 +14,7 @@
   background: var(--surface);
   box-shadow: var(--shadow-md);
   padding: clamp(18px, 3vw, 28px);
+  padding-bottom: 50px;
 }
 
 .stationery-search-bar {
@@ -211,30 +212,31 @@
   }
 }
 
-/* Floating Cart Container */
+/* Sticky Cart Container (stays inside the shell) */
 .stationery-cart-container {
-  position: fixed;
-  bottom: -100px;
-  left: 50%;
-  transform: translateX(-50%);
+  position: sticky;
+  bottom: 20px;
+  margin: 30px auto 0;
+  width: max-content;
   background: #fff;
   border: 1px solid rgba(11, 42, 91, 0.1);
-  box-shadow: 0 -10px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.15);
   border-radius: 999px;
   padding: 10px 14px 10px 24px;
   display: flex;
   align-items: center;
   gap: 20px;
-  z-index: 9999;
+  z-index: 100;
   opacity: 0;
   pointer-events: none;
-  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  transform: translateY(20px);
+  transition: all 0.3s ease;
 }
 
 .stationery-cart-container.visible {
-  bottom: 30px;
   opacity: 1;
   pointer-events: auto;
+  transform: translateY(0);
 }
 
 .cart-info {
