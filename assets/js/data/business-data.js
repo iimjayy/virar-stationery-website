@@ -572,7 +572,7 @@ export const detailedServices = {
  * PDF download templates used by the setupPdfDownloads feature.
  */
 export const pdfTemplates = {
-  priceList: {
+  'price-list': {
     filename: 'Virar-Stationery-Price-List.pdf',
     title: 'Virar Stationery & Jumbo Xerox',
     subtitle: 'Official Price List & Service Guide',
@@ -613,11 +613,19 @@ export const pdfTemplates = {
       },
       {
         isHighlight: true,
-        title: '💡 Pro Tip: How to get the best results & save money',
+        title: 'PRO TIP: How to get the best results & save money',
         items: [
-          'Always save your files as PDF. Word documents can change formatting on different computers.',
-          'For bulk printing (100+ pages) or coaching class notes, message us for special discounted rates.',
-          'Send your files on WhatsApp from home, and we will keep it printed and ready for pickup. No waiting!'
+          'File Format: Always save your files as PDF. Word documents can change formatting on different computers.',
+          'Bulk Orders: For bulk printing (100+ pages) or coaching class notes, message us for special discounted rates.',
+          'Skip the Line: Send your files on WhatsApp from home, and we will keep it printed and ready for pickup. No waiting!'
+        ]
+      },
+      {
+        title: 'Why Choose Us?',
+        items: [
+          'Speed: High-speed industrial printers ensure you never wait long.',
+          'Quality: We use premium 75GSM+ paper for all standard prints, ensuring crisp text and no ink bleed.',
+          'Convenience: Order on WhatsApp, pay via UPI, and pick up instantly.'
         ]
       }
     ],
@@ -649,7 +657,7 @@ export const pdfTemplates = {
       },
       {
         isHighlight: true,
-        title: '⚡ How to Order via WhatsApp (Fastest Method)',
+        title: 'FASTEST METHOD: How to Order via WhatsApp',
         items: [
           'Step 1: Save our number 70210 72757 or click the link on our website.',
           'Step 2: Send us your document (PDF preferred).',
@@ -659,12 +667,20 @@ export const pdfTemplates = {
         ]
       },
       {
-        title: 'File Preparation Checklist',
+        title: 'File Preparation Checklist (Important)',
         items: [
-          'File Format: Export to PDF to ensure fonts and layout do not break.',
-          'Resolution: For color prints and photos, ensure images are high resolution.',
-          'Margins: Leave at least 0.5-inch margins if you want spiral binding.',
-          'WhatsApp Settings: Send documents as "Document", not "Image" to preserve quality.'
+          'File Format: Export to PDF to ensure fonts and layout do not break when printed.',
+          'Resolution: For color prints and photos, ensure images are high resolution (300 DPI is ideal).',
+          'Margins: Leave at least 0.5-inch margins on the left if you want spiral binding.',
+          'WhatsApp Settings: Send documents as "Document", not "Image", so WhatsApp does not compress and ruin the quality.'
+        ]
+      },
+      {
+        title: 'Popular Add-Ons',
+        items: [
+          'Thick Lamination: Protect your important documents, certificates, and ID cards from water and wear.',
+          'Spiral Binding: We offer transparent front covers and thick back covers to keep your project files neat and professional.',
+          'Jumbo Printing: We have dedicated plotters for engineering and architectural A2/A1/A0 drawings.'
         ]
       }
     ],
