@@ -7,6 +7,7 @@
 
 import { CONFIG } from '../config.js';
 import { escapeHtml } from '../utils/helpers.js';
+import { getFirestoreContext } from '../core/firebase.js';
 
 const DISPLAY_DURATION = 7000;
 const INITIAL_DELAY = 12000;
@@ -176,20 +177,16 @@ const sanitizePickup = (doc) => {
 };
 
 const loadPickups = async () => {
-  const [{ initializeApp }, firestore] = await Promise.all([
-    import(`https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-app.js`),
-    import(`https://www.gstatic.com/firebasejs/${FIREBASE_VERSION}/firebase-firestore.js`)
-  ]);
-
-  const app = initializeApp(CONFIG.integrations.firebase.config);
-  const db = firestore.getFirestore(app);
+  // Uses the shared, getApps()-guarded Firebase context so the app is never
+  // initialized twice (which would throw and break other Firebase features).
+  const { db, fs } = await getFirestoreContext();
   const collectionName = CONFIG.integrations.firebase.pickupsCollection || 'pickups';
-  const pickupQuery = firestore.query(
-    firestore.collection(db, collectionName),
-    firestore.limit(CONFIG.integrations.firebase.maxPickupNotifications || 6)
+  const pickupQuery = fs.query(
+    fs.collection(db, collectionName),
+    fs.limit(CONFIG.integrations.firebase.maxPickupNotifications || 6)
   );
 
-  const snapshot = await firestore.getDocs(pickupQuery);
+  const snapshot = await fs.getDocs(pickupQuery);
   return snapshot.docs.map(sanitizePickup).filter(Boolean);
 };
 

@@ -7,6 +7,7 @@
 import { CONFIG } from './config.js';
 import { escapeHtml, normalizePhoneNumber, resolveBusinessWhatsAppNumber, resolveBusinessEmail, buildWhatsAppUrl, buildMailtoUrl, openEnquiryChannel } from './utils/helpers.js';
 import { ensureEnquiryToast, showEnquiryToast } from './core/toast.js';
+import { captureLead } from './core/firebase.js';
 
 // --- Phase 1 feature modules ---
 import { initSmartSearch } from './features/smart-search.js';
@@ -218,6 +219,15 @@ runAfterReady(() => {
       const enquiryMessage = buildEnquiryMessage();
       const whatsAppUrl = buildWhatsAppUrl(businessWhatsAppNumber, enquiryMessage);
       const mailtoUrl = buildMailtoUrl(businessEmail, enquirySubject, enquiryMessage);
+
+      // Persist the lead to Firestore (best-effort, non-blocking — WhatsApp
+      // remains the primary channel and always opens regardless of this).
+      captureLead('contact', {
+        name: String(contactForm.querySelector('#name')?.value ?? '').trim(),
+        phone: String(contactForm.querySelector('#phone')?.value ?? '').trim(),
+        service: String(contactForm.querySelector('#service')?.value ?? '').trim(),
+        message: String(contactForm.querySelector('#message')?.value ?? '').trim(),
+      });
 
       window.setTimeout(() => {
         const openedWhatsApp = openEnquiryChannel(whatsAppUrl, mailtoUrl);

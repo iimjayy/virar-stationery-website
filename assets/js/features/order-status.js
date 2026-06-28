@@ -6,6 +6,7 @@
 
 import { showEnquiryToast } from '../core/toast.js';
 import { CONFIG } from '../config.js';
+import { subscribeToOrder } from '../core/firebase.js';
 
 // ---------------------------------------------------------------------------
 // Mock Data
@@ -269,23 +270,23 @@ export const initOrderStatus = () => {
    * Handle form submission — look up and render order(s).
    * @param {SubmitEvent} e
    */
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  let unsubscribe = null;  // active live subscription, if any
+  let lookupToken = 0;     // guards against stale async callbacks
 
-    const raw = input.value.trim();
-    if (!raw) {
-      resultContainer.innerHTML = '';
-      return;
+  const teardown = () => {
+    if (unsubscribe) {
+      try { unsubscribe(); } catch (_) { /* noop */ }
+      unsubscribe = null;
     }
+  };
 
+  // Demo / graceful-fallback lookup against the bundled mock orders.
+  const renderFallback = (raw) => {
     const matches = findOrders(raw);
-
     if (matches.length > 0) {
       resultContainer.innerHTML = matches.map(renderOrderCard).join('');
       showEnquiryToast(
-        matches.length === 1
-          ? 'Order found!'
-          : `${matches.length} orders found!`
+        matches.length === 1 ? 'Order found!' : `${matches.length} orders found!`
       );
     } else {
       resultContainer.innerHTML = renderNoResults(raw);
@@ -293,11 +294,56 @@ export const initOrderStatus = () => {
     }
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const raw = input.value.trim();
+    teardown();
+    if (!raw) {
+      resultContainer.innerHTML = '';
+      return;
+    }
+
+    const token = ++lookupToken;
+    let delivered = false;
+
+    // 1) Try a LIVE Firestore lookup by order ID — status changes stream in
+    //    in real time via onSnapshot. Falls back to demo data if there's no
+    //    such live order or Firebase is unavailable.
+    const sub = await subscribeToOrder(raw, (order) => {
+      if (token !== lookupToken) return; // superseded by a newer lookup
+      if (order) {
+        resultContainer.innerHTML = renderOrderCard(order);
+        if (!delivered) {
+          showEnquiryToast('Order found — tracking live.');
+          delivered = true;
+        }
+      } else if (!delivered) {
+        // null = no such live order, undefined = read error → demo fallback
+        renderFallback(raw);
+        delivered = true;
+      }
+    });
+
+    // A newer lookup started while we were awaiting — discard this one.
+    if (token !== lookupToken) {
+      if (sub) { try { sub(); } catch (_) { /* noop */ } }
+      return;
+    }
+
+    if (sub) {
+      unsubscribe = sub;       // keep the live subscription alive
+    } else {
+      renderFallback(raw);     // Firebase not configured/available
+    }
+  };
+
   form.addEventListener('submit', handleSubmit);
 
-  // Clear results when input is emptied.
+  // Clear results (and stop live tracking) when input is emptied.
   input.addEventListener('input', () => {
     if (!input.value.trim()) {
+      teardown();
       resultContainer.innerHTML = '';
     }
   });

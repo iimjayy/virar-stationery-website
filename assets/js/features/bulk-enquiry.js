@@ -32,6 +32,7 @@ import {
   openEnquiryChannel
 } from '../utils/helpers.js';
 import { showEnquiryToast } from '../core/toast.js';
+import { captureLead } from '../core/firebase.js';
 
 // ---------------------------------------------------------------------------
 // initBulkEnquiry — public entry point called by main.js
@@ -410,6 +411,17 @@ export const initBulkEnquiry = () => {
     const enquiryMessage = buildBulkMessage();
     const whatsAppUrl    = buildWhatsAppUrl(businessWhatsAppNumber, enquiryMessage);
     const mailtoUrl      = buildMailtoUrl(businessEmail, bulkSubject, enquiryMessage);
+
+    // Persist the bulk lead to Firestore (best-effort, non-blocking).
+    captureLead('bulk', {
+      name:        String(document.getElementById('bulkName')?.value ?? '').trim(),
+      business:    String(document.getElementById('bulkBusiness')?.value ?? '').trim(),
+      phone:       String(document.getElementById('bulkPhone')?.value ?? '').trim(),
+      email:       String(document.getElementById('bulkEmail')?.value ?? '').trim(),
+      service:     String(document.getElementById('bulkService')?.value ?? '').trim(),
+      quantity:    String(document.getElementById('bulkQuantity')?.value ?? '').trim(),
+      description: String(document.getElementById('bulkDescription')?.value ?? '').trim(),
+    });
 
     // Brief delay before navigating — gives the loading state time to render.
     window.setTimeout(() => {
