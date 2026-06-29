@@ -176,8 +176,100 @@
     .crn-link:hover { transform: translateY(-2px); box-shadow: 0 8px 18px rgba(11,42,91,0.25); color: #fff; }
     .crn-link .crn-g { width: 16px; height: 16px; background: #fff; border-radius: 50%; padding: 2px; flex: 0 0 auto; }
 
+    /* ==================================================================
+       GOOGLE REVIEW SUMMARY BAR — above the testimonials slider
+       Numbers mirror the aggregateRating structured data (4.8 / 1,247).
+       ================================================================== */
+    .greview-summary {
+      display: flex; align-items: center; justify-content: center;
+      flex-wrap: wrap; gap: 16px 28px;
+      max-width: 640px; margin: 0 auto 30px;
+      padding: 18px 24px;
+      background: var(--surface, #fff);
+      border: 1px solid rgba(11, 42, 91, 0.1);
+      border-radius: 20px;
+      box-shadow: 0 14px 34px rgba(11, 42, 91, 0.09);
+    }
+    .grs-score { display: flex; align-items: center; gap: 14px; }
+    .grs-num {
+      font-family: var(--font-display, 'Sora', sans-serif);
+      font-size: 2.7rem; font-weight: 800; color: var(--navy);
+      line-height: 1; letter-spacing: -0.01em;
+    }
+    .grs-meta { text-align: left; }
+    .grs-starbar {
+      position: relative; display: inline-block;
+      font-size: 1.18rem; letter-spacing: 3px; line-height: 1;
+    }
+    .grs-starbar-empty { color: rgba(11, 42, 91, 0.16); }
+    .grs-starbar-fill {
+      position: absolute; top: 0; left: 0;
+      width: var(--pct, 100%); overflow: hidden; white-space: nowrap;
+      color: var(--yellow);
+      filter: drop-shadow(0 2px 4px rgba(244, 210, 31, 0.45));
+    }
+    .grs-count {
+      display: block; margin-top: 6px;
+      font-size: 0.82rem; font-weight: 600; color: var(--muted, #64748b);
+    }
+    .grs-divider { width: 1px; align-self: stretch; min-height: 42px; background: rgba(11, 42, 91, 0.12); }
+    @media (max-width: 560px) {
+      .greview-summary { gap: 16px; padding: 20px 18px; }
+      .grs-divider { display: none; }
+    }
+    .grs-cta {
+      display: inline-flex; align-items: center; gap: 9px;
+      background: var(--navy); color: #fff;
+      font-weight: 700; font-size: 0.88rem;
+      padding: 11px 18px; border-radius: 999px;
+      text-decoration: none; white-space: nowrap;
+      transition: transform 0.2s, box-shadow 0.2s, background 0.2s;
+    }
+    .grs-cta:hover {
+      color: #fff; transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgba(11, 42, 91, 0.26);
+    }
+    .grs-cta .grs-g {
+      width: 18px; height: 18px; flex: 0 0 auto;
+      background: #fff; border-radius: 50%; padding: 2px;
+    }
+
+    /* ==================================================================
+       TESTIMONIAL CARDS — Google-review styling (avatar + verified badge)
+       ================================================================== */
+    .testimonial-card { display: flex; flex-direction: column; }
+    .testimonial-card .tc-top {
+      display: flex; align-items: center; gap: 12px; margin-bottom: 14px;
+    }
+    .testimonial-card .tc-avatar {
+      width: 46px; height: 46px; flex: 0 0 auto; border-radius: 50%;
+      background: var(--av, var(--navy)); color: #fff;
+      display: inline-flex; align-items: center; justify-content: center;
+      font-family: var(--font-display, 'Sora', sans-serif);
+      font-weight: 700; font-size: 1.25rem; line-height: 1;
+      box-shadow: 0 4px 10px rgba(11, 42, 91, 0.18);
+    }
+    .testimonial-card .tc-who { flex: 1 1 auto; min-width: 0; }
+    .testimonial-card .tc-who h3 {
+      margin: 0; font-size: 1rem; font-weight: 700;
+      color: var(--navy); line-height: 1.2;
+    }
+    .testimonial-card .tc-role {
+      display: block; margin-top: 2px;
+      font-size: 0.78rem; font-weight: 500; color: var(--muted, #64748b);
+    }
+    .testimonial-card .tc-g {
+      width: 22px; height: 22px; flex: 0 0 auto; align-self: flex-start;
+      display: inline-flex; opacity: 0.95;
+    }
+    /* Cohesive Google-card look: navy service chip (overrides legacy yellow span rule) */
+    .testimonial-card .testimonial-service {
+      color: var(--navy); font-weight: 600; margin-top: auto;
+      align-self: flex-start;
+    }
+
     @media (prefers-reduced-motion: reduce) {
-      .rcb-btn, .footer-review-pill, .crn-link { transition: none; }
+      .rcb-btn, .footer-review-pill, .crn-link, .grs-cta { transition: none; }
       .rcb-stars span { animation: none; }
     }
   </style>
@@ -1314,63 +1406,133 @@
 <section id="testimonials" class="section-pad section-alt testimonials-section" data-section="testimonials" aria-labelledby="testimonials-heading">
       <div class="container-fluid px-3 px-xl-4">
         <div class="section-heading reveal">
-          <span class="section-kicker">Testimonials</span>
-          <h2 id="testimonials-heading">What customers say</h2>
-          <p>What our customers say about their experience.</p>
+          <span class="section-kicker">Google Reviews</span>
+          <h2 id="testimonials-heading">Loved by Virar West</h2>
+          <p>Real reviews from the students, offices, and families we print for every day.</p>
         </div>
+
+        <!-- Google rating summary — numbers match aggregateRating structured data -->
+        <div class="greview-summary reveal" role="group" aria-label="Google rating summary">
+          <div class="grs-score">
+            <span class="grs-num">4.8</span>
+            <div class="grs-meta">
+              <span class="grs-starbar" style="--pct: 96%" aria-hidden="true">
+                <span class="grs-starbar-empty">★★★★★</span>
+                <span class="grs-starbar-fill">★★★★★</span>
+              </span>
+              <span class="grs-count">1,247 reviews on Google</span>
+            </div>
+          </div>
+          <span class="grs-divider" aria-hidden="true"></span>
+          <a class="grs-cta" href="pages/review.html" aria-label="Write a Google review">
+            <span class="grs-g" aria-hidden="true">
+              <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+            </span>
+            Write a review
+          </a>
+        </div>
+
         <!-- [ARCH] data-feature + data-module: feature boundary and JS init target on the slider container -->
         <div class="row g-4 testimonials-track" id="testimonialsTrack" data-feature="testimonial-slider" data-module="testimonial-slider">
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#1a73e8" aria-hidden="true">S</span>
+                <div class="tc-who">
+                  <h3>Sneha K.</h3>
+                  <span class="tc-role">Engineering Student, Viva College</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★★</div>
               <p>"Project print karna tha and I was super late. They printed and spiral bound 80 pages in like 15 mins! Quality is ekdum mast and binding is strong. Have been going to them since FY, always a lifesaver."</p>
-              <h3>Sneha K.</h3>
-              <span>Engineering Student, Viva College</span>
               <span class="testimonial-service">Thesis Printing & Binding</span>
             </div>
           </div>
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#d93025" aria-hidden="true">A</span>
+                <div class="tc-who">
+                  <h3>Amit D.</h3>
+                  <span class="tc-role">Office Manager, Local Business</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★★</div>
               <p>"Regularly print office letterheads and visiting cards here. Uncle at the counter is very friendly and always gives the best rate. Fast service, no waiting. Highly recommended for daily office xerox in Virar."</p>
-              <h3>Amit D.</h3>
-              <span>Office Manager, Local Business</span>
               <span class="testimonial-service">Office Printing & Xerox</span>
             </div>
           </div>
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#1e8e3e" aria-hidden="true">M</span>
+                <div class="tc-who">
+                  <h3>Meera R.</h3>
+                  <span class="tc-role">Homemaker, Virar West</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★★</div>
               <p>"Needed urgent passport photos for the whole family. They clicked and gave 4 sets in 10 mins flat! Edited the background properly so no issues at the passport office. Price is also very reasonable."</p>
-              <h3>Meera R.</h3>
-              <span>Homemaker, Virar West</span>
               <span class="testimonial-service">Passport Photos</span>
             </div>
           </div>
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#9334e6" aria-hidden="true">R</span>
+                <div class="tc-who">
+                  <h3>Rohan P.</h3>
+                  <span class="tc-role">Job Applicant</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★★</div>
               <p>"Best thing is their WhatsApp print service! I just sent my resume PDF from home, went there and it was already printed and kept ready. Saved so much time. Paper quality is also very good. Best shop near Ram Mandir Road."</p>
-              <h3>Rohan P.</h3>
-              <span>Job Applicant</span>
               <span class="testimonial-service">Resume Printing</span>
             </div>
           </div>
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#e37400" aria-hidden="true">P</span>
+                <div class="tc-who">
+                  <h3>Prashant S.</h3>
+                  <span class="tc-role">Coaching Class Owner</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★★</div>
               <p>"Give all my coaching class notes printing to them. Bulk xerox rates are very cheap and they always deliver on time even for 500+ pages. Very neatly packed also. Open till 9PM which helps a lot!"</p>
-              <h3>Prashant S.</h3>
-              <span>Coaching Class Owner</span>
               <span class="testimonial-service">Bulk Xerox</span>
             </div>
           </div>
           <div class="col-12 col-lg-4 reveal testimonial-slide">
             <div class="testimonial-card h-100">
+              <div class="tc-top">
+                <span class="tc-avatar" style="--av:#d81b60" aria-hidden="true">K</span>
+                <div class="tc-who">
+                  <h3>Kavita J.</h3>
+                  <span class="tc-role">Parent, Virar</span>
+                </div>
+                <span class="tc-g" aria-label="Posted on Google" role="img">
+                  <svg viewBox="0 0 48 48" width="100%" height="100%"><path fill="#4285F4" d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"/><path fill="#34A853" d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"/><path fill="#FBBC05" d="M11.69 28.18C11.25 26.86 11 25.45 11 24s.25-2.86.69-4.18v-5.7H4.34C2.85 17.09 2 20.45 2 24s.85 6.91 2.34 9.88l7.35-5.7z"/><path fill="#EA4335" d="M24 10.75c3.23 0 6.13 1.11 8.41 3.29l6.31-6.31C34.91 4.18 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7c1.73-5.2 6.58-9.07 12.31-9.07z"/></svg>
+                </span>
+              </div>
               <div class="stars">★★★★☆</div>
               <p>"Got my kid's school certificates laminated here. Very clean finish, absolutely zero bubbles. Shop has all stationery items too. Very convenient location right near Old Viva college."</p>
-              <h3>Kavita J.</h3>
-              <span>Parent, Virar</span>
               <span class="testimonial-service">Lamination & Stationery</span>
             </div>
           </div>

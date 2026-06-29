@@ -124,6 +124,19 @@
       margin: 0 0 8px; line-height: 1.18;
     }
     .r-hero p { color: var(--muted); margin: 0 auto; max-width: 460px; font-size: 0.96rem; line-height: 1.55; }
+    .r-trust {
+      display: inline-flex; align-items: center; gap: 12px; margin-top: 16px;
+      padding: 8px 16px; border-radius: var(--radius-pill);
+      background: var(--surface-alt); border: 1px solid var(--border);
+      font-size: 0.82rem; color: var(--navy);
+    }
+    .r-trust-rate { display: inline-flex; align-items: center; gap: 5px; color: var(--navy); }
+    .r-trust-rate b { font-family: var(--font-display); font-size: 0.96rem; }
+    .r-trust-rate { color: var(--orange); }
+    .r-trust-rate b { color: var(--navy); }
+    .r-trust-sep { width: 1px; height: 16px; background: var(--border); }
+    .r-trust-count { color: var(--muted); }
+    .r-trust-count b { color: var(--navy); }
     .r-hero .r-time {
       display: inline-flex; align-items: center; gap: 7px; margin-top: 14px;
       font-size: 0.8rem; font-weight: 600; color: var(--navy);
@@ -384,6 +397,11 @@
       </div>
       <h1>How was your experience?</h1>
       <p>Your review helps our small shop grow. Pick one below or build your own &mdash; it takes <b>10 seconds</b>.</p>
+      <div class="r-trust">
+        <span class="r-trust-rate"><b>4.8</b> &#9733;</span>
+        <span class="r-trust-sep" aria-hidden="true"></span>
+        <span class="r-trust-count">Join <b>1,200+</b> happy customers</span>
+      </div>
       <span class="r-time">&#9889; One tap to post on Google</span>
     </section>
 
