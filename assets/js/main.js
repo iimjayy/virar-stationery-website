@@ -194,16 +194,21 @@ runAfterReady(() => {
 
     const buildEnquiryMessage = () => {
       const customerName = String(contactForm.querySelector('#name')?.value ?? '').trim();
+      const customerPhone = String(contactForm.querySelector('#phone')?.value ?? '').trim();
       const selectedService = String(contactForm.querySelector('#service')?.value ?? '').trim();
       const customerMessage = String(contactForm.querySelector('#message')?.value ?? '').trim();
 
-      return [
+      const lines = [
         'New Website Enquiry',
         '',
-        `Name: ${customerName}`,
-        `Service Needed: ${selectedService}`,
-        `Message: ${customerMessage}`
-      ].join('\n');
+        `Name: ${customerName}`
+      ];
+      if (customerPhone) {
+        lines.push(`Phone: ${customerPhone}`);
+      }
+      lines.push(`Service Needed: ${selectedService}`);
+      lines.push(`Message: ${customerMessage}`);
+      return lines.join('\n');
     };
 
 

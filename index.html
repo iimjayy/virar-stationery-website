@@ -1930,17 +1930,124 @@
          [ARCH] data-feature="contact-form" on form: feature boundary for contact form JS
          ═══════════════════════════════════════════════ -->
     <!-- === SECTION: CONTACT === -->
+    <style>
+      /* ==================================================================
+         CONTACT REDESIGN — quick actions, live status, layout polish
+         Scoped, no FOUC risk, no bundle rebuild required.
+         ================================================================== */
+      .contact-quick {
+        display: grid; grid-template-columns: 1fr; gap: 12px; margin-bottom: 20px;
+      }
+      @media (min-width: 768px) { .contact-quick { grid-template-columns: repeat(3, 1fr); } }
+      .cq-tile {
+        display: flex; align-items: center; gap: 14px;
+        padding: 15px 17px; border-radius: 18px; text-decoration: none;
+        background: #fff; border: 1px solid rgba(11, 42, 91, 0.1);
+        box-shadow: 0 10px 24px rgba(11, 42, 91, 0.08);
+        transition: transform 0.22s ease, box-shadow 0.22s ease, border-color 0.22s ease;
+      }
+      .cq-tile:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(11, 42, 91, 0.15); }
+      .cq-tile:active { transform: translateY(-1px); }
+      .cq-ico {
+        width: 48px; height: 48px; flex: 0 0 auto; border-radius: 14px;
+        display: inline-flex; align-items: center; justify-content: center;
+        font-size: 1.3rem; color: #fff; box-shadow: 0 6px 14px rgba(11, 42, 91, 0.18);
+      }
+      .cq-body { display: flex; flex-direction: column; min-width: 0; flex: 1 1 auto; }
+      .cq-title {
+        font-family: var(--font-display, 'Sora', sans-serif);
+        font-weight: 800; font-size: 1rem; color: var(--navy); line-height: 1.2;
+      }
+      .cq-sub { font-size: 0.8rem; color: var(--muted, #64748b); margin-top: 2px; }
+      .cq-arrow { color: rgba(11, 42, 91, 0.32); font-size: 0.85rem; flex: 0 0 auto; transition: transform 0.2s ease, color 0.2s ease; }
+      .cq-tile:hover .cq-arrow { transform: translateX(4px); color: var(--navy); }
+      .cq-whatsapp { border-color: rgba(37, 211, 102, 0.3); }
+      .cq-whatsapp .cq-ico { background: linear-gradient(160deg, #25d366, #1da851); }
+      .cq-call .cq-ico { background: linear-gradient(160deg, #2a6df4, #1a56d6); }
+      .cq-dir .cq-ico { background: linear-gradient(160deg, #f4a51f, #f28c28); }
+
+      /* Card head with live status badge */
+      .contact-card-head {
+        display: flex; align-items: center; justify-content: space-between;
+        flex-wrap: wrap; gap: 10px; margin-bottom: 14px;
+      }
+      .contact-card-head h3 { margin: 0 !important; }
+      .shop-status {
+        display: inline-flex; align-items: center; gap: 7px;
+        padding: 6px 12px; border-radius: 999px;
+        background: rgba(22, 163, 74, 0.1); border: 1px solid rgba(22, 163, 74, 0.28);
+        font-size: 0.74rem; font-weight: 700; color: #15803d; white-space: nowrap;
+      }
+      .shop-status .ss-dot {
+        width: 8px; height: 8px; border-radius: 50%; background: #22c55e; flex: 0 0 auto;
+        animation: ssPulse 2s infinite;
+      }
+      .shop-status .ss-sub { font-weight: 600; opacity: 0.85; }
+      @keyframes ssPulse {
+        0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.5); }
+        70% { box-shadow: 0 0 0 7px rgba(34, 197, 94, 0); }
+        100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+      }
+      .shop-status.is-closed {
+        background: rgba(220, 38, 38, 0.08); border-color: rgba(220, 38, 38, 0.24); color: #b91c1c;
+      }
+      .shop-status.is-closed .ss-dot { background: #ef4444; animation: none; }
+
+      /* Bigger, friendlier map */
+      .contact-details-card .contact-map-block .map-wrap,
+      .contact-details-card .contact-map-block .map-wrap iframe {
+        min-height: 230px; height: 230px;
+      }
+
+      /* Form subhead */
+      .contact-form-card .form-sub {
+        margin: -4px 0 16px; color: var(--muted, #64748b);
+        font-size: 0.9rem; line-height: 1.5;
+      }
+
+      @media (prefers-reduced-motion: reduce) {
+        .cq-tile, .cq-arrow { transition: none; }
+        .shop-status .ss-dot { animation: none; }
+      }
+    </style>
 <section id="contact" class="section-pad contact-section" data-section="contact" aria-labelledby="contact-heading">
       <div class="container-fluid px-3 px-xl-4">
         <div class="section-heading reveal">
           <span class="section-kicker">Contact Us</span>
-          <h2 id="contact-heading">Visit the shop or send an inquiry</h2>
-          <p>Find our shop quickly, call or WhatsApp instantly, and send your inquiry anytime.</p>
+          <h2 id="contact-heading">Visit, call, or message us</h2>
+          <p>Fastest replies on WhatsApp. Call for urgent jobs, or drop by the shop near Old Viva College, Virar West.</p>
         </div>
+
+        <!-- Quick-action tiles — the fastest ways to reach the shop -->
+        <div class="contact-quick reveal" aria-label="Quick contact actions">
+          <a class="cq-tile cq-whatsapp" href="https://wa.me/917021072757?text=%F0%9F%96%A8%EF%B8%8F%20New%20Enquiry%20%E2%80%94%20virarprint.in%0ASource%3A%20Contact%20%E2%80%94%20Quick%20Action%0A%0A%F0%9F%93%8E%20Please%20attach%20your%20file%20below." target="_blank" rel="noopener noreferrer">
+            <span class="cq-ico"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i></span>
+            <span class="cq-body"><span class="cq-title">WhatsApp Us</span><span class="cq-sub">Usually replies in minutes</span></span>
+            <i class="fa-solid fa-arrow-right cq-arrow" aria-hidden="true"></i>
+          </a>
+          <a class="cq-tile cq-call" href="tel:+917021072757">
+            <span class="cq-ico"><i class="fa-solid fa-phone" aria-hidden="true"></i></span>
+            <span class="cq-body"><span class="cq-title">Call the Shop</span><span class="cq-sub">+91 70210 72757</span></span>
+            <i class="fa-solid fa-arrow-right cq-arrow" aria-hidden="true"></i>
+          </a>
+          <a class="cq-tile cq-dir" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer">
+            <span class="cq-ico"><i class="fa-solid fa-location-arrow" aria-hidden="true"></i></span>
+            <span class="cq-body"><span class="cq-title">Get Directions</span><span class="cq-sub">Virar West &middot; near Viva College</span></span>
+            <i class="fa-solid fa-arrow-right cq-arrow" aria-hidden="true"></i>
+          </a>
+        </div>
+
         <div class="row g-3 align-items-stretch">
           <div class="col-12 col-lg-5 reveal">
             <div class="contact-card contact-details-card h-100">
-              <h3>Shop Details</h3>
+              <div class="contact-card-head">
+                <h3>Visit the shop</h3>
+                <span class="shop-status" id="shopStatus" role="status" aria-live="polite">
+                  <span class="ss-dot" aria-hidden="true"></span>
+                  <span class="ss-text">Open now</span>
+                  <span class="ss-sub"></span>
+                </span>
+              </div>
               <ul class="contact-list">
                 <li class="contact-row contact-address-row">
                   <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
@@ -1967,13 +2074,6 @@
                   </span>
                 </li>
                 <li class="contact-row contact-clickable-row">
-                  <i class="fa-solid fa-phone" aria-hidden="true"></i>
-                  <span class="contact-text-group">
-                    <span class="contact-label">Phone</span>
-                    <a href="tel:+917021072757">+91 70210 72757</a>
-                  </span>
-                </li>
-                <li class="contact-row contact-clickable-row">
                   <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
                   <span class="contact-text-group">
                     <span class="contact-label">WhatsApp</span>
@@ -1990,8 +2090,8 @@
                 <li class="contact-row contact-timing-row">
                   <i class="fa-solid fa-clock" aria-hidden="true"></i>
                   <span class="contact-text-group">
-                    <span class="contact-label">Today</span>
-                    <span class="timing-pill"><span class="timing-dot" aria-hidden="true"></span>Open Today &middot; 8:30 AM &ndash; 9:00 PM</span>
+                    <span class="contact-label">Hours</span>
+                    <span class="contact-detail">Open every day<br>8:30 AM &ndash; 9:00 PM</span>
                   </span>
                 </li>
               </ul>
@@ -2022,7 +2122,8 @@
           </div>
           <div class="col-12 col-lg-7 reveal">
             <div class="contact-card contact-form-card h-100">
-              <h3>Send a Message</h3>
+              <h3>Send a quick enquiry</h3>
+              <p class="form-sub">Tell us what you need &mdash; we&rsquo;ll reply on WhatsApp with a price. No account needed.</p>
               <!-- [ARCH] data-feature="contact-form": marks this form as the contact JS feature owner -->
               <form id="contactForm" class="row g-3" data-feature="contact-form">
                 <div class="col-12 col-md-6">
@@ -2081,6 +2182,38 @@
         </div>
       </div>
     </section>
+
+    <!-- Live open/closed status for the contact card (daily 8:30 AM – 9:00 PM) -->
+    <script>
+      (function () {
+        var el = document.getElementById('shopStatus');
+        if (!el) return;
+        var txt = el.querySelector('.ss-text');
+        var sub = el.querySelector('.ss-sub');
+        var OPEN = 8 * 60 + 30;  // 8:30 AM
+        var CLOSE = 21 * 60;     // 9:00 PM
+        function fmt(mins) {
+          var h = Math.floor(mins / 60), m = mins % 60;
+          var ap = h >= 12 ? 'PM' : 'AM', h12 = h % 12 || 12;
+          return h12 + (m ? ':' + (m < 10 ? '0' + m : m) : '') + ' ' + ap;
+        }
+        function update() {
+          var now = new Date();
+          var cur = now.getHours() * 60 + now.getMinutes();
+          var open = cur >= OPEN && cur < CLOSE;
+          el.classList.toggle('is-closed', !open);
+          if (open) {
+            txt.textContent = (CLOSE - cur) <= 60 ? 'Closing soon' : 'Open now';
+            sub.textContent = '· Closes ' + fmt(CLOSE);
+          } else {
+            txt.textContent = 'Closed now';
+            sub.textContent = '· Opens ' + fmt(OPEN) + (cur >= CLOSE ? ' tomorrow' : '');
+          }
+        }
+        update();
+        setInterval(update, 60000);
+      })();
+    </script>
 
   </main>
 
