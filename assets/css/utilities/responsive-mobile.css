@@ -928,13 +928,52 @@
   }
 
   .footer-brand {
-    font-size: 1.4rem;
-    margin-bottom: 0;
+    font-size: 1.28rem;
+    margin-bottom: 6px;
+  }
+
+  .footer-brand-card {
+    padding: 20px;
+    border-radius: 18px;
+  }
+
+  /* CTA band stacks on small screens */
+  .footer-cta {
+    flex-direction: column;
+    align-items: stretch;
+    text-align: left;
+    gap: 18px;
+    padding: 24px 22px;
+    margin-bottom: 38px;
+  }
+
+  .footer-cta-actions {
+    flex-direction: column;
+  }
+
+  .footer-cta-btn {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .footer-trust-strip {
+    margin-top: 30px;
+    padding: 16px 18px;
+    gap: 10px 18px;
+  }
+
+  .footer-trust-item {
+    font-size: 0.82rem;
+  }
+
+  .footer-backtop {
+    order: -1;
+    margin: 0 auto 4px;
   }
 
   .site-footer h4 {
     font-size: 1rem;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
 
   .footer-description {

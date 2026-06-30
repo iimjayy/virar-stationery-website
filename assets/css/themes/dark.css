@@ -1295,6 +1295,32 @@ html[data-theme="dark"] {
   color: var(--success);
 }
 
+/* Footer CTA band, review pill & back-to-top keep their own palette in dark */
+[data-theme="dark"] .footer-cta-btn--wa {
+  color: #06351f !important;
+}
+
+[data-theme="dark"] .footer-cta-btn--call,
+[data-theme="dark"] .footer-review-pill,
+[data-theme="dark"] .footer-backtop {
+  color: #fff !important;
+}
+
+[data-theme="dark"] .footer-cta-btn--call:hover,
+[data-theme="dark"] .footer-backtop:hover {
+  color: var(--yellow) !important;
+}
+
+[data-theme="dark"] .footer-trust-strip {
+  background: rgba(255, 255, 255, 0.03);
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+[data-theme="dark"] .footer-mini-label,
+[data-theme="dark"] .footer-socials-label {
+  color: var(--text-tertiary);
+}
+
 /* Timing pill in footer */
 [data-theme="dark"] .timing-pill {
   background: rgba(255, 255, 255, 0.06);
