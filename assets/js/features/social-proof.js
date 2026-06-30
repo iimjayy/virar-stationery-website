@@ -415,14 +415,11 @@ function showNotification() {
 export const initSocialProof = () => {
   if (!document.body) return;
 
-  // Always initialize because we have an engaging feature pool now
-  window.setTimeout(async () => {
+  // Initialize the Feature Discovery Assistant
+  window.setTimeout(() => {
     try {
-      const livePickups = await loadPickups();
-      
-      // Combine live firebase data with randomized feature nudges
-      const randomizedFeatures = shuffleArray(getFeatureNudges());
-      dataPool = [...livePickups, ...randomizedFeatures];
+      // Use only the highly engaging feature nudges
+      dataPool = shuffleArray(getFeatureNudges());
 
       if (!dataPool.length) return;
 
