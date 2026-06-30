@@ -9,14 +9,6 @@ import { CONFIG } from '../config.js';
  * Categories → arrays of search entries with labels, icons, keywords, and targets.
  */
 export const searchCatalog = {
-  Popular: [
-    { label: 'Color Printout', icon: 'fa-solid fa-palette', target: { type: 'service', text: 'Color Printing', fallbackSelector: '#services' } },
-    { label: 'Spiral Binding', icon: 'fa-solid fa-clipboard-list', target: { type: 'service', text: 'Spiral Binding', fallbackSelector: '#services' } },
-    { label: 'Price List', icon: 'fa-solid fa-indian-rupee-sign', target: { type: 'section', selector: '#popular-prices' } },
-    { label: 'Business Cards', icon: 'fa-solid fa-address-card', target: { type: 'service', text: 'Visiting Card', fallbackSelector: '#services' } },
-    { label: 'Store Timings', icon: 'fa-solid fa-clock', target: { type: 'section', selector: '#footer' } },
-    { label: 'Send Files (WhatsApp)', icon: 'fa-brands fa-whatsapp', target: { type: 'external', url: 'https://wa.me/917021072757' } }
-  ],
   Services: [
     {
       label: 'Xerox',
