@@ -632,14 +632,13 @@
     <!-- Custom Interactive Enhancements -->
     <style>
       /* Smooth transitions for all interactables */
-      .nav-link { position: relative; }
-      .nav-link::after {
-        content: ''; position: absolute; width: 0; height: 2px;
-        bottom: 0; left: 50%; background-color: var(--yellow, #f4d21f);
-        transition: width 0.3s ease, left 0.3s ease;
+      .nav-link { 
+        transition: color 0.3s ease, text-shadow 0.3s ease, transform 0.2s ease;
       }
-      .nav-link:hover::after, .nav-link.active::after {
-        width: 100%; left: 0;
+      .nav-link:hover {
+        color: #fff;
+        text-shadow: 0 0 8px rgba(244, 210, 31, 0.4);
+        transform: translateY(-1px);
       }
       
       .navbar-brand img {
