@@ -3,56 +3,67 @@
   <url>
     <loc>https://virarprint.in/</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://virarprint.in/pages/pricing.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/printing.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/xerox.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/lamination.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/binding.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/passport-photos.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://virarprint.in/services/thesis-printing.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://virarprint.in/pages/sitemap.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.4</priority>
   </url>
   <url>
     <loc>https://virarprint.in/pages/privacy.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://virarprint.in/pages/terms.html</loc>
     <lastmod>2026-06-30</lastmod>
+    <changefreq>weekly</changefreq>
     <priority>0.3</priority>
   </url>
 </urlset>
