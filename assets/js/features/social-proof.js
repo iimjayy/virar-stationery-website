@@ -27,11 +27,17 @@ const getDynamicTimeNudge = () => {
 };
 
 const getFeatureNudges = () => [
-  { type: 'feature', title: 'In a hurry? 🚀', detail: 'Send us your PDFs on WhatsApp, and we\'ll have them printed and ready before you even arrive.', badge: 'Try it now', icon: 'fa-brands fa-whatsapp', href: 'https://wa.me/917021072757' },
-  { type: 'trust', title: 'Join 500+ Happy Locals ✨', detail: 'See why Virar loves us! Rated 4.9/5 on Google Maps. Read our verified customer reviews.', badge: 'View on Maps', icon: 'fa-brands fa-google', href: CONFIG.business?.mapsUrl || 'https://maps.google.com' },
-  { type: 'promo', title: 'Student Perks 🎓', detail: 'Working on a thesis or project? We offer specialized Black & White printing at exclusive student rates.', badge: 'View Services', icon: 'fa-solid fa-graduation-cap', href: 'pages/services/thesis-printing.html' },
-  { type: 'feature', title: 'Instant Quotes 🧮', detail: 'No surprises! Use our Price Calculator to instantly check costs for your bulk printing and xerox needs.', badge: 'Calculate now', icon: 'fa-solid fa-calculator', href: 'pages/pricing.html' },
-  { type: 'promo', title: 'Jumbo Sizes Available 📏', detail: 'Need A0 or A1 sizes? We do high-quality Autocad plotting and Jumbo Xerox for professionals.', badge: 'View details', icon: 'fa-solid fa-ruler-combined', href: 'pages/services/xerox.html' },
+  { type: 'feature', title: 'In a hurry? 🚀', detail: 'Send PDFs on WhatsApp. We\\'ll print them before you arrive!', badge: 'Try it now', icon: 'fa-brands fa-whatsapp', href: 'https://wa.me/917021072757' },
+  { type: 'trust', title: 'Virar\\'s Favorite ✨', detail: 'Rated 4.9/5 on Google Maps. Read our customer reviews!', badge: 'View on Maps', icon: 'fa-brands fa-google', href: CONFIG.business?.mapsUrl || 'https://maps.google.com' },
+  { type: 'promo', title: 'Student Perks 🎓', detail: 'Special Black & White printing rates for your thesis and projects.', badge: 'View Services', icon: 'fa-solid fa-graduation-cap', href: 'pages/services/thesis-printing.html' },
+  { type: 'feature', title: 'Instant Quotes 🧮', detail: 'Use our Price Calculator to instantly check costs for bulk prints.', badge: 'Calculate now', icon: 'fa-solid fa-calculator', href: 'pages/pricing.html' },
+  { type: 'promo', title: 'Jumbo Printing 📏', detail: 'High-quality Autocad plotting & Jumbo Xerox for professionals.', badge: 'View details', icon: 'fa-solid fa-ruler-combined', href: 'pages/services/xerox.html' },
+  { type: 'feature', title: 'Free Delivery 🛵', detail: 'Get free home delivery in Virar West on all orders over ₹500.', badge: 'Learn More', icon: 'fa-solid fa-motorcycle', href: '#contact' },
+  { type: 'promo', title: 'Same Day Binding 📚', detail: 'Spiral and hardbound project binding done in minutes.', badge: 'Fast Service', icon: 'fa-solid fa-book-bookmark', href: 'pages/services/binding.html' },
+  { type: 'feature', title: 'Vibrant Colors 🖨️', detail: 'Premium color copies on 100gsm paper for presentations.', badge: 'Premium Quality', icon: 'fa-solid fa-palette', href: 'pages/services/color-printing.html' },
+  { type: 'promo', title: 'Protect Documents 🛡️', detail: 'Instant lamination services for your important certificates.', badge: 'Secure it', icon: 'fa-solid fa-layer-group', href: 'pages/services/lamination.html' },
+  { type: 'feature', title: 'Bulk Discounts 📉', detail: 'Printing 100+ pages? Ask us about our special bulk volume rates.', badge: 'Save Money', icon: 'fa-solid fa-tags', href: '#contact' },
+  { type: 'promo', title: 'Custom Stamps ✒️', detail: 'Get your custom business rubber stamps made in just 24 hours.', badge: 'Order Now', icon: 'fa-solid fa-stamp', href: '#contact' },
   getDynamicTimeNudge()
 ];
 
@@ -64,7 +70,7 @@ const injectStyles = () => {
     .sp-card {
       display: flex;
       align-items: center;
-      gap: 16px;
+      gap: 12px;
       
       /* Glassmorphism */
       background: rgba(255, 255, 255, 0.75);
@@ -72,9 +78,9 @@ const injectStyles = () => {
       -webkit-backdrop-filter: blur(24px) saturate(180%);
       border: 1px solid rgba(255, 255, 255, 0.6);
       
-      border-radius: 20px;
-      padding: 16px 20px;
-      max-width: 380px;
+      border-radius: 18px;
+      padding: 12px 14px;
+      max-width: 320px;
       pointer-events: auto;
       
       /* Soft colored shadow */
@@ -119,13 +125,13 @@ const injectStyles = () => {
     /* Floating Icon Container */
     .sp-icon-wrap {
       flex-shrink: 0;
-      width: 52px;
-      height: 52px;
-      border-radius: 16px;
+      width: 44px;
+      height: 44px;
+      border-radius: 14px;
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 24px;
+      font-size: 20px;
       position: relative;
       background: linear-gradient(135deg, #f8f9fa, #e9ecef);
       box-shadow: 0 8px 16px -4px rgba(0,0,0,0.1), inset 0 2px 4px rgba(255,255,255,0.8);
@@ -165,32 +171,32 @@ const injectStyles = () => {
     }
 
     .sp-title {
-      font-size: 15px;
+      font-size: 14px;
       font-weight: 800;
       color: #111827;
-      margin: 0 0 4px 0;
+      margin: 0 0 3px 0;
       line-height: 1.2;
       letter-spacing: -0.01em;
     }
 
     .sp-detail {
-      font-size: 13.5px;
+      font-size: 12.5px;
       font-weight: 500;
       color: #4b5563;
-      line-height: 1.45;
-      margin: 0 0 10px 0;
+      line-height: 1.4;
+      margin: 0 0 8px 0;
     }
 
     /* Modern Pill Badge */
     .sp-badge {
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       background: rgba(17, 24, 39, 0.05);
       color: #374151;
-      padding: 4px 12px;
+      padding: 3px 10px;
       border-radius: 100px;
-      font-size: 11px;
+      font-size: 10px;
       font-weight: 700;
       letter-spacing: 0.02em;
       text-transform: uppercase;
