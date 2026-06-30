@@ -9,6 +9,58 @@ import { CONFIG } from '../config.js';
  * Categories → arrays of search entries with labels, icons, keywords, and targets.
  */
 export const searchCatalog = {
+  Popular: [
+    {
+      label: 'Color Printout',
+      icon: 'fa-solid fa-palette',
+      keywords: ['color print', 'colour', 'printout'],
+      target: { type: 'service', text: 'Color Printing', fallbackSelector: '#services' }
+    },
+    {
+      label: 'Spiral Binding',
+      icon: 'fa-solid fa-book-open',
+      keywords: ['binding', 'book binding'],
+      target: { type: 'service', text: 'Spiral Binding', fallbackSelector: '#services' }
+    },
+    {
+      label: 'Store Timings',
+      icon: 'fa-solid fa-clock',
+      keywords: ['hours', 'open time', 'when are you open'],
+      target: { type: 'section', selector: '#contact' }
+    },
+    {
+      label: 'Price List',
+      icon: 'fa-solid fa-indian-rupee-sign',
+      keywords: ['cost', 'pricing', 'rates'],
+      target: { type: 'link', url: 'pages/pricing.html' }
+    },
+    {
+      label: 'Send Files via WhatsApp',
+      icon: 'fa-brands fa-whatsapp',
+      keywords: ['whatsapp', 'send order', 'quick print'],
+      target: { type: 'link', url: 'https://wa.me/917021072757' }
+    }
+  ],
+  'Quick Links': [
+    {
+      label: 'Privacy Policy',
+      icon: 'fa-solid fa-shield',
+      keywords: ['privacy', 'policy', 'data'],
+      target: { type: 'link', url: 'pages/privacy.html' }
+    },
+    {
+      label: 'Terms & Conditions',
+      icon: 'fa-solid fa-file-contract',
+      keywords: ['terms', 'conditions', 'rules'],
+      target: { type: 'link', url: 'pages/terms.html' }
+    },
+    {
+      label: 'Sitemap',
+      icon: 'fa-solid fa-sitemap',
+      keywords: ['sitemap', 'all pages'],
+      target: { type: 'link', url: 'pages/sitemap.html' }
+    }
+  ],
   Services: [
     {
       label: 'Xerox',
