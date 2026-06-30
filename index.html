@@ -272,6 +272,23 @@
       .rcb-btn, .footer-review-pill, .crn-link, .grs-cta { transition: none; }
       .rcb-stars span { animation: none; }
     }
+
+    /* ==================================================================
+       CROSS-DEVICE CONSISTENCY + NARROW-PHONE REFINEMENT
+       Smooths text rendering across platforms, and gives narrow Android
+       screens the breathing room the wide iPhone view already has.
+       Scoped to <=420px so the 440px+ iPhone Pro Max view is untouched.
+       ================================================================== */
+    body {
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+    }
+    @media (max-width: 420px) {
+      .header-actions { gap: 7px; }
+      .action-btn { width: 40px; height: 40px; }
+      .search-input { font-size: 0.95rem; }
+      .search-box .search-button { padding-left: 14px; padding-right: 14px; }
+    }
   </style>
   <!-- PDF.js for client-side PDF parsing (deferred — non-blocking) -->
   <script defer src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
@@ -1372,7 +1389,7 @@
 
         <div class="gallery-grid reveal" aria-live="polite">
           <figure class="gallery-item g-wide" data-gallery-index="1" data-category="shop">
-            <picture><source srcset="assets/images/gallery/shop-entrance.webp" type="image/webp"><img class="gallery-photo-1" src="assets/images/gallery/shop-entrance.jpeg" alt="Inside the shop showing the main Xerox machine and customer service counter" loading="lazy" decoding="async" data-lightbox-caption="Inside the shop showing the main Xerox machine and customer service counter"></picture>
+            <picture><source srcset="assets/images/gallery/main-xerox-counter.webp" type="image/webp"><img class="gallery-photo-1" src="assets/images/gallery/main-xerox-counter.jpeg" alt="Inside the shop showing the main Xerox machine and customer service counter" loading="lazy" decoding="async" data-lightbox-caption="Inside the shop showing the main Xerox machine and customer service counter"></picture>
             <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Entrance &amp; Counter</span></figcaption>
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
@@ -1392,12 +1409,12 @@
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
           <figure class="gallery-item" data-gallery-index="5" data-category="shop">
-            <picture><source srcset="assets/images/gallery/shop-interior.webp" type="image/webp"><img class="gallery-photo-5" src="assets/images/gallery/shop-interior.jpg" alt="Virar Stationery & Jumbo Xerox main shop entrance and sign board" loading="lazy" decoding="async" data-lightbox-caption="Virar Stationery & Jumbo Xerox main shop entrance and sign board"></picture>
+            <picture><source srcset="assets/images/gallery/shop-entrance-signboard.webp" type="image/webp"><img class="gallery-photo-5" src="assets/images/gallery/shop-entrance-signboard.jpg" alt="Virar Stationery & Jumbo Xerox main shop entrance and sign board" loading="lazy" decoding="async" data-lightbox-caption="Virar Stationery & Jumbo Xerox main shop entrance and sign board"></picture>
             <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Interior</span></figcaption>
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
           <figure class="gallery-item" data-gallery-index="6" data-category="binding">
-            <picture><source srcset="assets/images/gallery/spiral-binding.webp" type="image/webp"><img class="gallery-photo-6" src="assets/images/gallery/spiral-binding.jpeg" alt="Heavy-duty Canon copier machines for fast bulk xerox" loading="lazy" decoding="async" data-lightbox-caption="Heavy-duty Canon copier machines for fast bulk xerox"></picture>
+            <picture><source srcset="assets/images/gallery/heavy-duty-copiers.webp" type="image/webp"><img class="gallery-photo-6" src="assets/images/gallery/heavy-duty-copiers.jpeg" alt="Heavy-duty Canon copier machines for fast bulk xerox" loading="lazy" decoding="async" data-lightbox-caption="Heavy-duty Canon copier machines for fast bulk xerox"></picture>
             <figcaption class="gallery-caption"><span class="gallery-cap-cat">Binding</span><span class="gallery-cap-title">Spiral &amp; Thesis Binding</span></figcaption>
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
@@ -1407,12 +1424,12 @@
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
           <figure class="gallery-item" data-gallery-index="8" data-category="products">
-            <picture><source srcset="assets/images/gallery/smart-card-display.webp" type="image/webp"><img class="gallery-photo-8" src="assets/images/gallery/smart-card-display.jpg" alt="Professional blackbook and thesis binding for college students" loading="lazy" decoding="async" data-lightbox-caption="Professional blackbook and thesis binding for college students"></picture>
+            <picture><source srcset="assets/images/gallery/thesis-binding.webp" type="image/webp"><img class="gallery-photo-8" src="assets/images/gallery/thesis-binding.jpg" alt="Professional blackbook and thesis binding for college students" loading="lazy" decoding="async" data-lightbox-caption="Professional blackbook and thesis binding for college students"></picture>
             <figcaption class="gallery-caption"><span class="gallery-cap-cat">Products</span><span class="gallery-cap-title">Cards &amp; Supplies</span></figcaption>
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
           <figure class="gallery-item" data-gallery-index="9" data-category="shop">
-            <picture><source srcset="assets/images/gallery/shop-front-signage.webp" type="image/webp"><img class="gallery-photo-9" src="assets/images/gallery/shop-front-signage.jpg" alt="Custom printed billbooks, receipt books, and digital payment setup" loading="lazy" decoding="async" data-lightbox-caption="Custom printed billbooks, receipt books, and digital payment setup"></picture>
+            <picture><source srcset="assets/images/gallery/custom-billbooks.webp" type="image/webp"><img class="gallery-photo-9" src="assets/images/gallery/custom-billbooks.jpg" alt="Custom printed billbooks, receipt books, and digital payment setup" loading="lazy" decoding="async" data-lightbox-caption="Custom printed billbooks, receipt books, and digital payment setup"></picture>
             <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Front &amp; Signage</span></figcaption>
             <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
           </figure>
