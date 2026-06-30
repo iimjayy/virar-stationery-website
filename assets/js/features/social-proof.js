@@ -368,6 +368,9 @@ function showNotification() {
 }
 
 export const initSocialProof = () => {
+  // Feature temporarily paused as requested
+  return;
+
   if (!document.body) return;
 
   window.setTimeout(() => {
