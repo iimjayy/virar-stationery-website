@@ -947,6 +947,14 @@
     margin-bottom: 38px;
   }
 
+  /* .footer-cta-copy's flex-basis:360px is meant for the desktop ROW
+     layout (preferred width). Once the card stacks into a COLUMN above,
+     the same 360px lands on the height axis instead and forces a huge
+     empty gap before the buttons — reset it back to content height. */
+  .footer-cta-copy {
+    flex-basis: auto;
+  }
+
   .footer-cta-actions {
     flex-direction: column;
   }
@@ -1028,9 +1036,17 @@
     color: rgba(255, 255, 255, 0.76);
   }
 
-  .contact-mini li a {
+  /* nowrap is for the short phone/email/whatsapp links only — the address
+     link (.footer-location-link) wraps a full multi-word street address
+     and must NOT inherit nowrap, or it overflows clipped off-screen. */
+  .contact-mini li a:not(.footer-location-link) {
     font-size: 0.9rem;
     white-space: nowrap;
+  }
+
+  .contact-mini .footer-location-link,
+  .contact-mini .footer-location-text {
+    white-space: normal;
   }
 
   .footer-socials {

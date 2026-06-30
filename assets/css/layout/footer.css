@@ -385,6 +385,11 @@
   flex-direction: column;
   gap: 1px;
   line-height: 1.45;
+  min-width: 0;
+}
+
+.footer-address .footer-location-link {
+  min-width: 0;
 }
 
 .footer-mini-label {
