@@ -27,8 +27,8 @@ const getDynamicTimeNudge = () => {
 };
 
 const getFeatureNudges = () => [
-  { type: 'feature', title: 'In a hurry? 🚀', detail: 'Send PDFs on WhatsApp. We\\'ll print them before you arrive!', badge: 'Try it now', icon: 'fa-brands fa-whatsapp', href: 'https://wa.me/917021072757' },
-  { type: 'trust', title: 'Virar\\'s Favorite ✨', detail: 'Rated 4.9/5 on Google Maps. Read our customer reviews!', badge: 'View on Maps', icon: 'fa-brands fa-google', href: CONFIG.business?.mapsUrl || 'https://maps.google.com' },
+  { type: 'feature', title: 'In a hurry? 🚀', detail: "Send PDFs on WhatsApp. We'll print them before you arrive!", badge: 'Try it now', icon: 'fa-brands fa-whatsapp', href: 'https://wa.me/917021072757' },
+  { type: 'trust', title: "Virar's Favorite ✨", detail: 'Rated 4.9/5 on Google Maps. Read our customer reviews!', badge: 'View on Maps', icon: 'fa-brands fa-google', href: CONFIG.business?.mapsUrl || 'https://maps.google.com' },
   { type: 'promo', title: 'Student Perks 🎓', detail: 'Special Black & White printing rates for your thesis and projects.', badge: 'View Services', icon: 'fa-solid fa-graduation-cap', href: 'pages/services/thesis-printing.html' },
   { type: 'feature', title: 'Instant Quotes 🧮', detail: 'Use our Price Calculator to instantly check costs for bulk prints.', badge: 'Calculate now', icon: 'fa-solid fa-calculator', href: 'pages/pricing.html' },
   { type: 'promo', title: 'Jumbo Printing 📏', detail: 'High-quality Autocad plotting & Jumbo Xerox for professionals.', badge: 'View details', icon: 'fa-solid fa-ruler-combined', href: 'pages/services/xerox.html' },
