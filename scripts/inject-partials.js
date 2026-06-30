@@ -12,7 +12,7 @@
  *
  * Partial files: _partials/<name>.html
  *
- * Usage:   node tools/inject-partials.js
+ * Usage:   node scripts/inject-partials.js
  *
  * The script is idempotent — running it twice produces the same result.
  * CI runs it on every push so partial edits propagate automatically.
