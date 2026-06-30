@@ -4,6 +4,9 @@
 const REVIEW_PROMPT_KEY = 'hasSeenReviewPrompt';
 
 export const initReviewPrompt = () => {
+  // Feature temporarily paused as requested
+  return;
+
   const quoteWhatsAppBtn = document.getElementById('quoteWhatsAppBtn');
   const reviewModal = document.getElementById('reviewModal');
 
