@@ -62,6 +62,7 @@ const MODULES = [
   'utilities/interactive.css',
   'utilities/view-transitions.css',
   'utilities/responsive-mobile.css',
+  'utilities/mobile-condense.css',
   // 6. Themes — must come last to override cleanly
   'themes/dark.css',
 ];

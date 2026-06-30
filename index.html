@@ -29,7 +29,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
   <!-- Single Bundled CSS to completely eliminate FOUC -->
-  <link rel="stylesheet" href="assets/css/main.bundled.css?v=20260630-gallery1">
+  <link rel="stylesheet" href="assets/css/main.bundled.css?v=20260630-mobile1">
   <!-- Review CTA styles — scoped, no FOUC risk, load-bearing for 3 new CTAs -->
   <style>
     /* ==================================================================
@@ -1022,6 +1022,10 @@
           <h2 id="instant-quote-heading">Instant Quote Calculator</h2>
           <p>Get a quick price estimate before you WhatsApp your files. Final pricing is confirmed at the shop.</p>
         </div>
+        <button type="button" class="mobile-reveal-btn d-md-none" data-mreveal="#instant-quote-collapsible">
+          <i class="fa-solid fa-calculator" aria-hidden="true"></i> Calculate an instant price
+        </button>
+        <div class="mobile-collapsible" id="instant-quote-collapsible">
         <div class="row g-4 align-items-stretch">
           <div class="col-12 col-lg-7 reveal">
             <!-- [ARCH] data-feature + data-module: feature boundary AND JS init target on the same element -->
@@ -1152,6 +1156,7 @@
             </div>
           </div>
         </div>
+        </div><!-- /.mobile-collapsible -->
       </div>
     </section>
 
@@ -1255,6 +1260,11 @@
           <p>Search popular shop items and see starting prices instantly.</p>
         </div>
 
+        <button type="button" class="mobile-reveal-btn d-md-none" data-mreveal="#stationery-search-collapsible">
+          <i class="fa-solid fa-magnifying-glass" aria-hidden="true"></i> Check live stock &amp; prices
+        </button>
+
+        <div class="mobile-collapsible" id="stationery-search-collapsible">
         <div class="stationery-search-shell reveal">
           
           <!-- Category Pills -->
@@ -1302,6 +1312,7 @@
         <div class="text-center mt-4 pb-5 mb-5 reveal">
           <p class="text-muted small mb-0" style="opacity: 0.75; font-style: italic; letter-spacing: 0.3px;">* Please note: Prices listed are starting estimates and subject to change based on brand and real-time availability.</p>
         </div>
+        </div><!-- /.mobile-collapsible -->
       </div>
     </section>
 
@@ -1655,6 +1666,10 @@
           <h2 id="downloads-heading">Quick PDF guides for pricing and services</h2>
           <p>Download the latest price list and service guide to plan your visit or office order.</p>
         </div>
+        <button type="button" class="mobile-reveal-btn d-md-none" data-mreveal="#downloads-collapsible">
+          <i class="fa-solid fa-file-pdf" aria-hidden="true"></i> Show downloadable PDF guides
+        </button>
+        <div class="mobile-collapsible" id="downloads-collapsible">
         <div class="row g-3 g-lg-4">
           <div class="col-12 col-md-6 reveal">
             <div class="download-card h-100">
@@ -1679,6 +1694,7 @@
             </div>
           </div>
         </div>
+        </div><!-- /.mobile-collapsible -->
       </div>
     </section>
 
@@ -1819,6 +1835,13 @@
           <h2 id="bulk-enquiry-heading">Priority support for offices, schools, and large orders</h2>
           <p>Share your requirements, attach files, and get a fast response with tailored pricing.</p>
         </div>
+        <a class="mobile-reveal-btn d-md-none" href="https://wa.me/917021072757?text=%F0%9F%8F%A2%20Bulk%2FBusiness%20Enquiry%20%E2%80%94%20virarprint.in%0A%0AHi!%20I%27d%20like%20bulk%2Fbusiness%20pricing." target="_blank" rel="noopener noreferrer">
+          <i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Bulk / business order? Message us
+        </a>
+        <button type="button" class="mobile-reveal-btn d-md-none mt-2" data-mreveal="#bulk-enquiry-collapsible">
+          <i class="fa-solid fa-sliders" aria-hidden="true"></i> Or fill the detailed form
+        </button>
+        <div class="mobile-collapsible" id="bulk-enquiry-collapsible">
         <div class="row g-4 align-items-stretch">
           <div class="col-12 col-lg-5 reveal">
             <div class="bulk-enquiry-card h-100">
@@ -1951,6 +1974,7 @@
             </form>
           </div>
         </div>
+        </div><!-- /.mobile-collapsible -->
       </div>
     </section>
 
@@ -2149,7 +2173,10 @@
               </div>
             </div>
           </div>
-          <div class="col-12 col-lg-7 reveal">
+          <button type="button" class="mobile-reveal-btn d-md-none" data-mreveal="#contact-form-collapsible">
+            <i class="fa-regular fa-pen-to-square" aria-hidden="true"></i> Send a message instead
+          </button>
+          <div class="col-12 col-lg-7 reveal mobile-collapsible" id="contact-form-collapsible">
             <div class="contact-card contact-form-card h-100">
               <h3>Send a quick enquiry</h3>
               <p class="form-sub">Tell us what you need &mdash; we&rsquo;ll reply on WhatsApp with a price. No account needed.</p>
@@ -2253,15 +2280,15 @@
               This is safe because no JS does querySelectorAll('div.mobile-bottom-bar').
        ═══════════════════════════════════════════════ -->
   <nav class="mobile-bottom-bar d-md-none" role="navigation" aria-label="Mobile quick actions">
-    <a href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
+    <a class="mbb-call" href="tel:+917021072757" aria-label="Call the shop now">
+      <i class="fa-solid fa-phone"></i>
+      <span>Call now</span>
+    </a>
+    <a class="mbb-wa" href="https://wa.me/917021072757" target="_blank" rel="noopener noreferrer" aria-label="WhatsApp">
       <i class="fa-brands fa-whatsapp"></i>
       <span>WhatsApp</span>
     </a>
-    <a href="tel:+917021072757" aria-label="Call">
-      <i class="fa-solid fa-phone"></i>
-      <span>Call</span>
-    </a>
-    <a href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer" aria-label="Directions">
+    <a class="mbb-dir" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer" aria-label="Directions">
       <i class="fa-solid fa-location-dot"></i>
       <span>Directions</span>
     </a>

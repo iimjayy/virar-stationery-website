@@ -14,6 +14,7 @@ import './core/prefetch.js';
 import { initSmartSearch } from './features/smart-search.js';
 import { initGalleryLightbox } from './features/gallery-lightbox.js';
 import { initGalleryFilter } from './features/gallery-filter.js';
+import { initMobileCondense } from './features/mobile-condense.js';
 
 // --- Phase 2 feature modules ---
 import { initFAQ } from './features/faq.js';
@@ -483,6 +484,7 @@ runAfterReady(() => {
   safeRun('smart-search', initSmartSearch);
   safeRun('gallery-lightbox', initGalleryLightbox);
   safeRun('gallery-filter', initGalleryFilter);
+  safeRun('mobile-condense', initMobileCondense);
 
   // Phase 3 + 5 interaction systems — lazy-load heavy modules
   safeRun('chat-widget', () => {
