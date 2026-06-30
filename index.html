@@ -629,6 +629,91 @@
         </div>
       </nav>
     </div>
+    <!-- Custom Interactive Enhancements -->
+    <style>
+      /* Smooth transitions for all interactables */
+      .nav-link { position: relative; }
+      .nav-link::after {
+        content: ''; position: absolute; width: 0; height: 2px;
+        bottom: 0; left: 50%; background-color: var(--yellow, #f4d21f);
+        transition: width 0.3s ease, left 0.3s ease;
+      }
+      .nav-link:hover::after, .nav-link.active::after {
+        width: 100%; left: 0;
+      }
+      
+      .navbar-brand img {
+        transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .navbar-brand:hover img {
+        transform: scale(1.08) rotate(-3deg);
+      }
+
+      .premium-service-card {
+        transition: transform 0.3s ease-out, box-shadow 0.3s ease-out !important;
+        will-change: transform;
+      }
+      .premium-service-card:hover {
+        transform: translateY(-6px) !important;
+        box-shadow: 0 20px 40px rgba(11, 42, 91, 0.15) !important;
+      }
+      .premium-service-card:hover .card-icon {
+        transform: scale(1.1) rotate(5deg) !important;
+      }
+      
+      .testimonial-card, .contact-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .testimonial-card:hover, .contact-card:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      }
+
+      .cq-tile {
+        transition: transform 0.25s ease, box-shadow 0.25s ease, background-color 0.25s ease;
+      }
+      .cq-tile:hover {
+        transform: translateY(-4px) scale(1.02);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.08);
+      }
+      
+      .highlight-pill {
+        transition: transform 0.25s ease, background-color 0.25s ease, color 0.25s ease;
+        cursor: default;
+      }
+      .highlight-pill:hover {
+        transform: scale(1.05);
+        background-color: var(--navy);
+        color: white;
+      }
+      .highlight-pill:hover i {
+        color: var(--yellow);
+      }
+      
+      /* Subtle heartbeat for the floating chat FAB to encourage interaction */
+      .chat-fab {
+        animation: subtlePulse 3s infinite;
+      }
+      @keyframes subtlePulse {
+        0% { box-shadow: 0 4px 12px rgba(11, 42, 91, 0.2), 0 0 0 0 rgba(244, 210, 31, 0.7); }
+        70% { box-shadow: 0 4px 12px rgba(11, 42, 91, 0.2), 0 0 0 15px rgba(244, 210, 31, 0); }
+        100% { box-shadow: 0 4px 12px rgba(11, 42, 91, 0.2), 0 0 0 0 rgba(244, 210, 31, 0); }
+      }
+      
+      .footer-logo {
+        transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .footer-logo:hover {
+        transform: scale(1.1) rotate(2deg);
+      }
+      
+      .how-step-icon {
+        transition: transform 0.4s ease;
+      }
+      .how-step-card:hover .how-step-icon {
+        transform: scale(1.15) rotate(-5deg);
+      }
+    </style>
   </header>
 
   <!-- [ARCH] role="complementary": marks as a secondary but related UI region for screen readers -->
