@@ -936,12 +936,47 @@ html[data-theme="dark"] {
 [data-theme="dark"] .gallery-item {
   box-shadow: var(--shadow-card);
   border-color: rgba(255, 255, 255, 0.07);
-  transition: box-shadow 0.28s var(--ease-premium), transform 0.28s var(--ease-premium);
+  background: var(--surface);
 }
 
 [data-theme="dark"] .gallery-item:hover {
   box-shadow: var(--shadow-card-hover);
-  transform: scale(1.01);
+  border-color: rgba(253, 224, 71, 0.32);
+}
+
+/* Filter pills */
+[data-theme="dark"] .gallery-filter {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .gallery-filter:hover {
+  border-color: rgba(253, 224, 71, 0.32);
+}
+
+[data-theme="dark"] .gallery-filter.is-active {
+  color: #0b1220;
+  background: linear-gradient(180deg, var(--yellow-light), var(--yellow));
+  border-color: transparent;
+}
+
+[data-theme="dark"] .gallery-filter .gallery-filter-count {
+  color: var(--text-secondary);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+[data-theme="dark"] .gallery-filter.is-active .gallery-filter-count {
+  color: #0b1220;
+  background: rgba(11, 18, 32, 0.18);
+}
+
+[data-theme="dark"] .gallery-empty {
+  color: var(--text-tertiary);
+}
+
+[data-theme="dark"] .gallery-cta-btn--primary {
+  color: #0b1220;
 }
 
 [data-theme="dark"] .gallery-lightbox {

@@ -26,6 +26,14 @@ export const initGalleryLightbox = () => {
 
   let activeIndex = 0;
   let triggerElement = null;
+  // The set of images the lightbox currently navigates. Rebuilt on open so it
+  // only includes tiles visible under the active category filter.
+  let activeList = galleryImages;
+
+  const isVisible = (image) => {
+    const item = image.closest('.gallery-item');
+    return item && !item.classList.contains('is-hidden');
+  };
 
   // --- Image counter element ---
   const counterEl = document.createElement('span');
@@ -37,35 +45,41 @@ export const initGalleryLightbox = () => {
 
   // --- Preload adjacent images ---
   const preloadAdjacent = (index) => {
-    const prevIdx = (index - 1 + galleryImages.length) % galleryImages.length;
-    const nextIdx = (index + 1) % galleryImages.length;
+    const prevIdx = (index - 1 + activeList.length) % activeList.length;
+    const nextIdx = (index + 1) % activeList.length;
     [prevIdx, nextIdx].forEach((i) => {
       const img = new Image();
-      img.src = galleryImages[i].currentSrc || galleryImages[i].src;
+      img.src = activeList[i].currentSrc || activeList[i].src;
     });
   };
 
   // --- Update counter text ---
   const updateCounter = () => {
-    counterEl.textContent = `${activeIndex + 1} of ${galleryImages.length}`;
+    counterEl.textContent = `${activeIndex + 1} of ${activeList.length}`;
   };
 
   const syncLightboxContent = () => {
-    const activeImage = galleryImages[activeIndex];
+    const activeImage = activeList[activeIndex];
     if (!activeImage) {
       return;
     }
 
     lightboxImage.src = activeImage.currentSrc || activeImage.src;
     lightboxImage.alt = activeImage.alt || `Gallery image ${activeIndex + 1}`;
-    lightboxCaption.textContent = activeImage.alt || `Gallery image ${activeIndex + 1} of ${galleryImages.length}`;
+    lightboxCaption.textContent = activeImage.alt || `Gallery image ${activeIndex + 1} of ${activeList.length}`;
     updateCounter();
     preloadAdjacent(activeIndex);
   };
 
-  const openLightbox = (index) => {
-    activeIndex = (index + galleryImages.length) % galleryImages.length;
-    triggerElement = galleryImages[activeIndex];
+  const openLightbox = (image) => {
+    // Navigate only the currently-visible tiles; fall back to all if needed.
+    activeList = galleryImages.filter(isVisible);
+    if (!activeList.length) {
+      activeList = galleryImages;
+    }
+    const found = activeList.indexOf(image);
+    activeIndex = found >= 0 ? found : 0;
+    triggerElement = activeList[activeIndex];
     syncLightboxContent();
 
     lightbox.classList.add('is-open');
@@ -89,7 +103,7 @@ export const initGalleryLightbox = () => {
 
   // --- Smooth image transition helper ---
   const transitionAndSync = (newIndex) => {
-    const nextImage = galleryImages[newIndex];
+    const nextImage = activeList[newIndex];
     if (!nextImage) {
       return;
     }
@@ -117,12 +131,12 @@ export const initGalleryLightbox = () => {
   };
 
   const goToPrevious = () => {
-    const newIndex = (activeIndex - 1 + galleryImages.length) % galleryImages.length;
+    const newIndex = (activeIndex - 1 + activeList.length) % activeList.length;
     transitionAndSync(newIndex);
   };
 
   const goToNext = () => {
-    const newIndex = (activeIndex + 1) % galleryImages.length;
+    const newIndex = (activeIndex + 1) % activeList.length;
     transitionAndSync(newIndex);
   };
 
@@ -133,7 +147,7 @@ export const initGalleryLightbox = () => {
     image.setAttribute('aria-label', `Open image preview: ${image.alt || `Gallery image ${index + 1}`}`);
 
     image.addEventListener('click', () => {
-      openLightbox(index);
+      openLightbox(image);
     });
 
     image.addEventListener('keydown', (event) => {
@@ -142,7 +156,7 @@ export const initGalleryLightbox = () => {
       }
 
       event.preventDefault();
-      openLightbox(index);
+      openLightbox(image);
     });
   });
 

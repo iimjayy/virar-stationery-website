@@ -29,7 +29,7 @@
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" rel="stylesheet">
   <!-- Single Bundled CSS to completely eliminate FOUC -->
-  <link rel="stylesheet" href="assets/css/main.bundled.css?v=20260630-footer1">
+  <link rel="stylesheet" href="assets/css/main.bundled.css?v=20260630-gallery1">
   <!-- Review CTA styles — scoped, no FOUC risk, load-bearing for 3 new CTAs -->
   <style>
     /* ==================================================================
@@ -1348,51 +1348,80 @@
           <h2 id="gallery-heading">Inside the Shop</h2>
           <p>A quick look at our daily work, printing setup, stationery shelves, and customer service.</p>
         </div>
-        <div class="row g-4 gallery-grid">
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-16-10" data-gallery-index="1">
-              <picture><source srcset="assets/images/gallery/shop-entrance.webp" type="image/webp"><img class="gallery-photo-1" src="assets/images/gallery/shop-entrance.jpeg" alt="Inside the shop showing the main Xerox machine and customer service counter" loading="lazy" decoding="async" data-lightbox-caption="Inside the shop showing the main Xerox machine and customer service counter"></picture>
-            </div>
+
+        <!-- Category filter pills -->
+        <div class="gallery-filters reveal" role="tablist" aria-label="Filter gallery by category">
+          <button type="button" class="gallery-filter is-active" data-filter="all" role="tab" aria-selected="true">All <span class="gallery-filter-count">9</span></button>
+          <button type="button" class="gallery-filter" data-filter="shop" role="tab" aria-selected="false">Shop <span class="gallery-filter-count">3</span></button>
+          <button type="button" class="gallery-filter" data-filter="machines" role="tab" aria-selected="false">Machines <span class="gallery-filter-count">2</span></button>
+          <button type="button" class="gallery-filter" data-filter="printing" role="tab" aria-selected="false">Printing <span class="gallery-filter-count">1</span></button>
+          <button type="button" class="gallery-filter" data-filter="binding" role="tab" aria-selected="false">Binding <span class="gallery-filter-count">1</span></button>
+          <button type="button" class="gallery-filter" data-filter="products" role="tab" aria-selected="false">Products <span class="gallery-filter-count">2</span></button>
+        </div>
+
+        <div class="gallery-grid reveal" aria-live="polite">
+          <figure class="gallery-item g-wide" data-gallery-index="1" data-category="shop">
+            <picture><source srcset="assets/images/gallery/shop-entrance.webp" type="image/webp"><img class="gallery-photo-1" src="assets/images/gallery/shop-entrance.jpeg" alt="Inside the shop showing the main Xerox machine and customer service counter" loading="lazy" decoding="async" data-lightbox-caption="Inside the shop showing the main Xerox machine and customer service counter"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Entrance &amp; Counter</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="2" data-category="products">
+            <picture><source srcset="assets/images/gallery/stationery-shelves.webp" type="image/webp"><img class="gallery-photo-2" src="assets/images/gallery/stationery-shelves.jpeg" alt="Wide range of stationery, calculators, and office supplies" loading="lazy" decoding="async" data-lightbox-caption="Wide range of stationery, calculators, and office supplies"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Products</span><span class="gallery-cap-title">Stationery Range</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="3" data-category="machines">
+            <picture><source srcset="assets/images/gallery/printer-machine.webp" type="image/webp"><img class="gallery-photo-3" src="assets/images/gallery/printer-machine.jpeg" alt="Customer service counter for colour prints and quick xerox" loading="lazy" decoding="async" data-lightbox-caption="Customer service counter for colour prints and quick xerox"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Machines</span><span class="gallery-cap-title">Printer Setup</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item g-wide" data-gallery-index="4" data-category="printing">
+            <picture><source srcset="assets/images/gallery/printing-work-area.webp" type="image/webp"><img class="gallery-photo-4" src="assets/images/gallery/printing-work-area.jpeg" alt="View from inside the shop looking towards the street entrance" loading="lazy" decoding="async" data-lightbox-caption="View from inside the shop looking towards the street entrance"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Printing</span><span class="gallery-cap-title">Printing Work Area</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="5" data-category="shop">
+            <picture><source srcset="assets/images/gallery/shop-interior.webp" type="image/webp"><img class="gallery-photo-5" src="assets/images/gallery/shop-interior.jpg" alt="Virar Stationery & Jumbo Xerox main shop entrance and sign board" loading="lazy" decoding="async" data-lightbox-caption="Virar Stationery & Jumbo Xerox main shop entrance and sign board"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Interior</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="6" data-category="binding">
+            <picture><source srcset="assets/images/gallery/spiral-binding.webp" type="image/webp"><img class="gallery-photo-6" src="assets/images/gallery/spiral-binding.jpeg" alt="Heavy-duty Canon copier machines for fast bulk xerox" loading="lazy" decoding="async" data-lightbox-caption="Heavy-duty Canon copier machines for fast bulk xerox"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Binding</span><span class="gallery-cap-title">Spiral &amp; Thesis Binding</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item g-wide" data-gallery-index="7" data-category="machines">
+            <picture><source srcset="assets/images/gallery/large-format-printer.webp" type="image/webp"><img class="gallery-photo-7" src="assets/images/gallery/large-format-printer.jpeg" alt="Large-format printer setup for A3, A2, A1, and A0 size prints" loading="lazy" decoding="async" data-lightbox-caption="Large-format printer setup for A3, A2, A1, and A0 size prints"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Machines</span><span class="gallery-cap-title">Large-Format Printing</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="8" data-category="products">
+            <picture><source srcset="assets/images/gallery/smart-card-display.webp" type="image/webp"><img class="gallery-photo-8" src="assets/images/gallery/smart-card-display.jpg" alt="Professional blackbook and thesis binding for college students" loading="lazy" decoding="async" data-lightbox-caption="Professional blackbook and thesis binding for college students"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Products</span><span class="gallery-cap-title">Cards &amp; Supplies</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+          <figure class="gallery-item" data-gallery-index="9" data-category="shop">
+            <picture><source srcset="assets/images/gallery/shop-front-signage.webp" type="image/webp"><img class="gallery-photo-9" src="assets/images/gallery/shop-front-signage.jpg" alt="Custom printed billbooks, receipt books, and digital payment setup" loading="lazy" decoding="async" data-lightbox-caption="Custom printed billbooks, receipt books, and digital payment setup"></picture>
+            <figcaption class="gallery-caption"><span class="gallery-cap-cat">Shop</span><span class="gallery-cap-title">Shop Front &amp; Signage</span></figcaption>
+            <span class="gallery-zoom" aria-hidden="true"><i class="fa-solid fa-up-right-and-down-left-from-center"></i></span>
+          </figure>
+        </div>
+
+        <p class="gallery-empty" hidden role="status">No photos in this category yet.</p>
+
+        <!-- Visit + Reviews CTA -->
+        <div class="gallery-cta reveal">
+          <div class="gallery-cta-text">
+            <h3 class="gallery-cta-title">See our work in person</h3>
+            <p class="gallery-cta-sub">Drop by the shop in Virar West, or check what customers say about us on Google.</p>
           </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-4-3" data-gallery-index="2">
-              <picture><source srcset="assets/images/gallery/stationery-shelves.webp" type="image/webp"><img class="gallery-photo-2" src="assets/images/gallery/stationery-shelves.jpeg" alt="Wide range of stationery, calculators, and office supplies" loading="lazy" decoding="async" data-lightbox-caption="Wide range of stationery, calculators, and office supplies"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-3-4" data-gallery-index="3">
-              <picture><source srcset="assets/images/gallery/printer-machine.webp" type="image/webp"><img class="gallery-photo-3" src="assets/images/gallery/printer-machine.jpeg" alt="Customer service counter for colour prints and quick xerox" loading="lazy" decoding="async" data-lightbox-caption="Customer service counter for colour prints and quick xerox"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-4-3" data-gallery-index="4">
-              <picture><source srcset="assets/images/gallery/printing-work-area.webp" type="image/webp"><img class="gallery-photo-4" src="assets/images/gallery/printing-work-area.jpeg" alt="View from inside the shop looking towards the street entrance" loading="lazy" decoding="async" data-lightbox-caption="View from inside the shop looking towards the street entrance"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-16-10" data-gallery-index="5">
-              <picture><source srcset="assets/images/gallery/shop-interior.webp" type="image/webp"><img class="gallery-photo-5" src="assets/images/gallery/shop-interior.jpg" alt="Virar Stationery & Jumbo Xerox main shop entrance and sign board" loading="lazy" decoding="async" data-lightbox-caption="Virar Stationery & Jumbo Xerox main shop entrance and sign board"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-3-4" data-gallery-index="6">
-              <picture><source srcset="assets/images/gallery/spiral-binding.webp" type="image/webp"><img class="gallery-photo-6" src="assets/images/gallery/spiral-binding.jpeg" alt="Heavy-duty Canon copier machines for fast bulk xerox" loading="lazy" decoding="async" data-lightbox-caption="Heavy-duty Canon copier machines for fast bulk xerox"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-4-3" data-gallery-index="7">
-              <picture><source srcset="assets/images/gallery/large-format-printer.webp" type="image/webp"><img class="gallery-photo-7" src="assets/images/gallery/large-format-printer.jpeg" alt="Large-format printer setup for A3, A2, A1, and A0 size prints" loading="lazy" decoding="async" data-lightbox-caption="Large-format printer setup for A3, A2, A1, and A0 size prints"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-1-1" data-gallery-index="8">
-              <picture><source srcset="assets/images/gallery/smart-card-display.webp" type="image/webp"><img class="gallery-photo-8" src="assets/images/gallery/smart-card-display.jpg" alt="Professional blackbook and thesis binding for college students" loading="lazy" decoding="async" data-lightbox-caption="Professional blackbook and thesis binding for college students"></picture>
-            </div>
-          </div>
-          <div class="col-12 col-md-6 col-xl-4 reveal reveal-child">
-            <div class="gallery-item ratio-16-10" data-gallery-index="9">
-              <picture><source srcset="assets/images/gallery/shop-front-signage.webp" type="image/webp"><img class="gallery-photo-9" src="assets/images/gallery/shop-front-signage.jpg" alt="Custom printed billbooks, receipt books, and digital payment setup" loading="lazy" decoding="async" data-lightbox-caption="Custom printed billbooks, receipt books, and digital payment setup"></picture>
-            </div>
+          <div class="gallery-cta-actions">
+            <a class="gallery-cta-btn gallery-cta-btn--primary" href="https://www.google.com/maps/dir/?api=1&destination=Virar%20Stationery%20%26%20Jumbo%20Xerox%2C%20Shop%20No.%2011%2C%20Takshashila%20Apartment%2C%20Near%20Old%20Viva%20College%2C%20Virar%20West%2C%20Mumbai%20401303&travelmode=driving" target="_blank" rel="noopener noreferrer">
+              <i class="fa-solid fa-location-dot" aria-hidden="true"></i> Get Directions
+            </a>
+            <a class="gallery-cta-btn gallery-cta-btn--ghost" href="pages/review.html">
+              <i class="fa-brands fa-google" aria-hidden="true"></i> Read Google Reviews
+            </a>
           </div>
         </div>
       </div>
