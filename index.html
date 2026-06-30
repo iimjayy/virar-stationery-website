@@ -712,6 +712,71 @@
       .how-step-card:hover .how-step-icon {
         transform: scale(1.15) rotate(-5deg);
       }
+      
+      /* Spotlight Global Search Modal */
+      .spotlight-overlay {
+        position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+        background: rgba(11, 42, 91, 0.4); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+        z-index: 9999; display: flex; align-items: flex-start; justify-content: center;
+        padding-top: 12vh; opacity: 0; pointer-events: none; transition: opacity 0.2s ease;
+      }
+      .spotlight-overlay.is-active { opacity: 1; pointer-events: auto; }
+      .spotlight-modal {
+        background: var(--bg, #ffffff); width: 90%; max-width: 600px;
+        border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        display: flex; flex-direction: column; overflow: hidden;
+        transform: scale(0.98) translateY(10px); transition: transform 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      }
+      .spotlight-overlay.is-active .spotlight-modal { transform: scale(1) translateY(0); }
+      .spotlight-header {
+        display: flex; align-items: center; padding: 0 20px;
+        border-bottom: 1px solid rgba(11, 42, 91, 0.1);
+      }
+      .spotlight-icon { font-size: 1.2rem; color: var(--navy); opacity: 0.6; }
+      .spotlight-input {
+        flex: 1; border: none; background: transparent; padding: 20px 16px;
+        font-size: 1.2rem; outline: none; color: var(--text-color, #334155);
+      }
+      .spotlight-esc {
+        font-size: 0.75rem; font-weight: 600; padding: 4px 8px; border-radius: 6px;
+        background: rgba(11, 42, 91, 0.05); color: rgba(11, 42, 91, 0.6);
+      }
+      .spotlight-body { max-height: 400px; overflow-y: auto; padding: 10px 0; }
+      .spotlight-results { display: flex; flex-direction: column; }
+      .spotlight-section-title {
+        font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px;
+        font-weight: 700; color: rgba(11, 42, 91, 0.5); padding: 8px 20px;
+      }
+      .spotlight-item {
+        display: flex; align-items: center; gap: 12px; padding: 12px 20px;
+        cursor: pointer; text-decoration: none; color: var(--text-color, #334155);
+        transition: background 0.1s; border: none; background: transparent; width: 100%; text-align: left;
+      }
+      .spotlight-item.is-selected, .spotlight-item:hover {
+        background: rgba(244, 210, 31, 0.15); color: var(--navy);
+      }
+      .spotlight-item-icon {
+        width: 32px; height: 32px; border-radius: 8px; background: var(--yellow);
+        display: flex; align-items: center; justify-content: center; color: var(--navy); flex-shrink: 0;
+      }
+      .spotlight-item-text { flex: 1; font-weight: 500; font-size: 0.95rem; display: flex; flex-direction: column; }
+      .spotlight-item-text small { font-size: 0.75rem; opacity: 0.7; font-weight: 400; margin-top: 2px; }
+      .spotlight-footer {
+        padding: 10px 20px; border-top: 1px solid rgba(11, 42, 91, 0.1);
+        display: flex; gap: 16px; align-items: center; justify-content: flex-end;
+        font-size: 0.75rem; color: rgba(11, 42, 91, 0.5); background: rgba(11, 42, 91, 0.02);
+      }
+      .spotlight-footer kbd {
+        background: rgba(11, 42, 91, 0.08); padding: 2px 6px; border-radius: 4px;
+        font-family: inherit; font-weight: 600;
+      }
+      .spotlight-body mark { background: rgba(244, 210, 31, 0.4); color: inherit; padding: 0 2px; border-radius: 2px; }
+      [data-theme="dark"] .spotlight-modal { background: #1e293b; border: 1px solid rgba(255,255,255,0.1); }
+      [data-theme="dark"] .spotlight-input, [data-theme="dark"] .spotlight-item { color: #f1f5f9; }
+      [data-theme="dark"] .spotlight-item.is-selected, [data-theme="dark"] .spotlight-item:hover { background: rgba(255, 255, 255, 0.05); color: #fff; }
+      [data-theme="dark"] .spotlight-esc, [data-theme="dark"] .spotlight-section-title { color: rgba(255,255,255,0.5); background: rgba(255,255,255,0.05); }
+      [data-theme="dark"] .spotlight-footer { background: #0f172a; border-top-color: rgba(255,255,255,0.1); }
+      [data-theme="dark"] .spotlight-header { border-bottom-color: rgba(255,255,255,0.1); }
     </style>
   </header>
 
@@ -2677,6 +2742,22 @@ Source: Sticky Button
     </button>
   </div>
 
+  <div class="spotlight-overlay" id="spotlightOverlay" aria-hidden="true">
+    <div class="spotlight-modal" role="dialog" aria-modal="true" aria-label="Global Search">
+      <div class="spotlight-header">
+        <i class="fa-solid fa-magnifying-glass spotlight-icon"></i>
+        <input type="text" id="spotlightInput" class="spotlight-input" placeholder="Search for services, products, or answers..." autocomplete="off">
+        <div class="spotlight-esc">ESC</div>
+      </div>
+      <div class="spotlight-body">
+        <div id="spotlightResults" class="spotlight-results"></div>
+      </div>
+      <div class="spotlight-footer d-none d-md-flex">
+        <span><kbd>↑</kbd> <kbd>↓</kbd> to navigate</span>
+        <span><kbd>Enter</kbd> to select</span>
+      </div>
+    </div>
+  </div>
   <div class="modal fade" id="reviewModal" tabindex="-1" aria-labelledby="reviewModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content review-modal-content">
