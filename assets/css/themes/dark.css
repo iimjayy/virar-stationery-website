@@ -1467,3 +1467,213 @@ html[data-theme="dark"] {
 /* ──────────────────────────────────────────────────────────────────────
    EOF — dark.css · World-Class Dark Mode · Virar Stationery 2026
    ────────────────────────────────────────────────────────────────────── */
+
+/* ══════════════════════════════════════════════════════════════════════
+   DARK MODE — AUDIT GAP FIXES (2026 multi-agent pass)
+   Components below hardcoded light colors and had no dark override.
+   All gated on [data-theme="dark"]. Verified against existing rules to
+   avoid duplication.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Global fixed backdrop — was a white→light-blue gradient behind content */
+[data-theme="dark"] body::before {
+  background:
+    radial-gradient(circle at 8% 2%, rgba(253, 224, 71, 0.06), transparent 26%),
+    radial-gradient(circle at 94% 16%, rgba(56, 189, 248, 0.05), transparent 30%),
+    #0B0E14;
+}
+
+/* Image-skeleton shimmer — was a bright white sweep */
+[data-theme="dark"] .image-skeleton::after {
+  background: linear-gradient(100deg, rgba(255,255,255,0) 10%, rgba(56,189,248,0.14) 48%, rgba(255,255,255,0) 86%);
+}
+
+/* Price-tier cards (.ptc-body was solid #fff → invisible white text) */
+[data-theme="dark"] .price-tier-card { background: var(--surface); }
+[data-theme="dark"] .ptc-body { background: var(--surface-alt); }
+[data-theme="dark"] .ptc-header {
+  background: linear-gradient(180deg, rgba(253,224,71,0.05) 0%, transparent 100%);
+}
+
+/* Services — premium cards, expandable detail panel, slider/close controls */
+[data-theme="dark"] .premium-service-card {
+  background: linear-gradient(160deg, #1E2436 0%, #131722 100%);
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .service-row-detail-panel {
+  background: linear-gradient(180deg, #181D2A 0%, #131722 100%);
+  border-color: rgba(255,255,255,0.08);
+}
+[data-theme="dark"] .service-slider-nav,
+[data-theme="dark"] .service-row-close {
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+  color: var(--text);
+}
+[data-theme="dark"] .service-slider-nav:hover,
+[data-theme="dark"] .service-row-close:hover {
+  background: rgba(56,189,248,0.12);
+  border-color: rgba(56,189,248,0.35);
+  color: var(--navy-2);
+}
+
+/* Hero floating chips — dark-amber text was invisible on dark */
+[data-theme="dark"] .hero-float-icon {
+  color: var(--yellow);
+  background: linear-gradient(145deg, rgba(253,224,71,0.16), rgba(253,224,71,0.08));
+  box-shadow: inset 0 0 0 1px rgba(253,224,71,0.24);
+}
+
+/* Contact form controls — hardcoded #fff made inputs invisible */
+[data-theme="dark"] .contact-form-card .form-control,
+[data-theme="dark"] .contact-form-card .form-select,
+[data-theme="dark"] .contact-form-card textarea.form-control {
+  background:
+    linear-gradient(#131722, #131722) padding-box,
+    linear-gradient(135deg, rgba(56,189,248,0.22), rgba(253,224,71,0.20)) border-box;
+  color: var(--text);
+}
+[data-theme="dark"] .contact-form-card .form-control::placeholder {
+  color: var(--text-tertiary);
+}
+
+/* Form validation error state — light-pink bg was unreadable */
+[data-theme="dark"] .contact-form-card .form-control.is-invalid,
+[data-theme="dark"] .contact-form-card .form-select.is-invalid,
+[data-theme="dark"] .bulk-form-card .form-control.is-invalid,
+[data-theme="dark"] .bulk-form-card .form-select.is-invalid {
+  background: rgba(248,113,113,0.10);
+  border-color: var(--error);
+  color: var(--text);
+}
+
+/* Bulk order — uploaded file card was solid #fff */
+[data-theme="dark"] .bulk-file-card {
+  background: var(--surface);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text);
+}
+
+/* Stationery search — category pills + sticky cart were solid #fff */
+[data-theme="dark"] .category-pill {
+  background: rgba(255,255,255,0.05);
+  border-color: rgba(255,255,255,0.10);
+  color: var(--text-secondary);
+}
+[data-theme="dark"] .category-pill.is-active {
+  background: rgba(56,189,248,0.14);
+  border-color: rgba(56,189,248,0.4);
+  color: var(--navy-2);
+}
+[data-theme="dark"] .stationery-cart-container {
+  background: rgba(19,23,34,0.94);
+  border-color: rgba(255,255,255,0.10);
+  color: var(--text);
+}
+
+/* index.html inline-style components (not in a module file) */
+[data-theme="dark"] .review-cta-band {
+  background:
+    radial-gradient(120% 160% at 0% 0%, rgba(56,189,248,0.10), transparent 58%),
+    linear-gradient(135deg, #131722 0%, #0B0E14 100%);
+}
+[data-theme="dark"] .cq-tile {
+  background: var(--surface);
+  border-color: rgba(255,255,255,0.10);
+}
+[data-theme="dark"] .cq-title { color: var(--text); }
+[data-theme="dark"] .cq-sub { color: var(--text-secondary); }
+[data-theme="dark"] .contact-review-nudge {
+  background: rgba(253,224,71,0.10);
+  border-color: rgba(253,224,71,0.28);
+}
+[data-theme="dark"] .crn-text { color: var(--text-secondary); }
+
+/* ══════════════════════════════════════════════════════════════════════
+   DARK MODE — SECONDARY PAGES (service / pricing / legal)
+   These pages now inherit the persisted theme (early head script); give
+   their page-specific components proper dark surfaces.
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* Service detail pages (service-pages.css) */
+[data-theme="dark"] .sp-steps,
+[data-theme="dark"] .sp-uses-section {
+  background: var(--surface-alt);
+}
+[data-theme="dark"] .sp-how-to-order {
+  background: var(--surface-alt);
+  border-top-color: rgba(74,222,128,0.15);
+  border-bottom-color: rgba(74,222,128,0.15);
+}
+[data-theme="dark"] .sp-incl-badge {
+  background: rgba(74,222,128,0.12);
+  color: var(--success);
+}
+
+/* Pricing page (pricing.css) */
+[data-theme="dark"] .pricing-hero::before {
+  background: linear-gradient(180deg, #0B0E14 0%, #131722 100%);
+}
+
+/* Legal pages (legal-pages.css) */
+[data-theme="dark"] .legal-sidebar,
+[data-theme="dark"] .legal-card,
+[data-theme="dark"] .sitemap-item {
+  background: var(--surface);
+  border-color: rgba(255,255,255,0.08);
+  color: var(--text-secondary);
+}
+[data-theme="dark"] .legal-hero-card {
+  background: var(--surface-elevated);
+  border-color: rgba(255,255,255,0.08);
+}
+
+/* Service pages — header bar, hero, and CTA buttons (service-pages.css was
+   built light-only: yellow header + white hero gradient + link-color bleed
+   into the button labels). Fix all 6 shared pages at once. */
+[data-theme="dark"] .sp-header {
+  background: linear-gradient(180deg, #131722 0%, #0D1018 100%);
+  border-bottom-color: rgba(56,189,248,0.40);
+  box-shadow: 0 4px 16px rgba(0,0,0,0.5);
+}
+[data-theme="dark"] .sp-hero {
+  background: linear-gradient(180deg, #0B0E14 0%, #131722 100%);
+}
+[data-theme="dark"] .sp-hero::before {
+  background: rgba(253,224,71,0.08);
+}
+[data-theme="dark"] .sp-hero .lead {
+  color: var(--text-secondary);
+}
+/* Keep button labels legible (a global anchor color was bleeding in →
+   needs !important to beat it for these link-styled buttons). */
+[data-theme="dark"] a.sp-header-wa,
+[data-theme="dark"] a.sp-header-wa:hover,
+[data-theme="dark"] a.sp-btn-wa,
+[data-theme="dark"] a.sp-btn-wa:hover,
+[data-theme="dark"] a.sp-btn-wa i,
+[data-theme="dark"] a.sp-header-wa i {
+  color: #fff !important;
+}
+[data-theme="dark"] a.sp-btn-call,
+[data-theme="dark"] a.sp-btn-call i {
+  background: rgba(253,224,71,0.12);
+  color: var(--yellow) !important;
+  border: 1px solid rgba(253,224,71,0.35);
+}
+[data-theme="dark"] .sp-badge {
+  background: rgba(56,189,248,0.15);
+  color: var(--navy-2);
+}
+
+/* Legal pages — "Back to Shop" header button was navy-on-navy (invisible).
+   Use explicit colors (not tokens, which resolve inconsistently here). */
+[data-theme="dark"] .legal-home-btn {
+  background: rgba(56,189,248,0.14);
+  color: #fff;
+  border-color: rgba(253,224,71,0.5);
+}
+[data-theme="dark"] .legal-home-btn:hover {
+  background: rgba(56,189,248,0.24);
+  color: #fff;
+}
