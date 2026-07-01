@@ -82,5 +82,23 @@ export const CONFIG = Object.freeze({
       pickupsCollection: 'pickups',
       maxPickupNotifications: 6,
     },
+    microsoftClarity: {
+      // Microsoft Clarity project id from clarity.microsoft.com (Settings → Overview).
+      // Leave as 'CLARITY_PROJECT_ID' to keep heatmaps/session-recordings disabled.
+      projectId: 'CLARITY_PROJECT_ID',
+    },
+    meta: {
+      // Meta Pixel ID — Events Manager → Data Sources → your Pixel → Settings.
+      // Leave as 'META_PIXEL_ID' to keep the Pixel + Conversions API disabled.
+      pixelId: 'META_PIXEL_ID',
+      // Deployed Cloudflare Worker URL (see workers/README.md). '' disables server-side CAPI.
+      capiEndpoint: '',
+    },
+    liveReviews: {
+      // Self-updating Google reviews (see scripts/README-reviews.md + .github/workflows/reviews.yml).
+      // Reads assets/data/reviews.json; safe to keep enabled (falls back to the seed file).
+      enabled: true,
+      placeId: 'GOOGLE_PLACE_ID',
+    },
   },
 });

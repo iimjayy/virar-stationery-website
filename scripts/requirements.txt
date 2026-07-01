@@ -1,0 +1,9 @@
+# Python dependencies for scripts/ga4_pull.py
+# Install with:  pip install -r scripts/requirements.txt
+# (Python 3.8+ recommended.)
+
+# Official Google Analytics 4 Data API client (BetaAnalyticsDataClient).
+google-analytics-data>=0.18,<1.0
+
+# Data shaping for the CSV + Markdown digest.
+pandas>=2.0,<3.0

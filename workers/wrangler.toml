@@ -1,0 +1,15 @@
+# workers/wrangler.toml
+# Cloudflare Worker config for the Meta Conversions API relay.
+# Deploy with:  wrangler deploy   (from inside the workers/ directory)
+
+name = "virar-meta-capi"
+main = "meta-capi.js"
+compatibility_date = "2024-09-01"
+
+# Secrets are NOT stored here — set them with `wrangler secret put`:
+#   wrangler secret put META_PIXEL_ID
+#   wrangler secret put META_CAPI_TOKEN
+#   wrangler secret put META_TEST_EVENT_CODE   # optional, for Test Events only
+#
+# Free plan: no [vars] / KV / paid bindings needed. The default *.workers.dev
+# subdomain that `wrangler deploy` prints becomes CONFIG.integrations.meta.capiEndpoint.

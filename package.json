@@ -4,7 +4,10 @@
   },
   "scripts": {
     "build:css": "node scripts/build-css.js",
+    "build:local": "node scripts/build-local-pages.js",
     "build:partials": "node scripts/inject-partials.js",
-    "build": "node scripts/build-css.js && node scripts/inject-partials.js"
+    "build:sitemap": "node scripts/build-sitemap.js",
+    "build": "node scripts/build-css.js && node scripts/build-local-pages.js && node scripts/inject-partials.js && node scripts/build-sitemap.js",
+    "ping": "node scripts/ping-indexnow.js"
   }
 }

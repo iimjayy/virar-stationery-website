@@ -1,0 +1,67 @@
+name: Refresh Google Reviews
+
+# Pulls the shop's real rating + latest reviews from the Google Places API
+# (New) once a day and commits assets/data/reviews.json when it changes.
+# The homepage reads that file for its live "4.8★ / 182 reviews" social proof.
+#
+# Fail-safe by design: scripts/fetch-reviews.mjs exits 0 without touching the
+# file on any error, and the commit step is guarded by `git diff --quiet`, so
+# a reviews outage can never fail this workflow or wipe known-good data.
+
+on:
+  schedule:
+    # 06:00 UTC daily (~11:30 AM IST).
+    - cron: '0 6 * * *'
+  workflow_dispatch: {}
+
+# Avoid overlapping runs if a manual dispatch lands during the schedule.
+concurrency:
+  group: refresh-reviews
+  cancel-in-progress: false
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write   # needed to commit the refreshed JSON back
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Check for API key
+        id: guard
+        env:
+          PLACES_API_KEY: ${{ secrets.PLACES_API_KEY }}
+        run: |
+          if [ -z "$PLACES_API_KEY" ]; then
+            echo "PLACES_API_KEY secret is absent — skipping fetch (seed JSON stays)."
+            echo "has_key=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_key=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Fetch latest reviews
+        if: steps.guard.outputs.has_key == 'true'
+        env:
+          PLACES_API_KEY: ${{ secrets.PLACES_API_KEY }}
+          # GOOGLE_PLACE_ID may live as a secret or a repo variable; secret wins.
+          GOOGLE_PLACE_ID: ${{ secrets.GOOGLE_PLACE_ID || vars.GOOGLE_PLACE_ID }}
+        run: node scripts/fetch-reviews.mjs
+
+      - name: Commit refreshed reviews (if changed)
+        if: steps.guard.outputs.has_key == 'true'
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add assets/data/reviews.json
+          git diff --cached --quiet || \
+            git commit -m "[skip ci] chore: refresh Google reviews"
+          git push

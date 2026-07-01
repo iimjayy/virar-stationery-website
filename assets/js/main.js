@@ -42,6 +42,12 @@ import { initServiceInteractions } from './features/service-interactions.js';
 import { initOrderStatus } from './features/order-status.js';
 import { initThemeToggle } from './features/theme-toggle.js';
 import { initSocialProof } from './features/social-proof.js';
+
+// --- Growth & analytics integrations (July 2026) ---
+import { initDataLayer } from './features/datalayer.js';
+import { initClarity } from './features/clarity.js';
+import { initMetaPixel } from './features/meta-capi.js';
+import { initLiveReviews } from './features/reviews-live.js';
 // language-toggle.js (339KB) is lazy-loaded on user interaction below
 
 // ---------------------------------------------------------------------------
@@ -499,6 +505,10 @@ runAfterReady(() => {
   safeRun('service-availability', initServiceAvailability);
   safeRun('google-analytics', initGoogleAnalytics);
   safeRun('analytics', initAnalytics);
+  safeRun('datalayer', initDataLayer);
+  safeRun('clarity', initClarity);
+  safeRun('meta-pixel', initMetaPixel);
+  safeRun('live-reviews', initLiveReviews);
   safeRun('lazy-google-map', initLazyGoogleMap);
   safeRun('review-prompt', initReviewPrompt);
 

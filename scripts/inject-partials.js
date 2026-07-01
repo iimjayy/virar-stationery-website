@@ -30,6 +30,7 @@ const PARTIALS_DIR = path.join(ROOT, '_partials');
 const HTML_DIRS = [
   path.join(ROOT, 'services'),
   path.join(ROOT, 'pages'),
+  path.join(ROOT, 'areas'),
 ];
 const ROOT_PAGES = [path.join(ROOT, 'index.html')];
 

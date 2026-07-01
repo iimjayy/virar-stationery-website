@@ -1,0 +1,101 @@
+# Weekly GA4 digest for "Virar Stationery & Jumbo Xerox".
+#
+# This is a NEW, standalone workflow — it does not touch build.yml.
+# It runs scripts/ga4_pull.py every Monday morning and uploads the resulting
+# Markdown digest as a downloadable build artifact.
+#
+# ──────────────────────────────────────────────────────────────────────────
+# ONE-TIME SETUP (the owner must do this):
+#   Add TWO repository secrets under:
+#     GitHub repo → Settings → Secrets and variables → Actions → New repository secret
+#
+#     1) GA4_SA_KEY        = the FULL CONTENTS of your service-account JSON key
+#                            (open the .json file, copy everything, paste it as
+#                             the secret value).
+#     2) GA4_PROPERTY_ID   = your NUMERIC GA4 Property ID (e.g. 123456789),
+#                            found in GA4 Admin → Property Settings.
+#                            (NOT the "G-5VNFP63J2R" measurement id.)
+#
+#   See scripts/README-analytics.md for how to create the service account and
+#   add it as a Viewer on the GA4 property.
+#
+# Until BOTH secrets exist, the job guards itself and skips (see the `if:` below).
+# ──────────────────────────────────────────────────────────────────────────
+
+name: GA4 Weekly Digest
+
+on:
+  schedule:
+    # 06:00 UTC every Monday (~11:30 IST Monday). Cron is always UTC.
+    - cron: "0 6 * * 1"
+  workflow_dispatch: {} # allows manual "Run workflow" from the Actions tab
+
+permissions:
+  contents: read
+
+jobs:
+  digest:
+    runs-on: ubuntu-latest
+
+    # GUARD: only run when BOTH secrets are present. If either is missing the
+    # whole job is skipped (no red X, no leaked errors).
+    if: ${{ github.event_name == 'workflow_dispatch' || (vars.GA4_DIGEST_ENABLED != 'false') }}
+
+    steps:
+      - name: Check secrets are configured
+        id: guard
+        # We can't reference secrets in a job-level `if:`, so we gate the real
+        # steps on this output instead.
+        env:
+          GA4_SA_KEY: ${{ secrets.GA4_SA_KEY }}
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: |
+          if [ -z "$GA4_SA_KEY" ] || [ -z "$GA4_PROPERTY_ID" ]; then
+            echo "GA4_SA_KEY and/or GA4_PROPERTY_ID secret is not set."
+            echo "Add them in Settings → Secrets and variables → Actions. Skipping."
+            echo "ready=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "Secrets present. Proceeding."
+            echo "ready=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Checkout repository
+        if: steps.guard.outputs.ready == 'true'
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        if: steps.guard.outputs.ready == 'true'
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install dependencies
+        if: steps.guard.outputs.ready == 'true'
+        run: pip install -r scripts/requirements.txt
+
+      - name: Write service-account key to a temp file
+        if: steps.guard.outputs.ready == 'true'
+        env:
+          GA4_SA_KEY: ${{ secrets.GA4_SA_KEY }}
+        run: |
+          # The script authenticates via GOOGLE_APPLICATION_CREDENTIALS, which
+          # must point at a FILE — so we materialize the secret to disk.
+          printf '%s' "$GA4_SA_KEY" > "${RUNNER_TEMP}/ga4-key.json"
+
+      - name: Run GA4 pull
+        if: steps.guard.outputs.ready == 'true'
+        env:
+          GOOGLE_APPLICATION_CREDENTIALS: ${{ runner.temp }}/ga4-key.json
+          GA4_PROPERTY_ID: ${{ secrets.GA4_PROPERTY_ID }}
+        run: python scripts/ga4_pull.py --days 7
+
+      - name: Upload digest artifact
+        if: steps.guard.outputs.ready == 'true'
+        uses: actions/upload-artifact@v4
+        with:
+          name: ga4-weekly-digest
+          path: |
+            scripts/out/ga4_weekly_digest.md
+            scripts/out/ga4_weekly.csv
+          if-no-files-found: warn
+          retention-days: 90

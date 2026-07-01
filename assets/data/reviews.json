@@ -1,0 +1,43 @@
+{
+  "rating": 4.8,
+  "reviewCount": 182,
+  "fetchedAt": "2026-06-30T06:00:00.000Z",
+  "reviews": [
+    {
+      "author": "Rohan P.",
+      "rating": 5,
+      "text": "Sent my PDF on WhatsApp and the color printouts were ready in 10 minutes. Quality is excellent and the rates are very reasonable. Best xerox shop in Virar West.",
+      "relativeTime": "2 weeks ago"
+    },
+    {
+      "author": "Sneha K.",
+      "rating": 5,
+      "text": "Got my project spiral binding done here. Neat work, friendly staff and super fast service. Highly recommended for students.",
+      "relativeTime": "a month ago"
+    },
+    {
+      "author": "Amit D.",
+      "rating": 5,
+      "text": "Jumbo xerox for my business documents at a great price. They handle bulk orders without any fuss. Very professional.",
+      "relativeTime": "3 weeks ago"
+    },
+    {
+      "author": "Priya M.",
+      "rating": 5,
+      "text": "Needed urgent passport photos and printouts. Done instantly with a smile. Clean shop and helpful owner.",
+      "relativeTime": "a month ago"
+    },
+    {
+      "author": "Vikram S.",
+      "rating": 4,
+      "text": "Reliable for all stationery and printing needs. Good location near Viva College. Slight wait during peak hours but worth it.",
+      "relativeTime": "2 months ago"
+    },
+    {
+      "author": "Neha J.",
+      "rating": 5,
+      "text": "Sent files from home on WhatsApp and collected later. So convenient! Lamination and binding also available. Great service.",
+      "relativeTime": "2 months ago"
+    }
+  ]
+}
