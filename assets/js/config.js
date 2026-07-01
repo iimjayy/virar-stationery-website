@@ -97,8 +97,10 @@ export const CONFIG = Object.freeze({
     liveReviews: {
       // Self-updating Google reviews (see scripts/README-reviews.md + .github/workflows/reviews.yml).
       // Reads assets/data/reviews.json; safe to keep enabled (falls back to the seed file).
+      // NOTE: this field is documentation only — the actual fetch script (scripts/fetch-reviews.mjs)
+      // reads GOOGLE_PLACE_ID from a GitHub Actions secret/variable, not from this file.
       enabled: true,
-      placeId: 'GOOGLE_PLACE_ID',
+      placeId: 'ChIJw9ie6Iep5zsRBd3IRrZOFzw',
     },
   },
 });
