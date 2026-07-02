@@ -447,7 +447,7 @@ export const searchCatalog = {
       target: { type: 'section', selector: '#contact' }
     },
     {
-      label: 'Same-day delivery',
+      label: 'Fast same-day service',
       icon: 'fa-solid fa-circle-question',
       keywords: ['same day print', 'urgent service'],
       target: { type: 'section', selector: '#services' }
